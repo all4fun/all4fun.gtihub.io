@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>博客服务器系统升级</title>
-    <url>/blog-server-system-upgrade.html</url>
-    <content><![CDATA[<content>
-由于前两天博客所在的VPS机房搬迁，加之工作太忙无精力再去弄一个备份服务器，导致了博客连续两天都无法访问。近日拜访的朋友实在是抱歉了~~
-
-<p>刚好之前也是一直懒得升级服务器的系统版本，旧的系统(ubuntu 11.04) 已经不被支持了，所以今天升级到了最新的 LTS 版本。还好各种数据都有备份，升级过程很顺利，各种工具安装配置基本都很快弄好了。自己试了几次，访问速度还可以~~ 嘿嘿</p>
-<p>很快就要新年了，希望各位朋友继续多多支持~~</p>
-<p>提前祝各位新年快乐，工作顺利，学业有成~~<br></content></p>
-]]></content>
-      <categories>
-        <category>最近添加</category>
-      </categories>
-  </entry>
-  <entry>
     <title>apple keyboard helper苹果键盘tools</title>
     <url>/apple-keyboard-the-helper.html</url>
     <content><![CDATA[<content>
@@ -27,6 +13,20 @@
       <tags>
         <tag>Apple</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>博客服务器系统升级</title>
+    <url>/blog-server-system-upgrade.html</url>
+    <content><![CDATA[<content>
+由于前两天博客所在的VPS机房搬迁，加之工作太忙无精力再去弄一个备份服务器，导致了博客连续两天都无法访问。近日拜访的朋友实在是抱歉了~~
+
+<p>刚好之前也是一直懒得升级服务器的系统版本，旧的系统(ubuntu 11.04) 已经不被支持了，所以今天升级到了最新的 LTS 版本。还好各种数据都有备份，升级过程很顺利，各种工具安装配置基本都很快弄好了。自己试了几次，访问速度还可以~~ 嘿嘿</p>
+<p>很快就要新年了，希望各位朋友继续多多支持~~</p>
+<p>提前祝各位新年快乐，工作顺利，学业有成~~<br></content></p>
+]]></content>
+      <categories>
+        <category>最近添加</category>
+      </categories>
   </entry>
   <entry>
     <title>C#利用反射给对象赋值</title>
@@ -148,43 +148,6 @@
       </tags>
   </entry>
   <entry>
-    <title>配置nginx伪静态以支持ThinkPHP的PATHINFO模式</title>
-    <url>/configure-nginx-to-support-thinkphp-pathinfo-mode.html</url>
-    <content><![CDATA[<content>
-ThinkPHP是一款很不错的框架，也是PHP开发中最近用的比较火的。平时在本地开发中打开apache的mod<em>rewrite </em>配合.htaccess文件就可以完美的支持ThinkPHP的PATHINFO模式，但是家里的linux机器搭建的却是nginx 环境。这就造成了url 重写出现了很多奇怪的问题，所以需要对nginx 的配置文件修改一下来让它支持ThinkPHP的框架。
-首先你的项目的config文件中要配置这一项
-<pre class="brush: php; gutter: true">  &#039;URL_MODEL&#039; =&gt; 2, // rewrite</pre>
-在服务器中切换到nginx的安装目录，我这里是 /usr/local/nginx。然后添加thinkphp.conf 文件
-
-<p>vim /usr/local/nginx/conf/thinkphp.conf<br>内容如下</p>
-<pre class="brush: bash; gutter: true">location / {
-  if (!-e $request_filename){
-  rewrite ^/(.*)$ /index.php?s=/$1 last;
-  }
-}</pre><img title="nginx_thinkphp" src="uploads/2012/12/nginx_thinkphp-300x90.jpg" alt="" width="300" height="90" />
-
-<p>然后在你的配置文件中include一下刚刚的配置文件。</p>
-<img title="nginx_thinkphp_config" src="uploads/2012/12/nginx_thinkphp_config-300x245.jpg" alt="" width="300" height="245" />
-
-<p>如果你的ThinkPHP入口文件index.php不在根目录，则需要把thinkphp.conf改成这样</p>
-<pre class="brush: bash; gutter: true">location /入口文件所在目录/ {
-  if (!-e $request_filename){
-  rewrite ^/abc/(.*)$ /abc/index.php?s=/$1 last;
-  }
-}</pre>
-</content>
-]]></content>
-      <categories>
-        <category>技术探讨</category>
-        <category>Linux学习</category>
-        <category>Route</category>
-      </categories>
-      <tags>
-        <tag>中文乱码</tag>
-        <tag>Oracle</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>为ipad2安装和配置gcc编译环境</title>
     <url>/configure-gcc-on-ipad2.html</url>
     <content><![CDATA[<content>
@@ -195,7 +158,7 @@ iPad2可不仅仅是一个电子书，也不仅仅是用来看电影大号MP4。
 <p>好了，现在我假设你的设备已经越狱成功。很棒，下面请让你的ipad接入一个无线网络，后续的步骤也可能需要网络 ：）</p>
 <p>如果你想使用电脑来SSH 到iPad2 你可能需要使用Cydia来安装openssh。</p>
 <p>记得安装完Openssh要修改root和mobile用户的密码哦！（默认是<span style="background-color: #ffff00;">alpine</span>）</p>
-<p>PC端可以可以使用putty 和winscp配合来访问iPad2，MAC系统或者Linux可以使用系统自带的终端 ssh <a href="mailto:&#114;&#x6f;&#x6f;&#x74;&#64;&#x31;&#x39;&#50;&#x2e;&#x31;&#x36;&#x38;&#46;&#49;&#x2e;&#x36;">&#114;&#x6f;&#x6f;&#x74;&#64;&#x31;&#x39;&#50;&#x2e;&#x31;&#x36;&#x38;&#46;&#49;&#x2e;&#x36;</a>  。我这里使用的是Tunnelier，它集成了putty 和winscp两款工具的功能，个人感觉很好用！</p>
+<p>PC端可以可以使用putty 和winscp配合来访问iPad2，MAC系统或者Linux可以使用系统自带的终端 ssh <a href="mailto:&#114;&#111;&#111;&#116;&#x40;&#49;&#x39;&#50;&#x2e;&#49;&#x36;&#x38;&#x2e;&#49;&#x2e;&#54;">&#114;&#111;&#111;&#116;&#x40;&#49;&#x39;&#50;&#x2e;&#49;&#x36;&#x38;&#x2e;&#49;&#x2e;&#54;</a>  。我这里使用的是Tunnelier，它集成了putty 和winscp两款工具的功能，个人感觉很好用！</p>
 <p><strong>可能用的的工具：</strong></p>
 <p>Tunnelier （地址：<a href="http://www.bitvise.com/tunnelier">www.bitvise.com/<strong>tunnelier</strong></a>）<em><span style="color: #a5a5a5;">推荐</span></em></p>
 <p>putty （地址：<a href="http://www.putty.org/">www.<strong>putty</strong>.org/</a>）</p>
@@ -287,23 +250,40 @@ ldid -S hello
       </tags>
   </entry>
   <entry>
-    <title>国内外代理IP服务器列表</title>
-    <url>/domestic-and-foreign-agents-ip-server-list.html</url>
+    <title>配置nginx伪静态以支持ThinkPHP的PATHINFO模式</title>
+    <url>/configure-nginx-to-support-thinkphp-pathinfo-mode.html</url>
     <content><![CDATA[<content>
-<span style="font-family: 微软雅黑; font-size: small;">不保证都能用,你可以挨个试试!</span>
+ThinkPHP是一款很不错的框架，也是PHP开发中最近用的比较火的。平时在本地开发中打开apache的mod<em>rewrite </em>配合.htaccess文件就可以完美的支持ThinkPHP的PATHINFO模式，但是家里的linux机器搭建的却是nginx 环境。这就造成了url 重写出现了很多奇怪的问题，所以需要对nginx 的配置文件修改一下来让它支持ThinkPHP的框架。
+首先你的项目的config文件中要配置这一项
+<pre class="brush: php; gutter: true">  &#039;URL_MODEL&#039; =&gt; 2, // rewrite</pre>
+在服务器中切换到nginx的安装目录，我这里是 /usr/local/nginx。然后添加thinkphp.conf 文件
 
-<p>ID 地址                 端口 类型  地区     验证时间                    响应<br>1 177.19.245.62 3128 HTTP 巴西 Sooip.CN 05-16 14:29 0.998<br>2 186.194.7.185 8080 HTTP 巴西 Sooip.CN 05-16 14:29 2.008<br>3 89.102.106.33 3128 HTTP 捷克 Sooip.CN 05-16 14:29 1.996<br>4 190.182.18.109 3128 HTTP 哥伦比亚 Sooip.CN 05-16 14:29 4.012<br>5 207.219.7.136 80 HTTP 加拿大 Sooip.CN 05-16 14:29 6.009<br>6 212.62.116.82 8080 HTTP 沙特阿拉伯 Sooip.CN 05-16 14:28 8.998<br>7 190.206.50.100 3128 HTTP 委内瑞拉 Sooip.CN 05-16 14:28 2.004<br>8 210.212.150.84 8080 HTTP 印度 Sooip.CN 05-16 14:28 2.001<br>9 177.19.132.75 3128 HTTP 巴西 Sooip.CN 05-16 14:28 7.008<br>10 112.65.219.72 80 HTTP 上海市 联通IDC机房 05-16 14:28 1.994<br>11 120.35.31.101 8080 HTTP 福建省福州市 电信 05-16 14:28 1.012<br>12 124.193.109.117 80 HTTP 北京市 电信通 05-16 14:28 0.997<br>13 178.135.59.11 8080 HTTP 黎巴嫩 Sooip.CN 05-16 14:28 3.001<br>14 184.154.55.239 80 HTTP 美国 芝加哥市SingleHop公司 05-16 14:28 1.001<br>15 186.3.71.155 8080 HTTP 厄瓜多尔 Sooip.CN 05-16 14:28 3.997</p>
-<span id="more"></span>
-<p>16 212.93.195.229 3128 HTTP 沙特阿拉伯 Sooip.CN 05-16 14:28 2.002<br>17 213.197.81.53 3128 HTTP 匈牙利 Sooip.CN 05-16 14:28 2.001<br>18 82.222.49.81 8080 HTTP 土耳其 Sabanci电信公司 05-16 14:28 1.008<br>19 201.57.146.136 3128 HTTP 巴西 Sooip.CN 05-16 14:28 6.996<br>20 211.76.97.152 80 HTTP 台湾省 台北市 05-16 14:28 4.007<br>21 101.44.1.107 80 HTTP 上海市 鹏博士宽带 05-16 14:28 9.003<br>22 218.6.13.35 80 HTTP 福建省莆田市 电信LAN 05-16 14:27 0.999<br>23 217.112.212.74 3128 HTTP 乌克兰 Sooip.CN 05-16 14:27 0.995<br>24 118.97.94.194 3128 HTTP 印度尼西亚 Sooip.CN 05-16 14:27 1.002<br>25 122.72.2.186 80 HTTP 甘肃省 铁通 05-16 14:27 2.999<br>26 190.220.250.34 8080 HTTP 阿根廷 Sooip.CN 05-16 14:27 4.005<br>27 207.219.7.136 3128 HTTP 加拿大 Sooip.CN 05-16 14:27 3.004<br>28 220.243.7.126 3128 HTTP 广东省广州市 视讯宽带 05-16 14:27 0.997<br>29 61.157.217.31 80 HTTP 四川省雅安市 电信IDC机房 05-16 14:26 1.009<br>30 177.86.20.59 8080 HTTP 巴西 Sooip.CN 05-16 14:26 2.004<br>31 178.168.58.100 8081 HTTP 摩尔多瓦 Sooip.CN 05-16 14:26 2.013<br>32 192.162.150.77 3128 HTTP 波兰 Sooip.CN 05-16 14:26 2.004<br>33 118.96.153.181 8080 HTTP 印度尼西亚 Sooip.CN 05-16 14:26 6.999<br>34 178.48.2.237 80 HTTP 匈牙利 Sooip.CN 05-16 14:26 1.004<br>35 187.63.203.166 3128 HTTP 巴西 Sooip.CN 05-16 14:26 1.988<br>36 88.41.153.22 80 HTTP 意大利 Sooip.CN 05-16 14:26 1.007<br>37 122.72.12.88 80 HTTP 甘肃省 铁通 05-16 14:26 7.005<br>38 125.162.170.42 3128 HTTP 印度尼西亚 PTTelekomunikasi网络 05-16 14:26 3.019<br>39 202.51.113.81 8080 HTTP 印度尼西亚 Sooip.CN 05-16 14:26 1.003<br>40 203.66.83.46 3128 HTTP 台湾省 中华电信 05-16 14:26 1.010<br>41 109.205.114.2 8000 HTTP 伊拉克 Sooip.CN 05-16 14:26 1.006<br>42 212.33.200.174 80 HTTP 伊朗 Sooip.CN 05-16 14:26 2.007<br>43 188.127.230.133 3128 HTTP 俄罗斯 Sooip.CN 05-16 14:26 1.002<br>44 103.22.248.99 3128 HTTP 印度尼西亚 Sooip.CN 05-16 14:26 9.001<br>45 189.123.220.192 8080 HTTP 巴西 Sooip.CN 05-16 14:25 3.007<br>46 212.80.21.219 8080 HTTP 伊朗 Sooip.CN 05-16 14:25 1.997<br>47 85.114.132.49 3128 HTTP 德国 Sooip.CN 05-16 14:25 0.997<br>48 118.97.209.218 8080 HTTP 印度尼西亚 Sooip.CN 05-16 14:25 1.005<br>49 189.254.250.34 80 HTTP 墨西哥 Sooip.CN 05-16 14:25 10.004<br>50 202.115.207.25 80 HTTP [C]四川省成都市 四川师范大学 05-16 14:25 1.015<br>51 82.222.19.54 8080 HTTP 土耳其 Sabanci电信公司 05-16 14:25 0.993<br>52 122.129.102.92 3128 HTTP 印度尼西亚 Sooip.CN 05-16 14:25 7.000<br>53 190.0.41.78 80 HTTP 哥伦比亚 Sooip.CN 05-16 14:25 8.001<br>54 123.234.215.230 81 HTTP 山东省青岛市莱西市 启晟网吧一分店 05-16 14:25 1.002<br>55 125.93.180.234 8081 HTTP 广东省东莞市南城区 淘乐网吧(石鼓综合市场二楼) 05-16 14:25 0.997<br>56 180.137.45.86 8080 HTTP 广西崇左市 电信 05-16 14:25 1.004<br>57 180.139.91.27 8080 HTTP 广西南宁市 电信 05-16 14:25 11.006<br>58 188.128.6.150 8080 HTTP 俄罗斯 Sooip.CN 05-16 14:24 2.002<br>59 188.128.118.177 8080 HTTP 俄罗斯 Sooip.CN 05-16 14:24 3.999<br>60 201.174.18.170 8080 HTTP 墨西哥 Sooip.CN 05-16 14:24 1.017<br>61 202.43.173.21 3128 HTTP 印度尼西亚 Sooip.CN 05-16 14:24 4.000<br>62 202.103.215.199 80 HTTP 广西北海市 电信 05-16 14:24 0.995<br>63 189.74.129.10 8080 HTTP 巴西 Sooip.CN 05-16 14:24 1.005<br>64 202.105.233.40 80 HTTP 广东省肇庆市 电信 05-16 14:24 0.997<br>65 82.222.49.65 8080 HTTP 土耳其 Sabanci电信公司 05-16 14:24 0.994<br>66 180.211.180.194 8080 HTTP 孟加拉 Sooip.CN 05-16 14:24 1.000<br>67 213.217.58.25 80 HTTP 伊朗 Sooip.CN 05-16 14:24 3.003<br>68 187.75.129.184 3128 HTTP 巴西 Sooip.CN 05-16 14:24 7.997<br>69 122.226.240.233 80 HTTP 浙江省金华市 电信 05-16 14:24 1.008<br>70 221.12.89.189 80 HTTP 浙江省金华市 /丽水市联通 05-16 14:24 0.995<br>71 221.133.238.138 8080 HTTP 上海市 长城宽带 05-16 14:24 1.021<br>72 221.224.20.210 8080 HTTP 江苏省苏州市常熟市 登胜流体动力有限公司 05-16 14:23 4.996<br>73 222.73.25.121 6666 HTTP 上海市 电信(外高桥)IDC机房 05-16 14:23 0.997<br>74 217.146.208.162 8080 HTTP 伊朗 Sooip.CN 05-16 14:23 2.994<br>75 222.165.175.118 80 HTTP 斯里兰卡 电信公司 05-16 14:23 1.004<br>76 118.212.129.175 80 HTTP 江西省 联通 05-16 14:23 5.004<br>77 116.236.205.100 80 HTTP 上海市长宁区 /普陀区电信 05-16 14:23 1.006<br>78 119.97.146.152 80 HTTP 湖北省武汉市 电信 05-16 14:23 3.000<br>79 123.234.31.130 8090 HTTP 山东省青岛市 联通 05-16 14:23 0.999<br>80 222.184.9.242 3128 HTTP 江苏省淮安市 (楚州区)电信ADSL 05-16 14:23 1.006<br>81 122.226.240.235 80 HTTP 浙江省金华市 电信 05-16 14:23 4.994<br>82 64.85.181.45 8080 HTTP 美国 加洲 05-16 14:23 1.006<br>83 113.53.240.90 3128 HTTP 泰国 05-16 14:23 2.016<br>84 222.165.175.118 3128 HTTP 斯里兰卡 电信公司 05-16 14:23 0.996<br>85 79.120.107.6 80 HTTP 俄罗斯 Sooip.CN 05-16 14:23 0.996<br>86 79.120.107.6 8080 HTTP 俄罗斯 Sooip.CN 05-16 14:23 5.003<br>87 190.121.20.131 3128 HTTP 智利 05-16 14:23 8.010<br>88 190.128.192.202 8080 HTTP 巴拉圭 05-16 14:22 1.007<br>89 88.85.125.78 8080 HTTP 马其顿 05-16 14:22 2.002<br>90 88.85.108.16 8080 HTTP 马其顿 05-16 14:22 3.008<br>91 118.97.165.234 8080 HTTP 印度尼西亚 Sooip.CN 05-16 14:22 1.001<br>92 190.249.188.186 8080 HTTP 哥伦比亚 Sooip.CN 05-16 14:22 5.999<br>93 217.76.35.238 3128 HTTP 俄罗斯 Sooip.CN 05-16 14:22 1.010<br>94 79.175.158.156 8080 HTTP 伊朗 Sooip.CN 05-16 14:22 3.005<br>95 190.253.213.196 3128 HTTP 哥伦比亚 Sooip.CN 05-16 14:22 0.999<br>96 92.60.227.17 8080 HTTP 塞尔维亚 Sooip.CN 05-16 14:22 1.005<br>97 93.78.214.219 3128 HTTP 乌克兰 Sooip.CN 05-16 14:22 1.994<br>98 109.224.50.162 80 HTTP 伊拉克 Sooip.CN 05-16 14:22 1.996<br>99 201.54.230.75 3128 HTTP 巴西 05-16 14:22 5.996<br>100 77.245.210.161 3128 HTTP 俄罗斯 05-16 14:22 5.001<br></content></p>
+<p>vim /usr/local/nginx/conf/thinkphp.conf<br>内容如下</p>
+<pre class="brush: bash; gutter: true">location / {
+  if (!-e $request_filename){
+  rewrite ^/(.*)$ /index.php?s=/$1 last;
+  }
+}</pre><img title="nginx_thinkphp" src="uploads/2012/12/nginx_thinkphp-300x90.jpg" alt="" width="300" height="90" />
+
+<p>然后在你的配置文件中include一下刚刚的配置文件。</p>
+<img title="nginx_thinkphp_config" src="uploads/2012/12/nginx_thinkphp_config-300x245.jpg" alt="" width="300" height="245" />
+
+<p>如果你的ThinkPHP入口文件index.php不在根目录，则需要把thinkphp.conf改成这样</p>
+<pre class="brush: bash; gutter: true">location /入口文件所在目录/ {
+  if (!-e $request_filename){
+  rewrite ^/abc/(.*)$ /abc/index.php?s=/$1 last;
+  }
+}</pre>
+</content>
 ]]></content>
       <categories>
-        <category>最近添加</category>
         <category>技术探讨</category>
-        <category>业界动态</category>
+        <category>Linux学习</category>
+        <category>Route</category>
       </categories>
       <tags>
-        <tag>代理</tag>
-        <tag>Firefox</tag>
+        <tag>中文乱码</tag>
+        <tag>Oracle</tag>
       </tags>
   </entry>
   <entry>
@@ -327,6 +307,26 @@ $protocol = is_ssl() ? ‘https’ : ‘http’;
       <categories>
         <category>最近添加</category>
       </categories>
+  </entry>
+  <entry>
+    <title>国内外代理IP服务器列表</title>
+    <url>/domestic-and-foreign-agents-ip-server-list.html</url>
+    <content><![CDATA[<content>
+<span style="font-family: 微软雅黑; font-size: small;">不保证都能用,你可以挨个试试!</span>
+
+<p>ID 地址                 端口 类型  地区     验证时间                    响应<br>1 177.19.245.62 3128 HTTP 巴西 Sooip.CN 05-16 14:29 0.998<br>2 186.194.7.185 8080 HTTP 巴西 Sooip.CN 05-16 14:29 2.008<br>3 89.102.106.33 3128 HTTP 捷克 Sooip.CN 05-16 14:29 1.996<br>4 190.182.18.109 3128 HTTP 哥伦比亚 Sooip.CN 05-16 14:29 4.012<br>5 207.219.7.136 80 HTTP 加拿大 Sooip.CN 05-16 14:29 6.009<br>6 212.62.116.82 8080 HTTP 沙特阿拉伯 Sooip.CN 05-16 14:28 8.998<br>7 190.206.50.100 3128 HTTP 委内瑞拉 Sooip.CN 05-16 14:28 2.004<br>8 210.212.150.84 8080 HTTP 印度 Sooip.CN 05-16 14:28 2.001<br>9 177.19.132.75 3128 HTTP 巴西 Sooip.CN 05-16 14:28 7.008<br>10 112.65.219.72 80 HTTP 上海市 联通IDC机房 05-16 14:28 1.994<br>11 120.35.31.101 8080 HTTP 福建省福州市 电信 05-16 14:28 1.012<br>12 124.193.109.117 80 HTTP 北京市 电信通 05-16 14:28 0.997<br>13 178.135.59.11 8080 HTTP 黎巴嫩 Sooip.CN 05-16 14:28 3.001<br>14 184.154.55.239 80 HTTP 美国 芝加哥市SingleHop公司 05-16 14:28 1.001<br>15 186.3.71.155 8080 HTTP 厄瓜多尔 Sooip.CN 05-16 14:28 3.997</p>
+<span id="more"></span>
+<p>16 212.93.195.229 3128 HTTP 沙特阿拉伯 Sooip.CN 05-16 14:28 2.002<br>17 213.197.81.53 3128 HTTP 匈牙利 Sooip.CN 05-16 14:28 2.001<br>18 82.222.49.81 8080 HTTP 土耳其 Sabanci电信公司 05-16 14:28 1.008<br>19 201.57.146.136 3128 HTTP 巴西 Sooip.CN 05-16 14:28 6.996<br>20 211.76.97.152 80 HTTP 台湾省 台北市 05-16 14:28 4.007<br>21 101.44.1.107 80 HTTP 上海市 鹏博士宽带 05-16 14:28 9.003<br>22 218.6.13.35 80 HTTP 福建省莆田市 电信LAN 05-16 14:27 0.999<br>23 217.112.212.74 3128 HTTP 乌克兰 Sooip.CN 05-16 14:27 0.995<br>24 118.97.94.194 3128 HTTP 印度尼西亚 Sooip.CN 05-16 14:27 1.002<br>25 122.72.2.186 80 HTTP 甘肃省 铁通 05-16 14:27 2.999<br>26 190.220.250.34 8080 HTTP 阿根廷 Sooip.CN 05-16 14:27 4.005<br>27 207.219.7.136 3128 HTTP 加拿大 Sooip.CN 05-16 14:27 3.004<br>28 220.243.7.126 3128 HTTP 广东省广州市 视讯宽带 05-16 14:27 0.997<br>29 61.157.217.31 80 HTTP 四川省雅安市 电信IDC机房 05-16 14:26 1.009<br>30 177.86.20.59 8080 HTTP 巴西 Sooip.CN 05-16 14:26 2.004<br>31 178.168.58.100 8081 HTTP 摩尔多瓦 Sooip.CN 05-16 14:26 2.013<br>32 192.162.150.77 3128 HTTP 波兰 Sooip.CN 05-16 14:26 2.004<br>33 118.96.153.181 8080 HTTP 印度尼西亚 Sooip.CN 05-16 14:26 6.999<br>34 178.48.2.237 80 HTTP 匈牙利 Sooip.CN 05-16 14:26 1.004<br>35 187.63.203.166 3128 HTTP 巴西 Sooip.CN 05-16 14:26 1.988<br>36 88.41.153.22 80 HTTP 意大利 Sooip.CN 05-16 14:26 1.007<br>37 122.72.12.88 80 HTTP 甘肃省 铁通 05-16 14:26 7.005<br>38 125.162.170.42 3128 HTTP 印度尼西亚 PTTelekomunikasi网络 05-16 14:26 3.019<br>39 202.51.113.81 8080 HTTP 印度尼西亚 Sooip.CN 05-16 14:26 1.003<br>40 203.66.83.46 3128 HTTP 台湾省 中华电信 05-16 14:26 1.010<br>41 109.205.114.2 8000 HTTP 伊拉克 Sooip.CN 05-16 14:26 1.006<br>42 212.33.200.174 80 HTTP 伊朗 Sooip.CN 05-16 14:26 2.007<br>43 188.127.230.133 3128 HTTP 俄罗斯 Sooip.CN 05-16 14:26 1.002<br>44 103.22.248.99 3128 HTTP 印度尼西亚 Sooip.CN 05-16 14:26 9.001<br>45 189.123.220.192 8080 HTTP 巴西 Sooip.CN 05-16 14:25 3.007<br>46 212.80.21.219 8080 HTTP 伊朗 Sooip.CN 05-16 14:25 1.997<br>47 85.114.132.49 3128 HTTP 德国 Sooip.CN 05-16 14:25 0.997<br>48 118.97.209.218 8080 HTTP 印度尼西亚 Sooip.CN 05-16 14:25 1.005<br>49 189.254.250.34 80 HTTP 墨西哥 Sooip.CN 05-16 14:25 10.004<br>50 202.115.207.25 80 HTTP [C]四川省成都市 四川师范大学 05-16 14:25 1.015<br>51 82.222.19.54 8080 HTTP 土耳其 Sabanci电信公司 05-16 14:25 0.993<br>52 122.129.102.92 3128 HTTP 印度尼西亚 Sooip.CN 05-16 14:25 7.000<br>53 190.0.41.78 80 HTTP 哥伦比亚 Sooip.CN 05-16 14:25 8.001<br>54 123.234.215.230 81 HTTP 山东省青岛市莱西市 启晟网吧一分店 05-16 14:25 1.002<br>55 125.93.180.234 8081 HTTP 广东省东莞市南城区 淘乐网吧(石鼓综合市场二楼) 05-16 14:25 0.997<br>56 180.137.45.86 8080 HTTP 广西崇左市 电信 05-16 14:25 1.004<br>57 180.139.91.27 8080 HTTP 广西南宁市 电信 05-16 14:25 11.006<br>58 188.128.6.150 8080 HTTP 俄罗斯 Sooip.CN 05-16 14:24 2.002<br>59 188.128.118.177 8080 HTTP 俄罗斯 Sooip.CN 05-16 14:24 3.999<br>60 201.174.18.170 8080 HTTP 墨西哥 Sooip.CN 05-16 14:24 1.017<br>61 202.43.173.21 3128 HTTP 印度尼西亚 Sooip.CN 05-16 14:24 4.000<br>62 202.103.215.199 80 HTTP 广西北海市 电信 05-16 14:24 0.995<br>63 189.74.129.10 8080 HTTP 巴西 Sooip.CN 05-16 14:24 1.005<br>64 202.105.233.40 80 HTTP 广东省肇庆市 电信 05-16 14:24 0.997<br>65 82.222.49.65 8080 HTTP 土耳其 Sabanci电信公司 05-16 14:24 0.994<br>66 180.211.180.194 8080 HTTP 孟加拉 Sooip.CN 05-16 14:24 1.000<br>67 213.217.58.25 80 HTTP 伊朗 Sooip.CN 05-16 14:24 3.003<br>68 187.75.129.184 3128 HTTP 巴西 Sooip.CN 05-16 14:24 7.997<br>69 122.226.240.233 80 HTTP 浙江省金华市 电信 05-16 14:24 1.008<br>70 221.12.89.189 80 HTTP 浙江省金华市 /丽水市联通 05-16 14:24 0.995<br>71 221.133.238.138 8080 HTTP 上海市 长城宽带 05-16 14:24 1.021<br>72 221.224.20.210 8080 HTTP 江苏省苏州市常熟市 登胜流体动力有限公司 05-16 14:23 4.996<br>73 222.73.25.121 6666 HTTP 上海市 电信(外高桥)IDC机房 05-16 14:23 0.997<br>74 217.146.208.162 8080 HTTP 伊朗 Sooip.CN 05-16 14:23 2.994<br>75 222.165.175.118 80 HTTP 斯里兰卡 电信公司 05-16 14:23 1.004<br>76 118.212.129.175 80 HTTP 江西省 联通 05-16 14:23 5.004<br>77 116.236.205.100 80 HTTP 上海市长宁区 /普陀区电信 05-16 14:23 1.006<br>78 119.97.146.152 80 HTTP 湖北省武汉市 电信 05-16 14:23 3.000<br>79 123.234.31.130 8090 HTTP 山东省青岛市 联通 05-16 14:23 0.999<br>80 222.184.9.242 3128 HTTP 江苏省淮安市 (楚州区)电信ADSL 05-16 14:23 1.006<br>81 122.226.240.235 80 HTTP 浙江省金华市 电信 05-16 14:23 4.994<br>82 64.85.181.45 8080 HTTP 美国 加洲 05-16 14:23 1.006<br>83 113.53.240.90 3128 HTTP 泰国 05-16 14:23 2.016<br>84 222.165.175.118 3128 HTTP 斯里兰卡 电信公司 05-16 14:23 0.996<br>85 79.120.107.6 80 HTTP 俄罗斯 Sooip.CN 05-16 14:23 0.996<br>86 79.120.107.6 8080 HTTP 俄罗斯 Sooip.CN 05-16 14:23 5.003<br>87 190.121.20.131 3128 HTTP 智利 05-16 14:23 8.010<br>88 190.128.192.202 8080 HTTP 巴拉圭 05-16 14:22 1.007<br>89 88.85.125.78 8080 HTTP 马其顿 05-16 14:22 2.002<br>90 88.85.108.16 8080 HTTP 马其顿 05-16 14:22 3.008<br>91 118.97.165.234 8080 HTTP 印度尼西亚 Sooip.CN 05-16 14:22 1.001<br>92 190.249.188.186 8080 HTTP 哥伦比亚 Sooip.CN 05-16 14:22 5.999<br>93 217.76.35.238 3128 HTTP 俄罗斯 Sooip.CN 05-16 14:22 1.010<br>94 79.175.158.156 8080 HTTP 伊朗 Sooip.CN 05-16 14:22 3.005<br>95 190.253.213.196 3128 HTTP 哥伦比亚 Sooip.CN 05-16 14:22 0.999<br>96 92.60.227.17 8080 HTTP 塞尔维亚 Sooip.CN 05-16 14:22 1.005<br>97 93.78.214.219 3128 HTTP 乌克兰 Sooip.CN 05-16 14:22 1.994<br>98 109.224.50.162 80 HTTP 伊拉克 Sooip.CN 05-16 14:22 1.996<br>99 201.54.230.75 3128 HTTP 巴西 05-16 14:22 5.996<br>100 77.245.210.161 3128 HTTP 俄罗斯 05-16 14:22 5.001<br></content></p>
+]]></content>
+      <categories>
+        <category>最近添加</category>
+        <category>技术探讨</category>
+        <category>业界动态</category>
+      </categories>
+      <tags>
+        <tag>代理</tag>
+        <tag>Firefox</tag>
+      </tags>
   </entry>
   <entry>
     <title>高效办公辅助工具Autohotkey</title>
@@ -390,56 +390,6 @@ $protocol = is_ssl() ? ‘https’ : ‘http’;
         <tag>Win7</tag>
         <tag>Cron</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Firefox+SSH+AutoProxy智能翻墙</title>
-    <url>/firefox-the-ssh-the-autoproxy-smart-over-wall.html</url>
-    <content><![CDATA[<content>
-<strong>一、翻墙所需工具和账号</strong>
-1、SSH账号（请自行准备，淘宝有卖，有VPS的朋友可以直接使用自己的ssh账号）
-2、Tunnelier（登陆SSH账号的软件）
-3、一个方便的浏览器，推荐Firefox、Chrome
-4、AutoProxy（推荐，自动选择是否翻墙的扩展）
-
-<p><strong>二、下载和安装</strong><br>1、SSH账号的购买不在此详述，购买后会得到账号、密码、服务器地址。<br>2、Tunnelier下载和安装在以前【<a href="http://wangheng.org/configure-gcc-on-ipad2.html">为ipad2安装和配置gcc编译环境</a>】也有介绍</p>
-<p>安装完成后打开软件输入你的账号名密码：其中，在“Host”栏输入您所要连接的SSH服务器；Port一般默认为22，如果不是22，请修改为其他数字；在“UserName”和“Password”中输入用户名密码。然后切换到Services标签，配置如下并选中Enable。<a href="uploads/2012/05/image.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border-width: 0px;" title="image" src="uploads/2012/05/image_thumb.png" alt="image" width="416" height="292" border="0" /></a></p>
-<p>确保正确后点击Login，开始连接SSH服务器。如果是第一次连接服务器，会弹出一个要求确认的对话框，请点击“Yes”。</p>
-<p>3、浏览器下载及设置<br>在使用SSH代理的情况下，推荐使用Firefox和Chrome，这里主要介绍Firefox。到官方网站（<a href="http://www.mozillaonline.com/Firefox">http://www.mozillaonline.com/Firefox</a>）下载Firefox（建议下载全球统一版本），并安装。<br>运行Firefox，在地址栏中输入<a title="https://addons.mozilla.org/en-US/firefox/addon/autoproxy" href="https://addons.mozilla.org/en-US/firefox/addon/autoproxy">https://addons.mozilla.org/en-US/firefox/addon/autoproxy</a>。</p>
-<p>页面打开后，点击 +Add to Firefox 安装AutoProxy这个插件，然后重启Firefox来启用插件。</p>
-<span id="more"></span>
-
-<p><a href="uploads/2012/05/image1.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border-width: 0px;" title="image" src="uploads/2012/05/image_thumb1.png" alt="image" width="423" height="182" border="0" /></a></p>
-<p>&nbsp;</p>
-<p>4、配置AutoProxy</p>
-<p>插件安装成功后点击如图所示的小三角选择首选项来配置AutoProxy。</p>
-<p><a href="uploads/2012/05/image2.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border-width: 0px;" title="image" src="uploads/2012/05/image_thumb2.png" alt="image" width="432" height="213" border="0" /></a></p>
-<p>选择添加订阅来使用自动规则，勾选如图所示并点击订阅。</p>
-<p><a href="uploads/2012/05/image3.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border-width: 0px;" title="image" src="uploads/2012/05/image_thumb3.png" alt="image" width="391" height="294" border="0" /></a></p>
-<p>编辑代理服务器，点击添加代理，随便起一个便于辨认的名字，代理主机填写127.0.0.1，端口号写你第一幅图定义的端口号，本文为3456，点击确定。然后选择默认代理为你刚刚设置的代理服务器，现在你可以享受自由的网络了！至少我这里上Facebook比使用vpn给力多了。。。<br></content></p>
-]]></content>
-      <categories>
-        <category>最近添加</category>
-        <category>技术探讨</category>
-        <category>Route</category>
-      </categories>
-      <tags>
-        <tag>ssh</tag>
-        <tag>代理</tag>
-        <tag>翻墙</tag>
-        <tag>AutoProxy</tag>
-        <tag>控制台</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>给自己定几个规矩！</title>
-    <url>/give-myself-a-few-rules.html</url>
-    <content><![CDATA[<content>
-<p>1、消费前一定慎重考虑，反复问自己三个问题</p>  <p>要买的东西自己需要吗？</p>  <p>自己必须要买吗？？</p>  <p>自己买的东西确定是自己想要的吗？？？</p>  <p>2、必须明确管理好自己的消费</p>  <p>自己犯的错误总是，东西买回来感觉买赔了！东西买回来了才去做调研自己是否买赔了，而不是消费前就仔细调研好！</p>  <p>3、消费的时候必须坚持自己前期看好的东西</p>  <p>往往是事前看好了某个东西，去买的时候却临时改变了主意，回来才发现自己买赔了，而且是大赔特赔！JS们总是有他们的一套，各种营销手段来鼓励你消费，这个时候最需要你有足够的知识来判断买的东西值不值。</p>  <p>4、不能有贪小便宜的心理</p>  <p>如果抱着贪小便宜的心理，你会发现最终吃亏的还是你自己…</p>  <p>切记、切忌！！！</p>
-</content>
-]]></content>
-      <categories>
-        <category>最近添加</category>
-      </categories>
   </entry>
   <entry>
     <title>Globus Toolkit 安装与配置</title>
@@ -602,16 +552,16 @@ gt4.0.8-all-source-installer   gt4.0.8-all-source-installer.tar.gz</pre>
 <p>The private key is<br>stored in /etc/grid-security/hostkey.pem</p>
 <p>The request is<br>stored in /etc/grid-security/hostcert_request.pem</p>
 <p>&nbsp;</p>
-<p>Please e-mail the<br>request to the Globus Simple CA <a href="mailto:&#99;&#121;&#95;&#x78;&#105;&#97;&#111;&#120;&#x69;&#97;&#111;&#64;&#121;&#x61;&#104;&#x6f;&#111;&#x2e;&#99;&#x6f;&#x6d;&#46;&#x63;&#110;">&#99;&#121;&#95;&#x78;&#105;&#97;&#111;&#120;&#x69;&#97;&#111;&#64;&#121;&#x61;&#104;&#x6f;&#111;&#x2e;&#99;&#x6f;&#x6d;&#46;&#x63;&#110;</a></p>
+<p>Please e-mail the<br>request to the Globus Simple CA <a href="mailto:&#x63;&#x79;&#95;&#120;&#x69;&#x61;&#111;&#x78;&#x69;&#97;&#111;&#64;&#x79;&#97;&#104;&#x6f;&#x6f;&#x2e;&#99;&#x6f;&#x6d;&#46;&#99;&#110;">&#x63;&#x79;&#95;&#120;&#x69;&#x61;&#111;&#x78;&#x69;&#97;&#111;&#64;&#x79;&#97;&#104;&#x6f;&#x6f;&#x2e;&#99;&#x6f;&#x6d;&#46;&#99;&#110;</a></p>
 <p>You may use a<br>command similar to the following:</p>
 <p>&nbsp;</p>
-<p>cat /etc/grid-security/hostcert_request.pem |<br>mail <a href="mailto:&#99;&#x79;&#x5f;&#x78;&#105;&#x61;&#x6f;&#x78;&#105;&#97;&#111;&#64;&#x79;&#97;&#104;&#111;&#x6f;&#x2e;&#99;&#111;&#x6d;&#x2e;&#x63;&#110;">&#99;&#x79;&#x5f;&#x78;&#105;&#x61;&#x6f;&#x78;&#105;&#97;&#111;&#64;&#x79;&#97;&#104;&#111;&#x6f;&#x2e;&#99;&#111;&#x6d;&#x2e;&#x63;&#110;</a></p>
+<p>cat /etc/grid-security/hostcert_request.pem |<br>mail <a href="mailto:&#x63;&#121;&#x5f;&#120;&#x69;&#x61;&#x6f;&#120;&#x69;&#x61;&#x6f;&#64;&#121;&#97;&#x68;&#111;&#x6f;&#x2e;&#99;&#111;&#109;&#x2e;&#99;&#x6e;">&#x63;&#121;&#x5f;&#120;&#x69;&#x61;&#x6f;&#120;&#x69;&#x61;&#x6f;&#64;&#121;&#97;&#x68;&#111;&#x6f;&#x2e;&#99;&#111;&#109;&#x2e;&#99;&#x6e;</a></p>
 <p>&nbsp;</p>
 <p>Only use the above<br>if this machine can send AND receive e-mail. if not, please</p>
 <p>mail using some<br>other method.</p>
 <p>&nbsp;</p>
 <p>Your certificate<br>will be mailed to you within two working days.</p>
-<p>If you receive no<br>response, contact Globus Simple CA at <a href="mailto:&#99;&#121;&#x5f;&#x78;&#x69;&#x61;&#x6f;&#x78;&#x69;&#x61;&#x6f;&#x40;&#121;&#x61;&#104;&#x6f;&#111;&#46;&#99;&#x6f;&#109;&#x2e;&#x63;&#x6e;">&#99;&#121;&#x5f;&#x78;&#x69;&#x61;&#x6f;&#x78;&#x69;&#x61;&#x6f;&#x40;&#121;&#x61;&#104;&#x6f;&#111;&#46;&#99;&#x6f;&#109;&#x2e;&#x63;&#x6e;</a></p>
+<p>If you receive no<br>response, contact Globus Simple CA at <a href="mailto:&#x63;&#x79;&#95;&#120;&#x69;&#x61;&#x6f;&#120;&#105;&#97;&#111;&#64;&#121;&#97;&#104;&#111;&#x6f;&#x2e;&#99;&#111;&#x6d;&#46;&#x63;&#110;">&#x63;&#x79;&#95;&#120;&#x69;&#x61;&#x6f;&#120;&#105;&#97;&#111;&#64;&#121;&#97;&#104;&#111;&#x6f;&#x2e;&#99;&#111;&#x6d;&#46;&#x63;&#110;</a></p>
 <p>&nbsp;</p>
 <p>[root@xx1<br>grid-security]# pwd</p>
 <p>/etc/grid-security</p>
@@ -825,7 +775,7 @@ setTimeout("javascript:location.href='hi.html' ", 5000);
 <pre class="brush: bash; gutter: true">[root@B ~]$ cat id_rsa.pub &gt;&gt; .ssh/authorized_keys 
 [root@B ~]$ chmod 600 .ssh/authorized_keys</pre><strong>authorized_keys的权限必须是600。(</strong>要保证.ssh和authorized_keys都只有用户自己有写权限。否则验证无效。)
 
-<p><strong>第四步、验证A机无密码登录B机。</strong><pre class="brush: bash; gutter: true">[root@A ~]$ ssh <a href="mailto:&#x72;&#x6f;&#111;&#x74;&#x40;&#x31;&#x39;&#x32;&#46;&#x31;&#54;&#56;&#46;&#49;&#46;&#50;">&#x72;&#x6f;&#111;&#x74;&#x40;&#x31;&#x39;&#x32;&#46;&#x31;&#54;&#56;&#46;&#49;&#46;&#50;</a></pre><br>第一次登录时如果询问是否将B机器加到A机器的list of known hosts，还需要你输入yes。现在A机可以无密码登录B机了。</p>
+<p><strong>第四步、验证A机无密码登录B机。</strong><pre class="brush: bash; gutter: true">[root@A ~]$ ssh <a href="mailto:&#114;&#x6f;&#x6f;&#x74;&#x40;&#49;&#57;&#50;&#x2e;&#x31;&#x36;&#56;&#x2e;&#x31;&#46;&#50;">&#114;&#x6f;&#x6f;&#x74;&#x40;&#49;&#57;&#50;&#x2e;&#x31;&#x36;&#56;&#x2e;&#x31;&#46;&#50;</a></pre><br>第一次登录时如果询问是否将B机器加到A机器的list of known hosts，还需要你输入yes。现在A机可以无密码登录B机了。</p>
 <p><strong>小结：</strong>私钥文件也可以保存下来在别的机器上面使用，被登录的机子要有登录机子的公钥。这个<strong>公钥/私钥对</strong>一般在私钥宿主机产生。想让A，B机无密码互登录，B机器上重复以上步骤即可~</p>
 <p><span style="font-size: x-large;"><strong>二、在Windows中</strong></span></p>
 <p>在Windows中要想实现无密码登录Linux主机也很简单。一般在Windows中远程ssh连接Linux主机大家都会使用<a href="http://www.putty.org/" target="_blank">putty</a> 或者Tunnelier这样的工具，我一般使用Tunnelier比较多，因为它集成了sftp工具和其他一些很实用的功能。例如使用Tunnelier很容易实现<a href="http://wangheng.org/firefox-the-ssh-the-autoproxy-smart-over-wall.html">Firefox+SSH+AutoProxy智能翻墙</a>，想试试的同学可以翻翻我以前发过的文章。下面具体介绍Windows下使用putty无密码登录Linux</p>
@@ -1373,7 +1323,7 @@ static void Main()
 
 <p>如果你想使用自己的app_key你需要首先注册一个金山快盘账号，然后到这里<a href="http://www.kuaipan.cn/developers">地址</a>创建一个你自己的应用并把得到的 consumer_key、consumer_secret填写到脚本相应位置。<br>当然此步骤可以略过，你可以直接使用脚本中填写好的consumer_key、consumer_secret，我创建的应用名称all4fun.</p>
 <p><strong>3.安装</strong><pre class="brush: bash; gutter: true">wget <a href="https://github.com/wujiwh/kuaipan_uploader/archive/master.zip">https://github.com/wujiwh/kuaipan_uploader/archive/master.zip</a><br>unzip master.zip<br>cd kuaipan_uploader-master<br>#或者 ：<br>git clone <a href="https://github.com/wujiwh/kuaipan_uploader.git">https://github.com/wujiwh/kuaipan_uploader.git</a><br>cd kuaipan_uploader<br>#上面两种方式选择一种即可<br>#赋予脚本执行权限并执行<br>chmod a+x kuaipan_uploader.sh<br>./kuaipan_uploader.sh</pre><br>然后根据提示完成API的授权流程，得到授权Token。脚本会自动保存得到的授权信息到CONFIG_FILE 变量对应配置文件，默认为~/.kuaipan_upload.conf<strong> </strong></p>
-<p><strong>4.</strong><strong>使用说明</strong><pre class="brush: bash; gutter: false">KuaiPan Uploader v1.1.0<br>wangheng - <a href="mailto:&#x77;&#117;&#x6a;&#x69;&#x77;&#x68;&#64;&#103;&#109;&#97;&#105;&#108;&#x2e;&#99;&#111;&#x6d;">&#x77;&#117;&#x6a;&#x69;&#x77;&#x68;&#64;&#103;&#109;&#97;&#105;&#108;&#x2e;&#99;&#111;&#x6d;</a></p>
+<p><strong>4.</strong><strong>使用说明</strong><pre class="brush: bash; gutter: false">KuaiPan Uploader v1.1.0<br>wangheng - <a href="mailto:&#x77;&#117;&#106;&#105;&#x77;&#104;&#x40;&#x67;&#109;&#x61;&#x69;&#x6c;&#46;&#99;&#111;&#109;">&#x77;&#117;&#106;&#105;&#x77;&#104;&#x40;&#x67;&#109;&#x61;&#x69;&#x6c;&#46;&#99;&#111;&#109;</a></p>
 <p>Usage: /usr/bin/kuaipan COMMAND [PARAMETERS]…</p>
 <p>Commands:<br>         upload   [local file]  &lt;remote file&gt;<br>         download [remote file] &lt;local file&gt;<br>         delete   [remote file/remote dir]<br>         list     &lt;remote dir&gt;<br>         info<br>         relink</p>
 <p>For more informations, please visit  <a href="http://wangheng.org/">http://wangheng.org</a>.</pre><br>其中[XXX]内的为必填参数，&lt;XXX&gt;内的为可选参数</p>
@@ -1496,14 +1446,14 @@ sync：将每个输入块填充到ibs个字节，不足部分用空（NUL）字�
 家里面的路由器ddns经常不能用，索性在系统中直接安了一个oray的客户端。具体安装步骤如下：
 
 <p><strong>1、首先安装必要的开发包</strong></p>
-<p>[<a href="mailto:&#x72;&#111;&#111;&#x74;&#x40;&#x77;&#x61;&#110;&#103;&#104;&#x65;&#x6e;&#x67;&#x2e;&#x6f;&#114;&#103;">&#x72;&#111;&#111;&#x74;&#x40;&#x77;&#x61;&#110;&#103;&#104;&#x65;&#x6e;&#x67;&#x2e;&#x6f;&#114;&#103;</a> ~] apt-get install gcc g++ automake autoconf</p>
+<p>[<a href="mailto:&#114;&#x6f;&#x6f;&#x74;&#64;&#x77;&#97;&#x6e;&#x67;&#x68;&#101;&#110;&#x67;&#x2e;&#x6f;&#x72;&#103;">&#114;&#x6f;&#x6f;&#x74;&#64;&#x77;&#97;&#x6e;&#x67;&#x68;&#101;&#110;&#x67;&#x2e;&#x6f;&#x72;&#103;</a> ~] apt-get install gcc g++ automake autoconf</p>
 <p><strong>2、下载phddns-2.0.2.16556.tar.gz到某一个目录</strong></p>
-<p>[<a href="mailto:&#x72;&#111;&#111;&#x74;&#64;&#119;&#97;&#x6e;&#x67;&#x68;&#x65;&#110;&#x67;&#46;&#111;&#114;&#103;">&#x72;&#111;&#111;&#x74;&#64;&#119;&#97;&#x6e;&#x67;&#x68;&#x65;&#110;&#x67;&#46;&#111;&#114;&#103;</a> ~]# wget <a href="http://download.oray.com/peanuthull/phddns-2.0.2.16556.tar.gz">http://download.oray.com/peanuthull/phddns-2.0.2.16556.tar.gz</a></p>
+<p>[<a href="mailto:&#x72;&#111;&#x6f;&#x74;&#x40;&#119;&#x61;&#x6e;&#x67;&#x68;&#x65;&#x6e;&#x67;&#x2e;&#111;&#114;&#x67;">&#x72;&#111;&#x6f;&#x74;&#x40;&#119;&#x61;&#x6e;&#x67;&#x68;&#x65;&#x6e;&#x67;&#x2e;&#111;&#114;&#x67;</a> ~]# wget <a href="http://download.oray.com/peanuthull/phddns-2.0.2.16556.tar.gz">http://download.oray.com/peanuthull/phddns-2.0.2.16556.tar.gz</a></p>
 <p><strong>3、解压所有文件</strong></p>
-<p>[<a href="mailto:&#x72;&#x6f;&#111;&#x74;&#64;&#x77;&#97;&#110;&#x67;&#104;&#x65;&#110;&#103;&#x2e;&#111;&#x72;&#103;">&#x72;&#x6f;&#111;&#x74;&#64;&#x77;&#97;&#110;&#x67;&#104;&#x65;&#110;&#103;&#x2e;&#111;&#x72;&#103;</a> ~]# tar zxvf phddns-2.0.2.16556.tar.gz</p>
-<p><strong>4、进入目录并编译</strong><br>[<a href="mailto:&#114;&#x6f;&#111;&#116;&#x40;&#119;&#x61;&#x6e;&#103;&#x68;&#x65;&#x6e;&#103;&#46;&#111;&#x72;&#103;">&#114;&#x6f;&#111;&#116;&#x40;&#119;&#x61;&#x6e;&#103;&#x68;&#x65;&#x6e;&#103;&#46;&#111;&#x72;&#103;</a> ~]# cd phddns-2.0.2.16556<br>[<a href="mailto:&#x72;&#x6f;&#111;&#x74;&#64;&#x77;&#97;&#x6e;&#x67;&#x68;&#x65;&#x6e;&#x67;&#46;&#x6f;&#114;&#103;">&#x72;&#x6f;&#111;&#x74;&#64;&#x77;&#97;&#x6e;&#x67;&#x68;&#x65;&#x6e;&#x67;&#46;&#x6f;&#114;&#103;</a> phddns-2.0.2.16556]# aclocal<br>[<a href="mailto:&#114;&#111;&#x6f;&#x74;&#x40;&#x77;&#x61;&#110;&#103;&#104;&#x65;&#x6e;&#103;&#x2e;&#x6f;&#114;&#103;">&#114;&#111;&#x6f;&#x74;&#x40;&#x77;&#x61;&#110;&#103;&#104;&#x65;&#x6e;&#103;&#x2e;&#x6f;&#114;&#103;</a> phddns-2.0.2.16556]# autoconf<br>[<a href="mailto:&#x72;&#111;&#111;&#116;&#x40;&#x77;&#97;&#110;&#103;&#104;&#x65;&#x6e;&#103;&#46;&#111;&#114;&#103;">&#x72;&#111;&#111;&#116;&#x40;&#x77;&#97;&#110;&#103;&#104;&#x65;&#x6e;&#103;&#46;&#111;&#114;&#103;</a> phddns-2.0.2.16556]# automake<br>[<a href="mailto:&#114;&#111;&#x6f;&#116;&#64;&#x77;&#97;&#110;&#103;&#104;&#x65;&#x6e;&#x67;&#46;&#111;&#x72;&#103;">&#114;&#111;&#x6f;&#116;&#64;&#x77;&#97;&#110;&#103;&#104;&#x65;&#x6e;&#x67;&#46;&#111;&#x72;&#103;</a> phddns-2.0.2.16556]# ./configure<br>[<a href="mailto:&#x72;&#x6f;&#111;&#x74;&#x40;&#119;&#97;&#x6e;&#103;&#x68;&#101;&#x6e;&#103;&#46;&#x6f;&#114;&#x67;">&#x72;&#x6f;&#111;&#x74;&#x40;&#119;&#97;&#x6e;&#103;&#x68;&#101;&#x6e;&#103;&#46;&#x6f;&#114;&#x67;</a> phddns-2.0.2.16556]# make<br>[<a href="mailto:&#x72;&#111;&#x6f;&#x74;&#x40;&#x77;&#x61;&#110;&#103;&#x68;&#x65;&#110;&#103;&#x2e;&#111;&#x72;&#103;">&#x72;&#111;&#x6f;&#x74;&#x40;&#x77;&#x61;&#110;&#103;&#x68;&#x65;&#110;&#103;&#x2e;&#111;&#x72;&#103;</a> phddns-2.0.2.16556]# cd src<br>[<a href="mailto:&#x72;&#x6f;&#x6f;&#116;&#64;&#x77;&#x61;&#x6e;&#x67;&#x68;&#101;&#110;&#103;&#46;&#111;&#114;&#103;">&#x72;&#x6f;&#x6f;&#116;&#64;&#x77;&#x61;&#x6e;&#x67;&#x68;&#101;&#110;&#103;&#46;&#111;&#114;&#103;</a> src]# ls -l phddns<br>-rwxr-xr-x 1 root root 80968 Aug 2 11:18 phddns</p>
+<p>[<a href="mailto:&#x72;&#x6f;&#x6f;&#x74;&#64;&#119;&#97;&#x6e;&#x67;&#x68;&#101;&#110;&#103;&#x2e;&#111;&#x72;&#103;">&#x72;&#x6f;&#x6f;&#x74;&#64;&#119;&#97;&#x6e;&#x67;&#x68;&#101;&#110;&#103;&#x2e;&#111;&#x72;&#103;</a> ~]# tar zxvf phddns-2.0.2.16556.tar.gz</p>
+<p><strong>4、进入目录并编译</strong><br>[<a href="mailto:&#x72;&#111;&#x6f;&#116;&#64;&#x77;&#97;&#110;&#103;&#x68;&#101;&#x6e;&#x67;&#x2e;&#111;&#x72;&#x67;">&#x72;&#111;&#x6f;&#116;&#64;&#x77;&#97;&#110;&#103;&#x68;&#101;&#x6e;&#x67;&#x2e;&#111;&#x72;&#x67;</a> ~]# cd phddns-2.0.2.16556<br>[<a href="mailto:&#x72;&#x6f;&#111;&#x74;&#64;&#x77;&#97;&#110;&#x67;&#x68;&#101;&#x6e;&#103;&#46;&#x6f;&#114;&#103;">&#x72;&#x6f;&#111;&#x74;&#64;&#x77;&#97;&#110;&#x67;&#x68;&#101;&#x6e;&#103;&#46;&#x6f;&#114;&#103;</a> phddns-2.0.2.16556]# aclocal<br>[<a href="mailto:&#x72;&#x6f;&#111;&#x74;&#64;&#119;&#97;&#x6e;&#x67;&#x68;&#101;&#x6e;&#x67;&#46;&#x6f;&#114;&#103;">&#x72;&#x6f;&#111;&#x74;&#64;&#119;&#97;&#x6e;&#x67;&#x68;&#101;&#x6e;&#x67;&#46;&#x6f;&#114;&#103;</a> phddns-2.0.2.16556]# autoconf<br>[<a href="mailto:&#114;&#x6f;&#111;&#116;&#x40;&#119;&#x61;&#x6e;&#103;&#104;&#101;&#110;&#x67;&#x2e;&#x6f;&#114;&#x67;">&#114;&#x6f;&#111;&#116;&#x40;&#119;&#x61;&#x6e;&#103;&#104;&#101;&#110;&#x67;&#x2e;&#x6f;&#114;&#x67;</a> phddns-2.0.2.16556]# automake<br>[<a href="mailto:&#x72;&#x6f;&#111;&#x74;&#64;&#119;&#97;&#110;&#x67;&#104;&#x65;&#x6e;&#103;&#x2e;&#x6f;&#114;&#x67;">&#x72;&#x6f;&#111;&#x74;&#64;&#119;&#97;&#110;&#x67;&#104;&#x65;&#x6e;&#103;&#x2e;&#x6f;&#114;&#x67;</a> phddns-2.0.2.16556]# ./configure<br>[<a href="mailto:&#x72;&#111;&#111;&#x74;&#64;&#x77;&#97;&#x6e;&#103;&#x68;&#x65;&#110;&#x67;&#x2e;&#x6f;&#x72;&#x67;">&#x72;&#111;&#111;&#x74;&#64;&#x77;&#97;&#x6e;&#103;&#x68;&#x65;&#110;&#x67;&#x2e;&#x6f;&#x72;&#x67;</a> phddns-2.0.2.16556]# make<br>[<a href="mailto:&#114;&#111;&#x6f;&#116;&#x40;&#x77;&#x61;&#110;&#x67;&#104;&#101;&#110;&#x67;&#x2e;&#111;&#114;&#x67;">&#114;&#111;&#x6f;&#116;&#x40;&#x77;&#x61;&#110;&#x67;&#104;&#101;&#110;&#x67;&#x2e;&#111;&#114;&#x67;</a> phddns-2.0.2.16556]# cd src<br>[<a href="mailto:&#114;&#111;&#x6f;&#116;&#x40;&#x77;&#97;&#x6e;&#103;&#104;&#101;&#110;&#103;&#46;&#111;&#114;&#x67;">&#114;&#111;&#x6f;&#116;&#x40;&#x77;&#97;&#x6e;&#103;&#104;&#101;&#110;&#103;&#46;&#111;&#114;&#x67;</a> src]# ls -l phddns<br>-rwxr-xr-x 1 root root 80968 Aug 2 11:18 phddns</p>
 <p><strong>5、执行编译好的程序并配置（默认使用/etc/phlinux.conf，如果不存在这个文件则自动进入交互配置）</strong></p>
-<p>[<a href="mailto:&#114;&#111;&#111;&#116;&#64;&#119;&#97;&#x6e;&#x67;&#104;&#x65;&#x6e;&#103;&#x2e;&#111;&#114;&#103;">&#114;&#111;&#111;&#116;&#64;&#119;&#97;&#x6e;&#x67;&#104;&#x65;&#x6e;&#103;&#x2e;&#111;&#114;&#103;</a> src]# ./phddns<br>输入服务器地址，如无特殊情况可使用默认值<br>Enter server address(press ENTER use phlinux3.oray.net):</p>
+<p>[<a href="mailto:&#x72;&#x6f;&#x6f;&#x74;&#x40;&#119;&#97;&#x6e;&#103;&#104;&#x65;&#x6e;&#103;&#46;&#x6f;&#114;&#x67;">&#x72;&#x6f;&#x6f;&#x74;&#x40;&#119;&#97;&#x6e;&#103;&#104;&#x65;&#x6e;&#103;&#46;&#x6f;&#114;&#x67;</a> src]# ./phddns<br>输入服务器地址，如无特殊情况可使用默认值<br>Enter server address(press ENTER use phlinux3.oray.net):</p>
 <p>输入您的Oray帐号名称<br>Enter your Oray account:</p>
 <p>对应的Oray帐号密码<br>Password:</p>
 <p>选择帮定的网卡，如无特殊，默认即可<br>Network interface(s):<br>eth0:192.168.141.18<br>lo:127.0.0.1<br>Choose one(default eth0):</p>
@@ -1511,14 +1461,14 @@ sync：将每个输入块填充到ibs个字节，不足部分用空（NUL）字�
 <p>保存配置文件，选择yes则直接保存到/etc/phlinux.conf，输入other可以指定文件<br>Save to configuration file (/etc/phlinux.conf)?(yes/no/other):</p>
 <p>接下来程序将已交互模式开始运行<br>192.168.141.18<br>NIC bind success<br>OnStatusChanged okConnecting<br>OnStatusChanged okDomainListed<br>OnDomainRegistered skyvense22.gicp.net<br>OnStatusChanged okDomainsRegistered<br>UserType: 0<br>看到上面这些就表示登录成功，这个时候可以按ctrl+c先退出程序</p>
 <span id="more"></span><strong>6、将phddns拷贝到你希望的位置</strong>
-<p>[<a href="mailto:&#114;&#x6f;&#x6f;&#116;&#64;&#x77;&#x61;&#x6e;&#x67;&#104;&#x65;&#110;&#x67;&#46;&#111;&#x72;&#103;">&#114;&#x6f;&#x6f;&#116;&#64;&#x77;&#x61;&#x6e;&#x67;&#104;&#x65;&#110;&#x67;&#46;&#111;&#x72;&#103;</a> src]# cp phddns /usr/bin/</p>
+<p>[<a href="mailto:&#114;&#x6f;&#x6f;&#116;&#x40;&#119;&#x61;&#110;&#x67;&#104;&#x65;&#110;&#x67;&#x2e;&#111;&#x72;&#x67;">&#114;&#x6f;&#x6f;&#116;&#x40;&#119;&#x61;&#110;&#x67;&#104;&#x65;&#110;&#x67;&#x2e;&#111;&#x72;&#x67;</a> src]# cp phddns /usr/bin/</p>
 <p><strong>7、以后台模式启动花生壳并检查运行情况</strong></p>
-<p>[<a href="mailto:&#114;&#111;&#x6f;&#x74;&#64;&#119;&#x61;&#x6e;&#x67;&#x68;&#101;&#110;&#103;&#46;&#111;&#x72;&#103;">&#114;&#111;&#x6f;&#x74;&#64;&#119;&#x61;&#x6e;&#x67;&#x68;&#101;&#110;&#103;&#46;&#111;&#x72;&#103;</a> ~]# /usr/bin/phddns -c /etc/phlinux.conf -d<br>phlinux started as daemon!<br>[<a href="mailto:&#114;&#x6f;&#111;&#x74;&#x40;&#119;&#97;&#x6e;&#x67;&#104;&#101;&#x6e;&#103;&#46;&#111;&#114;&#x67;">&#114;&#x6f;&#111;&#x74;&#x40;&#119;&#97;&#x6e;&#x67;&#104;&#101;&#x6e;&#103;&#46;&#111;&#114;&#x67;</a> ~]# tail /var/log/phddns.log<br>2011/08/02 11:28:58.256| ExecuteUpdate OK, BeginKeepAlive!<br>2011/08/02 11:29:59.354| SendKeepAlive() 8208<br>2011/08/02 11:30:00.355| RecvKeepaliveResponse() Data comes, OPCODE:8272<br>2011/08/02 11:30:00.356| Keepalive response received, client ip: 116.<em><strong>.123.96<br>2011/08/02 11:31:00.447| SendKeepAlive() 8208<br>2011/08/02 11:31:01.450| RecvKeepaliveResponse() Data comes, OPCODE:8272<br>2011/08/02 11:31:01.450| Keepalive response received, client ip: 116.</strong></em>.123.96</p>
+<p>[<a href="mailto:&#x72;&#111;&#x6f;&#x74;&#x40;&#x77;&#x61;&#110;&#103;&#104;&#101;&#x6e;&#x67;&#x2e;&#x6f;&#x72;&#x67;">&#x72;&#111;&#x6f;&#x74;&#x40;&#x77;&#x61;&#110;&#103;&#104;&#101;&#x6e;&#x67;&#x2e;&#x6f;&#x72;&#x67;</a> ~]# /usr/bin/phddns -c /etc/phlinux.conf -d<br>phlinux started as daemon!<br>[<a href="mailto:&#114;&#x6f;&#111;&#x74;&#x40;&#119;&#97;&#x6e;&#103;&#104;&#101;&#110;&#103;&#46;&#x6f;&#114;&#x67;">&#114;&#x6f;&#111;&#x74;&#x40;&#119;&#97;&#x6e;&#103;&#104;&#101;&#110;&#103;&#46;&#x6f;&#114;&#x67;</a> ~]# tail /var/log/phddns.log<br>2011/08/02 11:28:58.256| ExecuteUpdate OK, BeginKeepAlive!<br>2011/08/02 11:29:59.354| SendKeepAlive() 8208<br>2011/08/02 11:30:00.355| RecvKeepaliveResponse() Data comes, OPCODE:8272<br>2011/08/02 11:30:00.356| Keepalive response received, client ip: 116.<em><strong>.123.96<br>2011/08/02 11:31:00.447| SendKeepAlive() 8208<br>2011/08/02 11:31:01.450| RecvKeepaliveResponse() Data comes, OPCODE:8272<br>2011/08/02 11:31:01.450| Keepalive response received, client ip: 116.</strong></em>.123.96</p>
 <p><strong>8、退出花生壳</strong></p>
-<p>查看进程ID<br>[<a href="mailto:&#x72;&#x6f;&#x6f;&#x74;&#x40;&#x77;&#x61;&#110;&#103;&#x68;&#x65;&#x6e;&#103;&#x2e;&#111;&#114;&#x67;">&#x72;&#x6f;&#x6f;&#x74;&#x40;&#x77;&#x61;&#110;&#103;&#x68;&#x65;&#x6e;&#103;&#x2e;&#111;&#114;&#x67;</a> ~]# ps -A | grep phddns<br>13731 ? 00:00:00 phlinux<br>让后台进程退出<br>[<a href="mailto:&#x72;&#x6f;&#111;&#x74;&#64;&#119;&#97;&#110;&#103;&#104;&#101;&#110;&#103;&#46;&#x6f;&#x72;&#103;">&#x72;&#x6f;&#111;&#x74;&#64;&#119;&#97;&#110;&#103;&#104;&#101;&#110;&#103;&#46;&#x6f;&#x72;&#103;</a> ~]# kill -9 13731</p>
-<p>9、将花生壳加到系统启动时运行<br>[<a href="mailto:&#x72;&#111;&#x6f;&#x74;&#64;&#x77;&#x61;&#x6e;&#103;&#x68;&#101;&#x6e;&#x67;&#x2e;&#x6f;&#x72;&#103;">&#x72;&#111;&#x6f;&#x74;&#64;&#x77;&#x61;&#x6e;&#103;&#x68;&#101;&#x6e;&#x67;&#x2e;&#x6f;&#x72;&#103;</a> ~]# vi /etc/rc.local<br>在文件的末尾加上一行：/usr/bin/phddns -c /etc/phlinux.conf -d</p>
+<p>查看进程ID<br>[<a href="mailto:&#x72;&#111;&#x6f;&#116;&#64;&#119;&#97;&#110;&#x67;&#x68;&#101;&#x6e;&#x67;&#46;&#x6f;&#114;&#103;">&#x72;&#111;&#x6f;&#116;&#64;&#119;&#97;&#110;&#x67;&#x68;&#101;&#x6e;&#x67;&#46;&#x6f;&#114;&#103;</a> ~]# ps -A | grep phddns<br>13731 ? 00:00:00 phlinux<br>让后台进程退出<br>[<a href="mailto:&#x72;&#x6f;&#x6f;&#x74;&#64;&#x77;&#x61;&#x6e;&#x67;&#104;&#101;&#x6e;&#x67;&#46;&#111;&#x72;&#x67;">&#x72;&#x6f;&#x6f;&#x74;&#64;&#x77;&#x61;&#x6e;&#x67;&#104;&#101;&#x6e;&#x67;&#46;&#111;&#x72;&#x67;</a> ~]# kill -9 13731</p>
+<p>9、将花生壳加到系统启动时运行<br>[<a href="mailto:&#x72;&#x6f;&#x6f;&#116;&#x40;&#119;&#x61;&#x6e;&#103;&#104;&#x65;&#110;&#x67;&#x2e;&#x6f;&#114;&#x67;">&#x72;&#x6f;&#x6f;&#116;&#x40;&#119;&#x61;&#x6e;&#103;&#104;&#x65;&#110;&#x67;&#x2e;&#x6f;&#114;&#x67;</a> ~]# vi /etc/rc.local<br>在文件的末尾加上一行：/usr/bin/phddns -c /etc/phlinux.conf -d</p>
 <p><strong>二、花生壳Linux版本命令行参数说明</strong></p>
-<p>[<a href="mailto:&#114;&#x6f;&#111;&#116;&#64;&#x77;&#x61;&#110;&#x67;&#104;&#x65;&#x6e;&#x67;&#46;&#x6f;&#x72;&#x67;">&#114;&#x6f;&#111;&#116;&#64;&#x77;&#x61;&#110;&#x67;&#104;&#x65;&#x6e;&#x67;&#46;&#x6f;&#x72;&#x67;</a> ~]# /usr/bin/phlinux -h<br>Peanuthull Linux-core 2.0 by oray.com, copyright 2011<br>Peanuthull Linux-core Help<br>–first-run<br>-f, run for the first time<br>用于首次启动时配置参数</p>
+<p>[<a href="mailto:&#114;&#x6f;&#111;&#116;&#64;&#x77;&#97;&#x6e;&#x67;&#x68;&#101;&#110;&#103;&#x2e;&#x6f;&#114;&#103;">&#114;&#x6f;&#111;&#116;&#64;&#x77;&#97;&#x6e;&#x67;&#x68;&#101;&#110;&#103;&#x2e;&#x6f;&#114;&#103;</a> ~]# /usr/bin/phlinux -h<br>Peanuthull Linux-core 2.0 by oray.com, copyright 2011<br>Peanuthull Linux-core Help<br>–first-run<br>-f, run for the first time<br>用于首次启动时配置参数</p>
 <p>–interact<br>-i, run as interactive mode<br>program will request for necessary parameters.<br>this mode will automatically enabled at first running,<br>or your configuration file has been lost.<br>启动交互模式</p>
 <p>–daemon<br>-d, run as a daemon<br>program will quit after put itself to background,<br>and continue running even you logout,<br>you can use kill -9 &lt;PID&gt; to terminate.<br>后台模式</p>
 <p>–config<br>-c, run with configuration file<br>program will run with the file<br>指定使用哪一个配置文件</p>
@@ -1536,6 +1486,23 @@ sync：将每个输入块填充到ibs个字节，不足部分用空（NUL）字�
       <tags>
         <tag>Linux</tag>
         <tag>nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux中设置代理服务器</title>
+    <url>/linux-set-up-a-proxy-server.html</url>
+    <content><![CDATA[<content>
+<p>&#160;&#160;&#160;&#160;&#160; 由于单位限制网络使用，给分配的一个Linux服务器是没有外网权限的，这给我配置开发调试环境造成了很大的不便。但是这怎么能难道我们一个专业的程序猿呢。下面介绍在Linux中使用代理服务器的步骤：</p>  <p><strong>全局设置</strong>     <br />如果您在 /etc/yum.conf 中定义代理服务器，所有 用户在使用 yum 时都会应用这个代理服务器设置。     <br /><strong>为单个用户配置代理服务器</strong>     <br />要为一个特定的用户启用代理访问，只要将实例框中的文本行加入这个用户的 shell 配置中。对于默认的 bash shell，配置是在 ~/.bash_profile 中。这一设置使得 yum 使用代理服务器 192.168.1.47:808，连接端口号 808。     <br /># 这个帐号使用的代理服务器     <br /><font style="background-color: #ffff00">http_proxy=”http://192.168.1.47:808”      <br />export http_proxy</font>     <br /><b>配置设定，为使用代理服务器</b>     <br />如果代理服务器需要用户名和密码，只要将它们加入 URL。要包含用户名 a，密码 a，添加设定：     <br /># 这个帐号使用的代理服务器和用户名/密码     <br />http_proxy=&quot;http://a:a@192.168.1.47:808&quot;     <br />export http_proxy</p>  <p>https_proxy=&quot;https://a:a@192.168.1.47:808&quot;    <br />export https_proxy</p>  <p>最后用wget试一下，成功！</p>  <p>   <div style="padding-bottom: 0px; margin: 0px; padding-left: 0px; padding-right: 0px; display: inline; float: none; padding-top: 0px" id="scid:8747F07C-CDE8-481f-B0DF-C6CFD074BF67:6c11f324-d9f7-49ed-aa1b-ff2c9d93fdb3" class="wlWriterEditableSmartContent"><a href="uploads/2013/07/1-0Z92P92G5-8x6.jpg" title="" rel="thumbnail"><img border="0" src="uploads/2013/07/1-0Z92P92G51.png" width="183" height="250" /></a></div></p>
+</content>
+]]></content>
+      <categories>
+        <category>乱七八糟</category>
+        <category>技术探讨</category>
+        <category>Linux学习</category>
+      </categories>
+      <tags>
+        <tag>代理</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1566,23 +1533,6 @@ nameserver 8.8.4.4</pre>
         <tag>Firefox</tag>
         <tag>Linux</tag>
         <tag>DNS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux中设置代理服务器</title>
-    <url>/linux-set-up-a-proxy-server.html</url>
-    <content><![CDATA[<content>
-<p>&#160;&#160;&#160;&#160;&#160; 由于单位限制网络使用，给分配的一个Linux服务器是没有外网权限的，这给我配置开发调试环境造成了很大的不便。但是这怎么能难道我们一个专业的程序猿呢。下面介绍在Linux中使用代理服务器的步骤：</p>  <p><strong>全局设置</strong>     <br />如果您在 /etc/yum.conf 中定义代理服务器，所有 用户在使用 yum 时都会应用这个代理服务器设置。     <br /><strong>为单个用户配置代理服务器</strong>     <br />要为一个特定的用户启用代理访问，只要将实例框中的文本行加入这个用户的 shell 配置中。对于默认的 bash shell，配置是在 ~/.bash_profile 中。这一设置使得 yum 使用代理服务器 192.168.1.47:808，连接端口号 808。     <br /># 这个帐号使用的代理服务器     <br /><font style="background-color: #ffff00">http_proxy=”http://192.168.1.47:808”      <br />export http_proxy</font>     <br /><b>配置设定，为使用代理服务器</b>     <br />如果代理服务器需要用户名和密码，只要将它们加入 URL。要包含用户名 a，密码 a，添加设定：     <br /># 这个帐号使用的代理服务器和用户名/密码     <br />http_proxy=&quot;http://a:a@192.168.1.47:808&quot;     <br />export http_proxy</p>  <p>https_proxy=&quot;https://a:a@192.168.1.47:808&quot;    <br />export https_proxy</p>  <p>最后用wget试一下，成功！</p>  <p>   <div style="padding-bottom: 0px; margin: 0px; padding-left: 0px; padding-right: 0px; display: inline; float: none; padding-top: 0px" id="scid:8747F07C-CDE8-481f-B0DF-C6CFD074BF67:6c11f324-d9f7-49ed-aa1b-ff2c9d93fdb3" class="wlWriterEditableSmartContent"><a href="uploads/2013/07/1-0Z92P92G5-8x6.jpg" title="" rel="thumbnail"><img border="0" src="uploads/2013/07/1-0Z92P92G51.png" width="183" height="250" /></a></div></p>
-</content>
-]]></content>
-      <categories>
-        <category>乱七八糟</category>
-        <category>技术探讨</category>
-        <category>Linux学习</category>
-      </categories>
-      <tags>
-        <tag>代理</tag>
-        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1833,69 +1783,6 @@ nameserver 8.8.4.4</pre>
         <tag>中文乱码</tag>
         <tag>air video</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>onbeforeunload与onunload事件</title>
-    <url>/onbeforeunload-and-the-onunload-event.html</url>
-    <content><![CDATA[<content>
-<strong>Onunload，onbeforeunload</strong>都是在刷新或关闭时调用，可以在&lt;script&gt;脚本中通过 window.onunload来指定或者在&lt;body&gt;里指定。区别在于onbeforeunload在onunload之前执行，它还可 以阻止onunload的执行。
-<div>Onbeforeunload也是在页面刷新或关闭时调用，Onbeforeunload是正要去服务器读 取新的页面时调用，此时还没开始读取；而onunload则已经从服务器上读到了需要加载的新的页面，在即将替换掉当前页面时调用。Onunload是无 法阻止页面的更新和关闭的。而 Onbeforeunload 可以做到。</div><div><strong>1、onbeforeunload事件：</strong>
-说明：目前三大主流浏览器中firefox和IE都支持onbeforeunload事件,opera尚未支持。
-用法：
-<pre class="brush: actionscript3; gutter: true">·object.onbeforeunload = handler 
- ·&lt;element onbeforeunload = “handler” … &gt;&lt;/element&gt;</pre>
-描述：
-事件触发的时候弹出一个有确定和取消的对话框，确定则离开页面，取消则继续待在本页。handler可以设一个返回值作为该对话框的显示文本。
-
-</div><div style="padding-left: 30px;">触发于：
-·关闭浏览器窗口
-·通过地址栏或收藏夹前往其他页面的时候
-·点击返回，前进，刷新，主页其中一个的时候
-·点击 一个前往其他页面的url连接的时候
-·调用以下任意一个事件的时候：click，document write，document open，document close，window close ，window navigate ，window NavigateAndFind,location replace,location reload,form submit.
-·当用window open打开一个页面，并把本页的window的名字传给要打开的页面的时候。
-·重新赋予location.href的值的时候。
-·通过input type=”submit”按钮提交一个具有指定action的表单的时候。
-可以用在以下元素：
-·BODY, FRAMESET, window
-平台支持：
-IE4+/Win, Mozilla 1.7a+, Netscape 7.2+, Firefox0.9+
-示例：</div><pre class="brush: javascript; gutter: true">&lt;script type=&quot;text/javascript&quot;&gt;
-// &lt;![CDATA[
-function checkLeave(){
-
-<pre><code> 　event.returnValue=&amp;quot;确定离开当前页面吗？&amp;quot;;
-</code></pre>
-<p>}<br>// ]]&gt;<br>&lt;/script&gt;</pre><br>但是onbeforeunload有个小毛病，就是页面刷新时，他还是会调用到onbeforeunload，为什么？其实刷新就相当于关闭了这个IE再重新打开的意思，因此还是会调用到onbeforeunload。</p>
-<p>究竟怎么解决刷新不调用onbeforeunload呢？<br>网上提供很多方法，本人觉得最实用还是以下这段JS</p>
-<pre class="brush: javascript; gutter: true">window.onbeforeunload   =   function(){
-      var   n   =   window.event.screenX   -   window.screenLeft;
-      var   b   =   n   &gt;   document.documentElement.scrollWidth-20;
-      if(b   &amp;&amp;   window.event.clientY   &lt;   0   ||   window.event.altKey)
-      {
-          alert(&quot;是关闭而非刷新&quot;);
-          window.event.returnValue   =   &quot;是否关闭？&quot;;
-      }else{
-             alert(&quot;是刷新而非关闭&quot;);
-     }
-}</pre><div><strong>2、onunload事件</strong>
-<p>用法：</p>
-<pre class="brush: actionscript3; gutter: true">·object.onbeforeunload = handler 
- ·&lt;element onbeforeunload = &quot;handler&quot;&gt;&lt;/element&gt;</pre></div><div>描述：
-<p>当用户关闭一个页面时触发 onunload 事件。</div><div></div><div>触发于：</div><p style="padding-left: 30px;">·关闭浏览器窗口<br>·通过地址栏或收藏夹前往其他页面的时候<br>·点击返回，前进，刷新，主页其中一个的时候<br>·点击 一个前往其他页面的url连接的时候<br>·调用以下任意一个事件的时候：click，document write，document open，document close，window close ，window navigate ，window NavigateAndFind,location replace,location reload,form submit.<br>·当用window open打开一个页面，并把本页的window的名字传给要打开的页面的时候。<br>·重新赋予location.href的值的时候。<br>·通过input type=”submit”按钮提交一个具有指定action的表单的时候。</p><br>示例：</p>
-<pre class="brush: javascript; gutter: true; first-line: 1; highlight: []; html-script: false">&lt;script type=&quot;text/javascript&quot;&gt;
-// &lt;![CDATA[
-　　function checkLeave(){
-
-　　　　alert(&quot;欢迎下次再来！&quot;);
-　　}
-// ]]&gt;
-&lt;/script&gt;</pre>
-</content>
-]]></content>
-      <categories>
-        <category>最近添加</category>
-      </categories>
   </entry>
   <entry>
     <title>raspi+DHT11+yeelink监控家里温湿度</title>
@@ -2184,7 +2071,7 @@ while(True):
 <p><strong>运行效果：</strong></p>
 <p><embed width="480" height="400" type="application/x-shockwave-flash" src="http://player.youku.com/player.php/sid/XODc4ODMyNzE2/v.swf" allowfullscreen="allowfullscreen" quality="high" align="middle" allowscriptaccess="always"></embed></p>
 <p><strong>核心代码：</strong><pre class="brush: python; gutter: true">&#039;&#039;&#039;<br>#=============================================================================</p>
-<h1 id="FileName-views-py"><a href="#FileName-views-py" class="headerlink" title="FileName: views.py"></a>FileName: views.py</h1><h1 id="Desc"><a href="#Desc" class="headerlink" title="Desc:"></a>Desc:</h1><h1 id="Author-wangheng"><a href="#Author-wangheng" class="headerlink" title="Author: wangheng"></a>Author: wangheng</h1><h1 id="Email-x77-x75-x6a-105-x77-x68-x40-103-109-x61-105-108-x2e-99-111-x6d"><a href="#Email-x77-x75-x6a-105-x77-x68-x40-103-109-x61-105-108-x2e-99-111-x6d" class="headerlink" title="Email: &#x77;&#x75;&#x6a;&#105;&#x77;&#x68;&#x40;&#103;&#109;&#x61;&#105;&#108;&#x2e;&#99;&#111;&#x6d;"></a>Email: <a href="mailto:&#x77;&#x75;&#x6a;&#105;&#x77;&#x68;&#x40;&#103;&#109;&#x61;&#105;&#108;&#x2e;&#99;&#111;&#x6d;">&#x77;&#x75;&#x6a;&#105;&#x77;&#x68;&#x40;&#103;&#109;&#x61;&#105;&#108;&#x2e;&#99;&#111;&#x6d;</a></h1><h1 id="HomePage-http-wangheng-org"><a href="#HomePage-http-wangheng-org" class="headerlink" title="HomePage: http://wangheng.org"></a>HomePage: <a href="http://wangheng.org/">http://wangheng.org</a></h1><h1 id="Version-0-0-1"><a href="#Version-0-0-1" class="headerlink" title="Version: 0.0.1"></a>Version: 0.0.1</h1><h1 id="LastChange-2015-01-14-13-46-29"><a href="#LastChange-2015-01-14-13-46-29" class="headerlink" title="LastChange: 2015-01-14 13:46:29"></a>LastChange: 2015-01-14 13:46:29</h1><h1 id="History"><a href="#History" class="headerlink" title="History:"></a>History:</h1><p>#=============================================================================<br>&#039;&#039;&#039;<br>from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash<br>from contextlib import closing<br>from pi_car import app<br>import re<br>import RPi.GPIO as GPIO<br>@app.route(&#039;/&#039;)<br>def show_index():<br>    return render_template(&#039;home.html&#039;)</p>
+<h1 id="FileName-views-py"><a href="#FileName-views-py" class="headerlink" title="FileName: views.py"></a>FileName: views.py</h1><h1 id="Desc"><a href="#Desc" class="headerlink" title="Desc:"></a>Desc:</h1><h1 id="Author-wangheng"><a href="#Author-wangheng" class="headerlink" title="Author: wangheng"></a>Author: wangheng</h1><h1 id="Email-x77-117-x6a-x69-119-104-64-x67-x6d-x61-x69-108-x2e-99-111-x6d"><a href="#Email-x77-117-x6a-x69-119-104-64-x67-x6d-x61-x69-108-x2e-99-111-x6d" class="headerlink" title="Email: &#x77;&#117;&#x6a;&#x69;&#119;&#104;&#64;&#x67;&#x6d;&#x61;&#x69;&#108;&#x2e;&#99;&#111;&#x6d;"></a>Email: <a href="mailto:&#x77;&#117;&#x6a;&#x69;&#119;&#104;&#64;&#x67;&#x6d;&#x61;&#x69;&#108;&#x2e;&#99;&#111;&#x6d;">&#x77;&#117;&#x6a;&#x69;&#119;&#104;&#64;&#x67;&#x6d;&#x61;&#x69;&#108;&#x2e;&#99;&#111;&#x6d;</a></h1><h1 id="HomePage-http-wangheng-org"><a href="#HomePage-http-wangheng-org" class="headerlink" title="HomePage: http://wangheng.org"></a>HomePage: <a href="http://wangheng.org/">http://wangheng.org</a></h1><h1 id="Version-0-0-1"><a href="#Version-0-0-1" class="headerlink" title="Version: 0.0.1"></a>Version: 0.0.1</h1><h1 id="LastChange-2015-01-14-13-46-29"><a href="#LastChange-2015-01-14-13-46-29" class="headerlink" title="LastChange: 2015-01-14 13:46:29"></a>LastChange: 2015-01-14 13:46:29</h1><h1 id="History"><a href="#History" class="headerlink" title="History:"></a>History:</h1><p>#=============================================================================<br>&#039;&#039;&#039;<br>from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash<br>from contextlib import closing<br>from pi_car import app<br>import re<br>import RPi.GPIO as GPIO<br>@app.route(&#039;/&#039;)<br>def show_index():<br>    return render_template(&#039;home.html&#039;)</p>
 <p>@app.route(&quot;/login&quot;, methods=[&quot;GET&quot;, &quot;POST&quot;])<br>def login():<br>    if request.method==&quot;GET&quot;:<br>        return &quot;get&quot;+request.form[&quot;user&quot;]<br>    elif request.method==&quot;POST&quot;:<br>        return &quot;post&quot;</p>
 <p>@app.route(&#039;/ctl&#039;,methods=[&#039;GET&#039;,&#039;POST&#039;])<br>def ctrl_id():<br>    if request.method == &#039;POST&#039;:<br>        id=request.form[&#039;id&#039;]<br>        GPIO.setmode(GPIO.BOARD)<br>        GPIO.setwarnings(False)<br>        GPIO.setup(11,GPIO.OUT)<br>        GPIO.setup(12,GPIO.OUT)<br>        GPIO.setup(15,GPIO.OUT)<br>        GPIO.setup(16,GPIO.OUT)</p>
 <pre><code>    if id == &amp;#039;t_left&amp;#039;:
@@ -2559,9 +2446,9 @@ iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth0 -j MASQUERADE</pre>
       <tags>
         <tag>VPS</tag>
         <tag>代理</tag>
-        <tag>翻墙</tag>
         <tag>Ubuntu</tag>
         <tag>VPN</tag>
+        <tag>翻墙</tag>
       </tags>
   </entry>
   <entry>
@@ -2614,7 +2501,7 @@ iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth0 -j MASQUERADE</pre>
 <p>打开c:\path.txt 将里面的内容全部复制，粘贴到系统的path变量中(覆盖原来的path)。完成此步骤后，cmd中会使用github生成的配置进行ssh的key-agent验证登录，故实现了git命令免密码的效果。完成后，运行cmd，输入git，能识别这个命令表示成功。然后就可以使用我写的这个脚本了(汗，脚本依赖有点高~~)</p>
 <p><strong>脚本的代码如下：</strong></p>
 <span id="more"></span><pre class="brush: python; gutter: true">&quot;=========================================================
-<p>&quot;     FileName: vimwiki_sync.vim<br>&quot;         Desc:<br>&quot;       Author: WangHeng<br>&quot;        Email: <a href="mailto:&#109;&#101;&#64;&#x77;&#x61;&#110;&#103;&#x68;&#101;&#110;&#103;&#46;&#111;&#x72;&#x67;">&#109;&#101;&#64;&#x77;&#x61;&#110;&#103;&#x68;&#101;&#110;&#103;&#46;&#111;&#x72;&#x67;</a><br>&quot;     HomePage: <a href="http://wangheng.org/">http://wangheng.org</a><br>&quot;      Version: 1.1<br>&quot;   LastChange: 2012-07-19 22:32:39<br>&quot;      History: 1、2012-07-20 暂时注释VimwikiGet(&#039;path_html&#039;)<br>&quot;                不好用原因待研究<br>&quot;=========================================================</p>
+<p>&quot;     FileName: vimwiki_sync.vim<br>&quot;         Desc:<br>&quot;       Author: WangHeng<br>&quot;        Email: <a href="mailto:&#109;&#x65;&#64;&#x77;&#x61;&#110;&#x67;&#x68;&#x65;&#110;&#x67;&#46;&#x6f;&#114;&#x67;">&#109;&#x65;&#64;&#x77;&#x61;&#110;&#x67;&#x68;&#x65;&#110;&#x67;&#46;&#x6f;&#114;&#x67;</a><br>&quot;     HomePage: <a href="http://wangheng.org/">http://wangheng.org</a><br>&quot;      Version: 1.1<br>&quot;   LastChange: 2012-07-19 22:32:39<br>&quot;      History: 1、2012-07-20 暂时注释VimwikiGet(&#039;path_html&#039;)<br>&quot;                不好用原因待研究<br>&quot;=========================================================</p>
 <p>&quot; let s:wiki_html_path=VimwikiGet(&#039;path_html&#039;)这条命令有时候不好用，故暂时注释掉<br>if !has(&#039;python&#039;)<br>    echo &quot;Git Auto Upload Error:\nRequired vim compiled with +python&quot;<br>    finish<br>endif</p>
 <p>function! s:Vimwiki_Upload()</p>
 <p>python &lt;&lt;EOF<br>import os<br>import time</p>
@@ -2824,26 +2711,6 @@ chown -R www-data:www-data /var/www/test/*
         <tag>Apache2</tag>
         <tag>多域名</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>css中em与px的区别</title>
-    <url>/the-difference-between-css-em-and-px.html</url>
-    <content><![CDATA[<content>
-<p>em是何物？
- em指字体高，任意浏览器的默认字体高都是16px。所以未经调整的浏览器都符合: 1em=16px。那么12px=0.75em,  10px=0.625em。为了简化font-size的换算，需要在css中的body选择器中声明Font-size=62.5%，这就使em值变为  16px*62.5%=10px, 这样12px=1.2em, 10px=1em,  也就是说只需要将你的原来的px数值除以10，然后换上em作为单位就行了。em有如下特点：
- 1. em的值并不是固定的；
- 2. em会继承父级元素的字体大小。
- 
-<p> 重写步骤：</p>
-<ol>
-<li>body选择器中声明Font-size=62.5%；</li>
-<li>将你的原来的px数值除以10，然后换上em作为单位；<br>简  单吧，如果只需要以上两步就能解决问题的话，可能就没人用px了。经过以上两步，你会发现你的网站字体大得出乎想象。因为em的值不固定，又会继承父级元  素的大小，你可能会在content这个div里把字体大小设为1.2em,  也就是12px。然后你又把选择器p的字体大小也设为1.2em，但如果p属于content的子级的话，p的字体大小就不是12px，而是  1.2em=1.2 *  12px=14.4px。这是因为content的字体大小被设为1.2em，这个em值继承其父级元素body的大小，也就是16px * 62.5%  * 1.2=12px,  而p作为其子级，em则继承content的字体高，也就是12px。所以p的1.2em就不再是12px，而是14.4px。</li>
-<li>重新计算那些被放大的字体的em数值。避免字体大小的重复声明，也就是避免以上提到的1.2 * 1.2=  1.44的现象。比如说你在#content中声明了字体大小为1.2em，那么在声明p的字体大小时就只能是1em，而不是1.2em,  因为此em非彼em，它因继承#content的字体高而变为了1em=12px。</p></content></li>
-</ol>
-]]></content>
-      <categories>
-        <category>技术探讨</category>
-      </categories>
   </entry>
   <entry>
     <title>LNMP环境WordPress出现No Input File Specified的解决方案</title>
@@ -3184,6 +3051,39 @@ AirVideo 是IOS上很好用的一个媒体播放器。可以由局域网内的�
       </tags>
   </entry>
   <entry>
+    <title>ubuntu搭建LAMP环境</title>
+    <url>/ubuntu-install-lamp.html</url>
+    <content><![CDATA[<content>
+首先安装apache2服务，在终端中使用命令：
+<pre lang="bash">sudo apt-get install apache2 php5 libapache2-mod-php5  libapache2-mod-auth-mysql</pre>
+如果希望开启Apache2 伪静态 rewrite 支持，输入如下命令安装
+<pre lang="bash">sudo a2enmod rewrite</pre>
+安装mysql-server
+<pre lang="bash">sudo apt-get install mysql-server</pre>
+安装php环境
+执行如下命令安装apache2的php5扩展和php的mysql扩展
+<pre lang="bash">apt-get install libapache2-mod-php5 php5-gd php5-mysql php5-curl</pre>
+安装数据库管理工具,使用命令：
+<pre lang="bash">sudo apt-get install phpmyadmin</pre>
+重新启动apache2, 输入命令：
+<pre lang="bash">/etc/init.d/apache2 start</pre>
+安装 php 探针
+<pre lang="bash">cd /var/www #如果没有此目录可以手动创建 mkdir /var/www
+wget http://wangheng.org/tools/tz.zip
+unzip tz.zip</pre>
+执行完重启apache2后，浏览器查看http://localhost/tz.php正常打开说明环境搭建成功了，并且可以通过此页面查看服务器的一些状态
+</content>
+]]></content>
+      <categories>
+        <category>技术探讨</category>
+      </categories>
+      <tags>
+        <tag>环境搭建</tag>
+        <tag>Ubuntu</tag>
+        <tag>LAMP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Ubuntu下添加开机启动脚本</title>
     <url>/ubuntu-to-add-boot-script.html</url>
     <content><![CDATA[<content>
@@ -3223,39 +3123,6 @@ update-rc.d: see &lt;http://wiki.debian.org/LSBInitScripts&gt;
       <categories>
         <category>Linux学习</category>
       </categories>
-  </entry>
-  <entry>
-    <title>ubuntu搭建LAMP环境</title>
-    <url>/ubuntu-install-lamp.html</url>
-    <content><![CDATA[<content>
-首先安装apache2服务，在终端中使用命令：
-<pre lang="bash">sudo apt-get install apache2 php5 libapache2-mod-php5  libapache2-mod-auth-mysql</pre>
-如果希望开启Apache2 伪静态 rewrite 支持，输入如下命令安装
-<pre lang="bash">sudo a2enmod rewrite</pre>
-安装mysql-server
-<pre lang="bash">sudo apt-get install mysql-server</pre>
-安装php环境
-执行如下命令安装apache2的php5扩展和php的mysql扩展
-<pre lang="bash">apt-get install libapache2-mod-php5 php5-gd php5-mysql php5-curl</pre>
-安装数据库管理工具,使用命令：
-<pre lang="bash">sudo apt-get install phpmyadmin</pre>
-重新启动apache2, 输入命令：
-<pre lang="bash">/etc/init.d/apache2 start</pre>
-安装 php 探针
-<pre lang="bash">cd /var/www #如果没有此目录可以手动创建 mkdir /var/www
-wget http://wangheng.org/tools/tz.zip
-unzip tz.zip</pre>
-执行完重启apache2后，浏览器查看http://localhost/tz.php正常打开说明环境搭建成功了，并且可以通过此页面查看服务器的一些状态
-</content>
-]]></content>
-      <categories>
-        <category>技术探讨</category>
-      </categories>
-      <tags>
-        <tag>环境搭建</tag>
-        <tag>Ubuntu</tag>
-        <tag>LAMP</tag>
-      </tags>
   </entry>
   <entry>
     <title>Ubuntu下的 VPN 连接</title>
@@ -3445,48 +3312,6 @@ sudo apt-get install nvidia-current-dev
       </tags>
   </entry>
   <entry>
-    <title>C#使用委托与多线程，解决界面假死</title>
-    <url>/use-multiple-threads-resolve-interface-feign-death.html</url>
-    <content><![CDATA[<content>
-<blockquote>.NET Framework 为我们提供了一个处理控件闪烁的方案-双缓冲，我们可以直接调用它。</blockquote><ul>
-    <li>首先自己封装一个Windows组件 MyListView.cs，并让它继承自Listview。</li>
-    <li>在控件中添加打开双缓冲的代码如下：</li></ul><pre lang="csharp" line="1">
-public MyListView()
-{
-// 打开控件的双缓冲
-SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
-}
-</pre>
-    <li>使用我们封装的MyListview 实例化一个对象，命名为ImageListView, 执行下面的方法来实现异步数据加载</li><pre lang="csharp" line="1">
-private void button1_Click(object sender, EventArgs e)
-{
-    Thread ImageThread = new Thread((ThreadStart)(delegate()
-    {
-        for (int i = 0; i<100000; i++)
-        {
-        // 此处应该警惕值类型装箱造成的"性能陷阱"
-        ImageListView.Invoke((MethodInvoker)delegate()
-        {
-        ImageListView.Items.Add(new ListViewItem(……) );
-        });
-        }
-    }))；
-
-<pre><code>ImageThread.Start();
-</code></pre>
-<p>}<br></pre><br>使用这种方法可以有效的解决加载大量数据的时候造成的界面假死。<br></content></p>
-]]></content>
-      <categories>
-        <category>技术探讨</category>
-      </categories>
-      <tags>
-        <tag>C#</tag>
-        <tag>委托</tag>
-        <tag>多线程</tag>
-        <tag>界面假死</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>使用vimwiki组建个人wiki</title>
     <url>/use-vimwiki-set-up-a-personal-wiki.html</url>
     <content><![CDATA[<content>
@@ -3521,59 +3346,6 @@ private void button1_Click(object sender, EventArgs e)
         <tag>vim</tag>
         <tag>vim插件</tag>
         <tag>部署</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>使用SSH实现iPhone自动代理</title>
-    <url>/using-ssh-for-the-iphone-automatic-proxy.html</url>
-    <content><![CDATA[<content>
-对于绝大部分国内网站，正常上网，对于twitter等，自动走SSH代理，无需手工切换，这即是所谓的“<strong>自动翻墙</strong>”，好处就是不影响国内网站的访问速度，不用来回切换网络。
-
-<p>IOS中最方便的翻墙方式是使用VPN，速度尚可，但PPTP和L2TP是不能像OpenVPN一样定义路由的，打开VPN后，所有流量均走VPN线路，浏览国内网站很慢，需要来回切换。windows下可以用脚本定义静态路由，使用<a href="http://wangheng.org/the-route-setup-script-realize-domestic-network-by-the-vpn.html">Route设置脚本，实现国内网不经VPN</a>搞定，但IOS下在cydia找了半天也没找到iptable这个命令包，所以还是用ssh吧。下面是具体使用方法：</p>
-<p><strong>1、越狱，并配置好ios的环境</strong></p>
-<p>如何越狱就不用我说了吧，随便一搜网上一大堆，越狱后如果你不知道如何ssh连接到你的ios设备可以参考我以前的一篇文章：<a href="http://wangheng.org/configure-gcc-on-ipad2.html">为ipad2安装和配置gcc编译环境</a>，当然这里没必要安装gcc环境，所以进行到第二步就OK了。</p>
-<p><strong>2、安装一些必须的软件包</strong></p>
-<p>如果你确定第一步你已经没有问题了，我们下面要继续安装一些必须的软件包。ssh连接到你的iPhone或者iPad后执行下面的命令：</p>
-<span id="more"></span><pre>sudo -i 
-<p>apt-get install screen</pre><br>然后你的ios设备上面将会安装好screen这个软件包，不知道screen是什么的同学可以参考<a href="http://wangheng.org/html/linux.html#toc_0.1.1" target="_blank">这里</a>。</p>
-<p>执行下面的命令：</p>
-<pre>screen –S autossh 
-ssh -D 1987 [用户名]@[ip地址] 
-#如果你自定义了ssh的端口号，记得使用-p 加你的端口号，如下： 
-ssh -D 1987 –p [端口号] [用户名]@[ip地址]</pre><strong>3、配置PAC，用来实现自动切换。</strong>
-<p>可以使用我的pac文件，<a href="http://wangheng.org/tools/autossh.pac%E3%80%82%E5%9C%A8iPhone%E7%9A%84%E8%AE%BE%E7%BD%AE-&gt;WIFI-&gt;HTTP%E4%BB%A3%E7%90%86-&gt;%E8%87%AA%E5%8A%A8-&gt;URL">http://wangheng.org/tools/autossh.pac。在iPhone的设置-&gt;WIFI-&gt;HTTP代理-&gt;自动-&gt;URL</a> 里把它填上就可以了。<br>内容不多，如下：</p>
-<pre>function FindProxyForURL(url,host)
-{
-url = url.toLowerCase();
-if(
-shExpMatch(url, “*facebook.com*”) ||
-shExpMatch(url, “*googlecode.com*”) ||
-shExpMatch(url, “*twitter.com*”) ||
-shExpMatch(url, “*youtube.com*”) ||
-shExpMatch(url, “*wordpress.com*”) ||
-shExpMatch(url, “*appspot.com*”) ||
-shExpMatch(url, “*.google.com*”)
-)
-{
-return “SOCKS 127.0.0.1:1987″;
-}
-return “DIRECT”;
-}
-return “DIRECT”;
-}</pre>
-<p>好了，大功告成，享受你的无国界自由网络吧~<br></content></p>
-]]></content>
-      <categories>
-        <category>最近添加</category>
-        <category>技术探讨</category>
-        <category>Linux学习</category>
-      </categories>
-      <tags>
-        <tag>ssh</tag>
-        <tag>iPad2</tag>
-        <tag>Proxy</tag>
-        <tag>iPhone</tag>
-        <tag>Pear</tag>
       </tags>
   </entry>
   <entry>
@@ -3781,29 +3553,99 @@ Win7操作系统下修改MAC时不能随机生成MAC地址，修改时要注意�
       </tags>
   </entry>
   <entry>
-    <title>Zend Studio 9.0.4注册破解</title>
-    <url>/zend-studio-9-0-4-registration-crack.html</url>
+    <title>C#使用委托与多线程，解决界面假死</title>
+    <url>/use-multiple-threads-resolve-interface-feign-death.html</url>
     <content><![CDATA[<content>
-<strong>写在前头</strong><em>以下方法仅供技术交流学习，请勿非法使用，如长期使用请支持购买正版。</em><em>正版购买地址：http://shop.zend.com/en/zend-studio-for-eclipse.html</em><strong>注册破解步骤</strong>
-第一步：如果已经安装过Zend Studio 9.0.4的,请打开Zend Studio 9.0.4,在菜单中“help&gt;Unregister”,如果显示是灰的跳过此步退出Zend Studio。如果显示可以点击的请点击，这时Zend Studio会重启，重启到要求你填注册码时点“QUIT”按钮<a name="entrymore"></a>
+<blockquote>.NET Framework 为我们提供了一个处理控件闪烁的方案-双缓冲，我们可以直接调用它。</blockquote><ul>
+    <li>首先自己封装一个Windows组件 MyListView.cs，并让它继承自Listview。</li>
+    <li>在控件中添加打开双缓冲的代码如下：</li></ul><pre lang="csharp" line="1">
+public MyListView()
+{
+// 打开控件的双缓冲
+SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
+}
+</pre>
+    <li>使用我们封装的MyListview 实例化一个对象，命名为ImageListView, 执行下面的方法来实现异步数据加载</li><pre lang="csharp" line="1">
+private void button1_Click(object sender, EventArgs e)
+{
+    Thread ImageThread = new Thread((ThreadStart)(delegate()
+    {
+        for (int i = 0; i<100000; i++)
+        {
+        // 此处应该警惕值类型装箱造成的"性能陷阱"
+        ImageListView.Invoke((MethodInvoker)delegate()
+        {
+        ImageListView.Items.Add(new ListViewItem(……) );
+        });
+        }
+    }))；
 
-<p>第二步：请根据你使用的Zend Studio版本下载对应的破解文件：</p>
-<span id="more"></span>
-<p>ZendStudio9.0破解文件<a href="attachment.php?fid=430">com.zend.php.core_9.0.0.201111081531.jar</a> (已下载 11033 次)<br>ZendStudio9.0.1破解文件<a href="attachment.php?fid=434">com.zend.php.core_9.0.1.201112141951.jar</a> (已下载 16878 次)<br>ZendStudio9.0.2破解文件<a href="attachment.php?fid=440">com.zend.php.core_9.0.2.201202240955.jar</a> (已下载 23578 次)<br>ZendStudio9.0.3破解文件<a href="attachment.php?fid=443">com.zend.php.core_9.0.3.201206251721.jar</a> (已下载 9308 次)<br>ZendStudio9.0.4破解文件<a href="attachment.php?fid=447">com.zend.php.core_9.0.4.201210081806.jar</a> (已下载 8275 次)</p>
-<p><strong><span style="color: #ff1493;">提示</span></strong>：<span style="color: #ff4500;">com.zend.php.core_9.0.4.201210081806.jar对应的版本号为9.0.4.v20121009466</span></p>
-<p>下载成功后(<strong><span style="color: #ff0000;">提示：破解文件千万不要解压,也不要修改破解文件的文件名</span></strong>)复制到你安装Zend Studio 9.0.4的plugins目录下，覆盖同名文件。</p>
-<p>第三步：启动Zend Studio,复制如下注册码License key,粘贴(粘贴快捷键是ctrl+v)到注册框中<br><input id="code_geekso" class="downloads" style="width: 420px;" onclick="this.select();" type="text" name="code_geekso" value="34E606CF10C3E4CF202ABCEAA9B0B7A64DD2C5862A514B944AAAB38E3EB8A5F2CD735A2AB4CF9B952590EFA62BA0AB2B3E5D99C33C55309EE143165AC7F1817D626574615F3B32312F31312F323031313B392E303B3030313B313B3330" />  <a id="buttongeekso" class="copy_button" title="复制注册码" onmouseover="init('code_geekso','buttongeekso')" href="javascript:void(0)">复制注册码</a><span style="color: #0000ff;">提示：先覆盖第二步当中的破解文件，然后在启动Zend Studio输入注册码。</span></p>
-<p>第四步：查看是否注册成功，在菜单中“help&gt;About Zend Studio ”<br>过期时间9999年12月31日说明注册破解成功完成。</p>
-<p><span style="color: #008000;">【已解决问题】</span><br>2011-12-06：解决同一局域网内相同的key只能使用一台的问题。如你遇到提示“user license number 1 is already in use by 1 users”，请重新下载破解文件。</p>
-<p><strong><span style="color: #008000;">zend studio9.0.4汉化及常见问题解答</span></strong>：<a href="http://www.geekso.com/zendstudioquestion/" target="_blank">http://www.geekso.com/zendstudioquestion/</a></p>
-<p>win7 64位32位,window server2008 64位,mac版都没问题，如果遇到无法注册的请留言。</p>
-<p>我试了在CentOS(32位)操作系统下用此方法注册Zend Studio 9.0.4成功，所以Linux操作系统是没有问题的。以下是我在Linux操作系统注册成功的截图：<br>查看截图：<a href="http://www.geekso.com/attachment/201112/1323070502_8926bffc.png" target="_blank">http://www.geekso.com/attachment/201112/1323070502_8926bffc.png</a></p>
-<p><span style="color: #ff1493;">你没破解成功，不防看一下是不是这个原因造成的？</span><br>最近发现好多朋友告诉我说注册破解没有成功，我看了下主要是因为把下载的那个破解包给解压了，造成破解不成功。所以下载完这个破解包后千万不要解压，直接覆盖到你安装Zend Studio 9.0.4的plugins目录下的同名文件。还有查看注册码复制的对不对。<br><span style="color: #ff1493;">为什么我复制破解文件到plugins目录时没有提示已存在同名文件？</span><br>原因1:是你下载的是9.0的测试版。建议下载最新版本的Zend Studio9.0.4，下载地址：<a href="http://www.geekso.com/component/zendstudio-downloads/" target="_blank">http://www.geekso.com/component/zendstudio-downloads/</a><br>原因2:下载的破解文件版本跟你的安装的ZendStudio版本不一样。<br>原因3:下载的破解文件文件名跟我发布的破解文件名不一样，有可能在下载的时侯被修改了，请核对确认文件名是否被修改，必须跟我发布的文件名是一模一样的。<br><span style="color: #ff1493;">Linux操作系统破解zendstudio都按上面操作了，但在复制注册码时还是显示不正确？</span><br>注册码复制进去后，按下 ctrl+z (回滚)，一直按回滚，一直滚到无法回滚的时候这个注册码就变成绿色的勾了！</p>
-<p><strong>转自<a href="http://www.geekso.com/ZendStudio9-key/" target="_blank">http://www.geekso.com/ZendStudio9-key/</a></strong><br></content></p>
+<pre><code>ImageThread.Start();
+</code></pre>
+<p>}<br></pre><br>使用这种方法可以有效的解决加载大量数据的时候造成的界面假死。<br></content></p>
+]]></content>
+      <categories>
+        <category>技术探讨</category>
+      </categories>
+      <tags>
+        <tag>C#</tag>
+        <tag>委托</tag>
+        <tag>多线程</tag>
+        <tag>界面假死</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用SSH实现iPhone自动代理</title>
+    <url>/using-ssh-for-the-iphone-automatic-proxy.html</url>
+    <content><![CDATA[<content>
+对于绝大部分国内网站，正常上网，对于twitter等，自动走SSH代理，无需手工切换，这即是所谓的“<strong>自动翻墙</strong>”，好处就是不影响国内网站的访问速度，不用来回切换网络。
+
+<p>IOS中最方便的翻墙方式是使用VPN，速度尚可，但PPTP和L2TP是不能像OpenVPN一样定义路由的，打开VPN后，所有流量均走VPN线路，浏览国内网站很慢，需要来回切换。windows下可以用脚本定义静态路由，使用<a href="http://wangheng.org/the-route-setup-script-realize-domestic-network-by-the-vpn.html">Route设置脚本，实现国内网不经VPN</a>搞定，但IOS下在cydia找了半天也没找到iptable这个命令包，所以还是用ssh吧。下面是具体使用方法：</p>
+<p><strong>1、越狱，并配置好ios的环境</strong></p>
+<p>如何越狱就不用我说了吧，随便一搜网上一大堆，越狱后如果你不知道如何ssh连接到你的ios设备可以参考我以前的一篇文章：<a href="http://wangheng.org/configure-gcc-on-ipad2.html">为ipad2安装和配置gcc编译环境</a>，当然这里没必要安装gcc环境，所以进行到第二步就OK了。</p>
+<p><strong>2、安装一些必须的软件包</strong></p>
+<p>如果你确定第一步你已经没有问题了，我们下面要继续安装一些必须的软件包。ssh连接到你的iPhone或者iPad后执行下面的命令：</p>
+<span id="more"></span><pre>sudo -i 
+<p>apt-get install screen</pre><br>然后你的ios设备上面将会安装好screen这个软件包，不知道screen是什么的同学可以参考<a href="http://wangheng.org/html/linux.html#toc_0.1.1" target="_blank">这里</a>。</p>
+<p>执行下面的命令：</p>
+<pre>screen –S autossh 
+ssh -D 1987 [用户名]@[ip地址] 
+#如果你自定义了ssh的端口号，记得使用-p 加你的端口号，如下： 
+ssh -D 1987 –p [端口号] [用户名]@[ip地址]</pre><strong>3、配置PAC，用来实现自动切换。</strong>
+<p>可以使用我的pac文件，<a href="http://wangheng.org/tools/autossh.pac%E3%80%82%E5%9C%A8iPhone%E7%9A%84%E8%AE%BE%E7%BD%AE-&gt;WIFI-&gt;HTTP%E4%BB%A3%E7%90%86-&gt;%E8%87%AA%E5%8A%A8-&gt;URL">http://wangheng.org/tools/autossh.pac。在iPhone的设置-&gt;WIFI-&gt;HTTP代理-&gt;自动-&gt;URL</a> 里把它填上就可以了。<br>内容不多，如下：</p>
+<pre>function FindProxyForURL(url,host)
+{
+url = url.toLowerCase();
+if(
+shExpMatch(url, “*facebook.com*”) ||
+shExpMatch(url, “*googlecode.com*”) ||
+shExpMatch(url, “*twitter.com*”) ||
+shExpMatch(url, “*youtube.com*”) ||
+shExpMatch(url, “*wordpress.com*”) ||
+shExpMatch(url, “*appspot.com*”) ||
+shExpMatch(url, “*.google.com*”)
+)
+{
+return “SOCKS 127.0.0.1:1987″;
+}
+return “DIRECT”;
+}
+return “DIRECT”;
+}</pre>
+<p>好了，大功告成，享受你的无国界自由网络吧~<br></content></p>
 ]]></content>
       <categories>
         <category>最近添加</category>
+        <category>技术探讨</category>
+        <category>Linux学习</category>
       </categories>
+      <tags>
+        <tag>ssh</tag>
+        <tag>iPad2</tag>
+        <tag>Proxy</tag>
+        <tag>iPhone</tag>
+        <tag>Pear</tag>
+      </tags>
   </entry>
   <entry>
     <title>kuaipan_uploader开发分享</title>
@@ -4288,151 +4130,6 @@ esac</pre>
         <tag>shell</tag>
         <tag>开源</tag>
         <tag>备份</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>PC装雪豹尝试</title>
-    <url>/pc-with-snow-leopard.html</url>
-    <content><![CDATA[<content>
-<strong>● 了解Mac OS</strong>
-
-<p>对于苹果的<a href="http://product.pcpop.com/Operating_System/00000_1.html">操作系统</a>，我们可以将其统称为Mac OS，Mac OS的首个版本于1984年发布，不过当时并不叫做Mac OS，而是叫做System software，比如System 1.0、System 1.1等。直到1994年推出System 7.5版本的时候，才引入了Mac OS这个名字，逐渐弃用了System，到8.0时代就完全改为Mac OS 8.0。后来又推出了8.1、8.5、8.6甚至9.x等多个版本。</p>
-<p><a href="http://www.pcpop.com/doc/pic/001494676.html"><img style="background-image: none; margin: 0px; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="clip_image004" src="uploads/2011/08/clip_image004.jpg" alt="clip_image004" width="244" height="74" border="0" /></a></p>
-<p>Mac OS 9之后，2001年苹果推出了第10代Mac OS<a href="http://product.pcpop.com/Operating_System/00000_1.html">操作系统</a>——Mac OS X，并从2002年起随Mac<a href="http://product.pcpop.com/PC/00000_1.html">计算机</a>发售，X 这个字母是一个罗马数字且正式的发音为”十”(ten)，接续了先前的Mac<a href="http://product.pcpop.com/Operating_System/00000_1.html">操作系统</a>像是Mac OS 8和Mac OS 9的编号。根据Wikipedia的解释，Mac OS X是一套Unix基础的<a href="http://product.pcpop.com/Operating_System/00000_1.html">操作系统</a>，包含两个主要的部份：内核名为Darwin，是以FreeBSD源代码和Mach微内核为基础，由苹果公司和独立开发者社区协力开发；及一个由苹果<a href="http://product.pcpop.com/PC/00000_1.html">计算机</a>开发，名为Aqua之专有版权的图形用户界面。</p>
-<p><a href="http://www.pcpop.com/doc/pic/001494675.html"><img style="background-image: none; margin: 0px; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="clip_image006" src="uploads/2011/08/clip_image006.gif" alt="clip_image006" width="244" height="154" border="0" /></a></p>
-<p>Mac OS X版本以大型猫科动物命名。比它的推出更重要的，在苹果<a href="http://product.pcpop.com/PC/00000_1.html">计算机</a>内部10.0版本的代号是猎豹（Cheetah），以及10.1版本代号为美洲狮（Puma）。在苹果的产品市场10.2版本命名为美洲虎（Jaguar），以及10.3相似地命名为黑豹（Panther）。10.4版已经被命名为老虎（Tiger）。10.5版花豹（Leopard）作为新<a href="http://product.pcpop.com/Operating_System/00000_1.html">操作系统</a>已于2007年10月26日推出，10.6版雪豹（Snow Leopard）已于2009年8月28日推出。</p>
-<p><strong><span id="more"></span><!--more-->● 安装前需要准备的软件</strong></p>
-<p>雪豹安装镜像<br>OSInstall文件<br>HFS-explorer<br>适用于Window平台的Java虚拟机<br>Leopard<a href="http://product.pcpop.com/HDD/00000_1.html">硬盘</a>安装助手<br>MacDrive<br>Bootthink</p>
-<p>以上软件/工具请自行搜索下载最新版本，另外在上面所提到的远景论坛交流贴中也有下载地址。</p>
-<p><strong>● 使用本文的方法安装有何优势？</strong></p>
-<p>不需要外加USB<a href="http://product.pcpop.com/Keyboard/00000_1.html">键盘</a><a href="http://product.pcpop.com/Mouse/00000_1.html">鼠标</a><br>不需要启动<a href="http://product.pcpop.com/UDisk/00000_1.html">U盘</a><br>不需要<a href="http://product.pcpop.com/DV/00000_1.html">DV</a>D<a href="http://product.pcpop.com/klji/00000_1.html">刻录机</a>（如果你已经下载有镜像甚至不需要<a href="http://product.pcpop.com/OpticalStorage/00000_1.html">光驱</a>）<br>不需要第二块<a href="http://product.pcpop.com/HDD/00000_1.html">硬盘</a>和GPT分区表<br>不需要另外一个正常运转的苹果系统（破解操作全都可以在Windows完成，不需要另外的平台）<br>不需要输入一句又一句的命令行</p>
-<p><strong>● 安装过程速览</strong></p>
-<p>压缩分区，为安装雪豹准备空间<br>制作DMG文件并加载DMG文件到分区安装文件分区<br>配置开机引导程序<br>安装雪豹<a href="http://product.pcpop.com/Operating_System/00000_1.html">操作系统</a><br>启动雪豹</p>
-<p><a name="p4"></a><strong>压缩分区，为安装雪豹系统准备磁盘空间</strong></p>
-<hr align="center" size="2" width="100%" />
-
-<p>首先我们需要为安装Mac OS X snow Leopard <a href="http://product.pcpop.com/Operating_System/00000_1.html">操作系统</a>准备空间，建议至少有30GB空间可以用作雪豹系统的安装镜像存放以及系统盘。由于我们采用的安装方法是免<a href="http://product.pcpop.com/OpticalStorage/00000_1.html">光驱</a>安装，所以我们必须要准备两个专门用于Mac OS X Snow leopard的分区，一个用来存放Snow Leopard的安装文件，推荐大小为7GB（不得低于6.<a href="http://3g.pcpop.com/">3G</a>B）；另一个用来作为Snow leopard 的系统盘，推荐大小20GB以上。</p>
-<p>如果你事先已经为Snow Leopard <a href="http://product.pcpop.com/Operating_System/00000_1.html">操作系统</a>准备好了空间，那么这一个部分就可以不必看了。如果你之前并没有准备好空间，我们可以在Windows系统中通过压缩卷的方法，来为Snow Leopard分配磁盘空间。</p>
-<p><a href="http://www.pcpop.com/doc/pic/001492976.html"><img style="background-image: none; margin: 0px; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="clip_image009" src="uploads/2011/08/clip_image009.gif" alt="clip_image009" width="244" height="166" border="0" /></a></p>
-<p>为Snow leopard准备磁盘空间的操作都可以在Windows系统自带的磁盘管理中完成。你可以进入控制面板——<a href="http://product.pcpop.com/PC/00000_1.html">计算机</a>管理——磁盘管理进行操作，<a href="http://win7.pcpop.com/">windows7</a><a href="http://product.pcpop.com/Operating_System/00000_1.html">操作系统</a>也可以直接在开始菜单的搜索栏里键入disk list进入磁盘管理。笔者这里是直接在原有的D盘上通过压缩卷的方式，挪出了30000M（约30GB）的磁盘空间，并将这一部分空间分成了7GB和2<a href="http://3g.pcpop.com/">3G</a>B两个分区。其中，7GB分区用来存放snow leopard 安装文件，2<a href="http://3g.pcpop.com/">3G</a>B分区用来作为snow leopard系统盘。完成后入下图所示：</p>
-<p><a href="http://www.pcpop.com/doc/pic/001492977.html"><img style="background-image: none; margin: 0px; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="clip_image011" src="uploads/2011/08/clip_image011.gif" alt="clip_image011" width="244" height="181" border="0" /></a></p>
-<p>图中F盘存放安装文件，G盘做Snow leopard系统盘</p>
-<p>需要注意的是，为Snow leopard准备的分区并不需要格式化，因为Windows自带的这个磁盘管理工具没有办法格式化成Mac OS X支持的文件格式。所以我们可以看到上图中的F、G两个分区类型为RAW，系统可能会提示你格式化，点击取消即可。</p>
-<p>另外，由于这两个分区目前在Windows下并不能存放东西，所以前面提到的软件和工具都应当放在这两个分区之外的其他Windows分区，比如笔者这里可以放在C、D或者E盘。</p>
-<p><a name="p5"></a><strong>制作安装DMG文件并写入安装文件分区</strong></p>
-<hr align="center" size="2" width="100%" />
-
-<p>由于我们下载的都是可以直接在Mac<a href="http://product.pcpop.com/PC/00000_1.html">电脑</a>上引导的<a href="http://product.pcpop.com/OpticalStorage/00000_1.html">光驱</a>镜像文件，而这种镜像文件并不能在普通的<a href="http://product.pcpop.com/PC/00000_1.html">PC</a>上引导。所以，我们首先需要将阻碍在<a href="http://product.pcpop.com/PC/00000_1.html">PC</a>上引导的引导层部分剥离。然后将安装文件写入本文准备的7GB分区内。这一节分为以下几个步骤。</p>
-<p><strong>● 生成不包含引导层的DMG文件</strong></p>
-<p>生成不包含引导层的DMG文件其实从另一个角度来说就是剥离原来的.dmg文件（也可能是.iso)镜像中的引导层部分，生成一个新的DMG文件，这里需要用到前面所提到的工具HFS-Explorer。</p>
-<p>安装并运行HFS-Explorer之后，首先点击”File”—&gt;”Load file system from file”，然后选择下载的镜像文件，笔者这里是Mac OS X install <a href="http://product.pcpop.com/DV/00000_1.html">DV</a>D.iso。如果这里的源镜像是.DMG的话，需要在弹出窗口中勾选含有HFS+那一项，然后点OK即可。</p>
-<p><a href="http://www.pcpop.com/doc/pic/001492978.html"><img style="background-image: none; margin: 0px; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="clip_image013" src="uploads/2011/08/clip_image013.gif" alt="clip_image013" width="244" height="168" border="0" /></a></p>
-<p>将原来的镜像文件载入HFS-Explorer浏览器中之后，点击”Tool”—&gt;”Create disk image”，选择保存位置。这里需要注意的是，这一步的保存位置仍然不能放置于两个为Snow Leopard准备的分区内（也放不进去），还是需要放置在这两个分区之外的其他Windows分区。如下图：</p>
-<p><a href="http://www.pcpop.com/doc/pic/001492980.html"><img style="background-image: none; margin: 0px; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="clip_image015" src="uploads/2011/08/clip_image015.gif" alt="clip_image015" width="244" height="167" border="0" /></a></p>
-<p>在保存期间，会持续读写<a href="http://product.pcpop.com/HDD/00000_1.html">硬盘</a>数分钟，这取决于<a href="http://product.pcpop.com/PC/00000_1.html">电脑</a>的整体性能和磁盘性能，所以不要着急。另外生成的这个新的DMG文件容量会高达6.<a href="http://3g.pcpop.com/">3G</a>B左右，所以只能存放于NTFS分区（Fat32分区不支持单个文件大于4GB）。</p>
-<p><strong>● 将DMG文件写入7GB分区内</strong></p>
-<p>经过上面的操作之后，就会生成一个新的.DMG文件，现在我们需要将这个新的.dmg文件写入（类似于解压）到之前准备的7GB Snow Leopard分区内。这个步骤需要用到前面所提到的工具“Leopard<a href="http://product.pcpop.com/HDD/00000_1.html">硬盘</a>安装助手”。</p>
-<p><a href="uploads/2011/08/clip_image017.jpg"><img style="background-image: none; margin: 0px; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="clip_image017" src="uploads/2011/08/clip_image017_thumb.jpg" alt="clip_image017" width="216" height="244" border="0" /></a></p>
-<p>方法很简单，启动<a href="http://product.pcpop.com/HDD/00000_1.html">硬盘</a>安装助手，在镜像文件一栏载入你刚才生成的新DMG文件，目标分区选择为Snow Leopard安装文件准备的7GB分区，然后将下面的三个复选框对钩去掉并点击写入。这时候有需要等待数分钟或10多分钟，仍然取决于你<a href="http://product.pcpop.com/PC/00000_1.html">电脑</a>的整体性能和磁盘性能。完成后确认一下日志列表中是否出现了Change Partition type to AF: success字样，这句话表示已经将该分区类型标记成AF<a href="http://product.pcpop.com/bq/00000_1.html">标签</a>，Mac OS X可以存取的分区。</p>
-<p><a href="http://www.pcpop.com/doc/pic/001492984.html"><img style="background-image: none; margin: 0px; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="clip_image019" src="uploads/2011/08/clip_image019.gif" alt="clip_image019" width="213" height="244" border="0" /></a></p>
-<p>另外，如果Change Partition type to AF这里不成功，但进度完成了的话，你也可以尝试通过Windows 系统自带的Dispart对该分区手动指定AF标记，方法是运行Diskpart，通过sel part选择这个7GB分区，并执行命令Set ID=AF。其实在后面的引导过程中，如果发现Bootthink重启的话，也可以重新通过这个办法指定一次AF标记，因为Bootthink重启多半是因为找不到标记为AF的分区。</p>
-<p><a name="p6"></a><strong>使用MacDrive工具替换osinstall文件</strong></p>
-<hr align="center" size="2" width="100%" />
-
-<p>经过前面的操作，我们已经将镜像文件解压到这个7GB的分区内了，但此刻还是不能用这个分区中的文件直接安装，因为还需要破解。一般情况下，破解主要针对两个文件。一个是让系统能够安装在Windows所生成的MBR分区下，二是内核的破解，这个主要是针对<a href="http://product.pcpop.com/MB/00500_1.html">AMD</a>的<a href="http://product.pcpop.com/CPU/00000_1.html">处理器</a>或者单核心<a href="http://product.pcpop.com/CPU/00000_1.html">处理器</a>平台。下面我们分别讲一下为什么要对这两点进行破解以及破解的方法。</p>
-<p><strong>● Mac和Windows分区表的不同</strong></p>
-<p>对Windows系统比较了解的朋友应当知道，Windows系统采用的是MBR分区表，也就是说我们<a href="http://product.pcpop.com/HDD/00000_1.html">硬盘</a>上的分区基本都基于MBR分区表构建。而Mac OS X则不同，它采用GUID（GPT）分区表。相对于MBR分区表来说，GPT具有更多的优点，因为它允许每个磁盘有多达 128 个分区，支持高达 18 千兆兆字节的卷大小，允许将主磁盘分区表和备份磁盘分区表用于冗余，还支持唯一的磁盘和分区 ID (GUID)。</p>
-<p>而一块<a href="http://product.pcpop.com/HDD/00000_1.html">硬盘</a>只有一个分区表（分区表你可以理解成记录<a href="http://product.pcpop.com/HDD/00000_1.html">硬盘</a>分区信息的表格，当然只能有一个），要么用MBR、要么用GPT。如果你只用Mac OS X系统的话，倒是可以将<a href="http://product.pcpop.com/HDD/00000_1.html">硬盘</a>用GPT分区表管理，但在这里不实用，因为我们还要用Windows系统，如果此时将<a href="http://product.pcpop.com/HDD/00000_1.html">硬盘</a>分区表改成GPT的话，必然导致数据全部丢失。所以，我们只能想办法让Mac系统可以安装在MBR分区下。而这个解决办法就是破解OSINSTALL文件。</p>
-<p><a href="http://www.pcpop.com/doc/pic/001492985.html"><img style="background-image: none; margin: 0px; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="clip_image021" src="uploads/2011/08/clip_image021.gif" alt="clip_image021" width="244" height="164" border="0" /></a></p>
-<p>还好，对文件的破解早就有高手给我们做好了，我们要做的仅仅是将文件下载回来并替换安装盘中的源文件就可以了。方法很简单，下载我们前面提到的工具软件部分的OSINSTALL文件，将其复到到/System/Library/PrivateFrameworks/Install.framework/Frameworks/<br>OSInstall.framework/Versions/A/，并替换源文件即可。但是，在Windows系统下读写HFS+分区，必须安装Macdrive这个软件，所以请首先安装这个软件，然后直接从Windows中进入7GB的盘符，替换相应的OSINSTALL文件即可。</p>
-<p><strong>● 内核文件的破解</strong></p>
-<p><a href="http://www.pcpop.com/doc/pic/001492986.html"><img style="background-image: none; margin: 0px; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="clip_image023" src="uploads/2011/08/clip_image023.gif" alt="clip_image023" width="244" height="178" border="0" /></a></p>
-<p>内核文件破解主要是针对非<a href="http://product.pcpop.com/MB/00301_1.html">Intel</a>双核/多核<a href="http://product.pcpop.com/CPU/00000_1.html">处理器</a>而言的，比如<a href="http://product.pcpop.com/MB/00301_1.html">Intel</a>的单核心<a href="http://product.pcpop.com/CPU/00000_1.html">处理器</a>以及<a href="http://product.pcpop.com/MB/00500_1.html">AMD</a>的<a href="http://product.pcpop.com/CPU/00000_1.html">处理器</a>，包括最新的Atom<a href="http://product.pcpop.com/CPU/00000_1.html">处理器</a>等，这些都是需要破解内核的，因为苹果的Mac机目前还没有采用过<a href="http://product.pcpop.com/MB/00301_1.html">Intel</a>单核<a href="http://product.pcpop.com/CPU/00000_1.html">处理器</a>和<a href="http://product.pcpop.com/MB/00500_1.html">AMD</a><a href="http://product.pcpop.com/CPU/00000_1.html">处理器</a>，所以原来的系统安装文件根本不能使用。如果你的<a href="http://product.pcpop.com/CPU/00000_1.html">CPU</a>不是<a href="http://product.pcpop.com/MB/00301_1.html">Intel</a>双核或多核的话，可以直接找破解后的mach_kernel文件（可以去<a href="http://www.kexts.com">www.kexts.com</a>找)，替换安装分区根目录中的同名文件即可。</p>
-<p><a href="http://www.pcpop.com/doc/pic/001493630.html"><img style="background-image: none; margin: 0px; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="clip_image025" src="uploads/2011/08/clip_image025.gif" alt="clip_image025" width="244" height="154" border="0" /></a></p>
-<p>让macdrive不随Windows自动启动</p>
-<p>需要注意的是，安装Macdrive之后可能导致这个7GB分区在Windows系统中丢失盘符，如果遇到了这种情况，只需要将该MacDrive从Windows自启动项中将该程序移除，并重新执行删除分区——新建分区（简单卷，不要格式化）——使用Diskpart标记为AF分区的操作即可。让MacDrive不随Windows自动启动的方法很简单，运行msconfig，进入“启动”选项卡，将包含macdrive的两项前面的复选框清除，并应用重启即可。</p>
-<p><a name="p7"></a><strong>使用BootThink引导安装Snow Leopard</strong></p>
-<hr align="center" size="2" width="100%" />
-
-<p>经过前面的操作之后，Mac OS X的分区盘就算初步做好了，为什么在这里要用到“初步”这个词呢？是因为有可能你<a href="http://product.pcpop.com/PC/00000_1.html">电脑</a>上的硬件可能还是会影响到该系统的安装，或许还是需要替换、删除或添加一些基本的驱动程序文件，才能正常安装，这一部分内容我们放到后文再讲。</p>
-<p>前面我们说到，该安装盘的引导层已经被移除掉了（即使就是不移除也不能在<a href="http://product.pcpop.com/PC/00000_1.html">PC</a>上引导），所以我们还需要通过第三方工具来引导这个7GB的Mac OS X安装盘才能开始安装系统。引导Mac OS X安装的工具有不少，在这里我们用BootThink这个工具进行引导安装。</p>
-<p><a href="http://www.pcpop.com/doc/pic/001493746.html"><img style="background-image: none; margin: 0px; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="clip_image027" src="uploads/2011/08/clip_image027.gif" alt="clip_image027" width="244" height="125" border="0" /></a></p>
-<p>安装BootThink之后，会在C盘根目录生成一个Darwin文件夹，如果BootThink在引导过程中出现了问题，或者你感觉Bootthink工作不正常，都可以直接通过该文件夹中的install.bat批处理进行重新安装，记得需要在管理员模式下运行批处理。如上图 ！</p>
-<p><a href="http://www.pcpop.com/doc/pic/001493782.html"><img style="background-image: none; margin: 0px; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="clip_image028" src="uploads/2011/08/clip_image028.jpg" alt="clip_image028" width="244" height="164" border="0" /></a></p>
-<p>如果一切安装正常的话，重新启动之后将会看到Bootthink的启动项，进入该启动项之后可以进入如上图所示的界面。通过这个界面可以进入<a href="http://win7.pcpop.com/">windows7</a>引导界面，或者启动Mac OS X安装盘开始安装Mac OS X。</p>
-<p><a href="http://www.pcpop.com/doc/pic/001493868.html"><img style="background-image: none; margin: 0px; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="clip_image029" src="uploads/2011/08/clip_image029.jpg" alt="clip_image029" width="244" height="164" border="0" /></a></p>
-<p>当然，你已经可以直接选择Mac OS X Install <a href="http://product.pcpop.com/DV/00000_1.html">DV</a>D开始安装Mac OS X系统了。如果运气足够好，那么经过如上图所示的界面之后，就会可以进入Mac OS X安装界面了，几分钟之后迎接你的将是安装语言选择界面。</p>
-<p><a name="p8"></a><strong>尝试解决引导安装盘过程出现的问题</strong></p>
-<hr align="center" size="2" width="100%" />
-
-<p>然而，在很多情况下都并没有这么顺利，总是会出现各种各样的错误。归纳起来，主要可能出现的错误有以下几种：</p>
-<p>1、BootThink引导不正常，比如选择BootThink启动项之后系统重启、黑屏等等；</p>
-<p>2、进入BootThink界面找不到如前一页所示的Mac OS X Install <a href="http://product.pcpop.com/DV/00000_1.html">DV</a>D，即找不到安装盘（文件）所在的分区；</p>
-<p>3、在进入Mac OS X安装的过程中出现禁止符号；</p>
-<p>4、在进入Mac OS X安装的过程中出现了五国语言报错（简称五国）；</p>
-<p>5、在进入Mac OS X安装的过程中直接重启。</p>
-<p><strong>●</strong><strong> BootThink</strong><strong>引导不正常</strong></p>
-<p>BootThink引导不正常一般来说可能由两个方面引起，一是BootThink本身安装可能存在问题，二是BootThink没有找到带AF标记的HFS+分区。庆幸的是，这两种原因引起的Bootthink问题都比较好解决。如果是因为BootThink本身有问题的话，那么可以在C:\Drawin目录下运行unstall.bat，卸载BootThink，再运行install.bat重新安装Bootthink；对于第二种原因引起的引导不正常，可以通过前面介绍的使用系统自带的Diskpart重新对Mac OS X安装盘设定AF标记，或者删除该分区重新分配盘符。</p>
-<p><strong>● 进入BootThink界面找不到Mac安装盘符</strong></p>
-<p>出现这个问题的原因一般都是BootThink没有检测到带有AF标记的HFS+分区，解决方法可参照上面介绍的第二条。</p>
-<p><strong>● 进入安装过程中出现禁止符号</strong></p>
-<p><a href="http://www.pcpop.com/doc/pic/001493801.html"><img style="background-image: none; margin: 0px; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="clip_image030" src="uploads/2011/08/clip_image030.jpg" alt="clip_image030" width="244" height="164" border="0" /></a></p>
-<p>在进入Mac OS X的安装过程中出现禁止符号也是很多人都可能遇到的一个问题之一，出现这个问题的主要原因是<a href="http://product.pcpop.com/MB/00000_1.html">主板</a>没有开启AHCI功能，只需要在<a href="http://product.pcpop.com/MB/00000_1.html">主板</a>BIOS中将<a href="http://product.pcpop.com/HDD/Parameter00000_000000645_1678_1.html#filter">SATA</a><a href="http://product.pcpop.com/HDD/00000_1.html">硬盘</a>端口打开AHCI功能即可。</p>
-<p><strong>● 五国语言报错</strong></p>
-<p><a href="http://www.pcpop.com/doc/pic/001493802.html"><img style="background-image: none; margin: 0px; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="clip_image031" src="uploads/2011/08/clip_image031.jpg" alt="clip_image031" width="244" height="164" border="0" /></a></p>
-<p>五国语言报错是一个非常普遍的问题，而且涉及到的原因是多方面的，这时候你可以在Bootthink界面按F8，输入-v再回车启动，即进入Verbose“啰嗦”模式，通过该模式启动系统不会出现苹果界面，取而代之的是屏幕上显示启动状态，这样你可以看具体是什么原因引起了五国，再通过Google寻找解决的方法。</p>
-<p><a href="http://www.pcpop.com/doc/pic/001494357.html"><img style="background-image: none; margin: 0px; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="clip_image032" src="uploads/2011/08/clip_image032.jpg" alt="clip_image032" width="244" height="164" border="0" /></a></p>
-<p>-v啰嗦模式的画面</p>
-<p>一些其他的常用参数：</p>
-<p>-v：啰嗦模式，可查看启动状态进度；</p>
-<p>-x32：强制在32Bit模式下运行，避免与64Bit不兼容的问题</p>
-<p>-x:安全模式</p>
-<p>-f：强制刷新kext缓存模式</p>
-<p>-cpus=1：强制以单核心引导</p>
-<p><strong>● 进入Mac OS X安装的过程中直接重启。</strong></p>
-<p>在进入安装的过程中直接重启很有可能是因为需要破解内核，比如在<a href="http://product.pcpop.com/MB/00500_1.html">AMD</a>或单核心<a href="http://product.pcpop.com/MB/00301_1.html">Intel</a><a href="http://product.pcpop.com/CPU/00000_1.html">处理器</a>上安装Mac OS X，就可能导致这情况。如果遇到了这种情况，可以直接找破解后的mach_kernel文件（可以去<a href="http://www.kexts.com/">www.kexts.com</a>找)，替换安装分区根目录中的同名文件即可。</p>
-<p><a name="p9"></a><strong>一步一步的安装Mac OS X雪豹</strong><a href="http://product.pcpop.com/Operating_System/00000_1.html"><strong>操作系统</strong></a></p>
-<hr align="center" size="2" width="100%" />
-
-<p>如果在没有问题或者问题已经解决了之后，进入Mac OS X安装，数分钟之后我们将迎来正式安装的首个屏幕——选择安装语言版本。</p>
-<p><a href="http://www.pcpop.com/doc/pic/001494405.html"><img style="background-image: none; margin: 0px; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="clip_image033" src="uploads/2011/08/clip_image033.jpg" alt="clip_image033" width="244" height="164" border="0" /></a></p>
-<p>选择安装语言，当然推荐简体中文了</p>
-<p><a href="http://www.pcpop.com/doc/pic/001494406.html"><img style="background-image: none; margin: 0px; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="clip_image034" src="uploads/2011/08/clip_image034.jpg" alt="clip_image034" width="244" height="164" border="0" /></a></p>
-<p>继续安装</p>
-<p><a href="http://www.pcpop.com/doc/pic/001494407.html"><img style="background-image: none; margin: 0px; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="clip_image035" src="uploads/2011/08/clip_image035.jpg" alt="clip_image035" width="244" height="164" border="0" /></a></p>
-<p>在这里并没有列出笔者专门为Mac OS X准备的分区，因为那个容量为2<a href="http://3g.pcpop.com/">3G</a>B的分区没有格式化，所以在这里一定要注意。不要点击继续，执行下面的操作。</p>
-<p><a href="http://www.pcpop.com/doc/pic/001494408.html"><img style="background-image: none; margin: 0px; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="clip_image036" src="uploads/2011/08/clip_image036.jpg" alt="clip_image036" width="244" height="164" border="0" /></a></p>
-<p>如上图，点击菜单栏——实用工具——磁盘工具，选择专门为Mac OS X系统准备的分区。点击右侧的抹掉——格式选择Mac OS扩展（日志式），名称随意，笔者这里为mac sys，然后点击抹掉。</p>
-<p><a href="http://www.pcpop.com/doc/pic/001494409.html"><img style="background-image: none; margin: 0px; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="clip_image037" src="uploads/2011/08/clip_image037.jpg" alt="clip_image037" width="244" height="164" border="0" /></a></p>
-<p>完成之后回到如上图所示的安装界面，可以看到中间的那个分区已经可以安装Mac OS X系统了，这就是我们刚刚执行“抹掉”的那个分区（抹掉在Mac中可以理解为格式化）。</p>
-<p><a href="http://www.pcpop.com/doc/pic/001494410.html"><img style="background-image: none; margin: 0px; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="clip_image038" src="uploads/2011/08/clip_image038.jpg" alt="clip_image038" width="244" height="164" border="0" /></a></p>
-<p><a href="http://www.pcpop.com/doc/pic/001494411.html"><img style="background-image: none; margin: 0px; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="clip_image039" src="uploads/2011/08/clip_image039.jpg" alt="clip_image039" width="244" height="164" border="0" /></a></p>
-<p>完成之后又进入了安装界面，在这里仍然要注意，不要贸然点击“安装”，而是点击左边的“自定”，将<a href="http://product.pcpop.com/Inkjet/00000_1.html">打印机</a>驱动的复选框去掉，不安装<a href="http://product.pcpop.com/Inkjet/00000_1.html">打印机</a>驱动，主要是防止驱动太多引起不兼容，同时安装<a href="http://product.pcpop.com/Inkjet/00000_1.html">打印机</a>驱动将会浪费至少20分钟时间，如果没有<a href="http://product.pcpop.com/Inkjet/00000_1.html">打印机</a>的话实在没用。取消勾选<a href="http://product.pcpop.com/Inkjet/00000_1.html">打印机</a>驱动之后，再点击“安装”按钮开始安装。</p>
-<p><a name="p10"></a><strong>完成雪豹系统安装 修改回Windows引导</strong></p>
-<hr align="center" size="2" width="100%" />
-
-<p>经过大约半小时到1小时的安装过程之后，我们将会迎来安装成功的画面。</p>
-<p><a href="http://www.pcpop.com/doc/pic/001494412.html"><img style="background-image: none; margin: 0px; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="clip_image040" src="uploads/2011/08/clip_image040.jpg" alt="clip_image040" width="244" height="164" border="0" /></a></p>
-<p>安装成功</p>
-<p>安装成功之后，<a href="http://product.pcpop.com/PC/00000_1.html">电脑</a>将会有30秒的时间倒计时重新启动，对于安装Windows/Mac双系统的用户来说，一定要在这30秒之内打开菜单栏——实用工具——终端，然后在终端中分别运行下面的命令。</p>
-<p>diskutil list（查看C：在哪里）<br>fdisk -e /dev/rdisk0<br>f 1 (上一步所见，设置<a href="http://product.pcpop.com/HDD/00000_1.html">硬盘</a>0分区1为活动分区，这里应该含有Windows引导信息）<br>w<br>y<br>quit</p>
-<p>这几个步骤的操作是为了将Windows所在分区（比如C盘）重新标记为活动分区，因为在Mac OS X安装的过程中，系统会自动将Mac OS X分区标记为活动分区，这样就会导致Windows不能启动。而上面的操作就是将Windows引导信息所在的分区重新标记为活动分区。</p>
-<p>当然，如果你错过了这一步，也不是完全没有解决方法，如果有<a href="http://product.pcpop.com/OpticalStorage/00000_1.html">光驱</a>的话，可以在<a href="http://product.pcpop.com/OpticalStorage/00000_1.html">光驱</a>里放上Windows的安装光盘，执行“修复<a href="http://product.pcpop.com/PC/00000_1.html">计算机</a>”操作，这样会再次将Windows引导信息所在的分区标记为活动分区。</p>
-<p><a href="http://www.pcpop.com/doc/pic/001494414.html"><img style="background-image: none; margin: 0px; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="clip_image041" src="uploads/2011/08/clip_image041.jpg" alt="clip_image041" width="244" height="164" border="0" /></a></p>
-<p>执行完成后重新启动<a href="http://product.pcpop.com/PC/00000_1.html">计算机</a>，进入Bootthink界面之后，我们会发现多出了一个安装好了Mac OS的分区。选择该分区按回车，<a href="http://product.pcpop.com/PC/00000_1.html">计算机</a>将会开始启动Mac OS（当然你可以加上启动参数，详见第8页）。再经过一些区域语言设置、帐户设置之后，就正式进入Mac OS X Snow Leopard的桌面啦！</p>
-<p><a href="http://www.pcpop.com/doc/pic/001494546.html"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="clip_image042" src="uploads/2011/08/clip_image042.jpg" alt="clip_image042" width="244" height="164" border="0" /></a></p>
-<p>&nbsp;<br></content></p>
-]]></content>
-      <categories>
-        <category>最近添加</category>
-        <category>技术探讨</category>
-      </categories>
-      <tags>
-        <tag>Apple</tag>
-        <tag>Windows</tag>
-        <tag>Mac Os</tag>
-        <tag>MBR</tag>
-        <tag>BootThink</tag>
       </tags>
   </entry>
   <entry>
@@ -4982,10 +4679,10 @@ public class MainActivity extends Activity {
         <category>Route</category>
       </categories>
       <tags>
-        <tag>AutoProxy</tag>
         <tag>Linux</tag>
         <tag>IP</tag>
         <tag>blog</tag>
+        <tag>AutoProxy</tag>
       </tags>
   </entry>
   <entry>
