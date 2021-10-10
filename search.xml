@@ -148,6 +148,43 @@
       </tags>
   </entry>
   <entry>
+    <title>配置nginx伪静态以支持ThinkPHP的PATHINFO模式</title>
+    <url>/configure-nginx-to-support-thinkphp-pathinfo-mode.html</url>
+    <content><![CDATA[<content>
+ThinkPHP是一款很不错的框架，也是PHP开发中最近用的比较火的。平时在本地开发中打开apache的mod<em>rewrite </em>配合.htaccess文件就可以完美的支持ThinkPHP的PATHINFO模式，但是家里的linux机器搭建的却是nginx 环境。这就造成了url 重写出现了很多奇怪的问题，所以需要对nginx 的配置文件修改一下来让它支持ThinkPHP的框架。
+首先你的项目的config文件中要配置这一项
+<pre class="brush: php; gutter: true">  &#039;URL_MODEL&#039; =&gt; 2, // rewrite</pre>
+在服务器中切换到nginx的安装目录，我这里是 /usr/local/nginx。然后添加thinkphp.conf 文件
+
+<p>vim /usr/local/nginx/conf/thinkphp.conf<br>内容如下</p>
+<pre class="brush: bash; gutter: true">location / {
+  if (!-e $request_filename){
+  rewrite ^/(.*)$ /index.php?s=/$1 last;
+  }
+}</pre><img title="nginx_thinkphp" src="uploads/2012/12/nginx_thinkphp-300x90.jpg" alt="" width="300" height="90" />
+
+<p>然后在你的配置文件中include一下刚刚的配置文件。</p>
+<img title="nginx_thinkphp_config" src="uploads/2012/12/nginx_thinkphp_config-300x245.jpg" alt="" width="300" height="245" />
+
+<p>如果你的ThinkPHP入口文件index.php不在根目录，则需要把thinkphp.conf改成这样</p>
+<pre class="brush: bash; gutter: true">location /入口文件所在目录/ {
+  if (!-e $request_filename){
+  rewrite ^/abc/(.*)$ /abc/index.php?s=/$1 last;
+  }
+}</pre>
+</content>
+]]></content>
+      <categories>
+        <category>技术探讨</category>
+        <category>Linux学习</category>
+        <category>Route</category>
+      </categories>
+      <tags>
+        <tag>中文乱码</tag>
+        <tag>Oracle</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>为ipad2安装和配置gcc编译环境</title>
     <url>/configure-gcc-on-ipad2.html</url>
     <content><![CDATA[<content>
@@ -158,7 +195,7 @@ iPad2可不仅仅是一个电子书，也不仅仅是用来看电影大号MP4。
 <p>好了，现在我假设你的设备已经越狱成功。很棒，下面请让你的ipad接入一个无线网络，后续的步骤也可能需要网络 ：）</p>
 <p>如果你想使用电脑来SSH 到iPad2 你可能需要使用Cydia来安装openssh。</p>
 <p>记得安装完Openssh要修改root和mobile用户的密码哦！（默认是<span style="background-color: #ffff00;">alpine</span>）</p>
-<p>PC端可以可以使用putty 和winscp配合来访问iPad2，MAC系统或者Linux可以使用系统自带的终端 ssh <a href="mailto:&#114;&#111;&#111;&#x74;&#x40;&#49;&#57;&#x32;&#x2e;&#x31;&#54;&#x38;&#46;&#49;&#x2e;&#x36;">&#114;&#111;&#111;&#x74;&#x40;&#49;&#57;&#x32;&#x2e;&#x31;&#54;&#x38;&#46;&#49;&#x2e;&#x36;</a>  。我这里使用的是Tunnelier，它集成了putty 和winscp两款工具的功能，个人感觉很好用！</p>
+<p>PC端可以可以使用putty 和winscp配合来访问iPad2，MAC系统或者Linux可以使用系统自带的终端 ssh <a href="mailto:&#114;&#x6f;&#x6f;&#x74;&#x40;&#x31;&#57;&#x32;&#46;&#49;&#54;&#x38;&#46;&#x31;&#46;&#x36;">&#114;&#x6f;&#x6f;&#x74;&#x40;&#x31;&#57;&#x32;&#46;&#49;&#54;&#x38;&#46;&#x31;&#46;&#x36;</a>  。我这里使用的是Tunnelier，它集成了putty 和winscp两款工具的功能，个人感觉很好用！</p>
 <p><strong>可能用的的工具：</strong></p>
 <p>Tunnelier （地址：<a href="http://www.bitvise.com/tunnelier">www.bitvise.com/<strong>tunnelier</strong></a>）<em><span style="color: #a5a5a5;">推荐</span></em></p>
 <p>putty （地址：<a href="http://www.putty.org/">www.<strong>putty</strong>.org/</a>）</p>
@@ -247,43 +284,6 @@ ldid -S hello
         <tag>vi</tag>
         <tag>visudo</tag>
         <tag>编程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>配置nginx伪静态以支持ThinkPHP的PATHINFO模式</title>
-    <url>/configure-nginx-to-support-thinkphp-pathinfo-mode.html</url>
-    <content><![CDATA[<content>
-ThinkPHP是一款很不错的框架，也是PHP开发中最近用的比较火的。平时在本地开发中打开apache的mod<em>rewrite </em>配合.htaccess文件就可以完美的支持ThinkPHP的PATHINFO模式，但是家里的linux机器搭建的却是nginx 环境。这就造成了url 重写出现了很多奇怪的问题，所以需要对nginx 的配置文件修改一下来让它支持ThinkPHP的框架。
-首先你的项目的config文件中要配置这一项
-<pre class="brush: php; gutter: true">  &#039;URL_MODEL&#039; =&gt; 2, // rewrite</pre>
-在服务器中切换到nginx的安装目录，我这里是 /usr/local/nginx。然后添加thinkphp.conf 文件
-
-<p>vim /usr/local/nginx/conf/thinkphp.conf<br>内容如下</p>
-<pre class="brush: bash; gutter: true">location / {
-  if (!-e $request_filename){
-  rewrite ^/(.*)$ /index.php?s=/$1 last;
-  }
-}</pre><img title="nginx_thinkphp" src="uploads/2012/12/nginx_thinkphp-300x90.jpg" alt="" width="300" height="90" />
-
-<p>然后在你的配置文件中include一下刚刚的配置文件。</p>
-<img title="nginx_thinkphp_config" src="uploads/2012/12/nginx_thinkphp_config-300x245.jpg" alt="" width="300" height="245" />
-
-<p>如果你的ThinkPHP入口文件index.php不在根目录，则需要把thinkphp.conf改成这样</p>
-<pre class="brush: bash; gutter: true">location /入口文件所在目录/ {
-  if (!-e $request_filename){
-  rewrite ^/abc/(.*)$ /abc/index.php?s=/$1 last;
-  }
-}</pre>
-</content>
-]]></content>
-      <categories>
-        <category>技术探讨</category>
-        <category>Linux学习</category>
-        <category>Route</category>
-      </categories>
-      <tags>
-        <tag>中文乱码</tag>
-        <tag>Oracle</tag>
       </tags>
   </entry>
   <entry>
@@ -602,16 +602,16 @@ gt4.0.8-all-source-installer   gt4.0.8-all-source-installer.tar.gz</pre>
 <p>The private key is<br>stored in /etc/grid-security/hostkey.pem</p>
 <p>The request is<br>stored in /etc/grid-security/hostcert_request.pem</p>
 <p>&nbsp;</p>
-<p>Please e-mail the<br>request to the Globus Simple CA <a href="mailto:&#x63;&#x79;&#x5f;&#x78;&#x69;&#x61;&#111;&#120;&#x69;&#97;&#111;&#64;&#x79;&#97;&#104;&#x6f;&#x6f;&#46;&#x63;&#x6f;&#x6d;&#46;&#x63;&#x6e;">&#x63;&#x79;&#x5f;&#x78;&#x69;&#x61;&#111;&#120;&#x69;&#97;&#111;&#64;&#x79;&#97;&#104;&#x6f;&#x6f;&#46;&#x63;&#x6f;&#x6d;&#46;&#x63;&#x6e;</a></p>
+<p>Please e-mail the<br>request to the Globus Simple CA <a href="mailto:&#99;&#x79;&#x5f;&#x78;&#105;&#97;&#x6f;&#120;&#x69;&#97;&#x6f;&#64;&#121;&#x61;&#104;&#111;&#x6f;&#x2e;&#99;&#111;&#109;&#46;&#99;&#110;">&#99;&#x79;&#x5f;&#x78;&#105;&#97;&#x6f;&#120;&#x69;&#97;&#x6f;&#64;&#121;&#x61;&#104;&#111;&#x6f;&#x2e;&#99;&#111;&#109;&#46;&#99;&#110;</a></p>
 <p>You may use a<br>command similar to the following:</p>
 <p>&nbsp;</p>
-<p>cat /etc/grid-security/hostcert_request.pem |<br>mail <a href="mailto:&#x63;&#121;&#x5f;&#x78;&#x69;&#x61;&#x6f;&#x78;&#x69;&#x61;&#x6f;&#x40;&#121;&#97;&#x68;&#111;&#111;&#x2e;&#x63;&#x6f;&#109;&#x2e;&#x63;&#x6e;">&#x63;&#121;&#x5f;&#x78;&#x69;&#x61;&#x6f;&#x78;&#x69;&#x61;&#x6f;&#x40;&#121;&#97;&#x68;&#111;&#111;&#x2e;&#x63;&#x6f;&#109;&#x2e;&#x63;&#x6e;</a></p>
+<p>cat /etc/grid-security/hostcert_request.pem |<br>mail <a href="mailto:&#x63;&#x79;&#x5f;&#x78;&#105;&#97;&#111;&#120;&#x69;&#x61;&#x6f;&#x40;&#x79;&#x61;&#x68;&#x6f;&#111;&#x2e;&#x63;&#x6f;&#x6d;&#46;&#99;&#x6e;">&#x63;&#x79;&#x5f;&#x78;&#105;&#97;&#111;&#120;&#x69;&#x61;&#x6f;&#x40;&#x79;&#x61;&#x68;&#x6f;&#111;&#x2e;&#x63;&#x6f;&#x6d;&#46;&#99;&#x6e;</a></p>
 <p>&nbsp;</p>
 <p>Only use the above<br>if this machine can send AND receive e-mail. if not, please</p>
 <p>mail using some<br>other method.</p>
 <p>&nbsp;</p>
 <p>Your certificate<br>will be mailed to you within two working days.</p>
-<p>If you receive no<br>response, contact Globus Simple CA at <a href="mailto:&#99;&#x79;&#x5f;&#120;&#x69;&#x61;&#x6f;&#120;&#105;&#x61;&#x6f;&#64;&#x79;&#x61;&#104;&#111;&#x6f;&#x2e;&#99;&#x6f;&#109;&#x2e;&#99;&#x6e;">&#99;&#x79;&#x5f;&#120;&#x69;&#x61;&#x6f;&#120;&#105;&#x61;&#x6f;&#64;&#x79;&#x61;&#104;&#111;&#x6f;&#x2e;&#99;&#x6f;&#109;&#x2e;&#99;&#x6e;</a></p>
+<p>If you receive no<br>response, contact Globus Simple CA at <a href="mailto:&#x63;&#121;&#95;&#120;&#x69;&#97;&#111;&#120;&#105;&#97;&#x6f;&#x40;&#x79;&#97;&#x68;&#x6f;&#111;&#46;&#99;&#x6f;&#x6d;&#46;&#x63;&#110;">&#x63;&#121;&#95;&#120;&#x69;&#97;&#111;&#120;&#105;&#97;&#x6f;&#x40;&#x79;&#97;&#x68;&#x6f;&#111;&#46;&#99;&#x6f;&#x6d;&#46;&#x63;&#110;</a></p>
 <p>&nbsp;</p>
 <p>[root@xx1<br>grid-security]# pwd</p>
 <p>/etc/grid-security</p>
@@ -825,7 +825,7 @@ setTimeout("javascript:location.href='hi.html' ", 5000);
 <pre class="brush: bash; gutter: true">[root@B ~]$ cat id_rsa.pub &gt;&gt; .ssh/authorized_keys 
 [root@B ~]$ chmod 600 .ssh/authorized_keys</pre><strong>authorized_keys的权限必须是600。(</strong>要保证.ssh和authorized_keys都只有用户自己有写权限。否则验证无效。)
 
-<p><strong>第四步、验证A机无密码登录B机。</strong><pre class="brush: bash; gutter: true">[root@A ~]$ ssh <a href="mailto:&#x72;&#x6f;&#111;&#116;&#64;&#x31;&#x39;&#50;&#46;&#x31;&#54;&#x38;&#x2e;&#49;&#x2e;&#x32;">&#x72;&#x6f;&#111;&#116;&#64;&#x31;&#x39;&#50;&#46;&#x31;&#54;&#x38;&#x2e;&#49;&#x2e;&#x32;</a></pre><br>第一次登录时如果询问是否将B机器加到A机器的list of known hosts，还需要你输入yes。现在A机可以无密码登录B机了。</p>
+<p><strong>第四步、验证A机无密码登录B机。</strong><pre class="brush: bash; gutter: true">[root@A ~]$ ssh <a href="mailto:&#114;&#111;&#111;&#116;&#64;&#49;&#x39;&#x32;&#x2e;&#x31;&#x36;&#x38;&#46;&#x31;&#46;&#x32;">&#114;&#111;&#111;&#116;&#64;&#49;&#x39;&#x32;&#x2e;&#x31;&#x36;&#x38;&#46;&#x31;&#46;&#x32;</a></pre><br>第一次登录时如果询问是否将B机器加到A机器的list of known hosts，还需要你输入yes。现在A机可以无密码登录B机了。</p>
 <p><strong>小结：</strong>私钥文件也可以保存下来在别的机器上面使用，被登录的机子要有登录机子的公钥。这个<strong>公钥/私钥对</strong>一般在私钥宿主机产生。想让A，B机无密码互登录，B机器上重复以上步骤即可~</p>
 <p><span style="font-size: x-large;"><strong>二、在Windows中</strong></span></p>
 <p>在Windows中要想实现无密码登录Linux主机也很简单。一般在Windows中远程ssh连接Linux主机大家都会使用<a href="http://www.putty.org/" target="_blank">putty</a> 或者Tunnelier这样的工具，我一般使用Tunnelier比较多，因为它集成了sftp工具和其他一些很实用的功能。例如使用Tunnelier很容易实现<a href="http://wangheng.org/firefox-the-ssh-the-autoproxy-smart-over-wall.html">Firefox+SSH+AutoProxy智能翻墙</a>，想试试的同学可以翻翻我以前发过的文章。下面具体介绍Windows下使用putty无密码登录Linux</p>
@@ -1373,7 +1373,7 @@ static void Main()
 
 <p>如果你想使用自己的app_key你需要首先注册一个金山快盘账号，然后到这里<a href="http://www.kuaipan.cn/developers">地址</a>创建一个你自己的应用并把得到的 consumer_key、consumer_secret填写到脚本相应位置。<br>当然此步骤可以略过，你可以直接使用脚本中填写好的consumer_key、consumer_secret，我创建的应用名称all4fun.</p>
 <p><strong>3.安装</strong><pre class="brush: bash; gutter: true">wget <a href="https://github.com/wujiwh/kuaipan_uploader/archive/master.zip">https://github.com/wujiwh/kuaipan_uploader/archive/master.zip</a><br>unzip master.zip<br>cd kuaipan_uploader-master<br>#或者 ：<br>git clone <a href="https://github.com/wujiwh/kuaipan_uploader.git">https://github.com/wujiwh/kuaipan_uploader.git</a><br>cd kuaipan_uploader<br>#上面两种方式选择一种即可<br>#赋予脚本执行权限并执行<br>chmod a+x kuaipan_uploader.sh<br>./kuaipan_uploader.sh</pre><br>然后根据提示完成API的授权流程，得到授权Token。脚本会自动保存得到的授权信息到CONFIG_FILE 变量对应配置文件，默认为~/.kuaipan_upload.conf<strong> </strong></p>
-<p><strong>4.</strong><strong>使用说明</strong><pre class="brush: bash; gutter: false">KuaiPan Uploader v1.1.0<br>wangheng - <a href="mailto:&#x77;&#117;&#106;&#105;&#x77;&#x68;&#64;&#103;&#x6d;&#x61;&#105;&#108;&#x2e;&#99;&#x6f;&#109;">&#x77;&#117;&#106;&#105;&#x77;&#x68;&#64;&#103;&#x6d;&#x61;&#105;&#108;&#x2e;&#99;&#x6f;&#109;</a></p>
+<p><strong>4.</strong><strong>使用说明</strong><pre class="brush: bash; gutter: false">KuaiPan Uploader v1.1.0<br>wangheng - <a href="mailto:&#x77;&#117;&#x6a;&#105;&#119;&#x68;&#64;&#x67;&#109;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#111;&#x6d;">&#x77;&#117;&#x6a;&#105;&#119;&#x68;&#64;&#x67;&#109;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#111;&#x6d;</a></p>
 <p>Usage: /usr/bin/kuaipan COMMAND [PARAMETERS]…</p>
 <p>Commands:<br>         upload   [local file]  &lt;remote file&gt;<br>         download [remote file] &lt;local file&gt;<br>         delete   [remote file/remote dir]<br>         list     &lt;remote dir&gt;<br>         info<br>         relink</p>
 <p>For more informations, please visit  <a href="http://wangheng.org/">http://wangheng.org</a>.</pre><br>其中[XXX]内的为必填参数，&lt;XXX&gt;内的为可选参数</p>
@@ -1496,14 +1496,14 @@ sync：将每个输入块填充到ibs个字节，不足部分用空（NUL）字�
 家里面的路由器ddns经常不能用，索性在系统中直接安了一个oray的客户端。具体安装步骤如下：
 
 <p><strong>1、首先安装必要的开发包</strong></p>
-<p>[<a href="mailto:&#x72;&#x6f;&#111;&#x74;&#x40;&#x77;&#x61;&#110;&#103;&#x68;&#101;&#110;&#103;&#x2e;&#x6f;&#114;&#x67;">&#x72;&#x6f;&#111;&#x74;&#x40;&#x77;&#x61;&#110;&#103;&#x68;&#101;&#110;&#103;&#x2e;&#x6f;&#114;&#x67;</a> ~] apt-get install gcc g++ automake autoconf</p>
+<p>[<a href="mailto:&#114;&#111;&#x6f;&#116;&#64;&#119;&#x61;&#x6e;&#103;&#104;&#x65;&#x6e;&#103;&#46;&#111;&#114;&#x67;">&#114;&#111;&#x6f;&#116;&#64;&#119;&#x61;&#x6e;&#103;&#104;&#x65;&#x6e;&#103;&#46;&#111;&#114;&#x67;</a> ~] apt-get install gcc g++ automake autoconf</p>
 <p><strong>2、下载phddns-2.0.2.16556.tar.gz到某一个目录</strong></p>
-<p>[<a href="mailto:&#x72;&#x6f;&#x6f;&#116;&#x40;&#119;&#x61;&#110;&#x67;&#104;&#101;&#110;&#103;&#46;&#111;&#x72;&#x67;">&#x72;&#x6f;&#x6f;&#116;&#x40;&#119;&#x61;&#110;&#x67;&#104;&#101;&#110;&#103;&#46;&#111;&#x72;&#x67;</a> ~]# wget <a href="http://download.oray.com/peanuthull/phddns-2.0.2.16556.tar.gz">http://download.oray.com/peanuthull/phddns-2.0.2.16556.tar.gz</a></p>
+<p>[<a href="mailto:&#114;&#x6f;&#x6f;&#x74;&#64;&#x77;&#x61;&#x6e;&#x67;&#104;&#101;&#110;&#x67;&#x2e;&#x6f;&#x72;&#103;">&#114;&#x6f;&#x6f;&#x74;&#64;&#x77;&#x61;&#x6e;&#x67;&#104;&#101;&#110;&#x67;&#x2e;&#x6f;&#x72;&#103;</a> ~]# wget <a href="http://download.oray.com/peanuthull/phddns-2.0.2.16556.tar.gz">http://download.oray.com/peanuthull/phddns-2.0.2.16556.tar.gz</a></p>
 <p><strong>3、解压所有文件</strong></p>
-<p>[<a href="mailto:&#x72;&#x6f;&#111;&#x74;&#x40;&#119;&#x61;&#110;&#103;&#104;&#x65;&#110;&#103;&#46;&#111;&#114;&#103;">&#x72;&#x6f;&#111;&#x74;&#x40;&#119;&#x61;&#110;&#103;&#104;&#x65;&#110;&#103;&#46;&#111;&#114;&#103;</a> ~]# tar zxvf phddns-2.0.2.16556.tar.gz</p>
-<p><strong>4、进入目录并编译</strong><br>[<a href="mailto:&#114;&#111;&#111;&#x74;&#64;&#x77;&#x61;&#110;&#x67;&#x68;&#x65;&#x6e;&#x67;&#x2e;&#x6f;&#x72;&#x67;">&#114;&#111;&#111;&#x74;&#64;&#x77;&#x61;&#110;&#x67;&#x68;&#x65;&#x6e;&#x67;&#x2e;&#x6f;&#x72;&#x67;</a> ~]# cd phddns-2.0.2.16556<br>[<a href="mailto:&#114;&#111;&#111;&#116;&#x40;&#x77;&#97;&#110;&#x67;&#x68;&#101;&#x6e;&#x67;&#x2e;&#111;&#114;&#x67;">&#114;&#111;&#111;&#116;&#x40;&#x77;&#97;&#110;&#x67;&#x68;&#101;&#x6e;&#x67;&#x2e;&#111;&#114;&#x67;</a> phddns-2.0.2.16556]# aclocal<br>[<a href="mailto:&#114;&#x6f;&#111;&#x74;&#64;&#x77;&#97;&#110;&#x67;&#x68;&#101;&#110;&#x67;&#x2e;&#111;&#114;&#x67;">&#114;&#x6f;&#111;&#x74;&#64;&#x77;&#97;&#110;&#x67;&#x68;&#101;&#110;&#x67;&#x2e;&#111;&#114;&#x67;</a> phddns-2.0.2.16556]# autoconf<br>[<a href="mailto:&#114;&#111;&#111;&#116;&#64;&#x77;&#x61;&#110;&#x67;&#104;&#x65;&#x6e;&#x67;&#x2e;&#111;&#x72;&#103;">&#114;&#111;&#111;&#116;&#64;&#x77;&#x61;&#110;&#x67;&#104;&#x65;&#x6e;&#x67;&#x2e;&#111;&#x72;&#103;</a> phddns-2.0.2.16556]# automake<br>[<a href="mailto:&#114;&#111;&#x6f;&#x74;&#x40;&#119;&#x61;&#x6e;&#x67;&#x68;&#x65;&#110;&#103;&#46;&#111;&#114;&#x67;">&#114;&#111;&#x6f;&#x74;&#x40;&#119;&#x61;&#x6e;&#x67;&#x68;&#x65;&#110;&#103;&#46;&#111;&#114;&#x67;</a> phddns-2.0.2.16556]# ./configure<br>[<a href="mailto:&#114;&#111;&#111;&#116;&#x40;&#x77;&#x61;&#110;&#x67;&#104;&#x65;&#x6e;&#103;&#46;&#111;&#x72;&#x67;">&#114;&#111;&#111;&#116;&#x40;&#x77;&#x61;&#110;&#x67;&#104;&#x65;&#x6e;&#103;&#46;&#111;&#x72;&#x67;</a> phddns-2.0.2.16556]# make<br>[<a href="mailto:&#114;&#x6f;&#111;&#x74;&#64;&#119;&#97;&#x6e;&#x67;&#x68;&#x65;&#x6e;&#x67;&#x2e;&#x6f;&#114;&#x67;">&#114;&#x6f;&#111;&#x74;&#64;&#119;&#97;&#x6e;&#x67;&#x68;&#x65;&#x6e;&#x67;&#x2e;&#x6f;&#114;&#x67;</a> phddns-2.0.2.16556]# cd src<br>[<a href="mailto:&#x72;&#111;&#111;&#116;&#64;&#119;&#97;&#110;&#x67;&#104;&#101;&#110;&#103;&#x2e;&#x6f;&#114;&#x67;">&#x72;&#111;&#111;&#116;&#64;&#119;&#97;&#110;&#x67;&#104;&#101;&#110;&#103;&#x2e;&#x6f;&#114;&#x67;</a> src]# ls -l phddns<br>-rwxr-xr-x 1 root root 80968 Aug 2 11:18 phddns</p>
+<p>[<a href="mailto:&#x72;&#111;&#x6f;&#x74;&#64;&#119;&#x61;&#110;&#103;&#104;&#101;&#110;&#x67;&#x2e;&#x6f;&#114;&#103;">&#x72;&#111;&#x6f;&#x74;&#64;&#119;&#x61;&#110;&#103;&#104;&#101;&#110;&#x67;&#x2e;&#x6f;&#114;&#103;</a> ~]# tar zxvf phddns-2.0.2.16556.tar.gz</p>
+<p><strong>4、进入目录并编译</strong><br>[<a href="mailto:&#x72;&#111;&#111;&#116;&#x40;&#x77;&#97;&#x6e;&#x67;&#x68;&#x65;&#110;&#103;&#46;&#x6f;&#114;&#103;">&#x72;&#111;&#111;&#116;&#x40;&#x77;&#97;&#x6e;&#x67;&#x68;&#x65;&#110;&#103;&#46;&#x6f;&#114;&#103;</a> ~]# cd phddns-2.0.2.16556<br>[<a href="mailto:&#114;&#x6f;&#111;&#116;&#x40;&#x77;&#x61;&#110;&#103;&#x68;&#101;&#x6e;&#x67;&#46;&#x6f;&#x72;&#x67;">&#114;&#x6f;&#111;&#116;&#x40;&#x77;&#x61;&#110;&#103;&#x68;&#101;&#x6e;&#x67;&#46;&#x6f;&#x72;&#x67;</a> phddns-2.0.2.16556]# aclocal<br>[<a href="mailto:&#114;&#x6f;&#111;&#116;&#x40;&#119;&#97;&#110;&#103;&#x68;&#x65;&#110;&#x67;&#46;&#111;&#114;&#x67;">&#114;&#x6f;&#111;&#116;&#x40;&#119;&#97;&#110;&#103;&#x68;&#x65;&#110;&#x67;&#46;&#111;&#114;&#x67;</a> phddns-2.0.2.16556]# autoconf<br>[<a href="mailto:&#114;&#x6f;&#111;&#116;&#64;&#x77;&#97;&#110;&#x67;&#x68;&#x65;&#110;&#x67;&#x2e;&#x6f;&#114;&#103;">&#114;&#x6f;&#111;&#116;&#64;&#x77;&#97;&#110;&#x67;&#x68;&#x65;&#110;&#x67;&#x2e;&#x6f;&#114;&#103;</a> phddns-2.0.2.16556]# automake<br>[<a href="mailto:&#114;&#111;&#x6f;&#116;&#x40;&#119;&#x61;&#110;&#103;&#x68;&#101;&#x6e;&#103;&#x2e;&#111;&#x72;&#103;">&#114;&#111;&#x6f;&#116;&#x40;&#119;&#x61;&#110;&#103;&#x68;&#101;&#x6e;&#103;&#x2e;&#111;&#x72;&#103;</a> phddns-2.0.2.16556]# ./configure<br>[<a href="mailto:&#x72;&#111;&#x6f;&#116;&#x40;&#x77;&#97;&#110;&#x67;&#104;&#x65;&#x6e;&#x67;&#46;&#x6f;&#114;&#103;">&#x72;&#111;&#x6f;&#116;&#x40;&#x77;&#97;&#110;&#x67;&#104;&#x65;&#x6e;&#x67;&#46;&#x6f;&#114;&#103;</a> phddns-2.0.2.16556]# make<br>[<a href="mailto:&#114;&#111;&#111;&#116;&#64;&#119;&#x61;&#x6e;&#103;&#x68;&#x65;&#110;&#x67;&#46;&#111;&#114;&#x67;">&#114;&#111;&#111;&#116;&#64;&#119;&#x61;&#x6e;&#103;&#x68;&#x65;&#110;&#x67;&#46;&#111;&#114;&#x67;</a> phddns-2.0.2.16556]# cd src<br>[<a href="mailto:&#114;&#111;&#111;&#116;&#x40;&#x77;&#97;&#110;&#103;&#x68;&#x65;&#110;&#103;&#x2e;&#x6f;&#x72;&#x67;">&#114;&#111;&#111;&#116;&#x40;&#x77;&#97;&#110;&#103;&#x68;&#x65;&#110;&#103;&#x2e;&#x6f;&#x72;&#x67;</a> src]# ls -l phddns<br>-rwxr-xr-x 1 root root 80968 Aug 2 11:18 phddns</p>
 <p><strong>5、执行编译好的程序并配置（默认使用/etc/phlinux.conf，如果不存在这个文件则自动进入交互配置）</strong></p>
-<p>[<a href="mailto:&#x72;&#x6f;&#x6f;&#x74;&#x40;&#119;&#x61;&#x6e;&#103;&#104;&#x65;&#110;&#x67;&#x2e;&#111;&#114;&#103;">&#x72;&#x6f;&#x6f;&#x74;&#x40;&#119;&#x61;&#x6e;&#103;&#104;&#x65;&#110;&#x67;&#x2e;&#111;&#114;&#103;</a> src]# ./phddns<br>输入服务器地址，如无特殊情况可使用默认值<br>Enter server address(press ENTER use phlinux3.oray.net):</p>
+<p>[<a href="mailto:&#114;&#x6f;&#111;&#116;&#64;&#119;&#x61;&#110;&#103;&#x68;&#101;&#x6e;&#x67;&#46;&#x6f;&#x72;&#x67;">&#114;&#x6f;&#111;&#116;&#64;&#119;&#x61;&#110;&#103;&#x68;&#101;&#x6e;&#x67;&#46;&#x6f;&#x72;&#x67;</a> src]# ./phddns<br>输入服务器地址，如无特殊情况可使用默认值<br>Enter server address(press ENTER use phlinux3.oray.net):</p>
 <p>输入您的Oray帐号名称<br>Enter your Oray account:</p>
 <p>对应的Oray帐号密码<br>Password:</p>
 <p>选择帮定的网卡，如无特殊，默认即可<br>Network interface(s):<br>eth0:192.168.141.18<br>lo:127.0.0.1<br>Choose one(default eth0):</p>
@@ -1511,14 +1511,14 @@ sync：将每个输入块填充到ibs个字节，不足部分用空（NUL）字�
 <p>保存配置文件，选择yes则直接保存到/etc/phlinux.conf，输入other可以指定文件<br>Save to configuration file (/etc/phlinux.conf)?(yes/no/other):</p>
 <p>接下来程序将已交互模式开始运行<br>192.168.141.18<br>NIC bind success<br>OnStatusChanged okConnecting<br>OnStatusChanged okDomainListed<br>OnDomainRegistered skyvense22.gicp.net<br>OnStatusChanged okDomainsRegistered<br>UserType: 0<br>看到上面这些就表示登录成功，这个时候可以按ctrl+c先退出程序</p>
 <span id="more"></span><strong>6、将phddns拷贝到你希望的位置</strong>
-<p>[<a href="mailto:&#114;&#x6f;&#111;&#116;&#64;&#119;&#x61;&#110;&#x67;&#x68;&#x65;&#x6e;&#103;&#x2e;&#x6f;&#x72;&#103;">&#114;&#x6f;&#111;&#116;&#64;&#119;&#x61;&#110;&#x67;&#x68;&#x65;&#x6e;&#103;&#x2e;&#x6f;&#x72;&#103;</a> src]# cp phddns /usr/bin/</p>
+<p>[<a href="mailto:&#x72;&#x6f;&#111;&#x74;&#x40;&#119;&#97;&#x6e;&#103;&#104;&#101;&#110;&#x67;&#x2e;&#111;&#x72;&#x67;">&#x72;&#x6f;&#111;&#x74;&#x40;&#119;&#97;&#x6e;&#103;&#104;&#101;&#110;&#x67;&#x2e;&#111;&#x72;&#x67;</a> src]# cp phddns /usr/bin/</p>
 <p><strong>7、以后台模式启动花生壳并检查运行情况</strong></p>
-<p>[<a href="mailto:&#x72;&#111;&#111;&#116;&#64;&#x77;&#97;&#x6e;&#103;&#x68;&#x65;&#110;&#x67;&#x2e;&#x6f;&#114;&#103;">&#x72;&#111;&#111;&#116;&#64;&#x77;&#97;&#x6e;&#103;&#x68;&#x65;&#110;&#x67;&#x2e;&#x6f;&#114;&#103;</a> ~]# /usr/bin/phddns -c /etc/phlinux.conf -d<br>phlinux started as daemon!<br>[<a href="mailto:&#114;&#111;&#x6f;&#x74;&#x40;&#119;&#97;&#x6e;&#103;&#x68;&#101;&#x6e;&#x67;&#x2e;&#111;&#114;&#103;">&#114;&#111;&#x6f;&#x74;&#x40;&#119;&#97;&#x6e;&#103;&#x68;&#101;&#x6e;&#x67;&#x2e;&#111;&#114;&#103;</a> ~]# tail /var/log/phddns.log<br>2011/08/02 11:28:58.256| ExecuteUpdate OK, BeginKeepAlive!<br>2011/08/02 11:29:59.354| SendKeepAlive() 8208<br>2011/08/02 11:30:00.355| RecvKeepaliveResponse() Data comes, OPCODE:8272<br>2011/08/02 11:30:00.356| Keepalive response received, client ip: 116.<em><strong>.123.96<br>2011/08/02 11:31:00.447| SendKeepAlive() 8208<br>2011/08/02 11:31:01.450| RecvKeepaliveResponse() Data comes, OPCODE:8272<br>2011/08/02 11:31:01.450| Keepalive response received, client ip: 116.</strong></em>.123.96</p>
+<p>[<a href="mailto:&#x72;&#111;&#111;&#116;&#x40;&#119;&#x61;&#x6e;&#x67;&#x68;&#x65;&#x6e;&#103;&#46;&#111;&#x72;&#103;">&#x72;&#111;&#111;&#116;&#x40;&#119;&#x61;&#x6e;&#x67;&#x68;&#x65;&#x6e;&#103;&#46;&#111;&#x72;&#103;</a> ~]# /usr/bin/phddns -c /etc/phlinux.conf -d<br>phlinux started as daemon!<br>[<a href="mailto:&#114;&#x6f;&#x6f;&#116;&#64;&#119;&#x61;&#110;&#103;&#x68;&#x65;&#110;&#x67;&#x2e;&#111;&#114;&#x67;">&#114;&#x6f;&#x6f;&#116;&#64;&#119;&#x61;&#110;&#103;&#x68;&#x65;&#110;&#x67;&#x2e;&#111;&#114;&#x67;</a> ~]# tail /var/log/phddns.log<br>2011/08/02 11:28:58.256| ExecuteUpdate OK, BeginKeepAlive!<br>2011/08/02 11:29:59.354| SendKeepAlive() 8208<br>2011/08/02 11:30:00.355| RecvKeepaliveResponse() Data comes, OPCODE:8272<br>2011/08/02 11:30:00.356| Keepalive response received, client ip: 116.<em><strong>.123.96<br>2011/08/02 11:31:00.447| SendKeepAlive() 8208<br>2011/08/02 11:31:01.450| RecvKeepaliveResponse() Data comes, OPCODE:8272<br>2011/08/02 11:31:01.450| Keepalive response received, client ip: 116.</strong></em>.123.96</p>
 <p><strong>8、退出花生壳</strong></p>
-<p>查看进程ID<br>[<a href="mailto:&#114;&#x6f;&#x6f;&#x74;&#x40;&#x77;&#97;&#110;&#x67;&#x68;&#x65;&#x6e;&#x67;&#x2e;&#x6f;&#114;&#x67;">&#114;&#x6f;&#x6f;&#x74;&#x40;&#x77;&#97;&#110;&#x67;&#x68;&#x65;&#x6e;&#x67;&#x2e;&#x6f;&#114;&#x67;</a> ~]# ps -A | grep phddns<br>13731 ? 00:00:00 phlinux<br>让后台进程退出<br>[<a href="mailto:&#x72;&#111;&#x6f;&#x74;&#x40;&#119;&#97;&#x6e;&#103;&#104;&#x65;&#110;&#x67;&#x2e;&#111;&#x72;&#103;">&#x72;&#111;&#x6f;&#x74;&#x40;&#119;&#97;&#x6e;&#103;&#104;&#x65;&#110;&#x67;&#x2e;&#111;&#x72;&#103;</a> ~]# kill -9 13731</p>
-<p>9、将花生壳加到系统启动时运行<br>[<a href="mailto:&#x72;&#111;&#111;&#x74;&#x40;&#x77;&#97;&#x6e;&#x67;&#x68;&#101;&#110;&#103;&#46;&#x6f;&#x72;&#x67;">&#x72;&#111;&#111;&#x74;&#x40;&#x77;&#97;&#x6e;&#x67;&#x68;&#101;&#110;&#103;&#46;&#x6f;&#x72;&#x67;</a> ~]# vi /etc/rc.local<br>在文件的末尾加上一行：/usr/bin/phddns -c /etc/phlinux.conf -d</p>
+<p>查看进程ID<br>[<a href="mailto:&#x72;&#111;&#111;&#x74;&#64;&#x77;&#97;&#110;&#x67;&#104;&#101;&#x6e;&#x67;&#x2e;&#111;&#114;&#x67;">&#x72;&#111;&#111;&#x74;&#64;&#x77;&#97;&#110;&#x67;&#104;&#101;&#x6e;&#x67;&#x2e;&#111;&#114;&#x67;</a> ~]# ps -A | grep phddns<br>13731 ? 00:00:00 phlinux<br>让后台进程退出<br>[<a href="mailto:&#114;&#111;&#x6f;&#x74;&#x40;&#x77;&#x61;&#110;&#103;&#x68;&#101;&#110;&#x67;&#x2e;&#111;&#x72;&#103;">&#114;&#111;&#x6f;&#x74;&#x40;&#x77;&#x61;&#110;&#103;&#x68;&#101;&#110;&#x67;&#x2e;&#111;&#x72;&#103;</a> ~]# kill -9 13731</p>
+<p>9、将花生壳加到系统启动时运行<br>[<a href="mailto:&#114;&#x6f;&#111;&#116;&#x40;&#119;&#x61;&#110;&#103;&#x68;&#x65;&#x6e;&#103;&#46;&#x6f;&#x72;&#x67;">&#114;&#x6f;&#111;&#116;&#x40;&#119;&#x61;&#110;&#103;&#x68;&#x65;&#x6e;&#103;&#46;&#x6f;&#x72;&#x67;</a> ~]# vi /etc/rc.local<br>在文件的末尾加上一行：/usr/bin/phddns -c /etc/phlinux.conf -d</p>
 <p><strong>二、花生壳Linux版本命令行参数说明</strong></p>
-<p>[<a href="mailto:&#x72;&#x6f;&#111;&#116;&#x40;&#x77;&#97;&#x6e;&#x67;&#x68;&#x65;&#x6e;&#x67;&#x2e;&#111;&#x72;&#103;">&#x72;&#x6f;&#111;&#116;&#x40;&#x77;&#97;&#x6e;&#x67;&#x68;&#x65;&#x6e;&#x67;&#x2e;&#111;&#x72;&#103;</a> ~]# /usr/bin/phlinux -h<br>Peanuthull Linux-core 2.0 by oray.com, copyright 2011<br>Peanuthull Linux-core Help<br>–first-run<br>-f, run for the first time<br>用于首次启动时配置参数</p>
+<p>[<a href="mailto:&#x72;&#x6f;&#x6f;&#x74;&#64;&#x77;&#x61;&#110;&#x67;&#x68;&#x65;&#110;&#x67;&#x2e;&#x6f;&#114;&#x67;">&#x72;&#x6f;&#x6f;&#x74;&#64;&#x77;&#x61;&#110;&#x67;&#x68;&#x65;&#110;&#x67;&#x2e;&#x6f;&#114;&#x67;</a> ~]# /usr/bin/phlinux -h<br>Peanuthull Linux-core 2.0 by oray.com, copyright 2011<br>Peanuthull Linux-core Help<br>–first-run<br>-f, run for the first time<br>用于首次启动时配置参数</p>
 <p>–interact<br>-i, run as interactive mode<br>program will request for necessary parameters.<br>this mode will automatically enabled at first running,<br>or your configuration file has been lost.<br>启动交互模式</p>
 <p>–daemon<br>-d, run as a daemon<br>program will quit after put itself to background,<br>and continue running even you logout,<br>you can use kill -9 &lt;PID&gt; to terminate.<br>后台模式</p>
 <p>–config<br>-c, run with configuration file<br>program will run with the file<br>指定使用哪一个配置文件</p>
@@ -2184,7 +2184,7 @@ while(True):
 <p><strong>运行效果：</strong></p>
 <p><embed width="480" height="400" type="application/x-shockwave-flash" src="http://player.youku.com/player.php/sid/XODc4ODMyNzE2/v.swf" allowfullscreen="allowfullscreen" quality="high" align="middle" allowscriptaccess="always"></embed></p>
 <p><strong>核心代码：</strong><pre class="brush: python; gutter: true">&#039;&#039;&#039;<br>#=============================================================================</p>
-<h1 id="FileName-views-py"><a href="#FileName-views-py" class="headerlink" title="FileName: views.py"></a>FileName: views.py</h1><h1 id="Desc"><a href="#Desc" class="headerlink" title="Desc:"></a>Desc:</h1><h1 id="Author-wangheng"><a href="#Author-wangheng" class="headerlink" title="Author: wangheng"></a>Author: wangheng</h1><h1 id="Email-x77-x75-106-105-119-x68-x40-x67-x6d-97-x69-x6c-x2e-99-x6f-x6d"><a href="#Email-x77-x75-106-105-119-x68-x40-x67-x6d-97-x69-x6c-x2e-99-x6f-x6d" class="headerlink" title="Email: &#x77;&#x75;&#106;&#105;&#119;&#x68;&#x40;&#x67;&#x6d;&#97;&#x69;&#x6c;&#x2e;&#99;&#x6f;&#x6d;"></a>Email: <a href="mailto:&#x77;&#x75;&#106;&#105;&#119;&#x68;&#x40;&#x67;&#x6d;&#97;&#x69;&#x6c;&#x2e;&#99;&#x6f;&#x6d;">&#x77;&#x75;&#106;&#105;&#119;&#x68;&#x40;&#x67;&#x6d;&#97;&#x69;&#x6c;&#x2e;&#99;&#x6f;&#x6d;</a></h1><h1 id="HomePage-http-wangheng-org"><a href="#HomePage-http-wangheng-org" class="headerlink" title="HomePage: http://wangheng.org"></a>HomePage: <a href="http://wangheng.org/">http://wangheng.org</a></h1><h1 id="Version-0-0-1"><a href="#Version-0-0-1" class="headerlink" title="Version: 0.0.1"></a>Version: 0.0.1</h1><h1 id="LastChange-2015-01-14-13-46-29"><a href="#LastChange-2015-01-14-13-46-29" class="headerlink" title="LastChange: 2015-01-14 13:46:29"></a>LastChange: 2015-01-14 13:46:29</h1><h1 id="History"><a href="#History" class="headerlink" title="History:"></a>History:</h1><p>#=============================================================================<br>&#039;&#039;&#039;<br>from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash<br>from contextlib import closing<br>from pi_car import app<br>import re<br>import RPi.GPIO as GPIO<br>@app.route(&#039;/&#039;)<br>def show_index():<br>    return render_template(&#039;home.html&#039;)</p>
+<h1 id="FileName-views-py"><a href="#FileName-views-py" class="headerlink" title="FileName: views.py"></a>FileName: views.py</h1><h1 id="Desc"><a href="#Desc" class="headerlink" title="Desc:"></a>Desc:</h1><h1 id="Author-wangheng"><a href="#Author-wangheng" class="headerlink" title="Author: wangheng"></a>Author: wangheng</h1><h1 id="Email-x77-117-106-x69-x77-x68-64-x67-109-97-x69-x6c-46-99-x6f-x6d"><a href="#Email-x77-117-106-x69-x77-x68-64-x67-109-97-x69-x6c-46-99-x6f-x6d" class="headerlink" title="Email: &#x77;&#117;&#106;&#x69;&#x77;&#x68;&#64;&#x67;&#109;&#97;&#x69;&#x6c;&#46;&#99;&#x6f;&#x6d;"></a>Email: <a href="mailto:&#x77;&#117;&#106;&#x69;&#x77;&#x68;&#64;&#x67;&#109;&#97;&#x69;&#x6c;&#46;&#99;&#x6f;&#x6d;">&#x77;&#117;&#106;&#x69;&#x77;&#x68;&#64;&#x67;&#109;&#97;&#x69;&#x6c;&#46;&#99;&#x6f;&#x6d;</a></h1><h1 id="HomePage-http-wangheng-org"><a href="#HomePage-http-wangheng-org" class="headerlink" title="HomePage: http://wangheng.org"></a>HomePage: <a href="http://wangheng.org/">http://wangheng.org</a></h1><h1 id="Version-0-0-1"><a href="#Version-0-0-1" class="headerlink" title="Version: 0.0.1"></a>Version: 0.0.1</h1><h1 id="LastChange-2015-01-14-13-46-29"><a href="#LastChange-2015-01-14-13-46-29" class="headerlink" title="LastChange: 2015-01-14 13:46:29"></a>LastChange: 2015-01-14 13:46:29</h1><h1 id="History"><a href="#History" class="headerlink" title="History:"></a>History:</h1><p>#=============================================================================<br>&#039;&#039;&#039;<br>from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash<br>from contextlib import closing<br>from pi_car import app<br>import re<br>import RPi.GPIO as GPIO<br>@app.route(&#039;/&#039;)<br>def show_index():<br>    return render_template(&#039;home.html&#039;)</p>
 <p>@app.route(&quot;/login&quot;, methods=[&quot;GET&quot;, &quot;POST&quot;])<br>def login():<br>    if request.method==&quot;GET&quot;:<br>        return &quot;get&quot;+request.form[&quot;user&quot;]<br>    elif request.method==&quot;POST&quot;:<br>        return &quot;post&quot;</p>
 <p>@app.route(&#039;/ctl&#039;,methods=[&#039;GET&#039;,&#039;POST&#039;])<br>def ctrl_id():<br>    if request.method == &#039;POST&#039;:<br>        id=request.form[&#039;id&#039;]<br>        GPIO.setmode(GPIO.BOARD)<br>        GPIO.setwarnings(False)<br>        GPIO.setup(11,GPIO.OUT)<br>        GPIO.setup(12,GPIO.OUT)<br>        GPIO.setup(15,GPIO.OUT)<br>        GPIO.setup(16,GPIO.OUT)</p>
 <pre><code>    if id == &amp;#039;t_left&amp;#039;:
@@ -2367,6 +2367,39 @@ update-grub
       </tags>
   </entry>
   <entry>
+    <title>解决插件调用google字体巨慢的问题</title>
+    <url>/resolve-syntaxhighlighter-google-fonts-pop-issue.html</url>
+    <content><![CDATA[<content>
+写博客免不了贴代码，但是每次使用syntaxhighlighter 贴代码弹出的窗体总是慢的要死，加上wordpress本来也不快，卡上加卡终于无法忍受。
+
+<p>wordpress现在越来越臃肿常常打扰我的思路，这也是我平时经常随手将一些笔记直接扔到了vimwiki中的缘由。</p>
+<p>查看了一下网络请求，果然又是google font的问题。好吧，活在我大天朝，只好逆来顺受了。</p>
+<p>难道每次贴个代码都要等四五十秒。。。还是自己开刀改一下网站插件吧，祭出神器chrome网页debug工具，一顿调试之后找到原来是在tiny_mce_popup.js 这个文件的65行出现请求超时，跟进去找到对应的css 是这个</p>
+<pre class="brush: javascript; gutter: true">
+wp-includes/js/tinymce/plugins/compat3x/css/dialog.css
+</pre>
+<p>编辑器打开，果然啊，第一行就是：</p>
+<pre class="brush: javascript; gutter: true">
+@import url(//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,300,400,600&amp;subset=latin-ext,latin);
+
+/* Generic */
+body {
+font-family: &quot;Open Sans&quot;, sans-serif;
+font-size:13px;
+background:#fcfcfc;
+padding:0;
+margin:8px 8px 0 8px;
+}</pre>
+<p>找到问题就好办了，删掉第一行，将Sans字体改成Consolas，这下次终于顺畅了！</p>
+<span id="more"></span>
+
+<p><a href="uploads/2015/01/google_fonts2consolas.jpg"><img class="alignnone size-medium wp-image-95051" src="uploads/2015/01/google_fonts2consolas-300x161.jpg" alt="google_fonts2consolas" width="300" height="161" /></a><br></content></p>
+]]></content>
+      <categories>
+        <category>最近添加</category>
+      </categories>
+  </entry>
+  <entry>
     <title>按对象的某个属性值来排序</title>
     <url>/reorder-objects-by-certain-attribute.html</url>
     <content><![CDATA[<content>
@@ -2400,39 +2433,6 @@ stu.Sort(new StudentComparer());
         <tag>属性</tag>
         <tag>排序</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>解决插件调用google字体巨慢的问题</title>
-    <url>/resolve-syntaxhighlighter-google-fonts-pop-issue.html</url>
-    <content><![CDATA[<content>
-写博客免不了贴代码，但是每次使用syntaxhighlighter 贴代码弹出的窗体总是慢的要死，加上wordpress本来也不快，卡上加卡终于无法忍受。
-
-<p>wordpress现在越来越臃肿常常打扰我的思路，这也是我平时经常随手将一些笔记直接扔到了vimwiki中的缘由。</p>
-<p>查看了一下网络请求，果然又是google font的问题。好吧，活在我大天朝，只好逆来顺受了。</p>
-<p>难道每次贴个代码都要等四五十秒。。。还是自己开刀改一下网站插件吧，祭出神器chrome网页debug工具，一顿调试之后找到原来是在tiny_mce_popup.js 这个文件的65行出现请求超时，跟进去找到对应的css 是这个</p>
-<pre class="brush: javascript; gutter: true">
-wp-includes/js/tinymce/plugins/compat3x/css/dialog.css
-</pre>
-<p>编辑器打开，果然啊，第一行就是：</p>
-<pre class="brush: javascript; gutter: true">
-@import url(//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,300,400,600&amp;subset=latin-ext,latin);
-
-/* Generic */
-body {
-font-family: &quot;Open Sans&quot;, sans-serif;
-font-size:13px;
-background:#fcfcfc;
-padding:0;
-margin:8px 8px 0 8px;
-}</pre>
-<p>找到问题就好办了，删掉第一行，将Sans字体改成Consolas，这下次终于顺畅了！</p>
-<span id="more"></span>
-
-<p><a href="uploads/2015/01/google_fonts2consolas.jpg"><img class="alignnone size-medium wp-image-95051" src="uploads/2015/01/google_fonts2consolas-300x161.jpg" alt="google_fonts2consolas" width="300" height="161" /></a><br></content></p>
-]]></content>
-      <categories>
-        <category>最近添加</category>
-      </categories>
   </entry>
   <entry>
     <title>SAE中使用TmpFS功能</title>
@@ -2614,7 +2614,7 @@ iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth0 -j MASQUERADE</pre>
 <p>打开c:\path.txt 将里面的内容全部复制，粘贴到系统的path变量中(覆盖原来的path)。完成此步骤后，cmd中会使用github生成的配置进行ssh的key-agent验证登录，故实现了git命令免密码的效果。完成后，运行cmd，输入git，能识别这个命令表示成功。然后就可以使用我写的这个脚本了(汗，脚本依赖有点高~~)</p>
 <p><strong>脚本的代码如下：</strong></p>
 <span id="more"></span><pre class="brush: python; gutter: true">&quot;=========================================================
-<p>&quot;     FileName: vimwiki_sync.vim<br>&quot;         Desc:<br>&quot;       Author: WangHeng<br>&quot;        Email: <a href="mailto:&#x6d;&#101;&#64;&#x77;&#97;&#110;&#x67;&#104;&#x65;&#110;&#x67;&#46;&#111;&#114;&#103;">&#x6d;&#101;&#64;&#x77;&#97;&#110;&#x67;&#104;&#x65;&#110;&#x67;&#46;&#111;&#114;&#103;</a><br>&quot;     HomePage: <a href="http://wangheng.org/">http://wangheng.org</a><br>&quot;      Version: 1.1<br>&quot;   LastChange: 2012-07-19 22:32:39<br>&quot;      History: 1、2012-07-20 暂时注释VimwikiGet(&#039;path_html&#039;)<br>&quot;                不好用原因待研究<br>&quot;=========================================================</p>
+<p>&quot;     FileName: vimwiki_sync.vim<br>&quot;         Desc:<br>&quot;       Author: WangHeng<br>&quot;        Email: <a href="mailto:&#x6d;&#101;&#64;&#x77;&#97;&#x6e;&#103;&#x68;&#x65;&#x6e;&#x67;&#x2e;&#111;&#114;&#103;">&#x6d;&#101;&#64;&#x77;&#97;&#x6e;&#103;&#x68;&#x65;&#x6e;&#x67;&#x2e;&#111;&#114;&#103;</a><br>&quot;     HomePage: <a href="http://wangheng.org/">http://wangheng.org</a><br>&quot;      Version: 1.1<br>&quot;   LastChange: 2012-07-19 22:32:39<br>&quot;      History: 1、2012-07-20 暂时注释VimwikiGet(&#039;path_html&#039;)<br>&quot;                不好用原因待研究<br>&quot;=========================================================</p>
 <p>&quot; let s:wiki_html_path=VimwikiGet(&#039;path_html&#039;)这条命令有时候不好用，故暂时注释掉<br>if !has(&#039;python&#039;)<br>    echo &quot;Git Auto Upload Error:\nRequired vim compiled with +python&quot;<br>    finish<br>endif</p>
 <p>function! s:Vimwiki_Upload()</p>
 <p>python &lt;&lt;EOF<br>import os<br>import time</p>
