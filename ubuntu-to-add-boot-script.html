@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <!-- 
+                                 _
+                                 | |
+          _ _ _  ____ ____   ____| | _   ____ ____   ____   ___   ____ ____
+         | | | |/ _  |  _ \ / _  | || \ / _  )  _ \ / _  | / _ \ / ___) _  |
+         | | | ( ( | | | | ( ( | | | | ( (/ /| | | ( ( | || |_| | |  ( ( | |
+          \____|\_||_|_| |_|\_|| |_| |_|\____)_| |_|\_|| (_)___/|_|   \_|| |
+                           (_____|                 (_____|           (_____|
+ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="王恒的技术博客 -- make progress a little day by day"> 
+<meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"> 
+
+<title>Ubuntu下添加开机启动脚本 | 王恒&#39;s Blog</title>
+
+
+    <link rel="icon" href="/favicon.ico">  
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">  
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script> 
+    <script src="/js/tocbot.min.js"></script> 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script> 
+
+
+        
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">王恒&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default" style="display: none;" >
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">王恒&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+</header>
+<script>
+    hljs.initHighlightingOnLoad();
+    document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('pre').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+    });
+    
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Ubuntu下添加开机启动脚本</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">王恒</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十一月 5, 2012&nbsp;&nbsp;22:18:28</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <content>
+<strong>1、方法一，编辑rc.loacl脚本 </strong>
+
+<p>Ubuntu开机之后会执行<strong>/etc/rc.local</strong>文件中的脚本，</p>
+<p>所以我们可以直接在<strong>/etc/rc.local</strong>中添加启动脚本。</p>
+<p>当然要添加到语句：<strong>exit 0</strong> 前面才行。</p>
+<p>如：</p>
+<p>sudo vi /etc/rc.local</p>
+<p>然后在 exit 0 前面添加好脚本代码。</p>
+<p><strong> 2、方法二，添加一个Ubuntu的开机启动服务。</strong></p>
+<p>如果要添加为开机启动执行的脚本文件，</p>
+<p>可先将脚本<strong>复制</strong>或者<strong>软连接</strong>到<strong>/etc/init.d/</strong>目录下，</p>
+<p>然后用：<strong>update-rc.d</strong> xxx defaults NN命令(NN为启动顺序)，</p>
+<p>将脚本添加到初始化执行的队列中去。</p>
+<p>注意如果脚本需要用到<strong>网络</strong>，则NN需设置一个比较大的数字，如99。</p>
+<div><strong>1) 将你的启动脚本复制到 /etc/init.d目录下</strong></div><div><span style="white-space: pre;"> </span>以下假设你的脚本文件名为 test。</div><div></div><div><strong>2) 设置脚本文件的权限</strong></div><div><div><span style="white-space: pre;"> </span>$ sudo chmod 755 /etc/init.d/test</div><div></div><div><strong>3) 执行如下命令将脚本放到启动脚本中去：</strong></div><div><div><div><span style="white-space: pre;"> </span>$ cd /etc/init.d</div></div></div></div><div><div><div><span style="white-space: pre;"> </span>$ sudo update-rc.d test defaults 95</div></div></div><div><span style="white-space: pre;"> </span>注：其中数字95是脚本启动的顺序号，按照自己的需要相应修改即可。在你有多个启动脚本，而它们之间又有先后启动的依赖关系时你就知道这个数字的具体作用了。该命令的输出信息参考如下：</div><pre style="font-size: 12px; overflow: auto; color: #007000; line-height: 14px; white-space: pre; border: #525252 1px solid; padding: 4px;">update-rc.d: warning: /etc/init.d/test missing LSB information
+update-rc.d: see &lt;http://wiki.debian.org/LSBInitScripts&gt;
+  Adding system startup for /etc/init.d/test ...
+    /etc/rc0.d/K95test -&gt; ../init.d/test
+    /etc/rc1.d/K95test -&gt; ../init.d/test
+    /etc/rc6.d/K95test -&gt; ../init.d/test
+    /etc/rc2.d/S95test -&gt; ../init.d/test
+    /etc/rc3.d/S95test -&gt; ../init.d/test
+    /etc/rc4.d/S95test -&gt; ../init.d/test
+    /etc/rc5.d/S95test -&gt; ../init.d/test</pre><div></div><div><strong>卸载启动脚本的方法：</strong></div><div><div><div><div><span style="white-space: pre;"> </span>$ cd /etc/init.d</div></div></div></div><div></div><div>$ sudo update-rc.d -f test remove</div><div>命令输出的信息参考如下：</div><pre style="font-size: 12px; overflow: auto; color: #007000; line-height: 14px; white-space: pre; border: #525252 1px solid; padding: 4px;">Removing any system startup links for /etc/init.d/test ...
+    /etc/rc0.d/K95test
+    /etc/rc1.d/K95test
+    /etc/rc2.d/S95test
+    /etc/rc3.d/S95test
+    /etc/rc4.d/S95test
+    /etc/rc5.d/S95test
+    /etc/rc6.d/K95test</pre>
+</content>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>王恒</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://wangheng.org/ubuntu-to-add-boot-script.html">http://wangheng.org/ubuntu-to-add-boot-script.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签: </span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回前页</a>
+                <span>· </span>
+                <a href="/">回到首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/zend-studio-9-0-4-registration-crack.html">Zend Studio 9.0.4注册破解</a>
+            
+            
+            <a class="next" rel="next" href="/ubuntu-install-air-video-server.html">ubuntu中安装air video server</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 王恒 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> </span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

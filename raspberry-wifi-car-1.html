@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <!-- 
+                                 _
+                                 | |
+          _ _ _  ____ ____   ____| | _   ____ ____   ____   ___   ____ ____
+         | | | |/ _  |  _ \ / _  | || \ / _  )  _ \ / _  | / _ \ / ___) _  |
+         | | | ( ( | | | | ( ( | | | | ( (/ /| | | ( ( | || |_| | |  ( ( | |
+          \____|\_||_|_| |_|\_|| |_| |_|\____)_| |_|\_|| (_)___/|_|   \_|| |
+                           (_____|                 (_____|           (_____|
+ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="王恒的技术博客 -- make progress a little day by day"> 
+<meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"> 
+
+<title>树莓派Wifi小车(一) | 王恒&#39;s Blog</title>
+
+
+    <link rel="icon" href="/favicon.ico">  
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">  
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script> 
+    <script src="/js/tocbot.min.js"></script> 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script> 
+
+
+        
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">王恒&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default" style="display: none;" >
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">王恒&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+</header>
+<script>
+    hljs.initHighlightingOnLoad();
+    document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('pre').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+    });
+    
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">展开所有</a>
+        <a onclick="go_top()">回顶部</a>
+        <a onclick="go_bottom()">到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "折叠所有"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">树莓派Wifi小车(一)</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">王恒</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">一月 24, 2015&nbsp;&nbsp;20:43:14</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/">最近添加</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <content>
+到年末了，最近也有了一些自己的时间。回到了原来的技术处，晚上终于不用疯狂加班了，下班回家也终于有功夫折腾自己以前想玩的玩具了: )
+
+<p>树莓派刚发布的时候就一直想搞一台，但是淘宝上面的价格也是一直居高不下，想想家里已经N多PC，NAS和笔记本了，一直找不到入手的理由。圣诞节附近随便一刷淘宝，发现新版本B+ 已经降到了170块，果断买下。</p>
+<p>回家折腾了几天，性能果然弱的跟价格成正比。。。百兆的小网卡实在看不上眼。算了，从小玩意玩起吧，先装一个wifi小车。</p>
+<p>有了想法，开始组装！ 由于之前折腾了几天Arduino对于各种驱动板已经基本熟悉，所以接线非常简单。底盘随便找了块塑料板，轮子直接双面胶+热熔胶固定，总之是很丑，好吧。。。</p>
+<span id="more"></span>
+
+<p>不怕见笑，Beta版完成图如下：</p>
+<p><a href="uploads/2015/01/piCar.wangheng.org_.png"><img class="alignnone" src="uploads/2015/01/piCar.wangheng.org_.png" alt="" width="309" height="239" /></a></p>
+<p>&nbsp;</p>
+<p>驱动板有两种，一种是L298N</p>
+<table style="border-spacing: 0px; font-family: tahoma, arial, 宋体, sans-serif; line-height: 21px; padding: 0pt 5.4pt; margin-left: 6.75pt; margin-right: 6.75pt; height: 90px; width: 527px;" border="1" width="741"><tbody><tr style="height: 2.55pt;"><td style="margin: 0px; padding: 0pt 5.4pt; border-bottom-color: #4bacc6; border-width: medium 1pt 1pt; border-style: none solid solid; border-left-color: #4bacc6; width: 88.5pt; border-right-color: #4bacc6; background-image: initial; background-attachment: initial; background-size: initial; background-origin: initial; background-clip: initial; background-position: initial; background-repeat: initial;" valign="top" width="118"><p style="margin: 0pt 0px; padding: 0px; text-align: center;"><span style="font-family: 幼圆; font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: large;"><span style="font-size: 12pt;">主控芯片</span></span></span></span></p></td><td style="margin: 0px; padding: 0pt 5.4pt; border-bottom-color: #4bacc6; border-width: medium 1pt 1pt medium; border-style: none solid solid none; width: 155.25pt; border-right-color: #4bacc6; background-image: initial; background-attachment: initial; background-size: initial; background-origin: initial; background-clip: initial; background-position: initial; background-repeat: initial;" valign="top" width="207"><p style="margin: 0pt 0px; padding: 0px;"><span style="font-family: 幼圆; font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: large;"><span style="font-size: 12pt;">L298N</span></span></span></span></p></td><td style="margin: 0px; padding: 0pt 5.4pt; border-bottom-color: #4bacc6; border-width: medium 1pt 1pt medium; border-style: none solid solid none; width: 87pt; border-right-color: #4bacc6; background-image: initial; background-attachment: initial; background-size: initial; background-origin: initial; background-clip: initial; background-position: initial; background-repeat: initial;" valign="top" width="116"><p style="margin: 0pt 0px; padding: 0px; text-align: center;"><span style="font-family: 幼圆; font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: large;"><span style="font-size: 12pt;">包装形式</span></span></span></span></p></td><td style="margin: 0px; padding: 0pt 5.4pt; border-bottom-color: #4bacc6; border-width: medium 1pt 1pt medium; border-style: none solid solid none; width: 180pt; border-right-color: #4bacc6; background-image: initial; background-attachment: initial; background-size: initial; background-origin: initial; background-clip: initial; background-position: initial; background-repeat: initial;" valign="top" width="240"><p style="margin: 0pt 0px; padding: 0px;"><span style="font-family: 幼圆; font-size: 12pt;">盒装出货</span></p></td></tr><tr style="height: 2.55pt;"><td style="margin: 0px; padding: 0pt 5.4pt; border-bottom-color: #4bacc6; border-width: medium 1pt 1pt; border-style: none solid solid; border-left-color: #4bacc6; width: 88.5pt; border-right-color: #4bacc6; background: #b4dce7;" valign="top" width="118"><p style="margin: 0pt 0px; padding: 0px; text-align: center;"><span style="font-family: 幼圆; font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: large;"><span style="font-size: 12pt;">逻辑电压</span></span></span></span></p></td><td style="margin: 0px; padding: 0pt 5.4pt; border-bottom-color: #4bacc6; border-width: medium 1pt 1pt medium; border-style: none solid solid none; width: 155.25pt; border-right-color: #4bacc6; background: #b4dce7;" valign="top" width="207"><p style="margin: 0pt 0px; padding: 0px;"><span style="font-family: 幼圆; font-size: 12pt;">5V</span></p></td><td style="margin: 0px; padding: 0pt 5.4pt; border-bottom-color: #4bacc6; border-width: medium 1pt 1pt medium; border-style: none solid solid none; width: 87pt; border-right-color: #4bacc6; background: #b4dce7;" valign="top" width="116"><p style="margin: 0pt 0px; padding: 0px; text-align: center;"><span style="font-family: 幼圆; font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: large;"><span style="font-size: 12pt;">驱动电压</span></span></span></span></p></td><td style="margin: 0px; padding: 0pt 5.4pt; border-bottom-color: #4bacc6; border-width: medium 1pt 1pt medium; border-style: none solid solid none; width: 180pt; border-right-color: #4bacc6; background: #b4dce7;" valign="top" width="240"><p style="margin: 0pt 0px; padding: 0px;"><span style="font-family: 幼圆; font-size: 12pt;">5V-35V</span></p></td></tr><tr style="height: 2.55pt;"><td style="margin: 0px; padding: 0pt 5.4pt; border-bottom-color: #4bacc6; border-width: medium 1pt 1pt; border-style: none solid solid; border-left-color: #4bacc6; width: 88.5pt; border-right-color: #4bacc6; background-image: initial; background-attachment: initial; background-size: initial; background-origin: initial; background-clip: initial; background-position: initial; background-repeat: initial;" valign="top" width="118"><p style="margin: 0pt 0px; padding: 0px; text-align: center;"><span style="font-family: 幼圆; font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: large;"><span style="font-size: 12pt;">逻辑电流</span></span></span></span></p></td><td style="margin: 0px; padding: 0pt 5.4pt; border-bottom-color: #4bacc6; border-width: medium 1pt 1pt medium; border-style: none solid solid none; width: 155.25pt; border-right-color: #4bacc6; background-image: initial; background-attachment: initial; background-size: initial; background-origin: initial; background-clip: initial; background-position: initial; background-repeat: initial;" valign="top" width="207"><p style="margin: 0pt 0px; padding: 0px;"><span style="font-family: 幼圆; font-size: 12pt;"><span style="font-size: 12pt;">0mA-36mA</span></span></p></td><td style="margin: 0px; padding: 0pt 5.4pt; border-bottom-color: #4bacc6; border-width: medium 1pt 1pt medium; border-style: none solid solid none; width: 87pt; border-right-color: #4bacc6; background-image: initial; background-attachment: initial; background-size: initial; background-origin: initial; background-clip: initial; background-position: initial; background-repeat: initial;" valign="top" width="116"><p style="margin: 0pt 0px; padding: 0px; text-align: center;"><span style="font-family: 幼圆; font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: large;"><span style="font-size: 12pt;">驱动电流</span></span></span></span></p></td><td style="margin: 0px; padding: 0pt 5.4pt; border-bottom-color: #4bacc6; border-width: medium 1pt 1pt medium; border-style: none solid solid none; width: 180pt; border-right-color: #4bacc6; background-image: initial; background-attachment: initial; background-size: initial; background-origin: initial; background-clip: initial; background-position: initial; background-repeat: initial;" valign="top" width="240"><p style="margin: 0pt 0px; padding: 0px;"><span style="font-family: 幼圆; font-size: 12pt;">2A(MAX单桥)</span></p></td></tr><tr style="height: 2.55pt;"><td style="margin: 0px; padding: 0pt 5.4pt; border-bottom-color: #4bacc6; border-width: medium 1pt 1pt; border-style: none solid solid; border-left-color: #4bacc6; width: 88.5pt; border-right-color: #4bacc6; background: #b4dce7;" valign="top" width="118"><p style="margin: 0pt 0px; padding: 0px; text-align: center;"><span style="font-family: 幼圆; font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: large;"><span style="font-size: 12pt;">存储温度</span></span></span></span></p></td><td style="margin: 0px; padding: 0pt 5.4pt; border-bottom-color: #4bacc6; border-width: medium 1pt 1pt medium; border-style: none solid solid none; width: 155.25pt; border-right-color: #4bacc6; background: #b4dce7;" valign="top" width="207"><p style="margin: 0pt 0px; padding: 0px;"><span style="font-family: 幼圆; font-size: 12pt;"><span style="font-size: 8px;"><span style="font-size: large;"><span style="font-size: 12pt;"><span style="font-size: 12pt;">-20℃ 到 +135℃</span></span></span></span></span></p></td><td style="margin: 0px; padding: 0pt 5.4pt; border-bottom-color: #4bacc6; border-width: medium 1pt 1pt medium; border-style: none solid solid none; width: 87pt; border-right-color: #4bacc6; background: #b4dce7;" valign="top" width="116"><p style="margin: 0pt 0px; padding: 0px; text-align: center;"><span style="font-family: 幼圆; font-size: 12pt;"><span style="font-size: large;"><span style="font-size: 12pt;"><span style="font-size: large;"><span style="font-size: 12pt;">最大功率</span></span></span></span></span></p></td><td style="margin: 0px; padding: 0pt 5.4pt; border-bottom-color: #4bacc6; border-width: medium 1pt 1pt medium; border-style: none solid solid none; width: 180pt; border-right-color: #4bacc6; background: #b4dce7;" valign="top" width="240"><p style="margin: 0pt 0px; padding: 0px;"><span style="font-family: 幼圆; font-size: 12pt;">25W</span></p></td></tr></tbody></table>
+另一种是L9110S芯片的驱动板，参数如下： <span style="color: #38761d; line-height: 21px; font-family: 楷体_gb2312; font-size: 12pt;">模块供电</span><span style="color: #38761d; line-height: 21px; font-family: 楷体_gb2312; font-size: 12pt;">电压：2.5-12V</span><p style="margin: 0pt 0px; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; line-height: 21px; color: #404040;"><span style="color: #38761d;"><span style="font-size: large;"><span style="font-family: 楷体_gb2312; font-size: 12pt;">电机工作电压2.5v-12V之间，</span></span></span></p><p style="margin: 0pt 0px; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; line-height: 21px; color: #404040;"><span style="color: #38761d;"><span style="font-size: large;"><span style="font-family: 楷体_gb2312; font-size: 12pt;">最大工作电流0.8A</span></span></span></p><p style="margin: 0pt 0px; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; line-height: 21px; color: #404040;"><span style="color: #38761d;"><span style="font-size: large;"><span style="font-family: 楷体_gb2312; font-size: 12pt;"><span style="color: #000000;">考虑到我们的小车不需那么大功率，直接用一个L9110S驱动板，单侧的轮子并联为一组，这样相当于驱动板驱动两路直流电机组。</span> </span></span></span></p><p style="margin: 0pt 0px; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; line-height: 21px; color: #404040;"><span style="color: #38761d;"><span style="font-size: large;"><span style="font-family: 楷体_gb2312; font-size: 12pt;"><span style="color: #000000;">代码部分，小车的server端用python写的，用了个把小时（网页css多年没写过了，折腾死）。网页版控制页面如下：</span></span></span></span></p><p style="margin: 0pt 0px; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; line-height: 21px; color: #404040;"><span style="color: #38761d;"><span style="font-size: large;"><span style="font-family: 楷体_gb2312; font-size: 12pt;"><span style="color: #000000;"><a href="uploads/2015/01/picar_web_ui.png"><img class="alignnone" src="uploads/2015/01/picar_web_ui.png" alt="" width="590" height="265" /></a></span></span></span></span></p>
+刚开始用的图标太丑，在同事的提醒下，改了个按钮图标现在看起来顺眼多了，感谢@Jane同学。
+
+<p><strong>运行效果：</strong></p>
+<p><embed width="480" height="400" type="application/x-shockwave-flash" src="http://player.youku.com/player.php/sid/XODc4ODMyNzE2/v.swf" allowfullscreen="allowfullscreen" quality="high" align="middle" allowscriptaccess="always"></embed></p>
+<p><strong>核心代码：</strong><pre class="brush: python; gutter: true">&#039;&#039;&#039;<br>#=============================================================================</p>
+<h1 id="FileName-views-py"><a href="#FileName-views-py" class="headerlink" title="FileName: views.py"></a>FileName: views.py</h1><h1 id="Desc"><a href="#Desc" class="headerlink" title="Desc:"></a>Desc:</h1><h1 id="Author-wangheng"><a href="#Author-wangheng" class="headerlink" title="Author: wangheng"></a>Author: wangheng</h1><h1 id="Email-119-x75-x6a-x69-x77-x68-x40-103-x6d-x61-x69-x6c-46-x63-111-109"><a href="#Email-119-x75-x6a-x69-x77-x68-x40-103-x6d-x61-x69-x6c-46-x63-111-109" class="headerlink" title="Email: &#119;&#x75;&#x6a;&#x69;&#x77;&#x68;&#x40;&#103;&#x6d;&#x61;&#x69;&#x6c;&#46;&#x63;&#111;&#109;"></a>Email: <a href="mailto:&#119;&#x75;&#x6a;&#x69;&#x77;&#x68;&#x40;&#103;&#x6d;&#x61;&#x69;&#x6c;&#46;&#x63;&#111;&#109;">&#119;&#x75;&#x6a;&#x69;&#x77;&#x68;&#x40;&#103;&#x6d;&#x61;&#x69;&#x6c;&#46;&#x63;&#111;&#109;</a></h1><h1 id="HomePage-http-wangheng-org"><a href="#HomePage-http-wangheng-org" class="headerlink" title="HomePage: http://wangheng.org"></a>HomePage: <a href="http://wangheng.org/">http://wangheng.org</a></h1><h1 id="Version-0-0-1"><a href="#Version-0-0-1" class="headerlink" title="Version: 0.0.1"></a>Version: 0.0.1</h1><h1 id="LastChange-2015-01-14-13-46-29"><a href="#LastChange-2015-01-14-13-46-29" class="headerlink" title="LastChange: 2015-01-14 13:46:29"></a>LastChange: 2015-01-14 13:46:29</h1><h1 id="History"><a href="#History" class="headerlink" title="History:"></a>History:</h1><p>#=============================================================================<br>&#039;&#039;&#039;<br>from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash<br>from contextlib import closing<br>from pi_car import app<br>import re<br>import RPi.GPIO as GPIO<br>@app.route(&#039;/&#039;)<br>def show_index():<br>    return render_template(&#039;home.html&#039;)</p>
+<p>@app.route(&quot;/login&quot;, methods=[&quot;GET&quot;, &quot;POST&quot;])<br>def login():<br>    if request.method==&quot;GET&quot;:<br>        return &quot;get&quot;+request.form[&quot;user&quot;]<br>    elif request.method==&quot;POST&quot;:<br>        return &quot;post&quot;</p>
+<p>@app.route(&#039;/ctl&#039;,methods=[&#039;GET&#039;,&#039;POST&#039;])<br>def ctrl_id():<br>    if request.method == &#039;POST&#039;:<br>        id=request.form[&#039;id&#039;]<br>        GPIO.setmode(GPIO.BOARD)<br>        GPIO.setwarnings(False)<br>        GPIO.setup(11,GPIO.OUT)<br>        GPIO.setup(12,GPIO.OUT)<br>        GPIO.setup(15,GPIO.OUT)<br>        GPIO.setup(16,GPIO.OUT)</p>
+<pre><code>    if id == &amp;#039;t_left&amp;#039;:
+        t_left()
+        return &amp;quot;left&amp;quot;
+    elif id == &amp;#039;t_right&amp;#039;:
+        t_right()
+        return &amp;quot;right&amp;quot;
+    elif id == &amp;#039;t_up&amp;#039;:
+        t_up()
+        return &amp;quot;up&amp;quot;
+    elif id == &amp;#039;t_down&amp;#039;:
+        t_down()
+        return &amp;quot;down&amp;quot;
+    elif id == &amp;#039;t_stop&amp;#039;:
+        t_stop()
+        return &amp;quot;stop&amp;quot;
+
+return redirect(url_for(&amp;#039;show_index&amp;#039;))
+</code></pre>
+<p>def t_stop():<br>    GPIO.output(11, False)<br>    GPIO.output(12, False)<br>    GPIO.output(15, False)<br>    GPIO.output(16, False)</p>
+<p>def t_up():<br>    GPIO.output(11, True)<br>    GPIO.output(12, False)<br>    GPIO.output(15, True)<br>    GPIO.output(16, False)</p>
+<p>def t_down():<br>    GPIO.output(11, False)<br>    GPIO.output(12, True)<br>    GPIO.output(15, False)<br>    GPIO.output(16, True)</p>
+<p>def t_left():<br>    GPIO.output(11, False)<br>    GPIO.output(12, True)<br>    GPIO.output(15, True)<br>    GPIO.output(16, False)</p>
+<p>def t_right():<br>    GPIO.output(11, True)<br>    GPIO.output(12, False)<br>    GPIO.output(15, False)<br>    GPIO.output(16, True)</pre><strong>启动网页服务：</strong></p>
+<p>使用root用户ssh登陆到树莓派，切换到piCar的目录，执行python server.py 打开你的浏览器，输入树莓派IP：2000 就能看到你的控制页面了。 :)</p>
+<p>程序的完整源码放到了  <a href="https://github.com/wujiwh/piCar/tree/master/server" target="_blank">https://github.com/wujiwh/piCar/tree/master/server</a> 需要的朋友可以参考一下。<br></content></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>王恒</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://wangheng.org/raspberry-wifi-car-1.html">http://wangheng.org/raspberry-wifi-car-1.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签: </span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回前页</a>
+                <span>· </span>
+                <a href="/">回到首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/raspberry-wifi-car-2.html">树莓派Wifi小车(二)</a>
+            
+            
+            <a class="next" rel="next" href="/disable-or-replace-google-font.html">禁用或替换博客google字体</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 王恒 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> </span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <!-- 
+                                 _
+                                 | |
+          _ _ _  ____ ____   ____| | _   ____ ____   ____   ___   ____ ____
+         | | | |/ _  |  _ \ / _  | || \ / _  )  _ \ / _  | / _ \ / ___) _  |
+         | | | ( ( | | | | ( ( | | | | ( (/ /| | | ( ( | || |_| | |  ( ( | |
+          \____|\_||_|_| |_|\_|| |_| |_|\____)_| |_|\_|| (_)___/|_|   \_|| |
+                           (_____|                 (_____|           (_____|
+ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="王恒的技术博客 -- make progress a little day by day"> 
+<meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"> 
+
+<title>互联网常见Open API文档资源(转载) | 王恒&#39;s Blog</title>
+
+
+    <link rel="icon" href="/favicon.ico">  
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">  
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script> 
+    <script src="/js/tocbot.min.js"></script> 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script> 
+
+
+        
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">王恒&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default" style="display: none;" >
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">王恒&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+</header>
+<script>
+    hljs.initHighlightingOnLoad();
+    document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('pre').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+    });
+    
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">互联网常见Open API文档资源(转载)</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">王恒</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">八月 16, 2011&nbsp;&nbsp;22:43:56</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E4%B9%B1%E4%B8%83%E5%85%AB%E7%B3%9F/">乱七八糟</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <content>
+所谓的开放API（<a target="_blank" rel="noopener" href="http://www.williamlong.info/archives/2144.html">OpenAPI</a>）是服务型网站常见的一种应用，网站的服务商将自己的网站服务封装成一系列API（Application Programming Interface，应用编程接口）开放出去，供第三方开发者使用，这种行为就叫做开放网站的API，所开放的API就被称作OpenAPI（开放API）。
+
+<p>网站提供开放平台的API后，可以吸引一些第三方的开发人员在该平台上开发商业应用，平台提供商可以获得更多的流量与市场份额，第三方开发者不需要庞大的硬件与技术投资就可以轻松快捷的创业，从而达到双赢的目的，开放API是大平台发展、共享的途径，让开发者开发一个有价值应用，付出的成本更少，成功的机会更多。今天，OpenAPI作为互联网在线服务的发展基础，已经成为越来越多互联网企业发展服务的必然选择。下面我就列举一些常见网站服务的Open API文档资源索引。</p>
+<p><strong>SNS类网站API</strong></p>
+<p>Facebook - <a target="_blank" rel="noopener" href="http://developers.facebook.com/">http://developers.facebook.com/</a></p>
+<p>人人网开放平台 - <a target="_blank" rel="noopener" href="http://dev.renren.com/">http://dev.renren.com/<span id="more"></span></a></p>
+<p>51.com开放平台 - <a target="_blank" rel="noopener" href="http://developers.51.com/">http://developers.51.com/</a></p>
+<p>MySpace开发者平台 - <a target="_blank" rel="noopener" href="http://developer.myspace.cn/">http://developer.myspace.cn/</a></p>
+<p>Opensocial - <a target="_blank" rel="noopener" href="http://wiki.opensocial.org/">http://wiki.opensocial.org/</a></p>
+<p>Google Gadgets 小工具 API 开发人员指南 - <a target="_blank" rel="noopener" href="http://www.google.com/intl/zh-TW/apis/gadgets/docs-home.html">http://www.google.com/intl/zh-TW/apis/gadgets/docs-home.html</a></p>
+<p>Gadgets API 开发人员指南 - <a target="_blank" rel="noopener" href="http://code.google.com/intl/zh-CN/apis/gadgets/docs/dev_guide.html">http://code.google.com/intl/zh-CN/apis/gadgets/docs/dev_guide.html</a></p>
+<p>Gadgets API - <a target="_blank" rel="noopener" href="http://code.google.com/intl/zh-CN/apis/gadgets/">http://code.google.com/intl/zh-CN/apis/gadgets/</a></p>
+<p><strong>电子商务类</strong></p>
+<p>Amazon API - <a target="_blank" rel="noopener" href="http://aws.amazon.com/">http://aws.amazon.com/</a></p>
+<p>eBay API - <a target="_blank" rel="noopener" href="http://developer.ebay.com/">http://developer.ebay.com/</a></p>
+<p>淘宝开放平台 - <a target="_blank" rel="noopener" href="http://www.taobao.com/theme/tao_source/">http://www.taobao.com/theme/tao_source/</a></p>
+<p><strong>微博API</strong></p>
+<p>Twitter API - <a target="_blank" rel="noopener" href="http://apiwiki.twitter.com/Twitter-API-Documentation">http://apiwiki.twitter.com/Twitter-API-Documentation</a></p>
+<p>Status.Net(Laconica) API - <a target="_blank" rel="noopener" href="http://status.net/wiki/Twitter-compatible_API">http://status.net/wiki/Twitter-compatible_API</a></p>
+<p>新浪微博开发者平台 - <a target="_blank" rel="noopener" href="http://open.t.sina.com.cn">http://open.t.sina.com.cn</a></p>
+<p>注：需要授权的开发者才能访问，其API调用格式类似Twitter，但需要一个API Key用于认证管理。</p>
+<p>搜狐博客开放平台 - <a target="_blank" rel="noopener" href="http://ow.blog.sohu.com/">http://ow.blog.sohu.com/</a></p>
+<p>Follow5 API - <a target="_blank" rel="noopener" href="http://www.follow5.com/f5/jsp/other/api/api.jsp">http://www.follow5.com/f5/jsp/other/api/api.jsp</a></p>
+<p>嘀咕API - <a target="_blank" rel="noopener" href="http://code.google.com/p/digu-api/wiki/DiguApi">http://code.google.com/p/digu-api/wiki/DiguApi</a></p>
+<p>做啥API - <a target="_blank" rel="noopener" href="http://code.google.com/p/zuosa-api/wiki/ZuosaApiDoc">http://code.google.com/p/zuosa-api/wiki/ZuosaApiDoc</a></p>
+<p>人间网API - <a target="_blank" rel="noopener" href="http://renjian.com/api.html">http://renjian.com/api.html</a></p>
+<p>9911微博API - <a target="_blank" rel="noopener" href="http://www.9911.com/api.php">http://www.9911.com/api.php</a></p>
+<p><strong>Google Maps API</strong></p>
+<p>Google Maps API Developer Guide - <a target="_blank" rel="noopener" href="http://code.google.com/intl/en/apis/maps/documentation/">http://code.google.com/intl/en/apis/maps/documentation/</a></p>
+<p>Google Maps API Tutorial - <a target="_blank" rel="noopener" href="http://econym.org.uk/gmap/extensions.htm">http://econym.org.uk/gmap/extensions.htm</a></p>
+<p>GMaps Utility Library - <a target="_blank" rel="noopener" href="http://code.google.com/p/gmaps-utility-library-dev/wiki/Libraries">http://code.google.com/p/gmaps-utility-library-dev/wiki/Libraries</a></p>
+<p>GMaps Utility Examples - <a target="_blank" rel="noopener" href="http://gmaps-utility-library.googlecode.com/svn/trunk/labeledmarker/release/examples/">http://gmaps-utility-library.googlecode.com/svn/trunk/labeledmarker/release/examples/</a></p>
+<p>Saving User-Added Form Data - <a target="_blank" rel="noopener" href="http://code.google.com/intl/zh-CN/apis/maps/articles/phpsqlinfo.html">http://code.google.com/intl/zh-CN/apis/maps/articles/phpsqlinfo.html</a></p>
+<p><strong>Firefox类</strong></p>
+<p>Mozilla 开发者中心的扩展开发专题 - <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en/Extensions">https://developer.mozilla.org/en/Extensions</a></p>
+<p>XUL 1.0 规范 - <a target="_blank" rel="noopener" href="http://www-archive.mozilla.org/projects/xul/xul.html">http://www-archive.mozilla.org/projects/xul/xul.html</a></p>
+<p>更多地了解这种基于 XML 的用户界面语言，它可以构建各种富跨平台应用程序。</p>
+<p>Mozilla Development Center 的 XUL 教程 - <a target="_blank" rel="noopener" href="http://developer.mozilla.org/en/docs/XUL_Tutorial">http://developer.mozilla.org/en/docs/XUL_Tutorial</a></p>
+<p>Getting started with extension development 编写一个最简单的Firefox扩展 - <a target="_blank" rel="noopener" href="http://kb.mozillazine.org/Getting_started_with_extension_development">http://kb.mozillazine.org/Getting_started_with_extension_development</a></p>
+<p>Setting up extension development environment - <a target="_blank" rel="noopener" href="http://developer.mozilla.org/en/docs/Setting_up_extension_development_environment">http://developer.mozilla.org/en/docs/Setting_up_extension_development_environment</a></p>
+<p>实战 Firefox 扩展开发 - <a target="_blank" rel="noopener" href="http://www.ibm.com/developerworks/cn/web/wa-lo-firefox-ext/">http://www.ibm.com/developerworks/cn/web/wa-lo-firefox-ext/</a></p>
+<p>使用 XUL 实现浏览器扩展 (1) - <a target="_blank" rel="noopener" href="http://www.ibm.com/developerworks/cn/web/wa-xul1/">http://www.ibm.com/developerworks/cn/web/wa-xul1/</a></p>
+<p>使用 XUL 实现浏览器扩展 (2) - <a target="_blank" rel="noopener" href="http://www.ibm.com/developerworks/cn/web/wa-xul2/">http://www.ibm.com/developerworks/cn/web/wa-xul2/</a></p>
+<p><strong>应用类</strong></p>
+<p>豆瓣API - <a target="_blank" rel="noopener" href="http://www.douban.com/service/apidoc/">http://www.douban.com/service/apidoc/</a></p>
+<p>Flickr API - <a target="_blank" rel="noopener" href="http://www.flickr.com/services/api/">http://www.flickr.com/services/api/</a></p>
+<p>Last.fm API - <a target="_blank" rel="noopener" href="http://www.last.fm/api">http://www.last.fm/api</a></p>
+<p>Box.net API - <a target="_blank" rel="noopener" href="http://developers.box.net/">http://developers.box.net/</a></p>
+<p>Delicious API - <a target="_blank" rel="noopener" href="http://delicious.com/help/api">http://delicious.com/help/api</a></p>
+<p>API统计 - <a target="_blank" rel="noopener" href="http://www.programmableweb.com/apis">http://www.programmableweb.com/apis</a><br></content></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>王恒</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://wangheng.org/internet-common-open-api-resources.html">http://wangheng.org/internet-common-open-api-resources.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签: </span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回前页</a>
+                <span>· </span>
+                <a href="/">回到首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/unicom-dns-hijacking.html">北京联通DNS劫持！</a>
+            
+            
+            <a class="next" rel="next" href="/razer-krait-mouse-change-budge.html">Razer Krait 鼠标换微动</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 王恒 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> </span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

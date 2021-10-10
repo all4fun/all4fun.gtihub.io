@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <!-- 
+                                 _
+                                 | |
+          _ _ _  ____ ____   ____| | _   ____ ____   ____   ___   ____ ____
+         | | | |/ _  |  _ \ / _  | || \ / _  )  _ \ / _  | / _ \ / ___) _  |
+         | | | ( ( | | | | ( ( | | | | ( (/ /| | | ( ( | || |_| | |  ( ( | |
+          \____|\_||_|_| |_|\_|| |_| |_|\____)_| |_|\_|| (_)___/|_|   \_|| |
+                           (_____|                 (_____|           (_____|
+ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="王恒的技术博客 -- make progress a little day by day"> 
+<meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"> 
+
+<title>设置Win7无线网络共享 | 王恒&#39;s Blog</title>
+
+
+    <link rel="icon" href="/favicon.ico">  
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">  
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script> 
+    <script src="/js/tocbot.min.js"></script> 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script> 
+
+
+        
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">王恒&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default" style="display: none;" >
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">王恒&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+</header>
+<script>
+    hljs.initHighlightingOnLoad();
+    document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('pre').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+    });
+    
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">设置Win7无线网络共享</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">王恒</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">二月 17, 2012&nbsp;&nbsp;18:32:11</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/">技术探讨</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <content>
+有时候难免碰到多个人需要上网却只有一根网线的情况，其实WIN7系统里还有很多有意思的东西我们没有用过，例如，方便设置WIN7的无线网卡，来实现共享WIFI上网。如果你电脑上同时有无线和有线网卡不妨试试，下面就来说一下设置过程：
+
+<p><span style="font-size: medium;"><strong>方法一：</strong></span></p>
+<p><span style="font-size: small;"><strong>1、首先以管理员身份运行命令提示符</strong></span></p>
+<p>开始-&gt;搜索框输入cmd，出来的cmd.exe上右键管理员身份运行，或者win+R打开运行提示框，输入cmd并回车。</p>
+<p><span style="font-size: small;"><strong>2、设置“虚拟Wifi网卡”模式</strong></span></p>
+<p>敲入命令：</p>
+<p>netsh wlan set hostednetwork mode=allow ssid=Master_Share key=1234567890</p>
+<blockquote><a href="uploads/2012/02/image.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="image" src="uploads/2012/02/image_thumb.png" alt="image" width="547" height="100" border="0" /></a>
+
+<p>其中：</blockquote><br>Mode：是否启用虚拟Wifi网卡，改为disallow则为禁用</p>
+<p>Ssid：设定无线网络的名称</p>
+<p>Key：设定无线网络的密码。</p>
+<p>执行完以后我们会在网络适配器里面看到一个“无线网络连接4“的虚拟网卡（一般情况是无线网络连接2，因为我机器曾接入多块无线网卡故为无线连接4）<img class="wlEmoticon wlEmoticon-smile" style="border-style: none;" src="uploads/2012/02/wlEmoticon-smile1.png" alt="Smile" /></p>
+<p><a href="uploads/2012/02/image1.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="image" src="uploads/2012/02/image_thumb1.png" alt="image" width="419" height="101" border="0" /></a></p>
+<p><span style="font-size: small;"><strong>3、启用“Internet连接共享”</strong></span></p>
+<p>打开控制面板找到并打开“网络和共享中心”窗口，右键单击已连接到Internet的网络连接，选择“属性”，切换到“共享”选项卡，选中其中的复选框，并选择允许其共享Internet的网络连接在这里即我们的虚拟Wifi网卡。</p>
+<span id="more"></span>
+
+<p><a href="uploads/2012/02/image2.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="image" src="uploads/2012/02/image_thumb2.png" alt="image" width="426" height="296" border="0" /></a></p>
+<p>确定之后，提供共享的网卡图标旁边会出现“已共享”标志</p>
+<p>在命令提示符中运行以下命令：</p>
+<p>netsh wlan start hostednetwork</p>
+<p>开启我们之前设置好的无线网络(将start改为stop即可关闭该无线网)。</p>
+<p>用你的手机搜索一下无线，找到名称为Master_Share的网络，点击连接并输入你设置的密码，</p>
+<p>是否能够上网了呢？</p>
+<p><span style="font-size: medium;"><strong>方法二：（推荐）</strong></span></p>
+<p><strong>更酷的玩法：</strong></p>
+<p>其实配置无线有更简单方便的方法 <img class="wlEmoticon wlEmoticon-smile" style="border-style: none;" src="uploads/2012/02/wlEmoticon-smile1.png" alt="Smile" /></p>
+<p>1、首先确保所有的网卡都没有设置Internet连接共享，如果设置过，请取消共享。</p>
+<p>打开控制面板-&gt;网络和共享中心-&gt;设置新的连接或网络</p>
+<p>选择“设置无线临时（计算机到计算机）网络”并点击下一步</p>
+<p><a href="uploads/2012/02/image3.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="image" src="uploads/2012/02/image_thumb3.png" alt="image" width="467" height="141" border="0" /></a></p>
+<p>出现的窗口中输入你的无线网络名称和密码，注意安全类型选择WEP以方便设置（其实平时也不会总开着无线共享，所以也没必要非要wap2）。</p>
+<p><a href="uploads/2012/02/image4.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="image" src="uploads/2012/02/image_thumb4.png" alt="image" width="465" height="258" border="0" /></a></p>
+<p>下一步继续，出现的窗口中选择启用Internet连接共享，（后面还可能让你选择已经接入网络的网卡，请正确选择）</p>
+<p><a href="uploads/2012/02/image5.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="image" src="uploads/2012/02/image_thumb5.png" alt="image" width="432" height="339" border="0" /></a></p>
+<p><a href="uploads/2012/02/image6.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="image" src="uploads/2012/02/image_thumb6.png" alt="image" width="436" height="186" border="0" /></a></p>
+<p>成功后无线状态显示为正“等待用户”~~</p>
+<p><a href="uploads/2012/02/image7.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="image" src="uploads/2012/02/image_thumb7.png" alt="image" width="349" height="93" border="0" /></a></p>
+<p>用手机搜索一下无线信号，输入正确的密码来使用共享的无线网络。</p>
+<p><span style="font-size: medium;"><strong>疑难解答：</strong></span></p>
+<p>如果你前面的步骤不成功。</p>
+<p>1、请检查你提供共享的无线网卡（虚拟WIFI或方法二的无线网络2）的IP设置，确保配置如图所示：（DNS可以不用填）</p>
+<p><a href="uploads/2012/02/image8.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border-width: 0px;" title="image" src="uploads/2012/02/image_thumb8.png" alt="image" width="403" height="303" border="0" /></a></p>
+<p>2、手机或者其他终端如果自动获取的IP跟上面图的IP地址不在一个网段（不是192.168.137.X），请在终端选择手动设置IP，设置如下：</p>
+<p>IP地址：192.168.137.2</p>
+<p>子网掩码：255.255.255.0</p>
+<p>默认网关：192.168.137.1</p>
+<p><span style="font-size: medium;"><strong>方法拓展：</strong></span></p>
+<p>其实前面的方法道理都是一样的，都用的是ICS（Internet连接共享）这个服务，所以你可以通过这种方法来实现：</p>
+<p><strong>1、无线共享给无线</strong>（给手机或平板提供无线连接，毕竟笔记本的网卡比这些终端要好很多）</p>
+<p><strong>2、有线共享给无线</strong></p>
+<p><strong>3、无线共享给有线</strong>（哈哈，这个给力吧，曾经大二的时候就通过这种方法跟同学一起联网上浩方，好怀念！）</p>
+<p>好了，其实Windows系统还是很强大的！有任何问题的朋友可以留言共同学习~！<br></content></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>王恒</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://wangheng.org/set-win7-wireless-share.html">http://wangheng.org/set-win7-wireless-share.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签: </span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Windows/"># Windows</a>
+                    
+                        <a href="/tags/Win7/"># Win7</a>
+                    
+                        <a href="/tags/%E8%99%9A%E6%8B%9FWIFI/"># 虚拟WIFI</a>
+                    
+                        <a href="/tags/%E7%BD%91%E7%BB%9C/"># 网络</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回前页</a>
+                <span>· </span>
+                <a href="/">回到首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/the-simple-to-configure-php.html">简单配置PHP</a>
+            
+            
+            <a class="next" rel="next" href="/the-apache2-configure-multi-the-domain.html">Apache2配置多域名</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 王恒 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> </span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

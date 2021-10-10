@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <!-- 
+                                 _
+                                 | |
+          _ _ _  ____ ____   ____| | _   ____ ____   ____   ___   ____ ____
+         | | | |/ _  |  _ \ / _  | || \ / _  )  _ \ / _  | / _ \ / ___) _  |
+         | | | ( ( | | | | ( ( | | | | ( (/ /| | | ( ( | || |_| | |  ( ( | |
+          \____|\_||_|_| |_|\_|| |_| |_|\____)_| |_|\_|| (_)___/|_|   \_|| |
+                           (_____|                 (_____|           (_____|
+ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="王恒的技术博客 -- make progress a little day by day"> 
+<meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"> 
+
+<title>wamp配置多域名虚拟目录 | 王恒&#39;s Blog</title>
+
+
+    <link rel="icon" href="/favicon.ico">  
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">  
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script> 
+    <script src="/js/tocbot.min.js"></script> 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script> 
+
+
+        
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">王恒&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default" style="display: none;" >
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">王恒&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+</header>
+<script>
+    hljs.initHighlightingOnLoad();
+    document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('pre').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+    });
+    
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">wamp配置多域名虚拟目录</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">王恒</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">七月 29, 2012&nbsp;&nbsp;19:19:18</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/">最近添加</a>
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/">技术探讨</a>
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/Route/">Route</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <content>
+<p>&#160;&#160;&#160;&#160;&#160; 安装完成wamp后默认的www目录是在我本地的C:\wamp\www，这个目录下我放了一些自己测试php写的一些小例子。但是我工作的项目都是在其他的D盘、E盘，反复的设置apache的DocumentRoot 路径实在不是一个好的解决方案。当然这点小问题还是很好解决的，跟VPS中设置多域名类似，使用Apache的虚拟主机扩展Vhost可以轻松解决这个问题。</p>  <p><font size="3"><strong>现在先来配置虚拟主机：</strong></font>     <br /><strong>1、首先打开apache的配置文件httpd.conf</strong></p>  <p>我这里是C:\wamp\bin\apache\apache2.2.22\conf\httpd.conf，打开后去掉#Include conf/extra/httpd-vhosts.conf前面的#注释标记。    <br /><strong>2、打开配置文件httpd-vhosts.conf</strong></p>  <p>我这里的文件路径是C:\wamp\bin\apache\apache2.2.22\conf\extra\httpd-vhosts.conf 。在httpd-vhosts.conf文件的末尾添加上：    <br />&#160; &lt;VirtualHost *:<font color="#ff0000">8080</font>&gt;&#160; <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; DocumentRoot <font color="#ff0000">你的项目所在的路径 #例如E:\src\myproject\web</font>     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; ServerName d.com&#160; <font color="#00ff00">#取一个自己容易记忆的名字我使用的是d.com</font>     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;Directory &quot;<font color="#ff0000">你的项目所在的路径</font>&quot;&gt;     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; Options Indexes FollowSymLinks     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; AllowOverride None     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; Order allow,deny     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; Allow from all     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;/Directory&gt;     <br />&#160; &lt;/VirtualHost&gt;</p>  <p>但是使用Vhost配置后，localhost访问则出现了问题，所以需要同样为localhost配置成一个虚拟主机目录，如下：</p>  <p>&lt;VirtualHost *:<font color="#ff0000">8080</font>&gt;     <br />DocumentRoot <font color="#ff0000">c</font><font color="#ff0000">:/wamp/www      <br /></font>ServerName localhost     <br />&lt;Directory &quot;<font color="#ff0000">c</font><font color="#ff0000">:/wamp/www</font>&quot;&gt;     <br />Options Indexes FollowSymLinks     <br />AllowOverride None     <br />Order allow,deny     <br />Allow from all     <br />&lt;/Directory&gt;     <br />&lt;/VirtualHost&gt;</p>  <p><font color="#ff0000"><strong>红色部分需要自己手动修改成你对于的目录，我这里设置的Apache的监听端口是8080，修改时请改为你自己的端口号。</strong></font>修改后，如图所示：</p>  <p><a href="uploads/2012/07/image5.png"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="image" border="0" alt="image" src="uploads/2012/07/image_thumb5.png" width="579" height="381" /></a> </p><span id="more"></span><br /><strong>3、设置系统hosts文件</strong>    <p>打开在C:/WINDOWS/system32/drivers/etc中的hosts文件中加上如下的内容    <br />&#160;&#160;&#160; 127.0.0.1&#160;&#160;&#160; d.com     <br />完成上面的步骤后，这样我们就配置好了我们的虚拟主机，重启一下Apache服务。</p>  <p>在浏览器输入<a target="_blank" rel="noopener" href="http://localhost:8080">http://localhost:8080</a> 访问到的是c:/wamp/www目录下的内容了！</p>  <p>同样输入<a target="_blank" rel="noopener" href="http://d.com:8080">http://d.com:8080</a> 访问到的是你自定义的E盘的那个路径，是不是很方便~</p>
+</content>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>王恒</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://wangheng.org/wamp-to-configure-a-multi-domain-virtual-directory.html">http://wangheng.org/wamp-to-configure-a-multi-domain-virtual-directory.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签: </span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E5%A4%9A%E5%9F%9F%E5%90%8D/"># 多域名</a>
+                    
+                        <a href="/tags/WAMP/"># WAMP</a>
+                    
+                        <a href="/tags/%E8%99%9A%E6%8B%9F%E4%B8%BB%E6%9C%BA/"># 虚拟主机</a>
+                    
+                        <a href="/tags/wiki/"># wiki</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回前页</a>
+                <span>· </span>
+                <a href="/">回到首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/use-vimwiki-set-up-a-personal-wiki.html">使用vimwiki组建个人wiki</a>
+            
+            
+            <a class="next" rel="next" href="/under-windows-install-php-pear.html">Windows下安装PHP Pear</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 王恒 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> </span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

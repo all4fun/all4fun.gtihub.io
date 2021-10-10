@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <!-- 
+                                 _
+                                 | |
+          _ _ _  ____ ____   ____| | _   ____ ____   ____   ___   ____ ____
+         | | | |/ _  |  _ \ / _  | || \ / _  )  _ \ / _  | / _ \ / ___) _  |
+         | | | ( ( | | | | ( ( | | | | ( (/ /| | | ( ( | || |_| | |  ( ( | |
+          \____|\_||_|_| |_|\_|| |_| |_|\____)_| |_|\_|| (_)___/|_|   \_|| |
+                           (_____|                 (_____|           (_____|
+ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="王恒的技术博客 -- make progress a little day by day"> 
+<meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"> 
+
+<title>Ubuntu 10.10 更新源总结 | 王恒&#39;s Blog</title>
+
+
+    <link rel="icon" href="/favicon.ico">  
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">  
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script> 
+    <script src="/js/tocbot.min.js"></script> 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script> 
+
+
+        
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">王恒&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default" style="display: none;" >
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">王恒&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+</header>
+<script>
+    hljs.initHighlightingOnLoad();
+    document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('pre').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+    });
+    
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Ubuntu 10.10 更新源总结</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">王恒</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">六月 1, 2011&nbsp;&nbsp;0:45:09</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/">技术探讨</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <content>
+<div>1.首先备份你的sources 文件</div><div><pre>sudo cp /etc/apt/sources.list /etc/apt/sources.list.bksudo gedit /etc/apt/sources.list</pre>
+编辑你的源列表，将原来的内容全部删除，添加下面列表中最适合你的源（注意不要全部添加），选择一个最合适你的即可，复制到你的列表中，然后保存列表。
+
+<p>2.使用sudo apt-get update 更新源列表信息<br>可以在运行“sudo apt-get update ”时查看一下错误信息，把不能连接的源删除再重新运行“sudo apt-get update ”。</p>
+<p>3.使用sudo apt-get upgrade 升级<br>或者用ubuntu自带的更新管理器升级也可<span id="more"></span></p>
+<p>Ubuntu 10.10源列表：</p>
+<p>台湾源<br>代码:<br>deb <a target="_blank" rel="noopener" href="http://tw.archive.ubuntu.com/ubuntu/">http://tw.archive.ubuntu.com/ubuntu/</a> maverick main universe restricted multiverse<br>deb-src <a target="_blank" rel="noopener" href="http://tw.archive.ubuntu.com/ubuntu/">http://tw.archive.ubuntu.com/ubuntu/</a> maverick main universe restricted multiverse<br>deb <a target="_blank" rel="noopener" href="http://tw.archive.ubuntu.com/ubuntu/">http://tw.archive.ubuntu.com/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://tw.archive.ubuntu.com/ubuntu/">http://tw.archive.ubuntu.com/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb <a target="_blank" rel="noopener" href="http://tw.archive.ubuntu.com/ubuntu/">http://tw.archive.ubuntu.com/ubuntu/</a> maverick-updates universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://tw.archive.ubuntu.com/ubuntu/">http://tw.archive.ubuntu.com/ubuntu/</a> maverick-updates universe main multiverse restricted</p>
+<p>SRT Sources<br>代码:</p>
+<p>deb <a target="_blank" rel="noopener" href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick main restricted universe multiverse<br>deb <a target="_blank" rel="noopener" href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-security main restricted universe multiverse<br>deb <a target="_blank" rel="noopener" href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-updates main restricted universe multiverse<br>deb <a target="_blank" rel="noopener" href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-proposed main restricted universe multiverse<br>deb <a target="_blank" rel="noopener" href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-backports main restricted universe multiverse<br>deb-src <a target="_blank" rel="noopener" href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick main restricted universe multiverse<br>deb-src <a target="_blank" rel="noopener" href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-security main restricted universe multiverse<br>deb-src <a target="_blank" rel="noopener" href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-updates main restricted universe multiverse<br>deb-src <a target="_blank" rel="noopener" href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-proposed main restricted universe multiverse<br>deb-src <a target="_blank" rel="noopener" href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-backports main restricted universe multiverse</p>
+<p>网易 Ubuntu 10.10 源（速度很快）<br>代码:</p>
+<p>deb <a target="_blank" rel="noopener" href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick main universe restricted multiverse<br>deb-src <a target="_blank" rel="noopener" href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick main universe restricted multiverse<br>deb <a target="_blank" rel="noopener" href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb <a target="_blank" rel="noopener" href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-updates universe main multiverse restricted<br>deb <a target="_blank" rel="noopener" href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb <a target="_blank" rel="noopener" href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-updates universe main multiverse restricted</p>
+<p>ubuntu 10.10 上海 源，提供 Kernel，Hiweed，ubuntu<br>代码:</p>
+<p>deb <a target="_blank" rel="noopener" href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick main universe restricted multiverse<br>deb-src <a target="_blank" rel="noopener" href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick main universe restricted multiverse<br>deb <a target="_blank" rel="noopener" href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb <a target="_blank" rel="noopener" href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-updates universe main multiverse restricted<br>deb <a target="_blank" rel="noopener" href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb <a target="_blank" rel="noopener" href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-updates universe main multiverse restricted</p>
+<p>搜狐 Ubuntu 10.10 源<br>代码:</p>
+<p>deb <a target="_blank" rel="noopener" href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick main universe restricted multiverse<br>deb-src <a target="_blank" rel="noopener" href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick main universe restricted multiverse<br>deb <a target="_blank" rel="noopener" href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb <a target="_blank" rel="noopener" href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-updates universe main multiverse restricted<br>deb <a target="_blank" rel="noopener" href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb <a target="_blank" rel="noopener" href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-updates universe main multiverse restricted</p>
+<p>骨头源，骨头源是bones7456架设的一个Ubuntu源 ，提供ubuntu,deepin<br>代码:<br>deb <a target="_blank" rel="noopener" href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick main universe restricted multiverse<br>deb-src <a target="_blank" rel="noopener" href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick main universe restricted multiverse<br>deb <a target="_blank" rel="noopener" href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb <a target="_blank" rel="noopener" href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-updates universe main multiverse restricted<br>deb <a target="_blank" rel="noopener" href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb <a target="_blank" rel="noopener" href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-updates universe main multiverse restricted</p>
+<p>lupaworld 源，提供 ArchLinux，Everest，FreeBSD，Fedora，LFS，Magiclinux，Mandriva，OpenOffice，openSUSE，Puppy，Red Hat，Slitaz，Turbolinux，Ubuntu，中标普华</p>
+<p>代码:</p>
+<p>deb <a target="_blank" rel="noopener" href="http://mirror.lupaworld.com/ubuntu/">http://mirror.lupaworld.com/ubuntu/</a> maverick main universe restricted multiverse<br>deb-src <a target="_blank" rel="noopener" href="http://mirror.lupaworld.com/ubuntu/">http://mirror.lupaworld.com/ubuntu/</a> maverick main universe restricted multiverse<br>deb <a target="_blank" rel="noopener" href="http://mirror.lupaworld.com/ubuntu/">http://mirror.lupaworld.com/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://mirror.lupaworld.com/ubuntu/">http://mirror.lupaworld.com/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb <a target="_blank" rel="noopener" href="http://mirror.lupaworld.com/ubuntu/">http://mirror.lupaworld.com/ubuntu/</a> maverick-updates universe main multiverse restricted<br>deb <a target="_blank" rel="noopener" href="http://mirror.lupaworld.com/ubuntu/">http://mirror.lupaworld.com/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://mirror.lupaworld.com/ubuntu/">http://mirror.lupaworld.com/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb <a target="_blank" rel="noopener" href="http://mirror.lupaworld.com/ubuntu/">http://mirror.lupaworld.com/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://mirror.lupaworld.com/ubuntu/">http://mirror.lupaworld.com/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://mirror.lupaworld.com/ubuntu/">http://mirror.lupaworld.com/ubuntu/</a> maverick-updates universe main multiverse restricted</p>
+<p>rootguide源，ubuntu官方上海源，提供 Kernel，Hiweed，ubuntu</p>
+<p>代码:<br>deb <a target="_blank" rel="noopener" href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick main universe restricted multiverse<br>deb-src <a target="_blank" rel="noopener" href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick main universe restricted multiverse<br>deb <a target="_blank" rel="noopener" href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb <a target="_blank" rel="noopener" href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-updates universe main multiverse restricted<br>deb <a target="_blank" rel="noopener" href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb <a target="_blank" rel="noopener" href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-updates universe main multiverse restricted</p>
+<p>网易开源镜像站,提供FreeBSD，OpenBSD，archlinux，centos，cygwin，debian，fedora，gentoo，kernel，openSUSE，slackware，ubuntu</p>
+<p>代码:<br>deb <a target="_blank" rel="noopener" href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick main universe restricted multiverse<br>deb-src <a target="_blank" rel="noopener" href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick main universe restricted multiverse<br>deb <a target="_blank" rel="noopener" href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb <a target="_blank" rel="noopener" href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-updates universe main multiverse restricted<br>deb <a target="_blank" rel="noopener" href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb <a target="_blank" rel="noopener" href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-updates universe main multiverse restricted</p>
+<p>搜 狐开源镜像站，提供 CPAN，FreeBSD，NetBSD，OpenBSD，apache，archlinux，centos，cygwin，dag，debian，fedora，gentoo，kernel，lfs，mysql，nginx，openSUSE，php，rpmfusion，slackware，ubuntu</p>
+<p>代码:</p>
+<p>deb <a target="_blank" rel="noopener" href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick main universe restricted multiverse<br>deb-src <a target="_blank" rel="noopener" href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick main universe restricted multiverse<br>deb <a target="_blank" rel="noopener" href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb <a target="_blank" rel="noopener" href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-updates universe main multiverse restricted<br>deb <a target="_blank" rel="noopener" href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb <a target="_blank" rel="noopener" href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a target="_blank" rel="noopener" href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-updates universe main multiverse restricted</p>
+</div>
+&nbsp;
+</content>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>王恒</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://wangheng.org/ubuntu-10-10-update-source.html">http://wangheng.org/ubuntu-10-10-update-source.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签: </span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Ubuntu/"># Ubuntu</a>
+                    
+                        <a href="/tags/10-1/"># 10.1</a>
+                    
+                        <a href="/tags/%E6%9B%B4%E6%96%B0%E6%BA%90/"># 更新源</a>
+                    
+                        <a href="/tags/source/"># source</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回前页</a>
+                <span>· </span>
+                <a href="/">回到首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/html-page-several-methods-of-jump.html">HTML 页面跳转的几种方法</a>
+            
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 王恒 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> </span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

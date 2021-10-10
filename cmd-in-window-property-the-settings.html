@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <!-- 
+                                 _
+                                 | |
+          _ _ _  ____ ____   ____| | _   ____ ____   ____   ___   ____ ____
+         | | | |/ _  |  _ \ / _  | || \ / _  )  _ \ / _  | / _ \ / ___) _  |
+         | | | ( ( | | | | ( ( | | | | ( (/ /| | | ( ( | || |_| | |  ( ( | |
+          \____|\_||_|_| |_|\_|| |_| |_|\____)_| |_|\_|| (_)___/|_|   \_|| |
+                           (_____|                 (_____|           (_____|
+ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="王恒的技术博客 -- make progress a little day by day"> 
+<meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"> 
+
+<title>CMD窗口属性设置 | 王恒&#39;s Blog</title>
+
+
+    <link rel="icon" href="/favicon.ico">  
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">  
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script> 
+    <script src="/js/tocbot.min.js"></script> 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script> 
+
+
+        
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">王恒&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default" style="display: none;" >
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">王恒&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+</header>
+<script>
+    hljs.initHighlightingOnLoad();
+    document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('pre').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+    });
+    
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">CMD窗口属性设置</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">王恒</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">五月 20, 2012&nbsp;&nbsp;18:23:16</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/">最近添加</a>
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/">技术探讨</a>
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/Route/">Route</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <content>
+首先打开注册表编辑器，Win+R(win就是那个Windows标志的按键)。具体设置参考如下：<strong></strong>
+
+<p><strong>1、默认设置：</strong><br>保存在 HKEY_CURRENT_USER\Console<br><strong>2、自定义设置：</strong><br>保存在 [HKEY_CURRENT_USER\Console%SystemRoot%_system32_cmd.exe]</p>
+<p>里面是一些自定义的设置，优先级高于默认设置。<br><strong>3、各键及其值所代表的意义：</strong><br>“WindowPosition”=dword:00640104<br>“CodePage”=dword:000003a8<br>“FontSize”=dword:00100008<br>“FontFamily”=dword:00000030<br>“FontWeight”=dword:00000190<br>“HistoryNoDup”=dword:00000000<br>“FullScreen”=dword:00000000<br>“ScreenColors”=dword:000000ce<br>“ScreenBufferSize”=dword:12c0050<br><strong>4、键值意义：</strong><span style="color: #ff0000;">注：各键值均为十六进制表示<br></span>窗口位置—–WindowPosition—高四位为上，低四位为左。<br>如00640104，即距屏幕上沿64H=100，距屏幕左沿104H=260<br>字体大小—–FontSize———高四位为字高，低四位为字宽<br>如00100008，即字体宽×高=08H×10H=8×16<span id="more"></span><br>全屏幕——-FullScreen——-0:窗口 1:全屏幕(此时WindowPosition失效)<br>窗口尺寸—–WindowSize——-高四位为高度，低四位为宽度<br>默认00190050，即高19H=25行，宽50H=80列<br>缓冲区尺寸—ScreenBufferSize-高四位为高度，低四位为宽度<br>默认012c0050，即高12cH=300行，宽50H=80列<br>字体颜色—–ScreenColors—–低两位同color设置中的字体颜色值<br>字体类型—–FontFamily——-36:新宋体 30:点阵字体<br>当前代码页—CodePage———默认3a8H=936:ANSI/OEM-简体中文GBK<br>丢弃旧副本—HistoryNoDup—–0:不丢弃 1:丢弃旧副本<br><strong>5、自定义与默认关系：</strong><br>系统首先在自定义里面查找相关设置，若自定义中没有，则到默认里面查找。<br>即自定义优先级高于默认。<br><strong>6、批处理设定窗口属性 </strong><pre lang="winbatch" line="1"><br>set rr="HKCU\Console%%SystemRoot%%_system32_cmd.exe"<br>reg delete %rr% /f>nul<br>reg add %rr% /v "WindowPosition" /t REG_DWORD /d 0x00640104 /f>nul<br>reg add %rr% /v "WindowSize" /t REG_DWORD /d 0x00190050 /f>nul<br>reg add %rr% /v "ScreenBufferSize" /t REG_DWORD /d 0x00190050 /f>nul<br>reg add %rr% /v "FullScreen" /t REG_DWORD /d 0x00000001 /f>nul<br>reg add %rr% /v "FontSize" /t REG_DWORD /d 0x00100008 /f>nul<br></pre><br>可以将上面的代码保存到一个文本文件，并将扩展名改成.bat批处理文件来双击运行。</p>
+<p><strong>7、字体大小：</p>
+<p></strong>(1)点阵字体(较小)</p>
+<p>3×5——-00050003</p>
+<p>5×8——-00080005</p>
+<p>6×12——000c0006</p>
+<p>6×13——000d0006</p>
+<p>8×16——00100008</p>
+<p>8×18——00120008</p>
+<p>10×20—–0014000a</p>
+<p>10×22—–0016000a</p>
+<p>12×27—–001b000c</p>
+<p>(2)新宋体(较大)</p>
+<p>6—-00060000—3*7</p>
+<p>8—-00080000—4*9</p>
+<p>10—000a0000—5*11</p>
+<p>12—000c0000—6*14</p>
+<p>14—000e0000—7*16</p>
+<p>16—00100000—8*18</p>
+<p>18—00120000—9*21</p>
+<p>20—00140000—10*23</p>
+<p>24—00180000—12*27</p>
+<p>28—001c0000—14*32</p>
+<p>36—00240000—18*41</p>
+<p>72—00480000—36*82</p>
+<p>以上是自定义cmd窗口属性的基本知识<br></content></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>王恒</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://wangheng.org/cmd-in-window-property-the-settings.html">http://wangheng.org/cmd-in-window-property-the-settings.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签: </span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Windows/"># Windows</a>
+                    
+                        <a href="/tags/%E5%91%BD%E4%BB%A4%E8%A1%8C/"># 命令行</a>
+                    
+                        <a href="/tags/%E5%AE%B6%E5%BA%AD/"># 家庭</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回前页</a>
+                <span>· </span>
+                <a href="/">回到首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/efficient-office-support-tool-autohotkey.html">高效办公辅助工具Autohotkey</a>
+            
+            
+            <a class="next" rel="next" href="/firefox-the-ssh-the-autoproxy-smart-over-wall.html">Firefox+SSH+AutoProxy智能翻墙</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 王恒 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> </span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

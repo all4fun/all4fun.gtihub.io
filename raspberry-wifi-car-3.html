@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <!-- 
+                                 _
+                                 | |
+          _ _ _  ____ ____   ____| | _   ____ ____   ____   ___   ____ ____
+         | | | |/ _  |  _ \ / _  | || \ / _  )  _ \ / _  | / _ \ / ___) _  |
+         | | | ( ( | | | | ( ( | | | | ( (/ /| | | ( ( | || |_| | |  ( ( | |
+          \____|\_||_|_| |_|\_|| |_| |_|\____)_| |_|\_|| (_)___/|_|   \_|| |
+                           (_____|                 (_____|           (_____|
+ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="王恒的技术博客 -- make progress a little day by day"> 
+<meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"> 
+
+<title>树莓派Wifi小车(三) | 王恒&#39;s Blog</title>
+
+
+    <link rel="icon" href="/favicon.ico">  
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">  
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script> 
+    <script src="/js/tocbot.min.js"></script> 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script> 
+
+
+        
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">王恒&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default" style="display: none;" >
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">王恒&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+</header>
+<script>
+    hljs.initHighlightingOnLoad();
+    document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('pre').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+    });
+    
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">树莓派Wifi小车(三)</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">王恒</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">一月 25, 2015&nbsp;&nbsp;21:26:39</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/">最近添加</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <content>
+前面<a title="树莓派Wifi小车(一)" href="http://wangheng.org/raspberry-wifi-car-1.html" target="_blank">1</a>,<a title="树莓派Wifi小车(二)" href="http://wangheng.org/raspberry-wifi-car-2.html" target="_blank">2</a>中我们的小车能跑了，现在在加一些有意思的功能，那就是网络摄像头，这样我们的小车就变成了一个巡逻小车啦！
+
+<p>首先当然你需要有一个USB摄像头，现在市面上的大部门的UVC摄像头都能直接被Linux驱动，当然raspberry也是可以的，比起windows那乱七八糟的驱动程序是不是方便很多。</p>
+<p>如果你不确定你的摄像头能不能直接被你的树莓派识别，你可以首先执行</p>
+<p>lsusb 看看你的摄像头vid在不在UVC协议的官方支持列表。支持列表可查看：<a target="_blank" rel="noopener" href="http://linux-uvc.berlios.de/">http://linux-uvc.berlios.de/</a></p>
+<p>确定好了摄像头的驱动问题，下面就是安装网络摄像头监控软件了。</p>
+<p>常用的有motion以及mjpg-streamer这两款软件</p>
+<p>我之前一直用的是motion 这款软件，在openwrt和NAS的软件源里面都能很容易的安装，raspberry也不例外。我们先试试motion的效果！</p>
+<span id="more"></span>
+
+<p><strong>一、motion安装以及使用</strong><pre class="brush: bash; gutter: true">#首先更新系统软件源<br>sudo apt-get update<br>#升级系统软件包<br>sudo apt-get upgrade<br>#安装motion软件包<br>sudo apt-get install motion<br>#配置motion<br>#首先备份默认配置<br>cp /etc/motion/motion.conf /etc/motion/motion.conf.bak<br>#修改参数设置<br>#启用daemon<br>daemon on<br>#取消只绑定到本地，这样局域网其他机器才能访问到摄像头图像<br>webcam_localhost off<br>#监测到动作的时候不保存图片，否则会保存大量的图片占用SD卡<br>output_normal off<br>#启动motion后天服务，下面执行一下<br>motion</pre><br>接下来使用firefox访问IP:8081 应该就能看到移动的图像了。</p>
+<p>我们修改一下小车控制页面，将图像监视显示出来，效果如下：</p>
+<p><a href="uploads/2015/01/picar_with_webcam.png"><img class="alignnone wp-image-95045 size-medium" src="uploads/2015/01/picar_with_webcam-275x300.png" alt="带摄像头移动小车" width="275" height="300" /></a></p>
+<p>是不是还不错! : )</p>
+<p>&nbsp;</p>
+<p><strong>二、mjpg-streamer安装以及使用</strong></p>
+<p>1、安装依赖软件包</p>
+<pre class="brush: bash; gutter: true">sudo apt-get install libv4l-dev libjpeg8-dev  imagemagick</pre>
+<p>2、下载mjpg-streamer软件源码包</p>
+<pre class="brush: bash; gutter: true">wget http://downloads.sourceforge.net/project/mjpg-streamer/mjpg-streamer/Sourcecode/mjpg-streamer-r63.tar.gz</pre>
+<p>3、处理videodev.h丢失问题</p>
+<p>编译过程会报错，错误的原因是Linux 2.4以上的内核里面都没有包含videodev.h这个文件了。在include/linux/下面有videodev2.h这个文件，但是在源文件中部分包含了videodev.h这个头文件。导致报错。解决的办法是：</p>
+<pre class="brush: bash; gutter: true">sudo ln -s /usr/include/linux/videodev2.h /usr/include/linux/videodev.h</pre>
+<p>4、解压安装</p>
+<pre class="brush: bash; gutter: true">tar xvf mjpg-streamer-r63.tar.gz
+cd mjpg-streamer-r63/
+make USE_LIBV4L2=true clean all
+./start.sh</pre>
+<p>打开 IP:8080看看效果吧！</p>
+<p>&nbsp;<br></content></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>王恒</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://wangheng.org/raspberry-wifi-car-3.html">http://wangheng.org/raspberry-wifi-car-3.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签: </span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回前页</a>
+                <span>· </span>
+                <a href="/">回到首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/resolve-syntaxhighlighter-google-fonts-pop-issue.html">解决插件调用google字体巨慢的问题</a>
+            
+            
+            <a class="next" rel="next" href="/raspberry-wifi-car-2.html">树莓派Wifi小车(二)</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 王恒 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> </span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

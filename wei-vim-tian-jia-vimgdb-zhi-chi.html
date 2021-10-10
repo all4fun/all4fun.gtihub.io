@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <!-- 
+                                 _
+                                 | |
+          _ _ _  ____ ____   ____| | _   ____ ____   ____   ___   ____ ____
+         | | | |/ _  |  _ \ / _  | || \ / _  )  _ \ / _  | / _ \ / ___) _  |
+         | | | ( ( | | | | ( ( | | | | ( (/ /| | | ( ( | || |_| | |  ( ( | |
+          \____|\_||_|_| |_|\_|| |_| |_|\____)_| |_|\_|| (_)___/|_|   \_|| |
+                           (_____|                 (_____|           (_____|
+ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="王恒的技术博客 -- make progress a little day by day"> 
+<meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"> 
+
+<title>为Vim 添加vimgdb支持 | 王恒&#39;s Blog</title>
+
+
+    <link rel="icon" href="/favicon.ico">  
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">  
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script> 
+    <script src="/js/tocbot.min.js"></script> 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script> 
+
+
+        
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">王恒&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default" style="display: none;" >
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">王恒&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+</header>
+<script>
+    hljs.initHighlightingOnLoad();
+    document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('pre').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+    });
+    
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">为Vim 添加vimgdb支持</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">王恒</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">四月 28, 2014&nbsp;&nbsp;16:12:33</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/">最近添加</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <content>
+1、    下载最新的vim74的源码包
+wget ftp://ftp.vim.org/pub/vim/unix/vim-7.4.tar.bz2
+2、下载vimgdb-for-vim7.4源码
+wget https://github.com/larrupingpig/vimgdb-for-vim7.4/archive/master.zip -O vimgdb-for-vim74.zip
+3、解压所有文件，并应用补丁文件
+<pre class="brush: bash; gutter: true"> tar xjvf vim-7.4.tar.bz2 -C /tmp
+    unzip vimgdb-for-vim74.zip -d /tmp
+    cd /tmp
+    patch -p0 &lt; vimgdb-for-vim7.4-master/vim74.patch
+    cd vim74/src
+    ./configure --enable-gdb --prefix=/usr/local/vim74 \
+                --enable-multibyte \
+                --enable-fontset \
+                --enable-xim  \
+                --enable-gui=auto \
+                --enable-pythoninterp=dynamic \
+                --enable-pythoninterp \
+                --enable-python3interp=dynamic \
+                --enable-rubyinterp=dynamic \
+                --enable-rubyinterp \
+                --enable-perlinterp \
+                --enable-cscope \
+                --enable-sniff \
+                --with-x  \
+                --with-compiledby=erocpil  \
+                --with-features=huge \
+                --enable-luainterp=dynamic  \
+                --with-python-config-dir=/usr/lib/python2.7/config
+    make
+    sudo make install</pre>
+4、安装vimGdb运行文件:
+
+<p>将解压缩出来的vimgdb_runtime文件夹中的文件复制到你的$VIMRUNTIME目录，通常是$HOME/.vim 目录。如果你不确定你本机的具体目录可以在打开的vim中执行<br>:set runtimepath?<br>来查看你自己机器环境中的具体目录。</p>
+<pre class="brush: bash; gutter: false">cp -rf /tmp/vimgdb-for-vim7.4-master/vimgdb_runtime/* ~/.vim</pre>
+<p>切换到cd ~/.vim/doc/目录并执行 “:helptags .” 命令来在vim中创建帮助文档。<br>cd ~/.vim/doc/<br>vim<br>:helptags .<br>以后想查看关于vimgdb的使用说明可以在vim中执行”:help vimgdb” 命令来获取帮助。</p>
+<p>具体的使用方法以及可选配置，在官方帮助文档里面已经详细的介绍，请不了解的同学自行查阅，这里就不冗述了。<br></content></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>王恒</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://wangheng.org/wei-vim-tian-jia-vimgdb-zhi-chi.html">http://wangheng.org/wei-vim-tian-jia-vimgdb-zhi-chi.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签: </span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回前页</a>
+                <span>· </span>
+                <a href="/">回到首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/install-oracle12c-on-centos6-5.html">Centos 6.5 安装 Oracle 12C</a>
+            
+            
+            <a class="next" rel="next" href="/c-li-yong-fan-she-gei-dui-xiang-fu-zhi.html">C#利用反射给对象赋值</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 王恒 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> </span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

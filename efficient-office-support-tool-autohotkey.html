@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <!-- 
+                                 _
+                                 | |
+          _ _ _  ____ ____   ____| | _   ____ ____   ____   ___   ____ ____
+         | | | |/ _  |  _ \ / _  | || \ / _  )  _ \ / _  | / _ \ / ___) _  |
+         | | | ( ( | | | | ( ( | | | | ( (/ /| | | ( ( | || |_| | |  ( ( | |
+          \____|\_||_|_| |_|\_|| |_| |_|\____)_| |_|\_|| (_)___/|_|   \_|| |
+                           (_____|                 (_____|           (_____|
+ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="王恒的技术博客 -- make progress a little day by day"> 
+<meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"> 
+
+<title>高效办公辅助工具Autohotkey | 王恒&#39;s Blog</title>
+
+
+    <link rel="icon" href="/favicon.ico">  
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">  
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script> 
+    <script src="/js/tocbot.min.js"></script> 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script> 
+
+
+        
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">王恒&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default" style="display: none;" >
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">王恒&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+</header>
+<script>
+    hljs.initHighlightingOnLoad();
+    document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('pre').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+    });
+    
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">高效办公辅助工具Autohotkey</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">王恒</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">六月 9, 2012&nbsp;&nbsp;23:53:57</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/">最近添加</a>
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/">技术探讨</a>
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/Route/">Route</a>
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/Route/Autohotkey/">Autohotkey</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <content>
+<p><strong>序：</strong>工欲善其事，必先利其器。近期工作中要对公司的AFP软件进行汉化，由此也带来了大量的重复性工作，海量的字符串提取，组合，规整，键盘鼠标表示压力颇大~ 为此特别找回了大学玩魔兽对战用的改键插件Autohotkey，嘿嘿。</p>  <p><a target="_blank" rel="noopener" href="http://www.autohotkey.com/">AutoHotKey</a> 软件可以实现很多有趣的功能，可以简化你的重复性工作。<a href="http://www.autohotkey.com/download/" target="_blank">这里</a>下载</p>  <p>选择一个适合你的版本，办公环境稳定的可以选择安装版，需要便携要求的可以下载绿色版本，当然安装版的好处是：系统会自动关联 .ahk 文件。安装完成后打开Autohotkey软件，然后你会在系统托盘处看到一个H字样的小图标。现在右击托盘处图标，选择Edit this Script来设置。<a href="uploads/2012/06/image.png"><img style="border-right-width: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px" title="image" border="0" alt="image" src="uploads/2012/06/image_thumb.png" width="227" height="244" /></a> </p>  <p>在打开的配置文件中加入你需要的功能。例如：加入 </p>  <pre>#w::Run <a href="http://wangheng.org">wangheng.org</a></pre>
+
+<p>然后选择Reload This Script，现在按win键(小旗标识那个键)+w，怎么样是不是直接在浏览器打开本博的主页呢？</p>
+
+<p>这里简单地解释一下那两行语句的意思：#号代表 Win 键；两个英文冒号作为热键和命令的分隔符使用；run是Autohotkey中常用的命令之一，它的后面是要运行的程序完整路径或网址（思考：如果要按win+q就打开QQ，该怎么写呢？）。当然如果你的程序或命令的所在目录是加到了系统的PATH中，则可以直接写执行程序的名字。例如</p>
+
+<pre>#n::run notepad</pre><span id="more"></span><p>代码中只是写着“notepad”，没有写上完整路径但是却能打开，明白为什么了吧。（Tips：Autohotkey 能替换掉系统的默认快捷键）</p>
+
+<p>Ctrl 的符号是 ^ </p>
+
+<p>Alt 的符号是 ! </p>
+
+<p>Shift 的符号是 + </p>
+
+<p>如果你想按下Ctrl + Alt + Shift + N来启动 notepad的话，可以这样写：</p>
+
+<p>^!+n::run notepad</p>
+
+<p>所以一法通，万法通，现在你可以完全定制自己的热键了。</p>
+
+<p>如果只是上面的这些技巧那么这篇博客就没有什么必要了，下面要介绍的是我如果利用visual studio中的Vim插件和Autohotkey来完成一些很费事的工作的。</p>
+
+<p>由于经常拼接类似这样的语句</p>
+
+<p>public const String A=&quot;A&quot;;</p>
+
+<p>每个源码文件中都可能有数十个这样的字符串，所以带来的工作量可想而知！~我是这样写的，首先将A字符串复制到剪切板。</p>
+
+<p>!d::send {esc}{o}public const String {esc}{p}{A}{=}{&quot;}{esc}{p}{A}{&quot;}{;}</p>
+
+<p>哈哈，现在随便在哪一行按alt+d，是不是直接在下一行打出了public const String A=&quot;A&quot;;这条语句呢？如果你的机器没有安装vim或者vim插件还可以这样写：（不过需要先手动换行，代码倒是少一些）</p>
+
+<p>!d::send public const String ^{v}=&quot;^{v}&quot;;</p>
+
+<p>很多浏览器或编辑工具都支持按Ctrl+Tab来切换标签，但总感觉Ctrl不如Alt好按，所以加了一条</p>
+
+<pre>!a::send ^{tab}</pre>
+
+<p>平时好多地方登录都要输入邮箱，所以加了这样一行：</p>
+
+<pre>!u::send <a href="mailto:me@wangheng.org">me@wangheng.org</a></pre>
+
+<p>这样平时也能节省自己不少时间~分秒必争嘛~</p>
+</content>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>王恒</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://wangheng.org/efficient-office-support-tool-autohotkey.html">http://wangheng.org/efficient-office-support-tool-autohotkey.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签: </span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Windows/"># Windows</a>
+                    
+                        <a href="/tags/vim/"># vim</a>
+                    
+                        <a href="/tags/visual-studio/"># visual studio</a>
+                    
+                        <a href="/tags/Win7/"># Win7</a>
+                    
+                        <a href="/tags/Cron/"># Cron</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回前页</a>
+                <span>· </span>
+                <a href="/">回到首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/implementation-windows-version-the-the-the-cron.html">C#实现Windows版Cron</a>
+            
+            
+            <a class="next" rel="next" href="/cmd-in-window-property-the-settings.html">CMD窗口属性设置</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 王恒 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> </span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

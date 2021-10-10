@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <!-- 
+                                 _
+                                 | |
+          _ _ _  ____ ____   ____| | _   ____ ____   ____   ___   ____ ____
+         | | | |/ _  |  _ \ / _  | || \ / _  )  _ \ / _  | / _ \ / ___) _  |
+         | | | ( ( | | | | ( ( | | | | ( (/ /| | | ( ( | || |_| | |  ( ( | |
+          \____|\_||_|_| |_|\_|| |_| |_|\____)_| |_|\_|| (_)___/|_|   \_|| |
+                           (_____|                 (_____|           (_____|
+ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="王恒的技术博客 -- make progress a little day by day"> 
+<meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"> 
+
+<title>清除mysql的log-bin日志 | 王恒&#39;s Blog</title>
+
+
+    <link rel="icon" href="/favicon.ico">  
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">  
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script> 
+    <script src="/js/tocbot.min.js"></script> 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script> 
+
+
+        
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">王恒&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default" style="display: none;" >
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">王恒&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+</header>
+<script>
+    hljs.initHighlightingOnLoad();
+    document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('pre').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+    });
+    
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">清除mysql的log-bin日志</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">王恒</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">七月 11, 2012&nbsp;&nbsp;21:37:39</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/">技术探讨</a>
+                            
+                                <a href="/categories/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <content>
+<p>前一阵子工作项目上的事情忙的焦头烂额，最近要进行部门调整将要去做新的项目。又要学习很多新的知识了，还是很兴奋激动的。今天下班回来查看了一下VPS状态，发现VPS的空间只剩下了1G多！第一反应是被入侵了，但是看了一下log并没有发现什么异常的登录，加上平时基本都是用私钥免密码登录的VPS，别入侵的可能也不是很大。那我就很疑惑了，因为系统文件占用应该也就3G多，我平时并没有在VPS放过什么大文件，不应该一下子少那么多空间。于是开始一番du查找终于找到了罪魁祸首！原来是mysql的log文件导致的。</p>  <p>装mysql并运行一段时间后，在mysql目录下出现一堆类似mysql-bin.000***，从mysql-bin.000001开始一直排列下来，而且占用了大量硬盘空间，高达十几个G.。原来mysql-bin.000001、mysql-bin.000002等文件是数据库的操作日志，例如UPDATE一个表，或者DELETE一些数据，即使该语句没有匹配的数据，这个命令也会存储到日志文件中，还包括每个语句执行的时间，也会记录进去的。 这些形如mysql-bin.00001的文件主要是用来做什么的呢? <strong>1、数据恢复</strong> </p>  <p>如果你的数据库出问题了，而你之前有过备份，那么可以看日志文件，找出是哪个命令导致你的数据库出问题了，想办法挽回损失。 </p>  <p><strong>2、主从服务器之间同步数据</strong> </p>  <p>主服务器上所有的操作都在记录日志中，从服务器可以根据该日志来进行，以确保两个同步。</p>  <p><strong>3、清除办法</strong></p>  <p>运行 /usr/local/mysql/bin/mysql -u root -p 登录执行：</p>  <pre lang="mysql" line="1">reset master;</pre>
+
+<p>如果你只有一个mysql服务器，在/etc/ 下面找到my.cnf文件vim /etc/my.cnf把里面的 </p>
+
+<pre>
+#log-bin=mysql-bin 
+#binlog_format=mixed 
+这两行注释掉，然后将mysql下的var目录中的这些日志文件全部删除，重启mysql服务即可。
+</pre>
+
+<p>但是如果你设置了主从服务器，那么就需要做以下操作了。 </p>
+
+<p>A：在每个从属服务器上，使用SHOW SLAVE STATUS来检查它正在读取哪个日志。 </p>
+
+<p>B：使用SHOW MASTER LOGS获得主服务器上的一系列日志。 </p>
+
+<p>C：在所有的从属服务器中判定最早的日志，这个是目标日志，如果所有的从属服务器是更新的，就是清单上的最后一个日志。 </p>
+
+<p>D：清理所有的日志，但是不包括目标日志，因为从服务器还要跟它同步。 简单地说,这些MySQL目录下的形如mysql-bin.000***的文件时MySQL的事务日志。 删除复制服务器已经拿走的binlog是安全的，一般来说网络状况好的时候，保留最新的那一个足以。 </p>
+</content>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>王恒</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://wangheng.org/clear-the-mysql-log-bin-log.html">http://wangheng.org/clear-the-mysql-log-bin-log.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签: </span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/ssh/"># ssh</a>
+                    
+                        <a href="/tags/VPS/"># VPS</a>
+                    
+                        <a href="/tags/%E6%97%A5%E5%BF%97/"># 日志</a>
+                    
+                        <a href="/tags/IOS/"># IOS</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回前页</a>
+                <span>· </span>
+                <a href="/">回到首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/implement-ssh-without-password.html">实现SSH无密码登录</a>
+            
+            
+            <a class="next" rel="next" href="/manually-produced-vpn-login.html">手动制作VPN登录器</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 王恒 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> </span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <!-- 
+                                 _
+                                 | |
+          _ _ _  ____ ____   ____| | _   ____ ____   ____   ___   ____ ____
+         | | | |/ _  |  _ \ / _  | || \ / _  )  _ \ / _  | / _ \ / ___) _  |
+         | | | ( ( | | | | ( ( | | | | ( (/ /| | | ( ( | || |_| | |  ( ( | |
+          \____|\_||_|_| |_|\_|| |_| |_|\____)_| |_|\_|| (_)___/|_|   \_|| |
+                           (_____|                 (_____|           (_____|
+ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="王恒的技术博客 -- make progress a little day by day"> 
+<meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"> 
+
+<title>ubuntu中安装air video server | 王恒&#39;s Blog</title>
+
+
+    <link rel="icon" href="/favicon.ico">  
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">  
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script> 
+    <script src="/js/tocbot.min.js"></script> 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script> 
+
+
+        
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">王恒&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default" style="display: none;" >
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">王恒&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+</header>
+<script>
+    hljs.initHighlightingOnLoad();
+    document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('pre').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+    });
+    
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">ubuntu中安装air video server</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">王恒</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十一月 5, 2012&nbsp;&nbsp;14:37:07</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/">最近添加</a>
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/">技术探讨</a>
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/Linux%E5%AD%A6%E4%B9%A0/Autohotkey/">Autohotkey</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <content>
+AirVideo 是IOS上很好用的一个媒体播放器。可以由局域网内的电脑完成实时转码，不用再做任何转换操作，就可以让你通过无线网络在iphone和ipad观看存在电脑上的视频，而不需要把视频拷贝过来。
+
+<p>官方提供了MAC和Windows下的服务端程序，但因为服务端是基于FFmpeg和Java的，都是开源项目，所以也可以通过自行编译的方式，在Linux下安装服务端。前段日子自己组装了一台htpc，但要通过 iPad看里面的电影颇为麻烦。今天刚好看到有一份教程，简单的几个APT命令就可以完成安装了，具体步骤如下：</p>
+<p>1.打开终端</p>
+<p>2.安装python-software-properties</p>
+<pre class="brush: bash; gutter: true">sudo apt-get install python-software-properties</pre><code></code>
+
+<p>3.添加AirVideo的源</p>
+<pre class="brush: bash; gutter: true">sudo add-apt-repository ppa:rubiojr/airvideo</pre><code></code>
+
+<p>4.更新包的索引</p>
+<pre class="brush: bash; gutter: true">sudo apt-get update</pre><code></code>
+
+<p>5.安装AirVideo Server</p>
+<pre class="brush: bash; gutter: true">sudo apt-get install airvideo-server</pre><code></code>
+
+<p>6.编辑所要添加的媒体文件夹配置文件</p>
+<pre class="brush: bash; gutter: true">sudo nano /opt/airvideo-server/AirVideoServerLinux.properties</pre><code></code>
+
+<p>7.编辑完成后，启动服务器</p>
+<pre class="brush: bash; gutter: true">sudo airvideo-server</pre><code></code>
+
+<address>参阅：</address><address><em>http://inmethod.com/air-video/index.html</em><em> </em></address><address><em>http://wiki.birth-online.de/know-how/hardware/apple-iphone/airvideo-server-linux </em></address><address><em>http://www.inmethod.com/forum/posts/list/1856.page </em></address><address><em>https://launchpad.net/~rubiojr/+archive/airvideo</em></address>
+</content>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>王恒</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://wangheng.org/ubuntu-install-air-video-server.html">http://wangheng.org/ubuntu-install-air-video-server.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签: </span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Ubuntu/"># Ubuntu</a>
+                    
+                        <a href="/tags/%E6%B5%81%E5%AA%92%E4%BD%93/"># 流媒体</a>
+                    
+                        <a href="/tags/thinkphp/"># thinkphp</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回前页</a>
+                <span>· </span>
+                <a href="/">回到首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/ubuntu-to-add-boot-script.html">Ubuntu下添加开机启动脚本</a>
+            
+            
+            <a class="next" rel="next" href="/nginx-set-directory-browsing-and-solve-the-problem-of-chinese-garbled.html">nginx设置目录浏览及中文乱码问题解决</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 王恒 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> </span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

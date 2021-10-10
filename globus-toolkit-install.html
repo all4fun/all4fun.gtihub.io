@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <!-- 
+                                 _
+                                 | |
+          _ _ _  ____ ____   ____| | _   ____ ____   ____   ___   ____ ____
+         | | | |/ _  |  _ \ / _  | || \ / _  )  _ \ / _  | / _ \ / ___) _  |
+         | | | ( ( | | | | ( ( | | | | ( (/ /| | | ( ( | || |_| | |  ( ( | |
+          \____|\_||_|_| |_|\_|| |_| |_|\____)_| |_|\_|| (_)___/|_|   \_|| |
+                           (_____|                 (_____|           (_____|
+ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="王恒的技术博客 -- make progress a little day by day"> 
+<meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"> 
+
+<title>Globus Toolkit 安装与配置 | 王恒&#39;s Blog</title>
+
+
+    <link rel="icon" href="/favicon.ico">  
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">  
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script> 
+    <script src="/js/tocbot.min.js"></script> 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script> 
+
+
+        
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">王恒&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default" style="display: none;" >
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">王恒&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+</header>
+<script>
+    hljs.initHighlightingOnLoad();
+    document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('pre').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+    });
+    
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">展开所有</a>
+        <a onclick="go_top()">回顶部</a>
+        <a onclick="go_bottom()">到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "折叠所有"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Globus Toolkit 安装与配置</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">王恒</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十一月 29, 2011&nbsp;&nbsp;16:38:06</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/">技术探讨</a>
+                            
+                                <a href="/categories/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/%E8%BD%AC%E8%BD%BD/">转载</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <content>
+<h3>1. 安装前准备工作</h3>
+准备工作包括软件的准备和环境变量的设置。操作系统选用ubuntu 11.10，Globus Toolkit的安装包为：gt4.0.8-all-source-installer.tar.gz（或者使用适用于ubuntu的gt4.0.8-x86_deb_3.1-installer.tar.gz）下载地址：<a title="http://globus.org/toolkit/downloads/" target="_blank" rel="noopener" href="http://globus.org/toolkit/downloads/">http://globus.org/toolkit/downloads/</a>，此外还需安装JDK、ANT 下载地址：<a title="http://ant.apache.org/bindownload.cgi" target="_blank" rel="noopener" href="http://ant.apache.org/bindownload.cgi">http://ant.apache.org/bindownload.cgi</a>、JUNIT最新版本。
+
+<p>图1表示了各软件之间的层级关系。</p>
+<p><a href="uploads/2011/11/pic1.jpg"><img title="pic1" src="uploads/2011/11/pic1_thumb.jpg" alt="pic1" width="244" height="188" border="0" /></a></p>
+<p>图1 各软件层级关系</p>
+<p>图2为GT4的安装流程图。</p>
+<p><a href="uploads/2011/11/pic2.jpg"><img title="pic2" src="uploads/2011/11/pic2_thumb.jpg" alt="pic2" width="244" height="161" border="0" /></a></p>
+<p>图2 GT 安装流程图</p>
+<p>辅助软件安装完成之后，需要设置系统环境变量。具体方法是修改系统变量配置文件 /etc/profile。</p>
+<p>参考：</p>
+<pre class="brush: bash; gutter: true"># /etc/profile: system-wide .profile file for the Bourne bash (sh(1))
+# and Bourne compatible bashs (bash(1), ksh(1), ash(1), ...).
+
+if [ -d /etc/profile.d ]; then
+for i in /etc/profile.d/*.sh; do
+if [ -r $i ]; then
+. $i
+fi
+done
+unset i
+#Add
+unset pathmunge
+export ANT_HOME=/usr/local/apache-ant-1.8.2
+export JAVA_HOME=/usr/lib/jvm/java-6-openjdk
+export GLOBUS_LOCATION=/usr/local/globus
+export GPT_LOCATION=/usr/local/globus
+export CLASSPATH=&quot;./:JAVA_HOME/lib:JAVA_HOME/jre/lib&quot;
+export PATH=$PATH:$JAVA_HOME/bin:JAVA_HOME/jre/bin:$GLOBUS_LOCATION/bin:$GLOBUS_LOCATION/sbin:$ANT_HOME/bin:/bin:/usr/bin:/usr/sbin
+export LD_LIBRARY_PATH=$/usr/local/globus/lib
+
+fi
+
+if [ &quot;$PS1&quot; ]; then
+if [ &quot;$BASH&quot; ]; then
+PS1=&#039;\u@\h:\w\$ &#039;
+if [ -f /etc/bash.bashrc ]; then
+. /etc/bash.bashrc
+fi
+else
+if [ &quot;`id -u`&quot; -eq 0 ]; then
+PS1=&#039;# &#039;
+else
+PS1=&#039;$ &#039;
+fi
+fi
+fi
+umask 022
+
+</pre><strong>关于安装需要注意以下几个问题：</strong><blockquote>1 .要确认已安装C编译器gcc,及g++,否则GT4.0.8将无法 进行编译;
+
+<p>2.确认GUN TAR在安装目录中.否则将无法进行解压缩.</p>
+<p>3.注意设置自己的主机名,如果使用默认主机名Localhost则在进行服务器认证请求时会失败.</blockquote><strong>关于用户需要注意以下几个问题：</strong><blockquote>除了设置一个globus用户外,还应设置几个普通用户,并且要注意普通用户的权限设置,应能访问globus的安装目录.</p>
+<p>如我就设置了4个普通用户，如feetoo，postgre，user01， user02。在进行用户认证时，常会因为用户权限问题失败，且此用户名不能重新认证，所以应多设几个普通用户。</p>
+<p>必要用户：root，globus，普通用户（建议多个）</blockquote><h4>2.基本环境的配置（主节点和子节点一样）</h4><h5>2.1 Install JDK</h5><br>首先把JDK安装文件拷贝到/usr/local下面</p>
+<pre>[root@xx1 win]# cp jdk-6u1-linux-i586.bin /usr/local/</pre>
+<p>然后，我们查看权限</p>
+<pre>[root@xx1 local]# ls -la jdk-6u1-linux-i586.bin</pre><pre>-rwxr-xr-x 1 root root 62772481 07-04 21:13 jdk-6u1-linux-i586.bin</pre>
+<p>root用户已经有执行权限，我们直接执行文件</p>
+<pre>[root@xx1 local]# ./jdk-6u1-linux-i586.bin</pre>
+<p>JDK解压完毕 ，我们查看一下，并建立符号链接</p>
+<pre>[root@xx1 local]# ln -s jdk1.6.0_01 jdk</pre>
+<p>我们查看链接是否正确</p>
+<pre>[root@xx1 local]# ls -la jdk</pre><pre>lrwxrwxrwx 1 root root 11 07-04 21:18 jdk -&gt; jdk1.6.0_01</pre><h5><strong>2.2 Install ANT</strong></h5>
+<ol>
+<li>ANT安装到/usr/local/文件夹下，并建立符号链接</li>
+<li>编辑/etc/profile文件，导出变量<pre>[root@xx1 local]# vi /etc/profile</li>
+</ol>
+<p>#编辑后，用tail命令查看</pre><pre class="brush: bash; gutter: true">[root@xx1 local]# tail /etc/profile<br>done</p>
+<p>unset i<br>unset pathmunge</p>
+<p>export ANT_HOME=/usr/local/ant<br>export JAVA_HOME=/usr/local/jdk<br>export GLOBUS_LOCATION=/usr/local/globus<br>export GPT_LOCATION=/usr/local/globus<br>export CLASSPATH=&quot;./:JAVA_HOME/lib:JAVA_HOME/jre/lib&quot;<br>export PATH=$JAVA_HOME/bin:JAVA_HOME/jre/bin: $GLOBUS_LOCATION/bin:$GLOBUS_LOCATION/sbin: $ANT_HOME/bin:$PATH<br>export LD_LIBRARY_PATH=$/usr/local/globus /lib</pre><pre>使变量生效</pre><pre>[root@xx1 local]# source /etc/profile</pre><pre>2.3    Install Globus<br>添加一个globus用户，用来启动容器</pre><pre>[root@xx1 local]# adduser globus -p myglobus</pre><br>在/usr/local下面建立globus文件</p>
+<pre>[root@xx1 local]# mkdir globus</pre>
+<p>更改属主</p>
+<pre>[root@xx1 local]# chown globus.globus globus</pre>
+<p>把网格的安装源文件拷贝过来,到globus文件夹下</p>
+<pre>[root@xx1 local]# cp /mnt/win/ gt4.0.8-all-source-installer.tar.gz ./globus</pre>
+<p>修改属主</p>
+<pre>[root@xx1 local]# cd globus/
+[root@xx1 globus]# chown globus.globus gt4.0.8-all-source-installer.tar.gz</pre>
+<p>切换为globus用户</p>
+<pre>[root@xx1 globus]# su - globus</pre>
+<p>进入globus目录</p>
+<pre>[globus@xx1 ~]$ cd /usr/local/globus/</pre>
+<p>解压</p>
+<pre>[globus@xx1 globus]$ tar -zxvf  gt4.0.8-all-source-installer.tar.gz</pre>
+<p>已经成功解压了</p>
+<pre>[globus@xx1 globus]$ ls 
+gt4.0.8-all-source-installer   gt4.0.8-all-source-installer.tar.gz</pre>
+<p>进入安装程序<br>[globus@xx1 globus]$ cd gt4.0.8-all-source-installer</p>
+<p>Configure一下[想要特殊配置看帮助或者文档]<br>[globus@xx1 gt4.0.8-all-source-installer]$ ./configure –prefix=/usr/local/globus/<br>checking for javac… /usr/local/jdk/bin/javac<br>checking for ant… /usr/local/ant/bin/ant<br>configure: creating ./config.status<br>config.status: creating Makefile</p>
+<p>开始make<br>[globus@xx1 gt4.0.8-all-source-installer]$ make<br>cd gpt &amp;&amp; OBJECT_MODE=32 ./build_gpt<br>build_gpt ====&gt; installing GPT into /usr/local/globus/<br>…………….<br>…………….<br>echo “Your build completed successfully. Please run make install.”<br>Your build completed successfully. Please run make install.<br>（make时经常出错，原因是系统缺少各种包，装个yum源，具体安装什么包应根据自己的系统而进行选择，大概有openssl、openssh、grid-packaging-tools-3.2-22.fc14.noarch.rpm、g++ glibc-static perl-ExtUtils-*等等。rm /usr/bin/env; cp /bin/env /usr/bin/env ）<br>安装一下<br>[globus@xx1 gt4.0.8-all-source-installer]$ make install<br>ln -sf /usr/local/globus//etc/gpt/packages /usr/local/globus//etc/globus_packages<br>/usr/local/globus//sbin/gpt-postinstall<br>…………….<br>…………….<br>find-fork-tools: WARNING: “Cannot locate mpiexec”<br>find-fork-tools: WARNING: “Cannot locate mpirun”<br>checking for mpiexec… no<br>checking for mpirun… no<br>find-fork-tools: creating ./config.status<br>config.status: creating fork.pm<br>..Done</p>
+<p>3 配置主节点<br>我们是实验环境，所以用SimpleCA来进行加密认证。在这里，我采用了本机＋虚拟机的安装方式，把本机作为主节点，虚拟机作为子节点。<br>本机［xx1.com］：<br>ip:192.168.1.107<br>mask:255.255.255.0<br>gateway:192.168.1.1</p>
+<p>虚拟机[xx2.com]：<br>ip:192.168.1.207<br>mask:255.255.255.0<br>gateway:192.168.1.1<br>把/etc/hosts文件修改如下：<br>[root@xx1 globus]# more /etc/hosts</p>
+<p>127.0.0.1 localhost.localdomain localhost<br>192.168.1.107 xx1.com xx1<br>192.168.1.207 xx2.com xx2</p>
+<p>然后，我在查看主机名称是不是正确<br>[root@xx1 globus]# more /etc/sysconfig/network<br>NETWORKING=yes<br>NETWORKING_IPV6=yes<br>HOSTNAME=xx1.com</p>
+<p>修改主机名称之后，我们可以安装SimpleCA了</p>
+<p>3.1 安装SimpleCA<br>切换到如下目录<br>[globus@xx1 globus]$ pwd<br>/usr/local/globus-4.0.1/setup/globus</p>
+<p>[globus@xx1 globus]$ sudo ./setup-simple-ca</p>
+<p>C e r t i f i c a t e A u t h o r i t y S e t u p</p>
+<p>This script will setup a Certificate Authority for signing Globus<br>users certificates. It will also generate a simple CA package<br>that can be distributed to the users of the CA.</p>
+<p>The CA information about the certificates it distributes will<br>be kept in:</p>
+<p>/home/globus/.globus/simpleCA/</p>
+<p>The unique subject name for this CA is:</p>
+<p>cn=Globus Simple CA, ou=simpleCA-xx1.com, ou=GlobusTest, o=Grid</p>
+<p>Do you want to keep this as the CA subject (y/n) [y]:</p>
+<p>可以看到，本机作为主节点，ou=simpleCA-xx1.com，这就对应了上边让大家修改主机名称的作用。</p>
+<p>直接回车键即可，然后又提示让电邮，这里可以随便填写，这是让别人向你索取证书的地址。</p>
+<p>Enter the email of the CA (this is the email where certificate<br>requests will be sent to be signed by the CA):</p>
+<p>接着，就是证书过期日期，默认五年，直接回车：</p>
+<p>The CA certificate has an expiration date. Keep in mind that<br>once the CA certificate has expired, all the certificates<br>signed by that CA become invalid. A CA should regenerate<br>the CA certificate and start re-issuing ca-setup packages<br>before the actual CA certificate expires. This can be done<br>by re-running this setup script. Enter the number of DAYS<br>the CA certificate should last before it expires.<br>[default: 5 years (1825 days)]:</p>
+<p>又提示给打开证书提供一个密码，并且确认<br>Enter PEM pass phrase:<br>Verifying - Enter PEM pass phrase:</p>
+<h2 id="接着，又是一堆输出，我们可以看到公钥和私玥放在什么地方了，还有分发包放在那里［分发包可以用来配置自节点］："><a href="#接着，又是一堆输出，我们可以看到公钥和私玥放在什么地方了，还有分发包放在那里［分发包可以用来配置自节点］：" class="headerlink" title="接着，又是一堆输出，我们可以看到公钥和私玥放在什么地方了，还有分发包放在那里［分发包可以用来配置自节点］："></a>接着，又是一堆输出，我们可以看到公钥和私玥放在什么地方了，还有分发包放在那里［分发包可以用来配置自节点］：</h2><p>The private key of the CA is stored in /home/globus/.globus/simpleCA//private/cakey.pem<br>The public CA certificate is stored in /home/globus/.globus/simpleCA//cacert.pem</p>
+<p>The distribution package built for this CA is stored in</p>
+<p>/home/globus/.globus/simpleCA//globus_simple_ca_b62cb8c1_setup-0.19.tar.gz</p>
+<p>This file must be distributed to any host wishing to request<br>certificates from this CA.</p>
+<p>CA setup complete.</p>
+<p>The following commands will now be run to setup the security<br>configuration files for this CA:</p>
+<p>$GLOBUS_LOCATION/sbin/gpt-build /home/globus/.globus/simpleCA//globus_simple_ca_b62cb8c1_setup-0.19.tar.gz</p>
+<h2 id="GLOBUS-LOCATION-sbin-gpt-postinstall"><a href="#GLOBUS-LOCATION-sbin-gpt-postinstall" class="headerlink" title="$GLOBUS_LOCATION/sbin/gpt-postinstall"></a>$GLOBUS_LOCATION/sbin/gpt-postinstall</h2><p>最后，终于完成了，SimpleCA生成了，但是我们也得到提示，还有一步：<br>Note: To complete setup of the GSI software you need to run the<br>following script as root to configure your security configuration<br>directory:</p>
+<p>/usr/local/globus//setup/globus_simple_ca_b62cb8c1_setup/setup-gsi</p>
+<p>For further information on using the setup-gsi script, use the -help<br>option. The -default option sets this security configuration to be<br>the default, and -nonroot can be used on systems where root access is<br>not available.</p>
+<hr>
+<p>setup-ssl-utils: Complete</p>
+<p>我们查看一下，是不是真的生成了分发包：<br>[globus@xx1 globus]$ sudo ls ~/.globus/simpleCA/<br>cacert.pem crl grid-ca-ssl.conf newcerts serial<br>certs globus_simple_ca_b62cb8c1_setup-0.19.tar.gz index.txt private</p>
+<p>接下来，我们要让我们的本机[xx1.com]，信任我们的globus的证书，那么我们要切换到root</p>
+<p>[globus@xx1 globus]$ su - root<br>口令：</p>
+<p>执行最后一步命令<br>[root@xx1 ~]# /usr/local/globus/setup/globus_simple_ca_b62cb8c1_setup/setup-gsi -default<br>setup-gsi: Configuring GSI security<br>Making /etc/grid-security…<br>mkdir /etc/grid-security<br>Making trusted certs directory: /etc/grid-security/certificates/<br>mkdir /etc/grid-security/certificates/<br>Installing /etc/grid-security/certificates//grid-security.conf.b62cb8c1…<br>Running grid-security-config…<br>Installing Globus CA certificate into trusted CA certificate directory…<br>Installing Globus CA signing policy into trusted CA certificate directory…<br>setup-gsi: Complete<br>（这步出现错误：<br>ERROR: Setup package not found. Looking for:<br>name=globus_simple_ca_11ad4bb3_setup,setup_name=, and setup version＝<br>就是因为环境变量没有设置好，把/etc/profile中的环境变量设置好就行了）<br>根据上面的输出，我们看看相应的目录下面是不是多了什么。<br>[root@xx1 ~]# ls /etc/grid-security/certificates/<br>b62cb8c1.0 globus-host-ssl.conf.b62cb8c1 grid-security.conf.b62cb8c1<br>b62cb8c1.signing_policy globus-user-ssl.conf.b62cb8c1</p>
+<p>[root@xx1 ~]# ls /etc/grid-security/<br>certificates globus-host-ssl.conf globus-user-ssl.conf grid-security.conf</p>
+<p>这些都是SimpleCA的配置文件，它们的具体总用，可以参考相应的文档。</p>
+<h3>3.2           让本机请求证书并得到SimpleCA的认证。</h3>
+[root@xx1 bin]#
+./grid-cert-request -host xx1.com
+
+<p>Generating a 1024<br>bit RSA private key</p>
+<p>.++++++</p>
+<p>……………………..++++++</p>
+<p>writing new private<br>key to ‘/etc/grid-security/hostkey.pem’</p>
+<hr>
+<p>You are about to be<br>asked to enter information that will be incorporated</p>
+<p>into your<br>certificate request.</p>
+<p>What you are about<br>to enter is what is called a Distinguished Name or a DN.</p>
+<p>There are quite a<br>few fields but you can leave some blank</p>
+<p>For some fields<br>there will be a default value,</p>
+<p>If you enter ‘.’,<br>the field will be left blank.</p>
+<hr>
+<p>Level 0 Organization<br>[Grid]:Level 0 Organizational Unit [GlobusTest]:Level 1 Organizational Unit<br>[simpleCA-xx1.com]:Name (e.g., John M. Smith) []:</p>
+<p>&nbsp;</p>
+<p>A private host key<br>and a certificate request has been generated</p>
+<p>with the subject:</p>
+<p>&nbsp;</p>
+<p>/O=Grid/OU=GlobusTest/OU=simpleCA-xx1.com/CN=host/xx1.com</p>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+<p>The private key is<br>stored in /etc/grid-security/hostkey.pem</p>
+<p>The request is<br>stored in /etc/grid-security/hostcert_request.pem</p>
+<p>&nbsp;</p>
+<p>Please e-mail the<br>request to the Globus Simple CA <a href="mailto:&#99;&#121;&#95;&#120;&#x69;&#97;&#x6f;&#x78;&#x69;&#97;&#111;&#x40;&#x79;&#97;&#104;&#111;&#111;&#46;&#x63;&#x6f;&#109;&#46;&#99;&#110;">&#99;&#121;&#95;&#120;&#x69;&#97;&#x6f;&#x78;&#x69;&#97;&#111;&#x40;&#x79;&#97;&#104;&#111;&#111;&#46;&#x63;&#x6f;&#109;&#46;&#99;&#110;</a></p>
+<p>You may use a<br>command similar to the following:</p>
+<p>&nbsp;</p>
+<p>cat /etc/grid-security/hostcert_request.pem |<br>mail <a href="mailto:&#99;&#x79;&#95;&#120;&#105;&#97;&#111;&#120;&#x69;&#97;&#x6f;&#x40;&#121;&#x61;&#104;&#x6f;&#111;&#x2e;&#x63;&#x6f;&#109;&#x2e;&#x63;&#110;">&#99;&#x79;&#95;&#120;&#105;&#97;&#111;&#120;&#x69;&#97;&#x6f;&#x40;&#121;&#x61;&#104;&#x6f;&#111;&#x2e;&#x63;&#x6f;&#109;&#x2e;&#x63;&#110;</a></p>
+<p>&nbsp;</p>
+<p>Only use the above<br>if this machine can send AND receive e-mail. if not, please</p>
+<p>mail using some<br>other method.</p>
+<p>&nbsp;</p>
+<p>Your certificate<br>will be mailed to you within two working days.</p>
+<p>If you receive no<br>response, contact Globus Simple CA at <a href="mailto:&#99;&#x79;&#95;&#120;&#105;&#97;&#111;&#120;&#105;&#x61;&#111;&#x40;&#121;&#x61;&#104;&#111;&#x6f;&#46;&#x63;&#x6f;&#109;&#46;&#99;&#110;">&#99;&#x79;&#95;&#120;&#105;&#97;&#111;&#120;&#105;&#x61;&#111;&#x40;&#121;&#x61;&#104;&#111;&#x6f;&#46;&#x63;&#x6f;&#109;&#46;&#99;&#110;</a></p>
+<p>&nbsp;</p>
+<p>[root@xx1<br>grid-security]# pwd</p>
+<p>/etc/grid-security</p>
+<p>&nbsp;</p>
+<p>运行完成后会产生以下几个文件：</p>
+<p>/etc/grid-security/hostkey.pem</p>
+<p>/etc/grid-security/hostcert_request.pem</p>
+<p>/etc/grid-security/hostcert.pem<br>（空文件）</p>
+<p>&nbsp;</p>
+<p>下一步，我们要做的，就是转换为SimpleCA的角色，签署一下我们本机的认证请求。</p>
+<p>&nbsp;</p>
+<p>我们首先拷贝请求文件到/usr/local/globus/bin下</p>
+<p>[root@xx1 ~]# cp<br>/etc/grid-security/hostcert_request.pem /usr/local/globus/bin/</p>
+<p>&nbsp;</p>
+<p>转换到globus下，因为我们本机是用globus用户产生的SimpleCA</p>
+<p>[root@xx1 ~]# su -<br>globus</p>
+<p>&nbsp;</p>
+<p>[globus@xx1 ~]$ cd<br>/usr/local/globus/bin</p>
+<p>&nbsp;</p>
+<p>签署证书</p>
+<p>[globus@xx1 bin]$<br>./grid-ca-sign -in hostcert_request.pem -out hostcert.pem</p>
+<p>&nbsp;</p>
+<p>To sign the request</p>
+<p>please enter the password<br>for the CA key:</p>
+<p>&nbsp;</p>
+<p>The new signed<br>certificate is at: /home/globus/.globus/simpleCA//newcerts/01.pem</p>
+<p>&nbsp;</p>
+<p>把签署过的证书复制回去，覆盖原来的空文件</p>
+<p>[globus@xx1 bin]$ su</p>
+<ul>
+<li>root</li>
+</ul>
+<p>口令：</p>
+<p>&nbsp;</p>
+<p>[root@xx1 ~]# cp<br>/usr/local/globus/bin/hostcert.pem /etc/grid-security/</p>
+<p>cp：是否覆盖“/etc/grid-security/hostcert.pem”?<br>yes</p>
+<p>&nbsp;</p>
+<p>这三个文件属主都是root，但是我们的gridftp要用到它们，并且我们要采用globus用户启动web容器，所以我们就得有</p>
+<p>两套认证的证书，一套归root使用，另一套归globus</p>
+<p>[root@xx1<br>grid-security]# cp hostcert.pem containercert.pem</p>
+<p>&nbsp;</p>
+<p>[root@xx1<br>grid-security]# cp hostkey.pem containerkey.pem</p>
+<p>&nbsp;</p>
+<p>[root@xx1 grid-security]#<br>chown globus.globus container*.pem<br></content></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>王恒</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://wangheng.org/globus-toolkit-install.html">http://wangheng.org/globus-toolkit-install.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签: </span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Globus-Toolkit/"># Globus Toolkit</a>
+                    
+                        <a href="/tags/Ubuntu/"># Ubuntu</a>
+                    
+                        <a href="/tags/Ant/"># Ant</a>
+                    
+                        <a href="/tags/Openjdk/"># Openjdk</a>
+                    
+                        <a href="/tags/openssh/"># openssh</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回前页</a>
+                <span>· </span>
+                <a href="/">回到首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/modify-openssh-server-port-number.html">修改openssh-server 的默认端口号</a>
+            
+            
+            <a class="next" rel="next" href="/setup-vpn-the-server.html">Ubuntu 搭建 Vpn 服务</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 王恒 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> </span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

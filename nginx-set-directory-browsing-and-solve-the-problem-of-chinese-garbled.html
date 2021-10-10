@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <!-- 
+                                 _
+                                 | |
+          _ _ _  ____ ____   ____| | _   ____ ____   ____   ___   ____ ____
+         | | | |/ _  |  _ \ / _  | || \ / _  )  _ \ / _  | / _ \ / ___) _  |
+         | | | ( ( | | | | ( ( | | | | ( (/ /| | | ( ( | || |_| | |  ( ( | |
+          \____|\_||_|_| |_|\_|| |_| |_|\____)_| |_|\_|| (_)___/|_|   \_|| |
+                           (_____|                 (_____|           (_____|
+ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="王恒的技术博客 -- make progress a little day by day"> 
+<meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"> 
+
+<title>nginx设置目录浏览及中文乱码问题解决 | 王恒&#39;s Blog</title>
+
+
+    <link rel="icon" href="/favicon.ico">  
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">  
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script> 
+    <script src="/js/tocbot.min.js"></script> 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script> 
+
+
+        
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">王恒&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default" style="display: none;" >
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">王恒&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+</header>
+<script>
+    hljs.initHighlightingOnLoad();
+    document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('pre').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+    });
+    
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">nginx设置目录浏览及中文乱码问题解决</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">王恒</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十月 12, 2012&nbsp;&nbsp;13:42:56</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/">最近添加</a>
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/">技术探讨</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <content>
+在Nginx下默认是不允许列出整个目录的。如需此功能，
+先打开nginx.conf文件，在location server 或 http段中加入
+
+<p>autoindex on;<br>另外两个参数最好也加上去:</p>
+<p>autoindex_exact_size off;<br>默认为on，显示出文件的确切大小，单位是bytes。<br>改为off后，显示出文件的大概大小，单位是kB或者MB或者GB</p>
+<p>autoindex_localtime on;<br>默认为off，显示的文件时间为GMT时间。<br>注意:改为on后，显示的文件时间为文件的服务器时间</p>
+<span id="more"></span>
+
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAiYAAADvCAIAAABJ1IhEAAAXUklEQVR4nO3d+3cUx5XA8fkLd3Oc+IkNOIkB/ytJ1rtrZ72xQTwsDMiAQEggQEg0BvOwQC8kGwfzkh0Hg/+H5AeB3OqqunWrH9XVPd/P6ePT01N961ZJc69HjGDw9fSd+ek78+cXbl9YvHNh8enjZ7u27x4AAFC765O3rk/eujH19c2z87fO3f7no6fvvbOr7aQAAH10ZfzqlfGrX57+6trE9a/O3PjHg5/+sO2PbScFAOijC0dnLhydmRmbnT1++fKJKz/c//HdN99tOykAQB9NHJycODg5+dnZc4enzx+5+Pjek+2vbW87KQBAH419cmLskxMn9o6f2j9x5uDkw28ebvvd220nBQDoo9GPPh/96PCR/zs69rcvTuw9eX/1/puvvNl2UgCAPhr54MDIBwcO/e9nhz/6/OjHx75b+e7137zedlIAgD769M/7Pv3zvv0bXeevn99bvvfaf77WdlIAgD765E97P/nT3n1/GTnw3wdHPxz9dunbV//j1baTAgD00UbLGfmv/Qf/59DoR4fvLfEuBwDQjL1/Gdn7l5H9HxzkB2sAgGaNfHBwo9+MfvT5kY+Pfrfy3Ru/eaPtpAAAfXTow9HPPjx8+K9Hjn58bOyT43+/y4ekAQDNOPLxsSMfHxv72/Hjn548ue/U92sPtv12W/ZS29kBAHrk+N7xE3vHx0dOnz5w5syhqYffPHrn1e2DwUBoOaHXAQAYDAaDM4emzhyamho9d+7w+Y2/Y23H6zsH7pYTeh0AgBc2/ibpi2Ozl76Ymzue/XD/x3ff/P0g10LyvSQzaK7nB0RdGwAgKdn41Wz86pVT1zb+yZzNfy8n3ySsXaQYR3GdrgMAQ+365M3rkzdvTL34h0E3/1VQV6ug5QAASpqfvjM/fWf+/MLt8wu3Lyw+ffxs1/bdA1oOAKB2CzPLCzPLizPLizMri5dWnj15vnvHnoGi5RT6h/e6+RQAYLgszd5dmr27/OJYfbb+fPeO97OXNsZYu4jZPKzXs60aXAkAIHErc6u5Y+35+i97drxfY3w6DQDghbuX1/LH8/Vf9uysreXw/gYA8KtGWw4AAL+i5QAAIqHlAAAioeUAACKh5QAAIul3y+HzcgCQkB63HJoNAKSFlgMAiKSvLYd+AwDJ6WXLod8AQIp62XIGdB0ASFBfW86ArgMAqaHlAAAi6XHLGfB7OQCQlH63HABAQmg5AIBIaDkAgEhoOQCASGg5AIBIaDkAgEhoOQCASGg5Kav+S0VZTom7qkzdIUO1WKBNtJyU1VUKS8QZqirc6GKHZxsBP1rOMKDltKXFbRy2t6roBlpOmqw/EMu28o4vPGt9qJxCjp+4zGB9qvT40vMWzgsnmnmFfLr79UKf0XJSpqlTwnldcbzxE5cv5QPbElz7Y+0E1lu8UwvXved9/bpgGNFyUlaiVdQVxzzPK72iVuRr96ByywnaB9ewoC+BMG8XvxwYarSclAn1xXVeV5yg+IlztRBzgDy+xD64bgna9tCvb/5ip79w6CFaTsoqtoq64njjJ87VQswB8nh5H6wl3npvYbz3S1Pu62LNB2gZLSdNmWEglhhr/XLFGWytR0HXu1jCrHuVPxf2WRhvnUV/XcjNvMU1r/x16ejXC31GywHa4mohDQUH2kfLASIr95YF6ANaDgAgEloOACASWg4AIBJaDgAgEloOACASWk7Kgj6/VMuHnfjQlKzd34Ph64LOo+UkTlllNofVUpWsQULD9rg4NtpyhAi1t5wq0dr6fujx99VQoOUkLrTlNDRpaPx+//94c6uLuW9V5mrr+6HF7yvh3S0C0HLSlG1lvW6Ol+NYB1tvFCbVvOqE8dapCyea9YaSkyk8JeRjrkLOM+i6d9/KxRE2JE6ewniXoDj5hw2ta+D+ZkCYlctr+eP5+i97dtByWma+nDTn8ktCE8c6WBimXEJoGpvn3jxLsFYZ/bmcjDK48paGkq8ljjesfnxBiTgD43vGG0fO2bwdtVm5vLYy9+tBy0mB/LIvvD7NYWaownjvS9G8GPryC3qFu86F9YbS7Jt+izSrE4Yp8wmKXyV5/b1ynplBuS5lfO/1zPGm2ZVP4Xr+xhI5Q+Vls1ldmVtdnlt9tv58Ny2nbfWWgBIxzYtNlAzveV2veWG95bZIszrlMOUtdSVvja9fuD6O/ilB6Z3XD7aeb/7X3LoSq8AWS7N3l2bvLl3aOFaePXm+e/uetpMadjFLifK1mn81al51wvgsR07Vm6eSct/0W+RKpnpweZ8rxtekXSXP0utS5iPE8W5X0LkwhTd5eCzMLC/MLC9cXF64uHTn4tLTx892bd/ddlLY8v1tvipcLwbXq06II8Sv+JKTxwtLUC4tiHK9Qflo9s2VvyufgWPfguKbAzbPvfsjzOu6pcr40HyscTSDXXkOclskbKPrCoLNn1+YP78wP33n6+k7X0/f/uejp398+722k0I3ZA7KG+UrcbjmpbiggG+JelyfunVj6tb1yVtfTd786szNfzz46fdv/aHtpNBP3v/ljPySTi0foP+ujF+9curalfGr2fjVyye/XL//48433m07KQBAH82Mzc6Mzc2MzV48Nnvx2KXH955sf21H20kBAPro7Oj02cPnzx6ePjs6PTU6/fCbR9t+907bSQEA+uj0gTMTByc3j+/XHrz1221tJwUA6KMT+06Nj5weHzk9vn/i1P6J+6sP3nzlrbaTAgD00fFPT57Yd+rkvlPjI6dP7Z+4v/o9LWd4hH4oi89xAajki60t5/s13uV0VYlOUKJ/0HIAlHdi7/hGs9n4Q53v1x6+9Qp/ltM90TpBOi2Ht1xA94yPTJw+MDlxcOrMobOTn5198M2jbXx8IAHW30bMPzTPhVuUv+3oCiI85c3TfBi6Xms+A1oO0EVnDk5NfXZuanR649PSj77lQ9JpMVuLeW4+9I73Bqlynn+o7zdB8QF00rnD588fubh5PLr3+O1Xt7edFOz/g59myzHzLDyrXKz+HEBXzYzNXvri8qUv5mbG5mbG5p58t87fPtC6EiW4xZYjr6K5lqOPDyAV2ckvN/52tcsnrsydyNb//sOO13e2ndSwq9JygtpDjS1Hk0+N6x3QcoAuujZx49qZG1cnrn95+qsrp679cP/Hd/lrPROQr6dm5bVWc2sJznJc14WJ9PmYg10P5fW6brQG0UQGkJCbZ+dvnp2/MfX19clb/OMF6BD6DdA9ty8s3n7xT7TdvnVu/qeH/BNtAIBmbPxD1HcuLt25sHj7wuLTRz+/986utpMCAPTR0uzdpUt3Fy+tLM6sLMws//zk2a7tu9tOCgDQR8tzq8tzq8uzq8uzd5dm7z5bf757x562kwIA9NHK3NrLY3V5bvXZ+vPdO95vOykAQB/lWs7aytza8/Vf9tByAABNuHt5LX88X/9lz05azrAI/Zyx9Vd8hlArm+DafL4o6BJaTm+UKDolSlV3q1uNacffBOvv4QrXgUTRcvohWsXpaGnraNqbXPkL6+LdD1JEy0lTllO46DoXbjFLj3ewMN4bX35Ybr3CkkPX5U2mxvhBk3rndY2XQ2nmBSKh5STOrLPmufnQO94bpMp5/qGm6lWJU2V/SuTjCh6aT9C82VaF8eZ1IF20nDRZq0loSS1ROr1zCaWwEF9fCkvE8e6PvFJlSqHPWvfTtS75dmuo0DyB5NByEuQqPaElyVuOhSAlcrAG1xTE0Dgl8ilXmvWFXrO9QdNpvr7yFPr9B+Kh5SSoRLnffBhUjkuU8ir5hK43dF0R8pGDbz5UxtHP67pdCJu9JE8KREXLSVO+XpiVyFo9rSUmy3FdFybS5yPUR03hC40TlI95i1eJfROWUHFeTTJCNM28QCS0HERjluZ2a2Jq+dSrT2tBf9ByAACR0HIAAJHQcgAAkdByAACR0HIAAJHQcgAAkdByhlno52ib+xhx059RLhefzxkDNaPl9EaJ4liipDZahZsu8db4woy0HKBmtJx+iFYce9ZyOtRUevabqhhStJw0WX8QlH9ongu3uEqtMFgY740vP/Su2ptnietCYqHr0o/3rlSO77pFEx9IFC0ncfkq4zo3H3rHe4NUOc8/DKqSFfMRQrkuyukJixo41qhZb5V1Ad1Gy0lTtlX+onluPvSO9wbRn5t5Fp5VLrlcPtYIrqldSYbmk9lajjCvELbEGoEOo+UkqERJ8lZYTQkOnVdTr4PqZol8XLdr1iuEkvPJbC1HWJcyTzn/EvsJJIeWk6ASJcla/kJLcOi8ofl4NZeP66Kcp7Ao172a9ZbLP3tJDg4kjZaTpnx9MSuRtUpaS1KW47quKZ3efMzBrofyegvRNPlbrwt5CkvT749mH5TrFQJa79LEBxJFy0E0Zh2nhuqxV+gDWg4AIBJaDgAgEloOACASWg4AIBJaDgAgEloOACASWk6H9PtTxdV/r6WuGfu9z0CbaDnd0mIprGtea5zNdWkW6P2VyaBk5HwA1ImW0y1tlcK65q2lxLfbcngPBJRHy0mT6wdHrncD1vH5K5rx3jjKautqCUKcoCIurCv0Fk0+rt1QZgvgV7ScBCnrnbXwuUqnXHOV89aVv3W8q+5bn7WOr5iP9VwzhTVP/XYBQ4SWkyChYMklUqjawr3mYFecEvkr45SLryzuynxc+6nMR9g9AC/QchIkFCxriSxR4kMHl2sJ+inqil8lH+/e5p8yg5iUywGGCC0nQaElMrTEe+usEKeuEq/Js0T8ga0lDIyu4A3lXYL1imsWAC/QctIk1EehLBaquVD+XE9pbgnKfxBYsjXBq+Rp3UDrxprDrEEGtBxAj5aDPhGakDCg4hS0HECLloNh0GgnoOUAWrQcoCJaDqBFywEARELLAQBEQssBAERCywEARELLAQBEQssBAERCywEARELLAQBEQssBAERCywEARELLAQBEQssBAERCywEARELLAQBEQssBAERCywEARELLAQBEQssBAERCywEARELLAQBEQstBb2QvRY7T1ry1a3p2M3iWo7mOzqPloE/qKlKhcdqad2Cr4zFnrxI8f0Vzjj6g5aBPhq3ldKIiy29l9OeFaE2mjMbQctIkv0oL1/NXlC/doDiaJIPylJ/S7IOcknK93utmHHneQijXuWZe67kQpESe3utC/KBJzeXIz+YjC6kq50VaaDkJkuuOeT4wSqT5cq0SJzRP75hCeiXylFMyw3pztu6DEEe5zNB1Bd2rzE1O0jVgsPVHdhW/LvJI86ksRxMcnUHLSZNQEayvxvwVZdnSx9Ek6YpjHWPNU8hHyEGZUmh8YWn6eeVkhDjyZta1P/pn9fmUmNq8XtjAoAUidbSclOnri/Wp0iWvRHpB59nWiuydtFxds8b3bpS8hFrm1ex/E18v713yPjQxqfeiK6USCSAJtJwEaUpV4VUnFxFhsDJOLXlunmdbq2qJ9QalVHE/NVM3Oq9mfOkkXQOsD5VxvLPLceT42UuaSZEcWk6ashzvddfg/LOa+HIcObIr1MBdFs3bleuV87GmZM3HFV+II8xr3ljjvMI+6PdHiJMZXBe9+ciTuhYVFF+/XiSHlgMvszS0+5pvK5/U9sGlK3mW06e1DCNaDgAgEloOACASWg4AIBJaDgAgEloOACASWg4AIBJaTrck9fsKtX/6tqGP85YL67qrxc8cNzev6/vKer1nn7pGVLScLmq05QRFqL30NFTLQsNujrdW2xIBaxFhczTnzWWC/qPldFHT/7fbYiaptZyKcTqnesvJXmowS3QXLSdNWY7rWc146/VsK9d1TdXYHCaECs3TGyd/JSjPQijXuRBWvl5vnvr4yn3TUC7cu3Wh82JY0HISJLyehYvmdVccb70ITTVz/11qmlSr5KkscNZQ8lxmZPl69Ty9+2YG996r2Zz8SOtg87p1DwE/Wk6CgmqTcD0zmMOE6hmaqllezSoWlI8mjjJnIU/rwl0xrdcbylP/rGtSMx8vc7x3yfrgAC0nRd5XclDpkYcpb9Fk4q2trnk150KoWvIssXWaZMoVZf3sofmETu3NxJVS6QTQc7ScBHnLrrIkaUq56xZl1bCGCp23Sp5KQXkK8b1fjip5CnE0wTX7FjSvcl3Wp4K+OhgitJw0ZTmu6+bLXr5eCGKeF27RJ+kKKwe3jtfEcQWX87QuzTqvN3lz3lryVE5tzbOWLRKC5J+yPjSjKZeM4ULLgZdZetKsKeSZgj6tBfWj5QAAIqHlAAAioeUAACKh5QAAIqHlAAAioeUAACKh5aSpK5+dlfOMnH/tO9bQl6BcWNdd7X6fKKd2fZ9Yr3fiOx8l0XJS1pUXXqMtJyhC7TvW0JcgNOzmeGt1LhGwFsrekB+jOTcfoj9oOSnryguvuTxLl+a2EmgobKNNvZwsJ/Qu+dx8aJ03PGUkgJaTMvOlZX2d568onwqtF/J4ZZ7e/OXrmlS9+1AiT2+c/JWgPAuhXOdCWPm6Pk/XPsj5Cwl4b5Sve7ciaFIkhJaTMuGl5XqJusqKsrR557KOr1hHvPVFTs+csbB8zXpDc9PsvzdP672uAWZk+bo+T83+eJP3EnbGvG7NDX1Ay0mZ66UoVJ9BeAkLKjFBA1xJFuYVSlhoxbGGEtYblI8mjjJnIU/rwl0xrddL5KnJWYgfem/QEpSR0Q20nJQJdUdTklzjQ1/J3vHKgqgZprxFk8nmeei8Jfat9jxLbJ0mGTnP0FWUuCV0XeaA7KWgPJEKWk7KhNdn0Eu38CpVllHNvJrZvXE061JWGWuo0Hmr5KkUlKcQ3/vl0MQRxgctRDOmxH5anwpKEgmh5aQpMxSuD4xSJb8OXa9b5UvXNd6bp3DdmpswhT5JV1g5uHW8Jo4ruJyndWnWeb3Jm/OG5hm6hNC7vPnkn7I+NKPp80RCaDk9Jr9uXeNdhSAd5DnM2MNuo+X0G5UOQEJoOQCASGg5AIBIaDkAgEhoOQCASGg5AIBIaDndIn8CrWefTCv9WbumP6TXUHDh49R8zBo9QcvpokZbTlIVrfSKuttyvNfpOugwWk4XNVd0Uitnabachmhajv6NDm+JkCJaTprkn6KY113jrdezrVzXvdVKGC9cFFbhnSJova65Quf1Xg/dB3lS4XohmjDvgJaDNNFyEuStj97aJMcR4gcVqXztU6ZaKJf6KVz3lliXd+rQ/Q/dc3neTWbMwvI1+w+khZaToKCaKFzPDOYwoTTr8zRLnqt65p8KmmJgK7XKc/kp77z6Z5X7r+HazAEtB51Gy0mQt3YElTx5mPIWOQ1XKbQGDKq/1lCu+Mp1lZtdvm4dWaUHmAkL+2Bui3kXkARaToK89VFZCquUZk21cpW8uuK7QpVY1yBXgvXrcuUp7PMg93M2bxzlvN49tG6pcrFAVLScNLnqY2bQXy8EMc8LtyiTFMKaldE1Xo7vWoKcvDV+0NKE+OZE1ltccSrOa12L6y7NvEAktBx4mSW13lrWdPzCRPHnbUWf1oL+oOWg9/rXToCuouUAACKh5QAAIqHlAAAioeUAACKh5QAAImm65fwrp3DR+lAYX2C97hpf44oAoFusH9os8esB8mDVJ0IjvMsxi76r5ZhtQ7jFvJ6PYz4EgCGU7xCu8ypxwqK12HKsrULZcqzXlbcAwPBouuWE/d5buy3HfDviahKF1uK6TssBAJcqLccVJyyateX8y2bg/jMVmdxyrO94zLCuSYVk9C2n3vUCQILkP8spHcd1MbNp+c9y9N2i0JZcoeQgADCc5L6i7zqukR34wVr+3Gwb1nczcnDlLQAwVLz9QNkwhGGdaTkDxzsVuX9Yh9FyAKDA9ec38p/rmD9w04z3Z9OP38tRxgGAYWP5AxXbU667vHGE+Bb87QMAgDztW5YSaDkAgEhoOQCASAot5+nDnw/8/8E9O9/n4ODg4OCo9yi2nIeLj58+/Pn5+i8cHBwcHBz1HsWWw8HBwcHB0dBBy+Hg4ODgiHTQcjg4ODg4Ih3/BgoWSAc9WIDhAAAAAElFTkSuQmCC" alt="" />
+
+<p>但是如果有中文目录的话会出现乱码问题，所以还需要在下面添加这一句：</p>
+<p>charset utf-8,gbk;<br></content></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>王恒</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://wangheng.org/nginx-set-directory-browsing-and-solve-the-problem-of-chinese-garbled.html">http://wangheng.org/nginx-set-directory-browsing-and-solve-the-problem-of-chinese-garbled.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签: </span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/"># 中文乱码</a>
+                    
+                        <a href="/tags/air-video/"># air video</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回前页</a>
+                <span>· </span>
+                <a href="/">回到首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/ubuntu-install-air-video-server.html">ubuntu中安装air video server</a>
+            
+            
+            <a class="next" rel="next" href="/linux-installed-in-oray-service.html">Linux中安装oray服务</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 王恒 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> </span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <!-- 
+                                 _
+                                 | |
+          _ _ _  ____ ____   ____| | _   ____ ____   ____   ___   ____ ____
+         | | | |/ _  |  _ \ / _  | || \ / _  )  _ \ / _  | / _ \ / ___) _  |
+         | | | ( ( | | | | ( ( | | | | ( (/ /| | | ( ( | || |_| | |  ( ( | |
+          \____|\_||_|_| |_|\_|| |_| |_|\____)_| |_|\_|| (_)___/|_|   \_|| |
+                           (_____|                 (_____|           (_____|
+ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="王恒的技术博客 -- make progress a little day by day"> 
+<meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"> 
+
+<title>Linux编译安装Darwin Streaming Server 6.0.3 | 王恒&#39;s Blog</title>
+
+
+    <link rel="icon" href="/favicon.ico">  
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">  
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script> 
+    <script src="/js/tocbot.min.js"></script> 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script> 
+
+
+        
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">王恒&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default" style="display: none;" >
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">王恒&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+</header>
+<script>
+    hljs.initHighlightingOnLoad();
+    document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('pre').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+    });
+    
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Linux编译安装Darwin Streaming Server 6.0.3</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">王恒</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">三月 1, 2012&nbsp;&nbsp;14:18:25</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/">最近添加</a>
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/">技术探讨</a>
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <content>
+<p>&#160;&#160;&#160; 买回来VPS后就一直想在上面搭建一个流媒体服务，在网上搜索了很多资料，大部分都是介绍Linux中安装Darwin Streaming Server 5.5.5版本，因为这个版本提供了针对linux的安装脚本。但既然官网有了6.0.3版本，于是果断尝试安装最新的版本。</p>  <p><b>1</b><b>、什么是Darwin Streaming Server</b></p>  <p>&#160;&#160;&#160; 目前主流的流媒体服务器有微软的windows media server、RealNetworks的Helixserver和苹果公司的Darwin Streaming Server. 微软的windows media server只能在windows2000 server和windows 2003 server下使用，不在考虑之列。RealNetworks的Helixserver是一款跨平台的软件，功能也很强大，但并非免费软件。</p>  <p>&#160;&#160;&#160; Darwin Streaming Server简称DSS。DSS是Apple公司提供的开源实时流媒体播放服务器程序。整个程序使用C++编写，在设计上遵循高性能，简单，模块化等程序设计原则，务求做到程序高效，可扩充性好。并且DSS是一个开放源代码的，基于标准的流媒体服务器，可以运行在Windows NT和Windows 2000，以及几个UNIX实现上，包括Mac OS X，Linux，FreeBSD，和Solaris操作系统上的。</p>  <p><b>2</b><b>、在Linux</b><b>中编译安装Darwin Streaming Server</b></p>  <p>首先需要进行一些必要的准备工作：</p>  <pre lang="bash" line="1">apt-get install patch make gcc g++ </pre>
+
+<p>准备好软件暂存的目录，并从官网下载软件的源码：</p>
+
+<pre lang="bash" line="1">mkdir soft
+cd soft
+wget http://dss.macosforge.org/downloads/DarwinStreamingSrvr6.0.3-Source.tar</pre>
+
+<p>源码下载完成后，需要解压tar包，</p>
+
+<pre lang="bash" line="1">tar xvf DarwinStreamingSrvr6.0.3-Source.tar</pre>
+
+<p>给源码安装补丁文件，进入DarwinStreamingSrvr6.0.3-Source目录，并打补丁：</p><span id="more"></span><pre lang="bash" line="1">cd DarwinStreamingSrvr6.0.3-Source
+wget http://www.abrahamsson.com/dss-6.0.3.patch
+patch -p1 < dss-6.0.3.patch  </pre>
+
+<p>执行</p>
+
+<pre lang="bash" line="1">./Buildit </pre>
+
+<p>编译完成后，我们来生成linux下的dss安装包</p>
+
+<pre lang="bash" line="1">执行 ./buildtarball </pre>
+
+<p>生成DarwinStreamingSrvr-Linux.tar.gz</p>
+
+<p>解压缩</p>
+
+<pre lang="bash" line="1">tar -zxvf DarwinStreamingSrvr-Linux.tar.gz 
+cd DarwinStreamingSrvr-Linux </pre>
+
+<p>对Install文件做修改</p>
+
+<pre lang="bash" line="1">if [ $INSTALL_OS = "Linux" ]; then 
+/usr/sbin/useradd -M qtss > /dev/null 2>&1 
+else 
+/usr/sbin/useradd qtss > /dev/null 2>&1 
+fi</pre>
+
+<p>将-M修改成-m</p>
+
+<p><a href="uploads/2012/03/clip_image0014.png"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="clip_image001[4]" border="0" alt="clip_image001[4]" src="uploads/2012/03/clip_image0014_thumb.png" width="528" height="161" /></a></p>
+
+<pre lang="bash">执行./Install </pre>
+
+<p>Please enter a new administrator user name: 【新管理员】</p>
+
+<p>Please enter a new administrator Password: 【密码】</p>
+
+<p>查看是否安裝成功</p>
+
+<pre lang="bash">ps aux | grep Darwin(查看流媒体服务器的进程) </pre>
+
+<p>root ... ... ... /usr/local/sbin/DarwinStreamingServer 
+  <br />
+
+<p>  <br />qtss … … … /usr/local/sbin/DarwinStreamingServer</p></p>
+<pre lang="bash">netstat -ntulp | grep Darwin(查看流媒体服务器的端口)</pre>
+
+<p>&#160;<a href="uploads/2012/03/clip_image0024.png"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="clip_image002[4]" border="0" alt="clip_image002[4]" src="uploads/2012/03/clip_image0024_thumb.png" width="523" height="253" /></a></p>
+
+<p><b>3</b><b>、启动 Darwin Streaming Server </b></p>
+
+<pre lang="bash" line="1">sudo /usr/local/sbin/DarwinStreamingServer</pre>
+
+<p>启动 Web 管理介面 (tcp port 1220)</p>
+
+<pre lang="bash" line="1">sudo /usr/local/sbin/streamingadminserver.pl</pre>
+
+<p>ps. 以上两项在刚安装好的时候会自动启动，不需手动执行</p>
+
+<p>小技巧：自动启动流媒体服务器的方法：</p>
+
+<p>自动运行流媒体服务器序非常简单，把上述命令添加在/etc/rc.d/rc.local脚本中即可。</p>
+
+<p>最后在服务器输入 http://你的IP:1220/来访问web管理</p>
+
+<p><a href="uploads/2012/03/image.png"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="image" border="0" alt="image" src="uploads/2012/03/image_thumb.png" width="369" height="211" /></a></p>
+
+<p>默认的媒体文件存放在/usr/local/movies</p>
+
+<p>你可以在web管理面板修改这个路径。</p>
+
+<p><strong>4、访问自己的流媒体服务</strong></p>
+
+<p>可以使用VLC media player这个软件，输入</p>
+
+<p>rtsp://你的IP/sample_100kbit.mp4</p>
+
+<p>来播放默认的测试视频。如果你的网速够给力的话效果还不错 ：)</p>
+</content>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>王恒</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://wangheng.org/install-darwin-streaming-server-6-0-3-on-linux.html">http://wangheng.org/install-darwin-streaming-server-6-0-3-on-linux.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签: </span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Linux/"># Linux</a>
+                    
+                        <a href="/tags/%E7%BC%96%E8%AF%91/"># 编译</a>
+                    
+                        <a href="/tags/Darwin-Streaming-Server/"># Darwin Streaming Server</a>
+                    
+                        <a href="/tags/%E6%B5%81%E5%AA%92%E4%BD%93/"># 流媒体</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回前页</a>
+                <span>· </span>
+                <a href="/">回到首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/the-route-setup-script-realize-domestic-network-by-the-vpn.html">Route设置脚本，实现国内网不经VPN</a>
+            
+            
+            <a class="next" rel="next" href="/unix-programming-art-unix-philosophy.html">Unix编程艺术&mdash;&mdash;Unix哲学(转载)</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 王恒 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> </span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <!-- 
+                                 _
+                                 | |
+          _ _ _  ____ ____   ____| | _   ____ ____   ____   ___   ____ ____
+         | | | |/ _  |  _ \ / _  | || \ / _  )  _ \ / _  | / _ \ / ___) _  |
+         | | | ( ( | | | | ( ( | | | | ( (/ /| | | ( ( | || |_| | |  ( ( | |
+          \____|\_||_|_| |_|\_|| |_| |_|\____)_| |_|\_|| (_)___/|_|   \_|| |
+                           (_____|                 (_____|           (_____|
+ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="王恒的技术博客 -- make progress a little day by day"> 
+<meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"> 
+
+<title>kuaipan_uploader开发分享 | 王恒&#39;s Blog</title>
+
+
+    <link rel="icon" href="/favicon.ico">  
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">  
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script> 
+    <script src="/js/tocbot.min.js"></script> 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script> 
+
+
+        
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">王恒&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default" style="display: none;" >
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">王恒&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+</header>
+<script>
+    hljs.initHighlightingOnLoad();
+    document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('pre').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+    });
+    
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">kuaipan_uploader开发分享</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">王恒</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">五月 27, 2015&nbsp;&nbsp;13:01:02</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/">最近添加</a>
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/Linux%E5%AD%A6%E4%B9%A0/Autohotkey/">Autohotkey</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <content>
+<strong><em>PS：将原来的一篇文章拆开了，<a href="http://wangheng.org/kuaipan-uploader.html">上篇</a>是安装使用讲解，这篇是开发过程讲解。</em></strong>
+
+<p>以前使用dropbox的linux客户端<a href="http://wangheng.org/site-backup-to-ftp-and-dropbox.html">备份</a>VPS上的文件和数据，但是近来dorpbox在国内越来越难访问，加上dropbox本身的容量只有几G，于是有了自己动刀写一个网盘的客户端，首先想到的是百度网盘，2T的巨大容量肯定是够用了！</p>
+<p>没想到这个决定却是悲剧的开始，按照百度PCS的API文档写了半天，没想到PCS开通居然审核了一周多还不通过！ 联系客服，没想到他们的PCS API已经不审核新的申请了！再次吐槽下，你不审核，申请的时候就不能给个提示么！！！ 遂放弃！</p>
+<p>然后就想到了还是用金山快盘吧，前段时间刚被迅雷收购，速度方面应该是没有问题。找到金山快盘的官方开放平台，看了看文档似乎是…有点麻烦啊。不过本着有难度才有挑战的原则，还是开搞了。下面介绍下开发过程中遇到的一些问题。</p>
+<p>首先就是快盘的授权机制，本来是不太复杂，但是它的授权流程签名并不支持PLAINTEXT明文文本格式，只支持了一个HMAC-SHA1加密方式。为了处理这个签名倒是走了一些弯路。</p>
+<p>拿到授权token的过程可以总结为三歩走：</p>
+<blockquote><ol>
+    <li>获取未授权的临时 token；</li>
+    <li>用户登陆并授权你的应用；</li>
+    <li>根据临时 token换取真实的 access_token。</li></ol></blockquote>
+
+
+<p>图示如下：</p>
+<p><a href="uploads/2015/05/oauth_info.png"><img class="alignleft  wp-image-95093" src="uploads/2015/05/oauth_info-300x179.png" alt="授权流程" width="330" height="197" /></a></p>
+<p>在每次请求中，下面几个参数是必须的</p>
+<table width="600"><tbody><tr><td><strong>Name</strong></td><td><strong>Required</strong></td><td width="77"><strong>Type </strong><strong>and Limit</strong></td><td width="387"><strong>Description</strong></td></tr><tr><td>oauth_consumer_key</td><td>Y</td><td width="77">string</td><td width="387">第1步的 consumer_key</td></tr><tr><td>oauth_signature</td><td>Y</td><td width="77">string</td><td width="387">本次请求的签名,生成方法请参考<a target="_blank" rel="noopener" href="http://www.kuaipan.cn/developers/document_signature.htm">附录-签名生成算法</a></td></tr><tr><td>oauth_timestamp</td><td>Y</td><td width="77">int</td><td width="387">时间戳，正整数，和标准时间不超过5分钟</td></tr><tr><td>oauth_nonce</td><td>Y</td><td width="77">string</td><td width="387">[ 0-9A-Za-z_ ]随机字符串,长度小于32字节。每次请求请使用不同的nonce</td></tr></tbody></table>
+oauth_consumer_key可以在你创建应用的时候拿到，oauth_timestamp为标准的unix时间戳格式，oauth_nonce每次都生成一个随机数，这几个参数都非常好处理，主要就是oauth_signature这个费些周章。
+
+<p>官方的OAuth签名生成讲的比较具体，其实获取签名的方式也非常简单：</p>
+<ul>
+    <li>计算串基</li>
+    <li>根据串基按HMAC-SHA1获取签名并使用bash64和url_encode 转码</li></ul>
+生成签名的时候，如果是申请request_token 那么HMAC_SHA1加密的key 就是你的consumer_secret+&amp;，其他都是consumer_secret+&amp;+oauth_token_secret！
+
+<p>Linux shell中处理url_encode 没有太好的办法，我索性就写了一个函数用sed处理了，代码如下：</p>
+<pre class="brush: bash; gutter: true">#url encode
+function url_encode
+{
+
+    url=$1
+    echo -n $(echo -n &quot;$url&quot; | sed &#039;s/\%/\%25/g&#039;|sed &#039;s/&amp;/\%26/g&#039; |sed &#039;s/:/\%3A/g&#039; |sed &#039;s/\//\%2F/g&#039;| sed &#039;s/=/\%3D/g&#039; |sed &#039;s/ /\%20/g&#039; |sed &#039;s/@/\%40/g&#039; |sed &#039;s/+/\%2B/g&#039; |sed &#039;s/\*/\%2A/g&#039;)
+    
+}</pre>
+<p>拼接字符串基可归结为：请求方式&amp;url_encode(请求URL)&amp;(url_encode(参数1+参数2… ))</p>
+<p>使用bash获取签名处理方法如下：</p>
+<pre class="brush: bash; gutter: true">function get_signature
+{
+    method=$1
+    url=$2
+    data=$3
+    token_secret=$4
+    baseUrl=&quot;$1&amp;$(url_encode &quot;$2&quot;)&amp;$(url_encode &quot;$3&quot;)&quot;
+    signature=$(echo -n $baseUrl | openssl dgst -sha1 -binary -hmac &quot;$APP_CONSUMER_SECRET&amp;$token_secret&quot; |base64)
+    
+    echo -n $(url_encode $signature)
+}</pre><span id="more"></span>
+
+<p>有了签名，一切都简单了。按照官方开发文档上参数列表把其他必选的参数拼好就行了。</p>
+<p>请求使用的curl，命令格式如下：</p>
+<p>Curl –s –S –L –d “参数” “请求的URL” –o “本地缓存文件”</p>
+<p>整个脚本的源码如下：</p>
+<pre class="brush: bash; gutter: true">#!/usr/bin/env bash
+#
+# KuaiPan Uploader
+#
+#===========================================================================
+# Copyright (C) 2014-2015 wangheng &lt;wujiwh@gmail.com&gt;
+#
+# This file is part of Kuaipan Uploader source code.
+#
+# Kuaipan Uploader is free software; you can redistribute it
+# and/or modify it under the terms of the GNU General Public License as
+# published by the Free Software Foundation; either version 2 of the License,
+# or (at your option) any later version.
+#
+# Kuaipan Uploader is distributed in the hope that it will be
+# useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Foobar; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+#===========================================================================
+
+#===========================================================================
+#     FileName: kuaipan_uploader.sh
+#         Desc: API Doc is: http://www.kuaipan.cn/developers/document.htm
+#       Author: wangheng
+#        Email: wujiwh@gmail.com
+#     HomePage: http://wangheng.org
+#      Version: 1.0.1
+#   LastChange: 2015-05-09 09:34:59
+#      History:
+#===========================================================================
+
+#配置文件.
+CONFIG_FILE=~/.kuaipan_upload.conf
+
+RESPONSE_FILE=&quot;/tmp/resp_kuaipan&quot;
+COOKIE_FILE=&quot;/tmp/kuaipan.cookie&quot;
+
+Version=&quot;1.0.1&quot;
+
+#使用整个快盘此处填&quot;kuaipan&quot;，使用应用目录填&quot;app_folder&quot;
+ROOT_DIR=&quot;app_folder&quot;
+
+#这里改为你自己应用的consumer_key和consumer_secret_key
+APP_CONSUMER_KEY=&quot;xc0kwh2EAKlTQqCd&quot;
+APP_CONSUMER_SECRET=&quot;6mnnfufVvWzPzOgb&quot;
+
+#授权相关
+API_REQUEST_TOKEN_URL=&quot;https://openapi.kuaipan.cn/open/requestToken&quot;
+API_USER_AUTH_URL=&quot;https://www.kuaipan.cn/api.php?ac=open&amp;op=authorise&amp;oauth_token=&quot;
+API_AUTH_TOKEN_URL=&quot;https://openapi.kuaipan.cn/open/accessToken&quot;
+
+#统计信息相关
+API_ACCOUNT_INFO_URL=&quot;http://openapi.kuaipan.cn/1/account_info&quot;
+API_METADATA_URL=&quot;http://openapi.kuaipan.cn/1/metadata&quot;
+
+#上传、下载、删除
+API_UPLOAD_REQUEST_URL=&quot;http://api-content.dfs.kuaipan.cn/1/fileops/upload_locate&quot;
+API_DOWNLOAD_URL=&quot;http://api-content.dfs.kuaipan.cn/1/fileops/download_file&quot;
+API_DELETE_FILE_URL=&quot;http://openapi.kuaipan.cn/1/fileops/delete&quot;
+
+
+Dependents=&quot;curl sed awk basename date grep tr od openssl base64&quot;
+CURL=&quot;curl&quot; 
+
+#检查程序的依赖项
+for i in $Dependents; do
+    which $i &gt; /dev/null
+    if [ $? -ne 0 ]; then
+        echo -e &quot;Error: $i Not Found&quot;
+        exit 1
+    fi
+done
+
+#清理环境
+if [ -f &quot;$RESPONSE_FILE&quot; ]; then
+    rm -f $RESPONSE_FILE
+fi
+
+#==========通用方法========
+
+function get_json_value()
+{
+    KEY=$1
+    echo $(cat $RESPONSE_FILE| sed &#039;s/ //g&#039;| sed -n &#039;s/.*&#039;$KEY&#039;&quot;:&quot;\([a-zA-Z0-9\.\-\/:]*\)&quot;.*/\1/p&#039;)
+}
+
+#get unix timestamp
+function unix_time
+{
+    echo $(date +%s)
+}
+
+#url encode
+function url_encode
+{
+    url=$1
+    echo -n $(echo -n &quot;$url&quot; | sed &#039;s/\%/\%25/g&#039;|sed &#039;s/&amp;/\%26/g&#039; |sed &#039;s/:/\%3A/g&#039; |sed &#039;s/\//\%2F/g&#039;| sed &#039;s/=/\%3D/g&#039; |sed &#039;s/ /\%20/g&#039; |sed &#039;s/@/\%40/g&#039; |sed &#039;s/+/\%2B/g&#039; |sed &#039;s/\*/\%2A/g&#039;)
+    #echo -ne $(echo $url |tr -d &#039;\n&#039; |od -An -tx1 |tr &#039;[a-z]&#039; &#039;[A-Z]&#039; |tr &#039; &#039; \%)
+}
+
+#url decode
+function url_decode
+{
+    url=$1
+    echo -ne $(echo -n $url | sed &#039;s/\\/\\\\/g;s/\(%\)\([0-9a-fA-F][0-9a-fA-F]\)/\\x\2/g&#039;)&quot;\n&quot;
+}
+
+function get_signature
+{
+    method=$1
+    url=$2
+    data=$3
+    token_secret=$4
+    baseUrl=&quot;$1&amp;$(url_encode &quot;$2&quot;)&amp;$(url_encode &quot;$3&quot;)&quot;
+    signature=$(echo -n $baseUrl | openssl dgst -sha1 -binary -hmac &quot;$APP_CONSUMER_SECRET&amp;$token_secret&quot; |base64)
+    
+    echo -n $(url_encode $signature)
+}
+
+function account_setup
+{
+    #1. 获取未授权的临时 token；
+    DATA=&quot;oauth_consumer_key=$APP_CONSUMER_KEY&amp;oauth_nonce=$RANDOM&amp;oauth_signature_method=HMAC-SHA1&amp;oauth_timestamp=$(unix_time)&amp;oauth_version=1.0&quot;
+    oauth_signature=$(get_signature &#039;GET&#039; $API_REQUEST_TOKEN_URL &quot;$DATA&quot;)
+    $CURL -k -s -S --globoff -L -G -d &quot;$DATA&amp;oauth_signature=$oauth_signature&quot; &quot;$API_REQUEST_TOKEN_URL&quot; -o &quot;$RESPONSE_FILE&quot; 
+    
+    tmp_oauth_token=$(get_json_value &#039;oauth_token&#039;)
+    tmp_oauth_token_secret=$(get_json_value &#039;oauth_token_secret&#039;)
+
+
+    #2. 浏览器访问URL获取授权
+    echo -ne &quot;\nVisit this URL from your Browser, and login with your kuaipan account\n&quot;
+    echo -ne &quot;\n --&gt; $API_USER_AUTH_URL$tmp_oauth_token \n&quot;
+    echo -ne &quot;\nPress enter when done...\n&quot;
+    read
+
+    #3. 获取真实oauth_token
+    DATA=&quot;oauth_consumer_key=$APP_CONSUMER_KEY&amp;oauth_nonce=$RANDOM&amp;oauth_signature_method=HMAC-SHA1&amp;oauth_timestamp=$(unix_time)&amp;oauth_token=$tmp_oauth_token&quot;
+    oauth_signature=$(get_signature &#039;GET&#039; $API_AUTH_TOKEN_URL &quot;$DATA&quot; $tmp_oauth_token_secret)
+    
+    $CURL -k -s -S -L -G -d &quot;$DATA&amp;oauth_signature=$oauth_signature&quot; $API_AUTH_TOKEN_URL -o &quot;$RESPONSE_FILE&quot;
+
+    OAUTH_TOKEN=$(get_json_value &#039;oauth_token&#039;)
+    OAUTH_TOKEN_SECRET=$(get_json_value &#039;oauth_token_secret&#039;)
+
+    if [ -n &quot;$OAUTH_TOKEN&quot; -a -n &quot;$OAUTH_TOKEN_SECRET&quot; -a -n &quot;$APP_CONSUMER_KEY&quot; ]; then
+            echo -ne &quot;Congratulations!!! login succeed!\n&quot;
+            
+            #Saving data
+            echo &quot;APP_CONSUMER_KEY:$APP_CONSUMER_KEY&quot; &gt; &quot;$CONFIG_FILE&quot;
+            echo &quot;APP_CONSUMER_SECRET:$APP_CONSUMER_SECRET&quot; &gt;&gt; &quot;$CONFIG_FILE&quot;
+            echo &quot;OAUTH_TOKEN:$OAUTH_TOKEN&quot; &gt;&gt; &quot;$CONFIG_FILE&quot;
+            echo &quot;OAUTH_TOKEN_SECRET:$OAUTH_TOKEN_SECRET&quot; &gt;&gt; &quot;$CONFIG_FILE&quot;
+            
+            echo -ne &quot;All saved as $CONFIG_FILE!\n\n&quot;
+        else
+            echo -ne &quot;Unfortunately!!! login failed! please retray or contact wujiwh@gmail.com for help! \n\n&quot;
+    fi
+
+}
+
+function account_relink
+{
+    echo -ne &quot;Warrning: \nAre you sure? [y/n]y&quot;
+    read aw
+    if [ &quot;$aw&quot; == &quot;n&quot; ];then
+        echo -ne &quot;Cancelled! \n&quot;
+    else
+        rm -f &quot;$CONFIG_FILE&quot;
+        account_setup
+    fi
+}
+
+#========== First Setup ========== 
+#先检查本地是否存在配置文件
+if [ -f &quot;$CONFIG_FILE&quot; ]; then
+      
+    APP_CONSUMER_KEY=$(sed -n &#039;s/APP_CONSUMER_KEY:\([a-zA-Z0-9]*\)/\1/p&#039; &quot;$CONFIG_FILE&quot;)
+    APP_CONSUMER_SECRET=$(sed -n &#039;s/APP_CONSUMER_SECRET:\([a-zA-Z0-9]*\)/\1/p&#039; &quot;$CONFIG_FILE&quot;)
+    OAUTH_TOKEN=$(sed -n &#039;s/OAUTH_TOKEN:\([a-zA-Z0-9\.]*\)/\1/p&#039; &quot;$CONFIG_FILE&quot;)
+    OAUTH_TOKEN_SECRET=$(sed -n &#039;s/OAUTH_TOKEN_SECRET:\([a-zA-Z0-9\.]*\)/\1/p&#039; &quot;$CONFIG_FILE&quot;)
+    
+    if [ -z &quot;$APP_CONSUMER_KEY&quot; -o -z &quot;$APP_CONSUMER_SECRET&quot; -o -z &quot;$OAUTH_TOKEN&quot; -o -z &quot;$OAUTH_TOKEN_SECRET&quot; ]; then
+        echo -ne &quot;Cannot loading data from $CONFIG_FILE...\n&quot;
+        echo -ne &quot;Please run [$0 relink] to retray! \n&quot;
+        exit 1
+    fi
+    
+#新用户，获取Token并保存到配置文件
+else
+    account_setup
+fi
+
+
+#========= OAUTH API 功能实现 =========
+
+function get_common_oauthdata
+{
+    echo &quot;oauth_consumer_key=$APP_CONSUMER_KEY&amp;oauth_nonce=$RANDOM&amp;oauth_signature_method=HMAC-SHA1&amp;oauth_timestamp=$(unix_time)&amp;oauth_token=$OAUTH_TOKEN&quot;
+}
+
+#获取用户信息
+function account_info()
+{
+    OAUTH_DATA=&quot;oauth_consumer_key=$APP_CONSUMER_KEY&amp;oauth_nonce=$RANDOM&amp;oauth_signature_method=HMAC-SHA1&amp;oauth_timestamp=$(unix_time)&amp;oauth_token=$OAUTH_TOKEN&quot;
+    signature=$(get_signature &#039;GET&#039; $API_ACCOUNT_INFO_URL &quot;$OAUTH_DATA&quot; $OAUTH_TOKEN_SECRET)
+    
+    $CURL -k -s -S -G -L -d &quot;$OAUTH_DATA&amp;oauth_signature=$signature&quot; &quot;$API_ACCOUNT_INFO_URL&quot; -o &quot;$RESPONSE_FILE&quot;
+    
+    userName=$(sed -n &#039;s/.*user_name&quot;:&quot;\([a-zA-Z0-9\.\-\@]*\)&quot;.*/\1/p&#039; $RESPONSE_FILE) 
+    let quota_total=$(sed -n &#039;s/.*quota_total&quot;:\([0-9]*\),.*/\1/p&#039; $RESPONSE_FILE)/1024/1024/1024
+    let quota_used=$(sed -n &#039;s/.*quota_used&quot;:\([0-9]*\),.*/\1/p&#039; $RESPONSE_FILE)/1024/1024/1024
+    
+    echo &quot;&quot;
+    echo &quot;User Name: $userName&quot;
+    echo &quot;Total Quota: $quota_total GB&quot;
+    echo &quot;Used Quota: $quota_used GB&quot;
+    echo &quot;&quot;
+}
+
+#文件上传
+function file_upload
+{
+    local overwrite=$1
+    local file_Local=$2
+    local file_Remote=$3
+
+    if [ -z &quot;$file_Remote&quot; ]; then
+        file_Remote=$(basename &quot;$file_Local&quot;)
+    fi
+
+    OAUTH_DATA=$(get_common_oauthdata)
+    signature=$(get_signature &#039;GET&#039; $API_UPLOAD_REQUEST_URL &quot;$OAUTH_DATA&quot; $OAUTH_TOKEN_SECRET)
+    $CURL -k -s -S -G -L -d &quot;$OAUTH_DATA&amp;oauth_signature=$signature&quot; &quot;$API_UPLOAD_REQUEST_URL&quot; -o &quot;$RESPONSE_FILE&quot;
+    
+    upload_url=$(get_json_value &quot;url&quot;)&quot;1/fileops/upload_file&quot;
+    #echo $upload_url
+
+    OAUTH_DATA=&quot;oauth_consumer_key=$APP_CONSUMER_KEY&amp;oauth_nonce=$RANDOM&amp;oauth_signature_method=HMAC-SHA1&amp;oauth_timestamp=$(unix_time)&amp;oauth_token=$OAUTH_TOKEN&amp;overwrite=$overwrite&amp;path=$(url_encode $file_Remote)&amp;root=app_folder&quot;
+    signature=$(get_signature &#039;POST&#039; $upload_url &quot;$OAUTH_DATA&quot; $OAUTH_TOKEN_SECRET)
+    
+    $CURL -k --progress-bar -i -o &quot;$RESPONSE_FILE&quot; -F &quot;file=@$file_Local&quot; &quot;$upload_url?$OAUTH_DATA&amp;oauth_signature=$signature&quot; 
+    
+    grep &quot;HTTP/1.1 200 OK&quot; &quot;$RESPONSE_FILE&quot; &gt; /dev/null
+    if [ $? -eq 0 ]; then
+        echo -ne &quot;--Upload Success.\n&quot;
+    else
+        echo -ne &quot;--Upload Failed.\n&quot;
+        echo -ne &quot;--Error occurred while uploading $file_Local.\n&quot;
+        exit 1
+    fi   
+    #cat $RESPONSE_FILE
+}
+
+#下载文件
+function file_download
+{
+    local file_Remote=$1
+    local file_Local=$2
+
+    echo -ne &quot;Begin to download $file_Remote...\n&quot;
+    OAUTH_DATA=$(get_common_oauthdata)&quot;&amp;path=$(url_encode $file_Remote)&amp;root=$ROOT_DIR&quot;
+    signature=$(get_signature &#039;GET&#039; $API_DOWNLOAD_URL &quot;$OAUTH_DATA&quot; $OAUTH_TOKEN_SECRET)
+    #$CURL -S -L -v -G -d &quot;$OAUTH_DATA&amp;oauth_signature=$signature&quot; &quot;$API_DOWNLOAD_URL&quot; -o &quot;$file_Local&quot;
+    $CURL -L --compressed --progress-bar -G -D &quot;$RESPONSE_FILE&quot; -d &quot;$OAUTH_DATA&amp;oauth_signature=$signature&quot; &quot;$API_DOWNLOAD_URL&quot; --cookie-jar &quot;$COOKIE_FILE&quot; -o &quot;$file_Local&quot;
+    rm -f $COOKIE_FILE
+
+    grep &quot;HTTP/1.1 200 OK&quot; &quot;$RESPONSE_FILE&quot; &gt; /dev/null
+    if [ $? -eq 0 ]; then
+        echo -ne &quot;--Download Success.\n&quot;
+    else
+        echo -ne &quot;--Download Failed.\n&quot;
+        exit 1
+    fi   
+}
+
+#删除文件
+function file_delete
+{
+    local file_Remote=$1
+
+    OAUTH_DATA=$(get_common_oauthdata)&quot;&amp;path=$file_Remote&amp;root=$ROOT_DIR&quot;
+    signature=$(get_signature &#039;GET&#039; $API_DELETE_FILE_URL &quot;$OAUTH_DATA&quot; $OAUTH_TOKEN_SECRET)
+    $CURL -k -s -S -i -S -L -G -d &quot;$OAUTH_DATA&amp;oauth_signature=$signature&quot; &quot;$API_DELETE_FILE_URL&quot; -o &quot;$RESPONSE_FILE&quot;
+    
+    grep &quot;HTTP/1.1 200 OK&quot; &quot;$RESPONSE_FILE&quot; &gt; /dev/null
+    if [ $? -eq 0 ]; then
+        echo -ne &quot;\033[0;32;1m--Delete Success.\033[0m\n&quot;
+    else
+        echo -ne &quot;\033[0;31;1m--Delete Failed.\033[0m\n&quot;
+        exit 1
+    fi   
+    echo &quot;&quot;
+}
+
+#显示文件夹信息，默认显示根目录
+function show_list
+{
+    local remote_path=$1
+
+    local metaUrl=&quot;$API_METADATA_URL/$ROOT_DIR/$remote_path&quot;
+    OAUTH_DATA=$(get_common_oauthdata)
+    signature=$(get_signature &#039;GET&#039; $metaUrl &quot;$OAUTH_DATA&quot; $OAUTH_TOKEN_SECRET)
+    $CURL -k -s -S -G -L -d &quot;$OAUTH_DATA&amp;oauth_signature=$signature&quot; &quot;$metaUrl&quot; -o &quot;$RESPONSE_FILE&quot;
+
+    sed &#039;s/,/\n/g&#039; $RESPONSE_FILE|grep name|awk -F &#039;:&#039; &#039;{print $2}&#039;|tr -d &#039;&quot;&#039;|tr &quot;\n&quot; &quot;\t&quot;|sed &#039;s/$/\n/&#039;
+}
+
+#=====================================
+
+function usage() {
+    echo -e &quot;KuaiPan Uploader v$Version&quot;
+    echo -e &quot;wangheng - wujiwh@gmail.com\n&quot;
+    echo -e &quot;Usage: $0 COMMAND [PARAMETERS]...&quot;
+    echo -e &quot;\nCommands:&quot;
+    
+    echo -e &quot;\t upload   [local file]  &lt;remote file&gt;&quot;
+    echo -e &quot;\t download [remote file] &lt;local file&gt;&quot;
+    echo -e &quot;\t delete   [remote file/remote dir]&quot;
+    echo -e &quot;\t list     &lt;remote dir&gt;&quot;
+    echo -e &quot;\t info&quot;
+    echo -e &quot;\t relink&quot;
+    
+    echo -en &quot;\nFor more informations, please visit \033[0;32;1m http://wangheng.org.\033[0m \n\n&quot;
+    exit 1
+}
+
+#===============Main =================
+COMMAND=$1
+
+case $COMMAND in
+
+    upload)
+
+        file_Local=$2
+        file_Remote=$3
+
+        #检查本地文件是否存在
+        if [ ! -f &quot;$file_Local&quot; ]; then
+            echo -e &quot;Error: Please specify a valid source file!&quot;
+            exit 1
+        fi
+                
+        
+        file_upload &quot;True&quot; &quot;$file_Local&quot; &quot;$file_Remote&quot;
+        
+    ;;
+
+    download)
+
+        file_Remote=$2 
+        file_Local=$3  
+
+        if [ -z &quot;$file_Remote&quot; ]; then
+            echo -ne &quot;Error: Please input a valid remote file.\n&quot;
+            exit 1
+        fi
+
+        if [ -z &quot;$file_Local&quot; ]; then
+            file_Local=$(basename &quot;$file_Remote&quot;)
+        fi
+        
+        file_download &quot;$file_Remote&quot; &quot;$file_Local&quot;
+        
+    ;;
+
+       
+    info)
+    
+        account_info
+    
+    ;;
+
+    delete)
+
+        file_Remote=$2    
+
+        if [ -z &quot;$file_Remote&quot; ]; then
+            echo -ne &quot;Error: Please input a valid remote file.\n&quot;
+            exit 1
+        fi
+
+        file_delete &quot;$file_Remote&quot;
+
+    ;;
+
+    list)
+
+        RemoteDir=$2
+        if [ -z &quot;$RemoteDir&quot; ]; then
+            RemoteDir=&quot;/&quot;
+        fi
+        
+        show_list &quot;$RemoteDir&quot;
+
+    ;;
+        
+    relink)
+        account_relink    
+    ;;
+            
+    *)
+        usage
+    ;;
+
+esac</pre>
+<p>&nbsp;</p>
+<p><strong>项目开源在我的Github</strong>：<a target="_blank" rel="noopener" href="https://github.com/wujiwh/kuaipan_uploader">https://github.com/wujiwh/kuaipan_uploader</a></p>
+<p>欢迎大家多多交流~~<br></content></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>王恒</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://wangheng.org/kuaipan-uploader-dev-share.html">http://wangheng.org/kuaipan-uploader-dev-share.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签: </span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Windows/"># Windows</a>
+                    
+                        <a href="/tags/Linux/"># Linux</a>
+                    
+                        <a href="/tags/awk/"># awk</a>
+                    
+                        <a href="/tags/curl/"># curl</a>
+                    
+                        <a href="/tags/shell/"># shell</a>
+                    
+                        <a href="/tags/%E5%BC%80%E6%BA%90/"># 开源</a>
+                    
+                        <a href="/tags/%E5%A4%87%E4%BB%BD/"># 备份</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回前页</a>
+                <span>· </span>
+                <a href="/">回到首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/migrating-from-wordpress-to-hexo.html">从wordpress迁移到hexo填坑</a>
+            
+            
+            <a class="next" rel="next" href="/kuaipan-uploader.html">linux版快盘上传下载脚本</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 王恒 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> </span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

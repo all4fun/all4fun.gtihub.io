@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <!-- 
+                                 _
+                                 | |
+          _ _ _  ____ ____   ____| | _   ____ ____   ____   ___   ____ ____
+         | | | |/ _  |  _ \ / _  | || \ / _  )  _ \ / _  | / _ \ / ___) _  |
+         | | | ( ( | | | | ( ( | | | | ( (/ /| | | ( ( | || |_| | |  ( ( | |
+          \____|\_||_|_| |_|\_|| |_| |_|\____)_| |_|\_|| (_)___/|_|   \_|| |
+                           (_____|                 (_____|           (_____|
+ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="王恒的技术博客 -- make progress a little day by day"> 
+<meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"> 
+
+<title>linux版快盘上传下载脚本 | 王恒&#39;s Blog</title>
+
+
+    <link rel="icon" href="/favicon.ico">  
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">  
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script> 
+    <script src="/js/tocbot.min.js"></script> 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script> 
+
+
+        
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">王恒&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default" style="display: none;" >
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">王恒&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+</header>
+<script>
+    hljs.initHighlightingOnLoad();
+    document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('pre').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+    });
+    
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">展开所有</a>
+        <a onclick="go_top()">回顶部</a>
+        <a onclick="go_bottom()">到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "折叠所有"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">linux版快盘上传下载脚本</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">王恒</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">五月 13, 2015&nbsp;&nbsp;17:16:39</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/">最近添加</a>
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/">技术探讨</a>
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <content>
+<strong><em>PS:将脚本的开发过程移动到了<a href="http://wangheng.org/kuaipan-uploader-dev-share.html">这里</a>。想了解下开发步骤的可以参考~~ </em></strong>
+
+<h2><strong>安装使用</strong></h2>
+此脚本适用于大部分bash环境，已经在cygwin,ubuntu14.04,debian,centos6,mac-osx等环境通过测试。
+
+<p><strong>1.依赖项</strong><br>使用此程序前请确认你的Linux或者Cygwin支持如下命令：</p>
+<blockquote>curl sed awk basename date grep tr od openssl base64</blockquote><strong>2.配置</strong>
+
+<p>如果你想使用自己的app_key你需要首先注册一个金山快盘账号，然后到这里<a target="_blank" rel="noopener" href="http://www.kuaipan.cn/developers">地址</a>创建一个你自己的应用并把得到的 consumer_key、consumer_secret填写到脚本相应位置。<br>当然此步骤可以略过，你可以直接使用脚本中填写好的consumer_key、consumer_secret，我创建的应用名称all4fun.</p>
+<p><strong>3.安装</strong><pre class="brush: bash; gutter: true">wget <a target="_blank" rel="noopener" href="https://github.com/wujiwh/kuaipan_uploader/archive/master.zip">https://github.com/wujiwh/kuaipan_uploader/archive/master.zip</a><br>unzip master.zip<br>cd kuaipan_uploader-master<br>#或者 ：<br>git clone <a target="_blank" rel="noopener" href="https://github.com/wujiwh/kuaipan_uploader.git">https://github.com/wujiwh/kuaipan_uploader.git</a><br>cd kuaipan_uploader<br>#上面两种方式选择一种即可<br>#赋予脚本执行权限并执行<br>chmod a+x kuaipan_uploader.sh<br>./kuaipan_uploader.sh</pre><br>然后根据提示完成API的授权流程，得到授权Token。脚本会自动保存得到的授权信息到CONFIG_FILE 变量对应配置文件，默认为~/.kuaipan_upload.conf<strong> </strong></p>
+<p><strong>4.</strong><strong>使用说明</strong><pre class="brush: bash; gutter: false">KuaiPan Uploader v1.1.0<br>wangheng - <a href="mailto:&#x77;&#117;&#x6a;&#105;&#x77;&#104;&#x40;&#103;&#x6d;&#x61;&#105;&#108;&#x2e;&#x63;&#x6f;&#109;">&#x77;&#117;&#x6a;&#105;&#x77;&#104;&#x40;&#103;&#x6d;&#x61;&#105;&#108;&#x2e;&#x63;&#x6f;&#109;</a></p>
+<p>Usage: /usr/bin/kuaipan COMMAND [PARAMETERS]…</p>
+<p>Commands:<br>         upload   [local file]  &lt;remote file&gt;<br>         download [remote file] &lt;local file&gt;<br>         delete   [remote file/remote dir]<br>         list     &lt;remote dir&gt;<br>         info<br>         relink</p>
+<p>For more informations, please visit  <a href="http://wangheng.org/">http://wangheng.org</a>.</pre><br>其中[XXX]内的为必填参数，&lt;XXX&gt;内的为可选参数</p>
+<p>比如执行 ./kuaipan_uploader.sh upload a.txt</p>
+<p>后面的&lt;remote file&gt;可以不填，不填写的话，默认上传到网盘根目录或者应用程序根目录的同名文件。 (跟你创建应用的时候选择的选项有关)</p>
+<p>其他，下载和删除都是类似如上…</p>
+<ul>
+    <li><em>注意：如果上传到远程某个目录内的话，请务必保证此目录已存在！</em></li></ul>
+执行 ./kuaipan_uploader.sh info 可以查看网盘的用户名，总容量和可用容量。
+
+<p>执行 ./kuaipan_uploader.sh list 可以查看网盘内已经存在的文件以及目录(非结构化)。</p>
+<p>执行 ./kuaipan_uploader.sh relink 可以删除网盘授权信息并重新授权</p>
+<p><strong>5</strong><strong>、卸载</strong></p>
+<p>此工具为绿色软件，使用时候复制到执行目录并赋予执行权限即可。</p>
+<p>如果想卸载删除此工具，请连带删除 CONFIG_FILE 变量后面的配置文件，默认为~/.kuaipan_upload.conf<strong> </strong></p>
+<p><strong>许可证</strong></p>
+<p>Kuaipan Uploader 基于GPL第二版或以后版本发布。详见LICENSE文件</p>
+<p><strong>项目开源在我的Github</strong>：<a target="_blank" rel="noopener" href="https://github.com/wujiwh/kuaipan_uploader">https://github.com/wujiwh/kuaipan_uploader</a><br></content></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>王恒</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://wangheng.org/kuaipan-uploader.html">http://wangheng.org/kuaipan-uploader.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签: </span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Linux/"># Linux</a>
+                    
+                        <a href="/tags/awk/"># awk</a>
+                    
+                        <a href="/tags/curl/"># curl</a>
+                    
+                        <a href="/tags/shell/"># shell</a>
+                    
+                        <a href="/tags/openssl/"># openssl</a>
+                    
+                        <a href="/tags/%E5%BC%80%E6%BA%90/"># 开源</a>
+                    
+                        <a href="/tags/denyhost/"># denyhost</a>
+                    
+                        <a href="/tags/server/"># server</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回前页</a>
+                <span>· </span>
+                <a href="/">回到首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/kuaipan-uploader-dev-share.html">kuaipan_uploader开发分享</a>
+            
+            
+            <a class="next" rel="next" href="/ubuntu-14-04-install-configure-denyhosts.html">ubuntu 安装配置denyhosts</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 王恒 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> </span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

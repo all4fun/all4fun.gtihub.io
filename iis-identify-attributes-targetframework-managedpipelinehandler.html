@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <!-- 
+                                 _
+                                 | |
+          _ _ _  ____ ____   ____| | _   ____ ____   ____   ___   ____ ____
+         | | | |/ _  |  _ \ / _  | || \ / _  )  _ \ / _  | / _ \ / ___) _  |
+         | | | ( ( | | | | ( ( | | | | ( (/ /| | | ( ( | || |_| | |  ( ( | |
+          \____|\_||_|_| |_|\_|| |_| |_|\____)_| |_|\_|| (_)___/|_|   \_|| |
+                           (_____|                 (_____|           (_____|
+ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="王恒的技术博客 -- make progress a little day by day"> 
+<meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"> 
+
+<title>IIS无法识别的属性targetFramework、错误模块ManagedPipelineHandler | 王恒&#39;s Blog</title>
+
+
+    <link rel="icon" href="/favicon.ico">  
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">  
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script> 
+    <script src="/js/tocbot.min.js"></script> 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script> 
+
+
+        
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">王恒&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default" style="display: none;" >
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">王恒&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+</header>
+<script>
+    hljs.initHighlightingOnLoad();
+    document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('pre').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+    });
+    
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">IIS无法识别的属性targetFramework、错误模块ManagedPipelineHandler</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">王恒</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">四月 25, 2012&nbsp;&nbsp;8:58:41</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/">技术探讨</a>
+                            
+                                <a href="/categories/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/%E8%BD%AC%E8%BD%BD/">转载</a>
+                            
+                                <a href="/categories/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/%E8%BD%AC%E8%BD%BD/Route/">Route</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <content>
+<em>微软服务器与开发工具事业部 黄捷 </em><a href="http://hi.baidu.com/mimail2010/blog/item/a03458cdec465f0f93457ef7.html" target="_blank"><em>原文地址</em></a>
+
+<p>如果你创建寄宿在IIS中的WCF Service网站项目，（图1显示怎样创建这样的网站项目），或者你把你的WCF Web Application项目或者WCF Service网站项目发布或部署到IIS网站服务器上后，你可以用网页浏览器去访问你的网站。如果你在尝试打开这些网页时无法看到正确的页面显示，或者看到错误提示页面(图2是错误提示页面的一个例子: HTTP Error 500.21 – Internal Server Error Handler “svc-Integrated” has a bad module “ManagedPipelineHandler” in its module list)，下面是最常见的问题和解决办法。</p>
+<blockquote><a target="_blank" rel="noopener" href="http://blogs.msdn.com/blogfiles/wcftoolsteamblogcn/WindowsLiveWriter/IISWCFSetup_BD0A/image3.png"><img title="Image" src="http://blogs.msdn.com/blogfiles/wcftoolsteamblogcn/WindowsLiveWriter/IISWCFSetup_BD0A/image3_thumb.png" alt="Image" width="447" height="317" border="0" /></a>
+
+<p>图1<span id="more"></span></p>
+<p><a target="_blank" rel="noopener" href="http://blogs.msdn.com/blogfiles/wcftoolsteamblogcn/WindowsLiveWriter/IISWCFSetup_BD0A/image6.png"><img title="image" src="http://blogs.msdn.com/blogfiles/wcftoolsteamblogcn/WindowsLiveWriter/IISWCFSetup_BD0A/image6_thumb.png" alt="image" width="439" height="313" border="0" /></a></p>
+<p>图2</blockquote><br>常见问题与解决办法：</p>
+<p><strong>1. 检查IIS是否正确安装和运行</strong></p>
+<p>你需要保证你的IIS服务器已经正确安装并正常运行。这里我们不讨论IIS安装的方法(你可你根据你的Windows版本和需要的IIS版本去<a target="_blank" rel="noopener" href="http://www.bing.com/">bing</a>中搜索)， 只给出简单的验证方法。如图2所示，在IE地址栏中输入<a target="_blank" rel="noopener" href="http://localhost/">http://localhost</a>， 如果你看到如图所示的页面或者类似的其他版本IIS的默认页面。那么就说明IIS已经在正常运行了。</p>
+<p><a target="_blank" rel="noopener" href="http://blogs.msdn.com/blogfiles/wcftoolsteamblogcn/WindowsLiveWriter/IISWCFSetup_BD0A/image9.png"><img title="image" src="http://blogs.msdn.com/blogfiles/wcftoolsteamblogcn/WindowsLiveWriter/IISWCFSetup_BD0A/image9_thumb.png" alt="image" width="432" height="372" border="0" /></a><br>图3</p>
+<p><strong>2. 正确注册安装ASP.net</strong></p>
+<p>打开Visual Studio命令行提示工具（Start-&gt;All Programs-&gt;Visual Studio-&gt;Visual Studio Tools-&gt;Visual Studio Command Prompt， 如果你的OS是Windows Vista及以后的版本，你需要以管理员身份打开），运行”aspnet_regiis.exe -i”。在命令运行完成后重新尝试你的网站。</p>
+<p><strong>3. 在IIS中配置正确的Application Pool</strong></p>
+<p>在IIS管理工具(IIS Manager)中找到你的Website， 选中。在右侧的面板中点击Basic Settings。 你将看到如图3所示的弹出窗口，其中有你正在使用的Application Pool的信息。 选择IIS管理工具中的Applications Pools节点。选中你在使用的Application Pool， 点击右侧的Basic Settings。 你将看到如图4所示的弹出窗口。确定其中的.NET Framework版本是v4.0.xxxxx。如果不是，这也许就是你看到错误页面的原因。尝试在图2中把它改成v4.0或者在图3中选择”Select…”， 更改成其他的使用.NET Framework v4.0的Application Pool。</p>
+<p><a target="_blank" rel="noopener" href="http://blogs.msdn.com/blogfiles/wcftoolsteamblogcn/WindowsLiveWriter/IISWCFSetup_BD0A/image12.png"><img title="image" src="http://blogs.msdn.com/blogfiles/wcftoolsteamblogcn/WindowsLiveWriter/IISWCFSetup_BD0A/image12_thumb.png" alt="image" width="461" height="324" border="0" /></a></p>
+<p>图4</p>
+<p><a target="_blank" rel="noopener" href="http://blogs.msdn.com/blogfiles/wcftoolsteamblogcn/WindowsLiveWriter/IISWCFSetup_BD0A/image15.png"><img title="image" src="http://blogs.msdn.com/blogfiles/wcftoolsteamblogcn/WindowsLiveWriter/IISWCFSetup_BD0A/image15_thumb.png" alt="image" width="275" height="251" border="0" /></a><br>图5</p>
+<p><strong>4. 安装注册WCF组件</strong></p>
+<p>WCF没有正确的在IIS中注册也许是导致看到错误页面的最常见原因。如果你在安装Visual Studio后才安装IIS， 那么你就很可能遇到这样的问题。打开Visual Studio命令行提示工具（Start-&gt;All Programs-&gt;Visual Studio-&gt;Visual Studio Tools-&gt;Visual Studio Command Prompt， 如果你的OS是Windows Vista及以后的版本，你需要以管理员身份打开），运行” ServiceModelReg.exe –ia”。 命令完成后再次访问你的WCF 网站。<br></content></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>王恒</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://wangheng.org/iis-identify-attributes-targetframework-managedpipelinehandler.html">http://wangheng.org/iis-identify-attributes-targetframework-managedpipelinehandler.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签: </span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Windows/"># Windows</a>
+                    
+                        <a href="/tags/git/"># git</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回前页</a>
+                <span>· </span>
+                <a href="/">回到首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/ubuntu-12-04-source-list.html">ubuntu 12.04更新源</a>
+            
+            
+            <a class="next" rel="next" href="/apple-keyboard-the-helper.html">apple keyboard helper苹果键盘tools</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 王恒 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> </span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

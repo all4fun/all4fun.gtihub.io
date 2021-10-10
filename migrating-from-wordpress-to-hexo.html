@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <!-- 
+                                 _
+                                 | |
+          _ _ _  ____ ____   ____| | _   ____ ____   ____   ___   ____ ____
+         | | | |/ _  |  _ \ / _  | || \ / _  )  _ \ / _  | / _ \ / ___) _  |
+         | | | ( ( | | | | ( ( | | | | ( (/ /| | | ( ( | || |_| | |  ( ( | |
+          \____|\_||_|_| |_|\_|| |_| |_|\____)_| |_|\_|| (_)___/|_|   \_|| |
+                           (_____|                 (_____|           (_____|
+ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="王恒的技术博客 -- make progress a little day by day"> 
+<meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"> 
+
+<title>从wordpress迁移到hexo填坑 | 王恒&#39;s Blog</title>
+
+
+    <link rel="icon" href="/favicon.ico">  
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">  
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script> 
+    <script src="/js/tocbot.min.js"></script> 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script> 
+
+
+        
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">王恒&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default" style="display: none;" >
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">王恒&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+</header>
+<script>
+    hljs.initHighlightingOnLoad();
+    document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('pre').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+    });
+    
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">展开所有</a>
+        <a onclick="go_top()">回顶部</a>
+        <a onclick="go_bottom()">到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "折叠所有"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">从wordpress迁移到hexo填坑</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">王恒</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十月 22, 2018&nbsp;&nbsp;13:50:30</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="前记"><a href="#前记" class="headerlink" title="前记"></a>前记</h1><p>用了好久的wordpress，说起来上次更新还是三年前。今天本想整理总结下最近的学习，却总也打不开<code>wp-admin</code>后台了，看了下是vps的php进程有报错 :( 想了想wordpress这套框架虽然很好，然而好多功能对我来说并不是必要的，于是动了心思从wordpress 迁移到静态化的博客框架 hexo。当然另外一个好处就是可以用 Markdown 语法写日志了 :)</p>
+<p>迁移过程遇到一些坑，这里做下备忘…</p>
+<h2 id="开始迁移"><a href="#开始迁移" class="headerlink" title="开始迁移"></a>开始迁移</h2><h3 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h3><p>网上安装hexo的文章已经很多了，这里不再冗述，大概流程就是</p>
+<ul>
+<li>1、安装nodejs</li>
+<li>2、配置环境变量</li>
+<li>3、<code>npm install -g hexo-cli</code></li>
+<li>4、初始化站点 <code>hexo init blog_dir</code></li>
+<li>5、修改_config.yml</li>
+</ul>
+<h3 id="导出wordpress文章"><a href="#导出wordpress文章" class="headerlink" title="导出wordpress文章"></a>导出wordpress文章</h3><p>因为无法打开博客的后台管理，只能在本地临时又搭建了一套wordpress 环境，这里再次坚定了迁移的决心(弄php+mysql+nginx这一套只用来写博客，太麻烦了)<br>访问后台 – 工具 – 导出，下载导出的文件，你将得到一个 .XML 文件，这个XML文件包含全部文章、页面、评论、自定义栏目、分类目录和标签。</p>
+<h3 id="导入文章到hexo"><a href="#导入文章到hexo" class="headerlink" title="导入文章到hexo"></a>导入文章到hexo</h3><p>首先安装 <code>hexo-migrator-wordpress</code> 插件:</p>
+<figure class="highlight bash"><figcaption><span>安装</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> blog_dir</span><br><span class="line">npm install hexo-migrator-wordpress --save</span><br></pre></td></tr></table></figure>
+
+<p>插件安装完成后，执行下列命令来迁移所有文章。<code>source</code> 可以是 WordPress 导出的文件路径或网址。</p>
+<figure class="highlight bash"><figcaption><span>导入</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo migrate wordpress &lt;<span class="built_in">source</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">这个插件并不完美，好多文章和页面生成的md文件都很杂乱，而且页面排版也有很多问题，所以后来我又写了一个py脚本来处理历史数据</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用主题-next"><a href="#使用主题-next" class="headerlink" title="使用主题 next"></a>使用主题 next</h3><h4 id="解决标签和分类Not-foud问题"><a href="#解决标签和分类Not-foud问题" class="headerlink" title="解决标签和分类Not foud问题"></a>解决标签和分类Not foud问题</h4><p>在配置文件中增加了tag 和categories ，但是在首页点开却得到了一个not found 的错误。官方的issues 有朋友提到并提供了解决方案(参考<a target="_blank" rel="noopener" href="https://github.com/iissnan/hexo-theme-next/issues/339">tag和categories无内容</a>)。</p>
+<p>首先在next的配置文件_config.yml 中打开如下配置</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">menu:</span></span><br><span class="line">  <span class="attr">home:</span> <span class="string">/</span></span><br><span class="line">  <span class="attr">categories:</span> <span class="string">/categories</span></span><br><span class="line">  <span class="comment">#about: /about</span></span><br><span class="line">  <span class="attr">archives:</span> <span class="string">/archives</span></span><br><span class="line">  <span class="attr">tags:</span> <span class="string">/tags</span></span><br><span class="line">  <span class="comment">#commonweal: /404.html</span></span><br></pre></td></tr></table></figure>
+
+<p>然后执行 <code>hexo new page tags</code>，在生成的文件/source/tags/index.md，增加type</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">标签</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2018-10-21 10:35:32</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">&quot;tags&quot;</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+
+<p>分类页面也类似执行 <code>hexo new page categories</code>，在生成的文件 source/categories/index.md，修改如下</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">分类</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">&quot;categories&quot;</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2018-10-21 10:35:50</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="使用python-脚本解决文章错乱问题"><a href="#使用python-脚本解决文章错乱问题" class="headerlink" title="使用python 脚本解决文章错乱问题"></a>使用python 脚本解决文章错乱问题</h4><p>使用 hexo-migrator-wordpress 插件导入的文章有很多的问题，错行，样式杂乱，内容错误。</p>
+<p>最无法忍受的是之前文章中因为有代码高亮，<code>&lt;pre&gt;&lt;code&gt;</code> 标签内的文字导过来全错了，多了很多\ 以及其他转义符号，所以自己写了一个脚本来处理这个问题，代码可以参考如下：</p>
+<figure class="highlight python"><figcaption><span>导出wordpress文章</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"><span class="comment"># author:   http://wangheng.org</span></span><br><span class="line"><span class="comment"># fileName: import_wordpress_content.py</span></span><br><span class="line"><span class="comment"># date:     2018-10-21</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> pymysql</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">HOST = <span class="string">&quot;your wordpress db host&quot;</span></span><br><span class="line">DB = <span class="string">&quot;your wordpress db&quot;</span></span><br><span class="line">USER = <span class="string">&quot;your db user&quot;</span></span><br><span class="line">PASSWORD = <span class="string">&quot;your db passwd&quot;</span></span><br><span class="line">EXP_PATH = <span class="string">&quot;wp_exp&quot;</span> <span class="comment"># path to export .md files</span></span><br><span class="line">conn = pymysql.connect(</span><br><span class="line">    host=HOST, database=DB, user=USER, password=PASSWORD, charset=<span class="string">&#x27;utf8mb4&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getData</span>(<span class="params">query</span>):</span></span><br><span class="line">    cur = conn.cursor()</span><br><span class="line">    cur.execute(query)</span><br><span class="line">    data = cur.fetchall()</span><br><span class="line">    <span class="keyword">return</span> data</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getPostTags</span>(<span class="params">post_id, tag_type</span>):</span></span><br><span class="line">    tags = getData(<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">SELECT	wpt.`name`,	wpt.slug,	wptt.taxonomy </span></span><br><span class="line"><span class="string">FROM</span></span><br><span class="line"><span class="string">	wp_terms wpt</span></span><br><span class="line"><span class="string">	LEFT JOIN wp_term_relationships wptr ON wpt.term_id = wptr.term_taxonomy_id</span></span><br><span class="line"><span class="string">	LEFT JOIN wp_term_taxonomy wptt ON wptt.term_taxonomy_id = wptr.term_taxonomy_id </span></span><br><span class="line"><span class="string">WHERE</span></span><br><span class="line"><span class="string">	wptr.object_id = %d</span></span><br><span class="line"><span class="string">	and wptt.taxonomy=&quot;%s&quot;</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span> % (post_id, tag_type))</span><br><span class="line">    res = <span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="keyword">for</span> tag <span class="keyword">in</span> tags:</span><br><span class="line">        res += <span class="string">&quot;  - %s\n&quot;</span> % tag[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    posts = getData(</span><br><span class="line">        <span class="string">&quot;SELECT post_name,post_content,post_date,post_title,ID FROM `wp_posts` where post_type=&#x27;post&#x27; and post_status=&#x27;publish&#x27; &quot;</span></span><br><span class="line">    )</span><br><span class="line">    <span class="keyword">for</span> post <span class="keyword">in</span> posts:</span><br><span class="line">        content = post[<span class="number">1</span>]</span><br><span class="line">        content = content.replace(<span class="string">&#x27;http://wangheng.org/wp-content/uploads&#x27;</span>,</span><br><span class="line">                                  <span class="string">&#x27;uploads&#x27;</span>)</span><br><span class="line">        content = content.replace(<span class="string">&#x27;&gt;\n&lt;&#x27;</span>, <span class="string">&#x27;&gt;&lt;&#x27;</span>)</span><br><span class="line">        content = content.replace(<span class="string">&#x27;&gt;\r&lt;&#x27;</span>, <span class="string">&#x27;&gt;&lt;&#x27;</span>)</span><br><span class="line">        content = content.replace(<span class="string">&#x27;&gt;\r\n&lt;&#x27;</span>, <span class="string">&#x27;&gt;&lt;&#x27;</span>)</span><br><span class="line">        blog = <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">---</span></span><br><span class="line"><span class="string">title: %s</span></span><br><span class="line"><span class="string">tags:</span></span><br><span class="line"><span class="string">%s</span></span><br><span class="line"><span class="string">url: %s.html</span></span><br><span class="line"><span class="string">id: %d</span></span><br><span class="line"><span class="string">categories:</span></span><br><span class="line"><span class="string">%s</span></span><br><span class="line"><span class="string">date: %s</span></span><br><span class="line"><span class="string">---</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&lt;content&gt;</span></span><br><span class="line"><span class="string">%s</span></span><br><span class="line"><span class="string">&lt;/content&gt;</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span> % (post[<span class="number">3</span>], getPostTags(post[<span class="number">4</span>], <span class="string">&quot;post_tag&quot;</span>), post[<span class="number">0</span>], post[<span class="number">4</span>],</span><br><span class="line">        getPostTags(post[<span class="number">4</span>], <span class="string">&quot;category&quot;</span>), post[<span class="number">2</span>], content)</span><br><span class="line">        <span class="built_in">print</span>(blog)</span><br><span class="line">        file = <span class="built_in">open</span>(<span class="string">&quot;wp_exp/%s.md&quot;</span> % post[<span class="number">0</span>], <span class="string">&#x27;wb&#x27;</span>)</span><br><span class="line">        file.write(blog.encode(<span class="string">&quot;utf-8&quot;</span>))</span><br><span class="line">        file.flush()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h5 id="解决非常多空行的问题"><a href="#解决非常多空行的问题" class="headerlink" title="解决非常多空行的问题"></a>解决非常多空行的问题</h5><p>这里还遇到了个非常奇葩的问题，如果写到md 文件的两个html 标签不在同一行，那么md 再生成的文章会多出很多的 <code>&lt;br&gt;</code> 换行符。。。</p>
+<figure class="highlight python"><figcaption><span>参考代码</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">content = content.replace(<span class="string">&#x27;&gt;\n&lt;&#x27;</span>, <span class="string">&#x27;&gt;&lt;&#x27;</span>)</span><br><span class="line">content = content.replace(<span class="string">&#x27;&gt;\r&lt;&#x27;</span>, <span class="string">&#x27;&gt;&lt;&#x27;</span>)</span><br><span class="line">content = content.replace(<span class="string">&#x27;&gt;\r\n&lt;&#x27;</span>, <span class="string">&#x27;&gt;&lt;&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h5 id="解决迁移后图片以及附件问题"><a href="#解决迁移后图片以及附件问题" class="headerlink" title="解决迁移后图片以及附件问题"></a>解决迁移后图片以及附件问题</h5><p>迁移后图片和附件的地址无法再使用wordpress 目录了，因此需要将文章内的链接修改下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">content = content.replace(<span class="string">&#x27;http://wangheng.org/wp-content/uploads&#x27;</span>, <span class="string">&#x27;uploads&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>然后将vps 中的wp-content 文件夹copy到hexo目录，设置配置文件</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#指定目录以及子目录文件跳过渲染</span></span><br><span class="line"><span class="attr">skip_render:</span> <span class="string">uploads/**</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="代码高亮"><a href="#代码高亮" class="headerlink" title="代码高亮"></a>代码高亮</h3><p>使用脚本导出的.md 文件相当于把之前wordpress 中的文章富文本直接copy 到了md 文件中，因此文章结构几乎没怎么变化，也利于博客站的<code>SEO</code>。</p>
+<p>另外保持了原来代码高亮的结构，只要在主题的配置文件设置一下开启代码高亮，效果还可以~</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Code Highlight theme</span></span><br><span class="line"><span class="comment"># Available values: normal | night | night eighties | night blue | night bright</span></span><br><span class="line"><span class="comment"># https://github.com/chriskempson/tomorrow-theme</span></span><br><span class="line"><span class="attr">highlight_theme:</span> <span class="string">night</span> <span class="string">eighties</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p><code>todo</code> 暂时整理这些，其他待补充…</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>王恒</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://wangheng.org/migrating-from-wordpress-to-hexo.html">http://wangheng.org/migrating-from-wordpress-to-hexo.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签: </span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/wordpress/"># wordpress</a>
+                    
+                        <a href="/tags/hexo/"># hexo</a>
+                    
+                        <a href="/tags/migrating/"># migrating</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回前页</a>
+                <span>· </span>
+                <a href="/">回到首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/kuaipan-uploader-dev-share.html">kuaipan_uploader开发分享</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 王恒 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> </span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

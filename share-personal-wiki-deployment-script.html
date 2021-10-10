@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <!-- 
+                                 _
+                                 | |
+          _ _ _  ____ ____   ____| | _   ____ ____   ____   ___   ____ ____
+         | | | |/ _  |  _ \ / _  | || \ / _  )  _ \ / _  | / _ \ / ___) _  |
+         | | | ( ( | | | | ( ( | | | | ( (/ /| | | ( ( | || |_| | |  ( ( | |
+          \____|\_||_|_| |_|\_|| |_| |_|\____)_| |_|\_|| (_)___/|_|   \_|| |
+                           (_____|                 (_____|           (_____|
+ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="王恒的技术博客 -- make progress a little day by day"> 
+<meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"> 
+
+<title>分享个人wiki部署脚本 | 王恒&#39;s Blog</title>
+
+
+    <link rel="icon" href="/favicon.ico">  
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">  
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script> 
+    <script src="/js/tocbot.min.js"></script> 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script> 
+
+
+        
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">王恒&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default" style="display: none;" >
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">王恒&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+</header>
+<script>
+    hljs.initHighlightingOnLoad();
+    document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('pre').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+    });
+    
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">展开所有</a>
+        <a onclick="go_top()">回顶部</a>
+        <a onclick="go_bottom()">到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "折叠所有"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">分享个人wiki部署脚本</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">王恒</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">七月 29, 2012&nbsp;&nbsp;22:40:25</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/">最近添加</a>
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/">技术探讨</a>
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/Linux%E5%AD%A6%E4%B9%A0/Route/">Route</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <content>
+上一篇介绍了如何<a href="http://wangheng.org/use-vimwiki-set-up-a-personal-wiki.html">使用vimwiki组建个人wiki</a>，但是如何同步自己的vimwiki 到线上却成了很多人的困扰。丘迟的维基世界介绍了<a href="http://wiki.ktmud.com/tips/vim/ways-to-sync-vimwiki.html" target="_blank">同步 vimwiki 到线上的各种方法</a>，如果你的桌面是使用linux的话，当然问题不大，很轻松就能写出一个同步的脚本。但是还是有很多人平时工作在windows的系统环境中，这里我自己写了一个vim的小插件用来一键同步vimwiki到线上。
+
+<p><strong>首先分析一下这个同步需求：</strong><ol><br>    <li>需要自动同步 vimwiki_html 的所有文件</li><br>    <li>有变更的文件才同步上去</li><br>    <li>被删掉的文件也要能同步删掉</li><br>    <li>由于文件修改频繁，不需要一旦修改就马上同步</li><br>    <li>有需要时可以手动同步</li><br>    <li>最好能排除一些不用放在线上的文件</li><br>    <li>不能占用太多系统资源</li></ol><br>这里我将vimwiki生成的html托管在了自己的github上面，此vim脚本的运行需要依赖你gvim对应版本的python，或者自己在windows下编译一个gvim。(好吧，这个实在够蛋疼。。。)</p>
+<p><strong>安装并配置你的github</strong></p>
+<p>首先关闭360安全卫士等流氓软件！切记！</p>
+<p>从github下载<a href="http://github-windows.s3.amazonaws.com/GitHubSetup.exe" target="_blank">github for window</a>，链接如下：</p>
+<p><a target="_blank" rel="noopener" href="http://github-windows.s3.amazonaws.com/GitHubSetup.exe">http://github-windows.s3.amazonaws.com/GitHubSetup.exe</a></p>
+<p>安装完成后，用你的账号登录，然后在tools/options中设置默认的shell为cmd，如下图：</p>
+<p><a href="uploads/2012/07/image6.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="image" src="uploads/2012/07/image_thumb6.png" alt="image" width="439" height="287" border="0" /></a></p>
+<p>完成后双击桌面上的git shell图标，打开git shell 后执行如下命令</p>
+<p>echo %path% &gt;&gt;c:\path.txt</p>
+<p>打开c:\path.txt 将里面的内容全部复制，粘贴到系统的path变量中(覆盖原来的path)。完成此步骤后，cmd中会使用github生成的配置进行ssh的key-agent验证登录，故实现了git命令免密码的效果。完成后，运行cmd，输入git，能识别这个命令表示成功。然后就可以使用我写的这个脚本了(汗，脚本依赖有点高~~)</p>
+<p><strong>脚本的代码如下：</strong></p>
+<span id="more"></span><pre class="brush: python; gutter: true">&quot;=========================================================
+<p>&quot;     FileName: vimwiki_sync.vim<br>&quot;         Desc:<br>&quot;       Author: WangHeng<br>&quot;        Email: <a href="mailto:&#x6d;&#101;&#64;&#x77;&#97;&#x6e;&#x67;&#x68;&#101;&#x6e;&#x67;&#x2e;&#111;&#114;&#103;">&#x6d;&#101;&#64;&#x77;&#97;&#x6e;&#x67;&#x68;&#101;&#x6e;&#x67;&#x2e;&#111;&#114;&#103;</a><br>&quot;     HomePage: <a href="http://wangheng.org/">http://wangheng.org</a><br>&quot;      Version: 1.1<br>&quot;   LastChange: 2012-07-19 22:32:39<br>&quot;      History: 1、2012-07-20 暂时注释VimwikiGet(&#039;path_html&#039;)<br>&quot;                不好用原因待研究<br>&quot;=========================================================</p>
+<p>&quot; let s:wiki_html_path=VimwikiGet(&#039;path_html&#039;)这条命令有时候不好用，故暂时注释掉<br>if !has(&#039;python&#039;)<br>    echo &quot;Git Auto Upload Error:\nRequired vim compiled with +python&quot;<br>    finish<br>endif</p>
+<p>function! s:Vimwiki_Upload()</p>
+<p>python &lt;&lt;EOF<br>import os<br>import time</p>
+<p>dt = time.strftime(&quot;%Y-%m-%d %H:%M&quot;, time.localtime())</p>
+<p>#Edit the html_path to your html files path.<br>html_path=&#039;XXX\html&#039; #替换成你的public_html所在路径</p>
+<h1 id="html-path-vim-eval-039-s-wiki-html-path-039"><a href="#html-path-vim-eval-039-s-wiki-html-path-039" class="headerlink" title="html_path=vim.eval(&#039;s:wiki_html_path&#039;)"></a>html_path=vim.eval(&#039;s:wiki_html_path&#039;)</h1><p>os.chdir(html_path)<br>path=os.getcwd()<br>print &quot;Now, will sync files in &quot;+path+&quot; at &quot;+dt<br>os.system(&#039;git add .&amp;&amp;git commit -a -m &quot;auto commited at %s &quot;&amp;&amp;git push&#039; % (dt))</p>
+<p>print &quot;All done~!&quot;<br>EOF</p>
+<p>endfunction</p>
+<p>command! -range VimwikiUpload :call s:Vimwiki_Upload()</p>
+<p>nnoremap &lt;F11&gt; :VimwikiUpload&lt;cr&gt;</pre><br>或者直接<a href="http://wangheng.org/tools/viki/vimwiki_sync.vim" target="_blank">点击这里</a>下载。</p>
+<p>使用方法是在vim的普通模式下按F11，另外你还可以将中间的那段python代码提出来作为一个单独的python脚本，这样你就可以将它加到计划任务定时执行了，有需求的朋友可以试试~~任何问题欢迎留言交流~<br></content></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>王恒</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://wangheng.org/share-personal-wiki-deployment-script.html">http://wangheng.org/share-personal-wiki-deployment-script.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签: </span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/vim/"># vim</a>
+                    
+                        <a href="/tags/%E5%A4%87%E4%BB%BD/"># 备份</a>
+                    
+                        <a href="/tags/vim%E6%8F%92%E4%BB%B6/"># vim插件</a>
+                    
+                        <a href="/tags/%E9%83%A8%E7%BD%B2/"># 部署</a>
+                    
+                        <a href="/tags/github/"># github</a>
+                    
+                        <a href="/tags/python/"># python</a>
+                    
+                        <a href="/tags/symfony/"># symfony</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回前页</a>
+                <span>· </span>
+                <a href="/">回到首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/windows-with-pear-install-symfony.html">windows下用pear安装symfony</a>
+            
+            
+            <a class="next" rel="next" href="/use-vimwiki-set-up-a-personal-wiki.html">使用vimwiki组建个人wiki</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 王恒 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> </span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <!-- 
+                                 _
+                                 | |
+          _ _ _  ____ ____   ____| | _   ____ ____   ____   ___   ____ ____
+         | | | |/ _  |  _ \ / _  | || \ / _  )  _ \ / _  | / _ \ / ___) _  |
+         | | | ( ( | | | | ( ( | | | | ( (/ /| | | ( ( | || |_| | |  ( ( | |
+          \____|\_||_|_| |_|\_|| |_| |_|\____)_| |_|\_|| (_)___/|_|   \_|| |
+                           (_____|                 (_____|           (_____|
+ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="王恒的技术博客 -- make progress a little day by day"> 
+<meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"> 
+
+<title>ubuntu 安装配置denyhosts | 王恒&#39;s Blog</title>
+
+
+    <link rel="icon" href="/favicon.ico">  
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">  
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script> 
+    <script src="/js/tocbot.min.js"></script> 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script> 
+
+
+        
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">王恒&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default" style="display: none;" >
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">王恒&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+</header>
+<script>
+    hljs.initHighlightingOnLoad();
+    document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('pre').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+    });
+    
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">展开所有</a>
+        <a onclick="go_top()">回顶部</a>
+        <a onclick="go_bottom()">到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "折叠所有"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">ubuntu 安装配置denyhosts</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">王恒</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">五月 6, 2015&nbsp;&nbsp;9:19:37</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/">最近添加</a>
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <content>
+<em><span style="font-family: Simsun; font-size: medium;">DenyHosts是使用Python</span><span style="font-family: Simsun; font-size: medium;">语言写的一个程序，它会分析sshd的日志文件（/var/log/auth.log*），当发现大量重复的攻击时会记录IP到/etc/hosts.deny文件，从而达到自动屏攻击者IP的功能。</span></em>
+
+<p>目前官网最新版本是2.10，记得以前的ubuntu版本(&lt;=12.04LTS)中好像直接apt-get install denyhosts 就可以了，在最新的发行版不知为何不见了。</p>
+<p><strong>安装</strong></p>
+<p>你可以前往官网<a target="_blank" rel="noopener" href="http://sourceforge.net/projects/denyhost/">http://sourceforge.net/projects/denyhost/</a> 选择一个你喜欢的版本下载，或者直接运行下面的命令下载。</p>
+<pre class="brush: bash; gutter: true">cd /tmp/ &amp;&amp; wget http://jaist.dl.sourceforge.net/project/denyhost/denyhost-2.10/denyhosts-2.10.tar.gz
+#解压
+tar xzvf denyhosts-2.10.tar.gz
+#切换到目录
+cd denyhosts
+#安装
+sudo python setup.py install</pre><span id="more"></span>
+
+<p><strong>配置</strong></p>
+<p>经过上面这几步，基本已经完成了denyhosts 的安装，下面我们还需要进行一些配置。</p>
+<pre class="brush: bash; gutter: true">#复制daemon文件到init.d 目录
+sudo cp /usr/local/bin/daemon-control-dist /etc/init.d/denyhosts
+sudo vim /etc/init.d/denyhosts
+#A:将打开的文件里面的DENYHOSTS_BIN 修改为你自己denyhosts的目录，一般应该是/usr/local/bin/denyhosts.py
+#B:或者是建立一个软连接
+ln -s /usr/local/bin/denyhosts.py /usr/sbin/denyhosts
+
+#注意：A或者B只需要执行一个就行了！&lt;/span&gt;&lt;/span&gt;</pre><span style="font-family: Gudea, sans-serif;"><span style="font-size: 16px; line-height: 24px;">现在denyhosts 就已经安装配置好了，我们可以先把我们自己的IP加到系统的白名单里面</span></span><pre class="brush: bash; gutter: true">#编辑白名单
+
+<p>sudo vim /etc/hosts.allow </p>
+<p>#按下面的样例添加你的IP</p>
+<h1 id="etc-hosts-allow-list-of-hosts-that-are-allowed-to-access-the-system"><a href="#etc-hosts-allow-list-of-hosts-that-are-allowed-to-access-the-system" class="headerlink" title="/etc/hosts.allow: list of hosts that are allowed to access the system."></a>/etc/hosts.allow: list of hosts that are allowed to access the system.</h1><h1 id="See-the-manual-pages-hosts-access-5-and-hosts-options-5"><a href="#See-the-manual-pages-hosts-access-5-and-hosts-options-5" class="headerlink" title="See the manual pages hosts_access(5) and hosts_options(5)."></a>See the manual pages hosts_access(5) and hosts_options(5).</h1><h1 id=""><a href="#" class="headerlink" title=""></a></h1><h1 id="Example-ALL-LOCAL-wangheng-org"><a href="#Example-ALL-LOCAL-wangheng-org" class="headerlink" title="Example: ALL: LOCAL @wangheng.org"></a>Example: ALL: LOCAL @wangheng.org</h1><h1 id="ALL-wangheng-org-EXCEPT-terminalserver-wangheng-org"><a href="#ALL-wangheng-org-EXCEPT-terminalserver-wangheng-org" class="headerlink" title="ALL: .wangheng.org EXCEPT terminalserver.wangheng.org"></a>ALL: .wangheng.org EXCEPT terminalserver.wangheng.org</h1><h1 id="-1"><a href="#-1" class="headerlink" title=""></a></h1><h1 id="If-you’re-going-to-protect-the-portmapper-use-the-name-“rpcbind”-for-the"><a href="#If-you’re-going-to-protect-the-portmapper-use-the-name-“rpcbind”-for-the" class="headerlink" title="If you’re going to protect the portmapper use the name “rpcbind” for the"></a>If you’re going to protect the portmapper use the name “rpcbind” for the</h1><h1 id="daemon-name-See-rpcbind-8-and-rpc-mountd-8-for-further-information"><a href="#daemon-name-See-rpcbind-8-and-rpc-mountd-8-for-further-information" class="headerlink" title="daemon name. See rpcbind(8) and rpc.mountd(8) for further information."></a>daemon name. See rpcbind(8) and rpc.mountd(8) for further information.</h1><h1 id="-2"><a href="#-2" class="headerlink" title=""></a></h1><p> sshd: 123.123.123.123</pre><p style="border: 0px; font-family: Gudea, sans-serif; font-size: 16px; margin: 0px 0px 1.5em; outline: 0px; padding: 0px; vertical-align: baseline; color: #404040; line-height: 24px;"><span style="border: 0px; font-family: inherit; font-style: inherit; font-weight: inherit; margin: 0px; outline: 0px; padding: 0px; vertical-align: baseline; color: #000000;">编辑保存后，我们需要重启一下服务：</span></p><p style="border: 0px; font-family: Gudea, sans-serif; font-size: 16px; margin: 0px 0px 1.5em; outline: 0px; padding: 0px; vertical-align: baseline; color: #404040; line-height: 24px;"><span style="border: 0px; font-family: inherit; font-style: inherit; font-weight: inherit; margin: 0px; outline: 0px; padding: 0px; vertical-align: baseline; color: #000000;">sudo /etc/init.d/denyhosts restart</span></p><br></content></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>王恒</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://wangheng.org/ubuntu-14-04-install-configure-denyhosts.html">http://wangheng.org/ubuntu-14-04-install-configure-denyhosts.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签: </span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Ubuntu/"># Ubuntu</a>
+                    
+                        <a href="/tags/Linux/"># Linux</a>
+                    
+                        <a href="/tags/%E5%BF%AB%E7%9B%98/"># 快盘</a>
+                    
+                        <a href="/tags/tr/"># tr</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回前页</a>
+                <span>· </span>
+                <a href="/">回到首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/kuaipan-uploader.html">linux版快盘上传下载脚本</a>
+            
+            
+            <a class="next" rel="next" href="/raspberry-dht11-yeekink.html">raspi+DHT11+yeelink监控家里温湿度</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 王恒 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> </span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

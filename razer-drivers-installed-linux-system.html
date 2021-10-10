@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <!-- 
+                                 _
+                                 | |
+          _ _ _  ____ ____   ____| | _   ____ ____   ____   ___   ____ ____
+         | | | |/ _  |  _ \ / _  | || \ / _  )  _ \ / _  | / _ \ / ___) _  |
+         | | | ( ( | | | | ( ( | | | | ( (/ /| | | ( ( | || |_| | |  ( ( | |
+          \____|\_||_|_| |_|\_|| |_| |_|\____)_| |_|\_|| (_)___/|_|   \_|| |
+                           (_____|                 (_____|           (_____|
+ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="王恒的技术博客 -- make progress a little day by day"> 
+<meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"> 
+
+<title>Linux系统中安装Razer驱动 | 王恒&#39;s Blog</title>
+
+
+    <link rel="icon" href="/favicon.ico">  
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">  
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script> 
+    <script src="/js/tocbot.min.js"></script> 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script> 
+
+
+        
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">王恒&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default" style="display: none;" >
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">王恒&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+</header>
+<script>
+    hljs.initHighlightingOnLoad();
+    document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('pre').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+    });
+    
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Linux系统中安装Razer驱动</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">王恒</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">三月 27, 2012&nbsp;&nbsp;22:15:42</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/">最近添加</a>
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/">技术探讨</a>
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <content>
+    最近无线网卡出了点小问题，所以回来基本是用Linux了。可惜使用的razer鼠标却没有官方的Linux驱动，高DPI的鼠标在Linux用着感觉很是飘，于是忍不住折腾一番。经过一阵子的搜索终于看到了希望，喜欢razer的朋友有福音了，国外一位牛人搞出了Linux下的razer驱动以及配置工具razercfg。目前最新的版本是razercfg-0.17.tar.bz2，支持的Razer鼠标有：
+Razer DeathAdder Classic mouse    
+Razer DeathAdder 3500 DPI mouse    
+Razer DeathAdder Black Edition mouse    
+Razer Krait mouse    
+Razer Lachesis mouse    
+Razer Lachesis 5600 DPI mouse    
+Razer Copperhead mouse    
+Razer Naga mouse wired    
+Razer Boomslang CE mouse    
+Any wireless Razer mouse
+平时使用Linux系统，却又喜欢Razer鼠标的朋友不妨试试！
+ 下面介绍一下驱动的安装过程
+<strong>1、安装必须的依赖项：</strong><pre lang="bash" line="1">
+sudo -i
+apt-get install python
+apt-get install libusb-1.0-0-dev
+apt-get install python-qt4
+apt-get install cmake
+</pre>
+
+<span id="more"></span>
+
+<p><strong>2、下载razercfg-0.17.tar.bz2压缩包,并解压文件</strong><pre lang="bash" line="1"><br>wget <a target="_blank" rel="noopener" href="http://bues.ch/razercfg/razercfg-0.17.tar.bz2">http://bues.ch/razercfg/razercfg-0.17.tar.bz2</a><br>tar xjvf razercfg-0.17.tar.bz2<br>cd razercfg-0.17<br></pre></p>
+<p><strong>3、开始安装</strong><br>首先生成Makefile文件，然后编译并安装，别漏掉第一条命令后面的小点</p>
+<pre lang="bash" line="1">
+sudo -i
+cmake .
+make
+make install 
+</pre>
+<p>为了在系统启动时自动加载razerd守护程序，你需要运行init-script脚本文件，执行如下命令：</p>
+<pre lang="bash" line="1">
+  sudo -i    # become root
+  cp ./razerd.initscript /etc/init.d/razerd
+  ln -s /etc/init.d/razerd /etc/rc2.d/S99razerd
+  ln -s /etc/init.d/razerd /etc/rc5.d/S99razerd
+  ln -s /etc/init.d/razerd /etc/rc0.d/K01razerd
+  ln -s /etc/init.d/razerd /etc/rc6.d/K01razerd
+</pre><strong>4、razer的图形配置工具</strong>
+<p>首先确保razerd已经运行，如果配置好了第三步，可以重启电脑或者在终端输入命令<br>razerd 来启动。<br>命令行配置工具有qrazercfg，或者使用更酷的图形配置工具qrazercfg，在终端输入qrazercfg来启动这个小工具，运行界面如图：<br><img src="uploads/2012/03/razer-300x248.png" alt="" title="razer" width="300" height="248" class="alignleft size-medium wp-image-94508" /><br><br><br><br><br><br>它提供的配置是不是很丰富呢，基本上windows上面的配置选项在这里都可以找到。</p>
+</content>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>王恒</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://wangheng.org/razer-drivers-installed-linux-system.html">http://wangheng.org/razer-drivers-installed-linux-system.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签: </span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回前页</a>
+                <span>· </span>
+                <a href="/">回到首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/site-backup-to-ftp-and-dropbox.html">备份网站到FTP和Dropbox脚本</a>
+            
+            
+            <a class="next" rel="next" href="/the-route-setup-script-realize-domestic-network-by-the-vpn.html">Route设置脚本，实现国内网不经VPN</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 王恒 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> </span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

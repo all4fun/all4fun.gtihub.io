@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <!-- 
+                                 _
+                                 | |
+          _ _ _  ____ ____   ____| | _   ____ ____   ____   ___   ____ ____
+         | | | |/ _  |  _ \ / _  | || \ / _  )  _ \ / _  | / _ \ / ___) _  |
+         | | | ( ( | | | | ( ( | | | | ( (/ /| | | ( ( | || |_| | |  ( ( | |
+          \____|\_||_|_| |_|\_|| |_| |_|\____)_| |_|\_|| (_)___/|_|   \_|| |
+                           (_____|                 (_____|           (_____|
+ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="王恒的技术博客 -- make progress a little day by day"> 
+<meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"> 
+
+<title>Linux中安装oray服务 | 王恒&#39;s Blog</title>
+
+
+    <link rel="icon" href="/favicon.ico">  
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">  
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script> 
+    <script src="/js/tocbot.min.js"></script> 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script> 
+
+
+        
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">王恒&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default" style="display: none;" >
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">王恒&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+</header>
+<script>
+    hljs.initHighlightingOnLoad();
+    document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('pre').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+    });
+    
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Linux中安装oray服务</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">王恒</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">九月 17, 2012&nbsp;&nbsp;21:51:55</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/">最近添加</a>
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/">技术探讨</a>
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/Linux%E5%AD%A6%E4%B9%A0/Autohotkey/">Autohotkey</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <content>
+<p>
+家里面的路由器ddns经常不能用，索性在系统中直接安了一个oray的客户端。具体安装步骤如下：
+
+<p><strong>1、首先安装必要的开发包</strong></p>
+<p>[<a href="mailto:&#x72;&#x6f;&#x6f;&#116;&#64;&#x77;&#x61;&#110;&#103;&#104;&#101;&#x6e;&#x67;&#46;&#x6f;&#x72;&#x67;">&#x72;&#x6f;&#x6f;&#116;&#64;&#x77;&#x61;&#110;&#103;&#104;&#101;&#x6e;&#x67;&#46;&#x6f;&#x72;&#x67;</a> ~] apt-get install gcc g++ automake autoconf</p>
+<p><strong>2、下载phddns-2.0.2.16556.tar.gz到某一个目录</strong></p>
+<p>[<a href="mailto:&#114;&#x6f;&#x6f;&#116;&#64;&#119;&#x61;&#x6e;&#x67;&#104;&#x65;&#110;&#103;&#x2e;&#x6f;&#114;&#103;">&#114;&#x6f;&#x6f;&#116;&#64;&#119;&#x61;&#x6e;&#x67;&#104;&#x65;&#110;&#103;&#x2e;&#x6f;&#114;&#103;</a> ~]# wget <a target="_blank" rel="noopener" href="http://download.oray.com/peanuthull/phddns-2.0.2.16556.tar.gz">http://download.oray.com/peanuthull/phddns-2.0.2.16556.tar.gz</a></p>
+<p><strong>3、解压所有文件</strong></p>
+<p>[<a href="mailto:&#x72;&#111;&#x6f;&#x74;&#64;&#x77;&#x61;&#110;&#x67;&#104;&#101;&#110;&#103;&#x2e;&#x6f;&#114;&#103;">&#x72;&#111;&#x6f;&#x74;&#64;&#x77;&#x61;&#110;&#x67;&#104;&#101;&#110;&#103;&#x2e;&#x6f;&#114;&#103;</a> ~]# tar zxvf phddns-2.0.2.16556.tar.gz</p>
+<p><strong>4、进入目录并编译</strong><br>[<a href="mailto:&#114;&#111;&#111;&#x74;&#x40;&#119;&#97;&#x6e;&#103;&#x68;&#x65;&#x6e;&#x67;&#x2e;&#x6f;&#114;&#103;">&#114;&#111;&#111;&#x74;&#x40;&#119;&#97;&#x6e;&#103;&#x68;&#x65;&#x6e;&#x67;&#x2e;&#x6f;&#114;&#103;</a> ~]# cd phddns-2.0.2.16556<br>[<a href="mailto:&#x72;&#111;&#111;&#116;&#x40;&#x77;&#x61;&#110;&#x67;&#104;&#x65;&#110;&#103;&#46;&#x6f;&#x72;&#103;">&#x72;&#111;&#111;&#116;&#x40;&#x77;&#x61;&#110;&#x67;&#104;&#x65;&#110;&#103;&#46;&#x6f;&#x72;&#103;</a> phddns-2.0.2.16556]# aclocal<br>[<a href="mailto:&#x72;&#x6f;&#x6f;&#x74;&#64;&#119;&#97;&#x6e;&#x67;&#104;&#x65;&#110;&#103;&#46;&#x6f;&#114;&#103;">&#x72;&#x6f;&#x6f;&#x74;&#64;&#119;&#97;&#x6e;&#x67;&#104;&#x65;&#110;&#103;&#46;&#x6f;&#114;&#103;</a> phddns-2.0.2.16556]# autoconf<br>[<a href="mailto:&#114;&#111;&#111;&#116;&#x40;&#x77;&#x61;&#x6e;&#103;&#104;&#101;&#110;&#103;&#x2e;&#x6f;&#x72;&#103;">&#114;&#111;&#111;&#116;&#x40;&#x77;&#x61;&#x6e;&#103;&#104;&#101;&#110;&#103;&#x2e;&#x6f;&#x72;&#103;</a> phddns-2.0.2.16556]# automake<br>[<a href="mailto:&#114;&#111;&#111;&#116;&#x40;&#x77;&#97;&#x6e;&#x67;&#x68;&#101;&#110;&#x67;&#46;&#x6f;&#114;&#x67;">&#114;&#111;&#111;&#116;&#x40;&#x77;&#97;&#x6e;&#x67;&#x68;&#101;&#110;&#x67;&#46;&#x6f;&#114;&#x67;</a> phddns-2.0.2.16556]# ./configure<br>[<a href="mailto:&#114;&#111;&#111;&#x74;&#x40;&#119;&#x61;&#110;&#103;&#x68;&#101;&#110;&#x67;&#x2e;&#111;&#114;&#x67;">&#114;&#111;&#111;&#x74;&#x40;&#119;&#x61;&#110;&#103;&#x68;&#101;&#110;&#x67;&#x2e;&#111;&#114;&#x67;</a> phddns-2.0.2.16556]# make<br>[<a href="mailto:&#114;&#x6f;&#x6f;&#116;&#64;&#x77;&#97;&#110;&#x67;&#x68;&#101;&#x6e;&#x67;&#x2e;&#111;&#x72;&#x67;">&#114;&#x6f;&#x6f;&#116;&#64;&#x77;&#97;&#110;&#x67;&#x68;&#101;&#x6e;&#x67;&#x2e;&#111;&#x72;&#x67;</a> phddns-2.0.2.16556]# cd src<br>[<a href="mailto:&#114;&#x6f;&#111;&#x74;&#x40;&#x77;&#97;&#x6e;&#103;&#104;&#101;&#x6e;&#103;&#x2e;&#x6f;&#x72;&#103;">&#114;&#x6f;&#111;&#x74;&#x40;&#x77;&#97;&#x6e;&#103;&#104;&#101;&#x6e;&#103;&#x2e;&#x6f;&#x72;&#103;</a> src]# ls -l phddns<br>-rwxr-xr-x 1 root root 80968 Aug 2 11:18 phddns</p>
+<p><strong>5、执行编译好的程序并配置（默认使用/etc/phlinux.conf，如果不存在这个文件则自动进入交互配置）</strong></p>
+<p>[<a href="mailto:&#114;&#x6f;&#x6f;&#x74;&#x40;&#119;&#x61;&#x6e;&#103;&#104;&#101;&#110;&#103;&#46;&#x6f;&#x72;&#x67;">&#114;&#x6f;&#x6f;&#x74;&#x40;&#119;&#x61;&#x6e;&#103;&#104;&#101;&#110;&#103;&#46;&#x6f;&#x72;&#x67;</a> src]# ./phddns<br>输入服务器地址，如无特殊情况可使用默认值<br>Enter server address(press ENTER use phlinux3.oray.net):</p>
+<p>输入您的Oray帐号名称<br>Enter your Oray account:</p>
+<p>对应的Oray帐号密码<br>Password:</p>
+<p>选择帮定的网卡，如无特殊，默认即可<br>Network interface(s):<br>eth0:192.168.141.18<br>lo:127.0.0.1<br>Choose one(default eth0):</p>
+<p>选择日志保存到哪个文件<br>Log to use(default /var/log/phddns.log):</p>
+<p>保存配置文件，选择yes则直接保存到/etc/phlinux.conf，输入other可以指定文件<br>Save to configuration file (/etc/phlinux.conf)?(yes/no/other):</p>
+<p>接下来程序将已交互模式开始运行<br>192.168.141.18<br>NIC bind success<br>OnStatusChanged okConnecting<br>OnStatusChanged okDomainListed<br>OnDomainRegistered skyvense22.gicp.net<br>OnStatusChanged okDomainsRegistered<br>UserType: 0<br>看到上面这些就表示登录成功，这个时候可以按ctrl+c先退出程序</p>
+<span id="more"></span><strong>6、将phddns拷贝到你希望的位置</strong>
+<p>[<a href="mailto:&#114;&#x6f;&#x6f;&#x74;&#x40;&#x77;&#97;&#110;&#103;&#x68;&#x65;&#110;&#103;&#46;&#x6f;&#114;&#x67;">&#114;&#x6f;&#x6f;&#x74;&#x40;&#x77;&#97;&#110;&#103;&#x68;&#x65;&#110;&#103;&#46;&#x6f;&#114;&#x67;</a> src]# cp phddns /usr/bin/</p>
+<p><strong>7、以后台模式启动花生壳并检查运行情况</strong></p>
+<p>[<a href="mailto:&#x72;&#111;&#x6f;&#116;&#64;&#x77;&#x61;&#110;&#x67;&#104;&#x65;&#x6e;&#103;&#46;&#x6f;&#x72;&#x67;">&#x72;&#111;&#x6f;&#116;&#64;&#x77;&#x61;&#110;&#x67;&#104;&#x65;&#x6e;&#103;&#46;&#x6f;&#x72;&#x67;</a> ~]# /usr/bin/phddns -c /etc/phlinux.conf -d<br>phlinux started as daemon!<br>[<a href="mailto:&#x72;&#x6f;&#x6f;&#x74;&#x40;&#119;&#x61;&#x6e;&#x67;&#x68;&#101;&#x6e;&#x67;&#x2e;&#x6f;&#114;&#103;">&#x72;&#x6f;&#x6f;&#x74;&#x40;&#119;&#x61;&#x6e;&#x67;&#x68;&#101;&#x6e;&#x67;&#x2e;&#x6f;&#114;&#103;</a> ~]# tail /var/log/phddns.log<br>2011/08/02 11:28:58.256| ExecuteUpdate OK, BeginKeepAlive!<br>2011/08/02 11:29:59.354| SendKeepAlive() 8208<br>2011/08/02 11:30:00.355| RecvKeepaliveResponse() Data comes, OPCODE:8272<br>2011/08/02 11:30:00.356| Keepalive response received, client ip: 116.<em><strong>.123.96<br>2011/08/02 11:31:00.447| SendKeepAlive() 8208<br>2011/08/02 11:31:01.450| RecvKeepaliveResponse() Data comes, OPCODE:8272<br>2011/08/02 11:31:01.450| Keepalive response received, client ip: 116.</strong></em>.123.96</p>
+<p><strong>8、退出花生壳</strong></p>
+<p>查看进程ID<br>[<a href="mailto:&#114;&#111;&#111;&#x74;&#64;&#x77;&#x61;&#x6e;&#103;&#x68;&#x65;&#x6e;&#x67;&#46;&#x6f;&#x72;&#103;">&#114;&#111;&#111;&#x74;&#64;&#x77;&#x61;&#x6e;&#103;&#x68;&#x65;&#x6e;&#x67;&#46;&#x6f;&#x72;&#103;</a> ~]# ps -A | grep phddns<br>13731 ? 00:00:00 phlinux<br>让后台进程退出<br>[<a href="mailto:&#114;&#111;&#x6f;&#116;&#x40;&#119;&#97;&#x6e;&#x67;&#104;&#x65;&#110;&#103;&#x2e;&#111;&#x72;&#103;">&#114;&#111;&#x6f;&#116;&#x40;&#119;&#97;&#x6e;&#x67;&#104;&#x65;&#110;&#103;&#x2e;&#111;&#x72;&#103;</a> ~]# kill -9 13731</p>
+<p>9、将花生壳加到系统启动时运行<br>[<a href="mailto:&#114;&#111;&#111;&#116;&#64;&#119;&#x61;&#110;&#103;&#104;&#101;&#110;&#x67;&#46;&#x6f;&#114;&#103;">&#114;&#111;&#111;&#116;&#64;&#119;&#x61;&#110;&#103;&#104;&#101;&#110;&#x67;&#46;&#x6f;&#114;&#103;</a> ~]# vi /etc/rc.local<br>在文件的末尾加上一行：/usr/bin/phddns -c /etc/phlinux.conf -d</p>
+<p><strong>二、花生壳Linux版本命令行参数说明</strong></p>
+<p>[<a href="mailto:&#x72;&#111;&#x6f;&#x74;&#64;&#119;&#x61;&#x6e;&#x67;&#x68;&#101;&#x6e;&#103;&#x2e;&#x6f;&#114;&#103;">&#x72;&#111;&#x6f;&#x74;&#64;&#119;&#x61;&#x6e;&#x67;&#x68;&#101;&#x6e;&#103;&#x2e;&#x6f;&#114;&#103;</a> ~]# /usr/bin/phlinux -h<br>Peanuthull Linux-core 2.0 by oray.com, copyright 2011<br>Peanuthull Linux-core Help<br>–first-run<br>-f, run for the first time<br>用于首次启动时配置参数</p>
+<p>–interact<br>-i, run as interactive mode<br>program will request for necessary parameters.<br>this mode will automatically enabled at first running,<br>or your configuration file has been lost.<br>启动交互模式</p>
+<p>–daemon<br>-d, run as a daemon<br>program will quit after put itself to background,<br>and continue running even you logout,<br>you can use kill -9 &lt;PID&gt; to terminate.<br>后台模式</p>
+<p>–config<br>-c, run with configuration file<br>program will run with the file<br>指定使用哪一个配置文件</p>
+<p>–user<br>-u, run as the user<br>program will run as the user<br>以指定用户启动后台进程</p>
+<p>–help<br>-h, print this screen.<br>Please visit <a target="_blank" rel="noopener" href="http://www.oray.com/">http://www.oray.com</a> for detail.</p>
+</p>
+</content>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>王恒</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://wangheng.org/linux-installed-in-oray-service.html">http://wangheng.org/linux-installed-in-oray-service.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签: </span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Linux/"># Linux</a>
+                    
+                        <a href="/tags/nginx/"># nginx</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回前页</a>
+                <span>· </span>
+                <a href="/">回到首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/nginx-set-directory-browsing-and-solve-the-problem-of-chinese-garbled.html">nginx设置目录浏览及中文乱码问题解决</a>
+            
+            
+            <a class="next" rel="next" href="/to-use-scribefire-offline-writing-a-blog.html">使用ScribeFire离线编写博客</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 王恒 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> </span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <!-- 
+                                 _
+                                 | |
+          _ _ _  ____ ____   ____| | _   ____ ____   ____   ___   ____ ____
+         | | | |/ _  |  _ \ / _  | || \ / _  )  _ \ / _  | / _ \ / ___) _  |
+         | | | ( ( | | | | ( ( | | | | ( (/ /| | | ( ( | || |_| | |  ( ( | |
+          \____|\_||_|_| |_|\_|| |_| |_|\____)_| |_|\_|| (_)___/|_|   \_|| |
+                           (_____|                 (_____|           (_____|
+ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="王恒的技术博客 -- make progress a little day by day"> 
+<meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"> 
+
+<title>onbeforeunload与onunload事件 | 王恒&#39;s Blog</title>
+
+
+    <link rel="icon" href="/favicon.ico">  
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">  
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script> 
+    <script src="/js/tocbot.min.js"></script> 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script> 
+
+
+        
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">王恒&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default" style="display: none;" >
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">王恒&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+</header>
+<script>
+    hljs.initHighlightingOnLoad();
+    document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('pre').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+    });
+    
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">onbeforeunload与onunload事件</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">王恒</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十一月 17, 2012&nbsp;&nbsp;16:46:47</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/">最近添加</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <content>
+<strong>Onunload，onbeforeunload</strong>都是在刷新或关闭时调用，可以在&lt;script&gt;脚本中通过 window.onunload来指定或者在&lt;body&gt;里指定。区别在于onbeforeunload在onunload之前执行，它还可 以阻止onunload的执行。
+<div>Onbeforeunload也是在页面刷新或关闭时调用，Onbeforeunload是正要去服务器读 取新的页面时调用，此时还没开始读取；而onunload则已经从服务器上读到了需要加载的新的页面，在即将替换掉当前页面时调用。Onunload是无 法阻止页面的更新和关闭的。而 Onbeforeunload 可以做到。</div><div><strong>1、onbeforeunload事件：</strong>
+说明：目前三大主流浏览器中firefox和IE都支持onbeforeunload事件,opera尚未支持。
+用法：
+<pre class="brush: actionscript3; gutter: true">·object.onbeforeunload = handler 
+ ·&lt;element onbeforeunload = “handler” … &gt;&lt;/element&gt;</pre>
+描述：
+事件触发的时候弹出一个有确定和取消的对话框，确定则离开页面，取消则继续待在本页。handler可以设一个返回值作为该对话框的显示文本。
+
+</div><div style="padding-left: 30px;">触发于：
+·关闭浏览器窗口
+·通过地址栏或收藏夹前往其他页面的时候
+·点击返回，前进，刷新，主页其中一个的时候
+·点击 一个前往其他页面的url连接的时候
+·调用以下任意一个事件的时候：click，document write，document open，document close，window close ，window navigate ，window NavigateAndFind,location replace,location reload,form submit.
+·当用window open打开一个页面，并把本页的window的名字传给要打开的页面的时候。
+·重新赋予location.href的值的时候。
+·通过input type=”submit”按钮提交一个具有指定action的表单的时候。
+可以用在以下元素：
+·BODY, FRAMESET, window
+平台支持：
+IE4+/Win, Mozilla 1.7a+, Netscape 7.2+, Firefox0.9+
+示例：</div><pre class="brush: javascript; gutter: true">&lt;script type=&quot;text/javascript&quot;&gt;
+// &lt;![CDATA[
+function checkLeave(){
+
+<pre><code> 　event.returnValue=&amp;quot;确定离开当前页面吗？&amp;quot;;
+</code></pre>
+<p>}<br>// ]]&gt;<br>&lt;/script&gt;</pre><br>但是onbeforeunload有个小毛病，就是页面刷新时，他还是会调用到onbeforeunload，为什么？其实刷新就相当于关闭了这个IE再重新打开的意思，因此还是会调用到onbeforeunload。</p>
+<p>究竟怎么解决刷新不调用onbeforeunload呢？<br>网上提供很多方法，本人觉得最实用还是以下这段JS</p>
+<pre class="brush: javascript; gutter: true">window.onbeforeunload   =   function(){
+      var   n   =   window.event.screenX   -   window.screenLeft;
+      var   b   =   n   &gt;   document.documentElement.scrollWidth-20;
+      if(b   &amp;&amp;   window.event.clientY   &lt;   0   ||   window.event.altKey)
+      {
+          alert(&quot;是关闭而非刷新&quot;);
+          window.event.returnValue   =   &quot;是否关闭？&quot;;
+      }else{
+             alert(&quot;是刷新而非关闭&quot;);
+     }
+}</pre><div><strong>2、onunload事件</strong>
+<p>用法：</p>
+<pre class="brush: actionscript3; gutter: true">·object.onbeforeunload = handler 
+ ·&lt;element onbeforeunload = &quot;handler&quot;&gt;&lt;/element&gt;</pre></div><div>描述：
+<p>当用户关闭一个页面时触发 onunload 事件。</div><div></div><div>触发于：</div><p style="padding-left: 30px;">·关闭浏览器窗口<br>·通过地址栏或收藏夹前往其他页面的时候<br>·点击返回，前进，刷新，主页其中一个的时候<br>·点击 一个前往其他页面的url连接的时候<br>·调用以下任意一个事件的时候：click，document write，document open，document close，window close ，window navigate ，window NavigateAndFind,location replace,location reload,form submit.<br>·当用window open打开一个页面，并把本页的window的名字传给要打开的页面的时候。<br>·重新赋予location.href的值的时候。<br>·通过input type=”submit”按钮提交一个具有指定action的表单的时候。</p><br>示例：</p>
+<pre class="brush: javascript; gutter: true; first-line: 1; highlight: []; html-script: false">&lt;script type=&quot;text/javascript&quot;&gt;
+// &lt;![CDATA[
+　　function checkLeave(){
+
+　　　　alert(&quot;欢迎下次再来！&quot;);
+　　}
+// ]]&gt;
+&lt;/script&gt;</pre>
+</content>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>王恒</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://wangheng.org/onbeforeunload-and-the-onunload-event.html">http://wangheng.org/onbeforeunload-and-the-onunload-event.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签: </span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回前页</a>
+                <span>· </span>
+                <a href="/">回到首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/sae-used-tmpfs-function.html">SAE中使用TmpFS功能</a>
+            
+            
+            <a class="next" rel="next" href="/win7-modify-the-network-card-mac-address.html">win7修改网卡MAC地址</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 王恒 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> </span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

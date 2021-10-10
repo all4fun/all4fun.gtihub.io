@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <!-- 
+                                 _
+                                 | |
+          _ _ _  ____ ____   ____| | _   ____ ____   ____   ___   ____ ____
+         | | | |/ _  |  _ \ / _  | || \ / _  )  _ \ / _  | / _ \ / ___) _  |
+         | | | ( ( | | | | ( ( | | | | ( (/ /| | | ( ( | || |_| | |  ( ( | |
+          \____|\_||_|_| |_|\_|| |_| |_|\____)_| |_|\_|| (_)___/|_|   \_|| |
+                           (_____|                 (_____|           (_____|
+ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="王恒的技术博客 -- make progress a little day by day"> 
+<meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"> 
+
+<title>标签 | 王恒&#39;s Blog</title>
+
+
+    <link rel="icon" href="/favicon.ico">  
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">  
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script> 
+    <script src="/js/tocbot.min.js"></script> 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script> 
+
+
+        
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">王恒&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default" style="display: none;" >
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">王恒&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+</header>
+<script>
+    hljs.initHighlightingOnLoad();
+    document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('pre').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+    });
+    
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            
+
+    <div class="container">
+        <div class="post-wrap tags">
+            <h2 class="post-title">-&nbsp;标签列表&nbsp;-</h2>
+
+            <div class="tag-cloud-tags">
+                
+                    <a href="/tags/Apple/">Apple<small>(2)</small></a>
+                
+                    <a href="/tags/ssh/">ssh<small>(7)</small></a>
+                
+                    <a href="/tags/VPS/">VPS<small>(2)</small></a>
+                
+                    <a href="/tags/%E6%97%A5%E5%BF%97/">日志<small>(2)</small></a>
+                
+                    <a href="/tags/IOS/">IOS<small>(1)</small></a>
+                
+                    <a href="/tags/Windows/">Windows<small>(12)</small></a>
+                
+                    <a href="/tags/%E5%91%BD%E4%BB%A4%E8%A1%8C/">命令行<small>(1)</small></a>
+                
+                    <a href="/tags/%E5%AE%B6%E5%BA%AD/">家庭<small>(1)</small></a>
+                
+                    <a href="/tags/iPad2/">iPad2<small>(4)</small></a>
+                
+                    <a href="/tags/%E8%B6%8A%E7%8B%B1/">越狱<small>(2)</small></a>
+                
+                    <a href="/tags/GCC/">GCC<small>(1)</small></a>
+                
+                    <a href="/tags/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">环境搭建<small>(3)</small></a>
+                
+                    <a href="/tags/putty/">putty<small>(2)</small></a>
+                
+                    <a href="/tags/Tunnelier/">Tunnelier<small>(2)</small></a>
+                
+                    <a href="/tags/winscp/">winscp<small>(1)</small></a>
+                
+                    <a href="/tags/vim/">vim<small>(8)</small></a>
+                
+                    <a href="/tags/vi/">vi<small>(1)</small></a>
+                
+                    <a href="/tags/visudo/">visudo<small>(1)</small></a>
+                
+                    <a href="/tags/%E7%BC%96%E7%A8%8B/">编程<small>(1)</small></a>
+                
+                    <a href="/tags/%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/">中文乱码<small>(2)</small></a>
+                
+                    <a href="/tags/Oracle/">Oracle<small>(1)</small></a>
+                
+                    <a href="/tags/%E4%BB%A3%E7%90%86/">代理<small>(4)</small></a>
+                
+                    <a href="/tags/Firefox/">Firefox<small>(2)</small></a>
+                
+                    <a href="/tags/visual-studio/">visual studio<small>(2)</small></a>
+                
+                    <a href="/tags/Win7/">Win7<small>(6)</small></a>
+                
+                    <a href="/tags/Cron/">Cron<small>(1)</small></a>
+                
+                    <a href="/tags/%E7%BF%BB%E5%A2%99/">翻墙<small>(2)</small></a>
+                
+                    <a href="/tags/AutoProxy/">AutoProxy<small>(2)</small></a>
+                
+                    <a href="/tags/%E6%8E%A7%E5%88%B6%E5%8F%B0/">控制台<small>(1)</small></a>
+                
+                    <a href="/tags/Globus-Toolkit/">Globus Toolkit<small>(1)</small></a>
+                
+                    <a href="/tags/Ubuntu/">Ubuntu<small>(10)</small></a>
+                
+                    <a href="/tags/Ant/">Ant<small>(1)</small></a>
+                
+                    <a href="/tags/Openjdk/">Openjdk<small>(1)</small></a>
+                
+                    <a href="/tags/openssh/">openssh<small>(2)</small></a>
+                
+                    <a href="/tags/first-blog/">first blog<small>(1)</small></a>
+                
+                    <a href="/tags/started/">started<small>(1)</small></a>
+                
+                    <a href="/tags/html/">html<small>(2)</small></a>
+                
+                    <a href="/tags/javascript/">javascript<small>(3)</small></a>
+                
+                    <a href="/tags/%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC/">页面跳转<small>(1)</small></a>
+                
+                    <a href="/tags/coder/">coder<small>(2)</small></a>
+                
+                    <a href="/tags/git/">git<small>(1)</small></a>
+                
+                    <a href="/tags/Linux/">Linux<small>(12)</small></a>
+                
+                    <a href="/tags/C/">C#<small>(3)</small></a>
+                
+                    <a href="/tags/Viki/">Viki<small>(1)</small></a>
+                
+                    <a href="/tags/%E7%BC%96%E8%AF%91/">编译<small>(2)</small></a>
+                
+                    <a href="/tags/Darwin-Streaming-Server/">Darwin Streaming Server<small>(1)</small></a>
+                
+                    <a href="/tags/%E6%B5%81%E5%AA%92%E4%BD%93/">流媒体<small>(2)</small></a>
+                
+                    <a href="/tags/NVIDIA/">NVIDIA<small>(2)</small></a>
+                
+                    <a href="/tags/%E7%A8%8B%E5%BA%8F%E5%91%98/">程序员<small>(1)</small></a>
+                
+                    <a href="/tags/%E8%AF%AD%E6%B3%95%E9%AB%98%E4%BA%AE/">语法高亮<small>(1)</small></a>
+                
+                    <a href="/tags/node-js/">node.js<small>(1)</small></a>
+                
+                    <a href="/tags/%E9%87%91%E5%B1%B1%E5%BF%AB%E7%9B%98/">金山快盘<small>(1)</small></a>
+                
+                    <a href="/tags/encode/">encode<small>(1)</small></a>
+                
+                    <a href="/tags/awk/">awk<small>(2)</small></a>
+                
+                    <a href="/tags/curl/">curl<small>(2)</small></a>
+                
+                    <a href="/tags/shell/">shell<small>(2)</small></a>
+                
+                    <a href="/tags/openssl/">openssl<small>(1)</small></a>
+                
+                    <a href="/tags/%E5%BC%80%E6%BA%90/">开源<small>(2)</small></a>
+                
+                    <a href="/tags/denyhost/">denyhost<small>(1)</small></a>
+                
+                    <a href="/tags/server/">server<small>(1)</small></a>
+                
+                    <a href="/tags/nginx/">nginx<small>(1)</small></a>
+                
+                    <a href="/tags/DNS/">DNS<small>(2)</small></a>
+                
+                    <a href="/tags/VPN/">VPN<small>(4)</small></a>
+                
+                    <a href="/tags/wordpress/">wordpress<small>(2)</small></a>
+                
+                    <a href="/tags/hexo/">hexo<small>(1)</small></a>
+                
+                    <a href="/tags/migrating/">migrating<small>(1)</small></a>
+                
+                    <a href="/tags/%E9%85%8D%E8%89%B2/">配色<small>(1)</small></a>
+                
+                    <a href="/tags/Font/">Font<small>(1)</small></a>
+                
+                    <a href="/tags/%E5%AD%97%E4%BD%93/">字体<small>(1)</small></a>
+                
+                    <a href="/tags/%E7%AB%AF%E5%8F%A3/">端口<small>(1)</small></a>
+                
+                    <a href="/tags/air-video/">air video<small>(1)</small></a>
+                
+                    <a href="/tags/Razer/">Razer<small>(1)</small></a>
+                
+                    <a href="/tags/Krait/">Krait<small>(1)</small></a>
+                
+                    <a href="/tags/mouse/">mouse<small>(1)</small></a>
+                
+                    <a href="/tags/DIY/">DIY<small>(1)</small></a>
+                
+                    <a href="/tags/%E5%BE%AE%E5%8A%A8/">微动<small>(1)</small></a>
+                
+                    <a href="/tags/%E9%BC%A0%E6%A0%87/">鼠标<small>(1)</small></a>
+                
+                    <a href="/tags/grub2/">grub2<small>(1)</small></a>
+                
+                    <a href="/tags/grub-legacy/">grub legacy<small>(1)</small></a>
+                
+                    <a href="/tags/Sort/">Sort<small>(1)</small></a>
+                
+                    <a href="/tags/%E5%AF%B9%E8%B1%A1/">对象<small>(1)</small></a>
+                
+                    <a href="/tags/%E5%B1%9E%E6%80%A7/">属性<small>(1)</small></a>
+                
+                    <a href="/tags/%E6%8E%92%E5%BA%8F/">排序<small>(1)</small></a>
+                
+                    <a href="/tags/%E8%99%9A%E6%8B%9FWIFI/">虚拟WIFI<small>(1)</small></a>
+                
+                    <a href="/tags/%E7%BD%91%E7%BB%9C/">网络<small>(1)</small></a>
+                
+                    <a href="/tags/%E5%88%86%E4%BA%AB/">分享<small>(1)</small></a>
+                
+                    <a href="/tags/%E5%B7%A5%E5%85%B7/">工具<small>(2)</small></a>
+                
+                    <a href="/tags/%E5%A4%87%E4%BB%BD/">备份<small>(3)</small></a>
+                
+                    <a href="/tags/vim%E6%8F%92%E4%BB%B6/">vim插件<small>(2)</small></a>
+                
+                    <a href="/tags/%E9%83%A8%E7%BD%B2/">部署<small>(2)</small></a>
+                
+                    <a href="/tags/github/">github<small>(1)</small></a>
+                
+                    <a href="/tags/python/">python<small>(1)</small></a>
+                
+                    <a href="/tags/symfony/">symfony<small>(1)</small></a>
+                
+                    <a href="/tags/Dropbox/">Dropbox<small>(1)</small></a>
+                
+                    <a href="/tags/%E8%84%9A%E6%9C%AC/">脚本<small>(1)</small></a>
+                
+                    <a href="/tags/IIS/">IIS<small>(1)</small></a>
+                
+                    <a href="/tags/Apache2/">Apache2<small>(1)</small></a>
+                
+                    <a href="/tags/%E5%A4%9A%E5%9F%9F%E5%90%8D/">多域名<small>(2)</small></a>
+                
+                    <a href="/tags/LAMP/">LAMP<small>(2)</small></a>
+                
+                    <a href="/tags/IP/">IP<small>(2)</small></a>
+                
+                    <a href="/tags/post-format-image/">post-format-image<small>(1)</small></a>
+                
+                    <a href="/tags/PHP/">PHP<small>(2)</small></a>
+                
+                    <a href="/tags/%E9%85%8D%E7%BD%AE/">配置<small>(1)</small></a>
+                
+                    <a href="/tags/10-1/">10.1<small>(1)</small></a>
+                
+                    <a href="/tags/%E6%9B%B4%E6%96%B0%E6%BA%90/">更新源<small>(2)</small></a>
+                
+                    <a href="/tags/source/">source<small>(1)</small></a>
+                
+                    <a href="/tags/%E5%BF%AB%E7%9B%98/">快盘<small>(1)</small></a>
+                
+                    <a href="/tags/tr/">tr<small>(1)</small></a>
+                
+                    <a href="/tags/thinkphp/">thinkphp<small>(1)</small></a>
+                
+                    <a href="/tags/Apache/">Apache<small>(2)</small></a>
+                
+                    <a href="/tags/%E5%8A%AB%E6%8C%81/">劫持<small>(1)</small></a>
+                
+                    <a href="/tags/%E8%81%94%E9%80%9A/">联通<small>(1)</small></a>
+                
+                    <a href="/tags/Unix/">Unix<small>(1)</small></a>
+                
+                    <a href="/tags/%E7%BC%96%E7%A8%8B%E8%89%BA%E6%9C%AF/">编程艺术<small>(1)</small></a>
+                
+                    <a href="/tags/apt-get/">apt-get<small>(1)</small></a>
+                
+                    <a href="/tags/%E5%AE%98%E6%96%B9%E9%A9%B1%E5%8A%A8/">官方驱动<small>(1)</small></a>
+                
+                    <a href="/tags/%E5%A7%94%E6%89%98/">委托<small>(1)</small></a>
+                
+                    <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程<small>(1)</small></a>
+                
+                    <a href="/tags/%E7%95%8C%E9%9D%A2%E5%81%87%E6%AD%BB/">界面假死<small>(1)</small></a>
+                
+                    <a href="/tags/Proxy/">Proxy<small>(1)</small></a>
+                
+                    <a href="/tags/iPhone/">iPhone<small>(1)</small></a>
+                
+                    <a href="/tags/Pear/">Pear<small>(1)</small></a>
+                
+                    <a href="/tags/deplate/">deplate<small>(1)</small></a>
+                
+                    <a href="/tags/mysql/">mysql<small>(1)</small></a>
+                
+                    <a href="/tags/WAMP/">WAMP<small>(1)</small></a>
+                
+                    <a href="/tags/%E8%99%9A%E6%8B%9F%E4%B8%BB%E6%9C%BA/">虚拟主机<small>(1)</small></a>
+                
+                    <a href="/tags/wiki/">wiki<small>(1)</small></a>
+                
+                    <a href="/tags/%E8%8B%A6%E9%80%BC%E7%94%9F%E6%B4%BB/">苦逼生活<small>(1)</small></a>
+                
+                    <a href="/tags/Mac-Os/">Mac Os<small>(1)</small></a>
+                
+                    <a href="/tags/MBR/">MBR<small>(1)</small></a>
+                
+                    <a href="/tags/BootThink/">BootThink<small>(1)</small></a>
+                
+                    <a href="/tags/%E5%BC%80%E5%A7%8B-%E7%BB%93%E6%9D%9F/">开始?结束<small>(1)</small></a>
+                
+                    <a href="/tags/%E6%96%87%E4%BB%B6%E4%B8%A2%E5%A4%B1/">文件丢失<small>(1)</small></a>
+                
+                    <a href="/tags/blog/">blog<small>(1)</small></a>
+                
+                    <a href="/tags/NET/">.NET<small>(1)</small></a>
+                
+                    <a href="/tags/FTP/">FTP<small>(1)</small></a>
+                
+            </div>
+        </div>
+    </div>
+
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 王恒 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> </span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

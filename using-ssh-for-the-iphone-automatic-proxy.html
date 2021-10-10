@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <!-- 
+                                 _
+                                 | |
+          _ _ _  ____ ____   ____| | _   ____ ____   ____   ___   ____ ____
+         | | | |/ _  |  _ \ / _  | || \ / _  )  _ \ / _  | / _ \ / ___) _  |
+         | | | ( ( | | | | ( ( | | | | ( (/ /| | | ( ( | || |_| | |  ( ( | |
+          \____|\_||_|_| |_|\_|| |_| |_|\____)_| |_|\_|| (_)___/|_|   \_|| |
+                           (_____|                 (_____|           (_____|
+ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="王恒的技术博客 -- make progress a little day by day"> 
+<meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"> 
+
+<title>使用SSH实现iPhone自动代理 | 王恒&#39;s Blog</title>
+
+
+    <link rel="icon" href="/favicon.ico">  
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">  
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script> 
+    <script src="/js/tocbot.min.js"></script> 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script> 
+
+
+        
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">王恒&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default" style="display: none;" >
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">王恒&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/links">友情链接</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+</header>
+<script>
+    hljs.initHighlightingOnLoad();
+    document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('pre').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+    });
+    
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">使用SSH实现iPhone自动代理</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">王恒</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">七月 23, 2012&nbsp;&nbsp;22:35:19</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/">最近添加</a>
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/">技术探讨</a>
+                            
+                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <content>
+对于绝大部分国内网站，正常上网，对于twitter等，自动走SSH代理，无需手工切换，这即是所谓的“<strong>自动翻墙</strong>”，好处就是不影响国内网站的访问速度，不用来回切换网络。
+
+<p>IOS中最方便的翻墙方式是使用VPN，速度尚可，但PPTP和L2TP是不能像OpenVPN一样定义路由的，打开VPN后，所有流量均走VPN线路，浏览国内网站很慢，需要来回切换。windows下可以用脚本定义静态路由，使用<a href="http://wangheng.org/the-route-setup-script-realize-domestic-network-by-the-vpn.html">Route设置脚本，实现国内网不经VPN</a>搞定，但IOS下在cydia找了半天也没找到iptable这个命令包，所以还是用ssh吧。下面是具体使用方法：</p>
+<p><strong>1、越狱，并配置好ios的环境</strong></p>
+<p>如何越狱就不用我说了吧，随便一搜网上一大堆，越狱后如果你不知道如何ssh连接到你的ios设备可以参考我以前的一篇文章：<a href="http://wangheng.org/configure-gcc-on-ipad2.html">为ipad2安装和配置gcc编译环境</a>，当然这里没必要安装gcc环境，所以进行到第二步就OK了。</p>
+<p><strong>2、安装一些必须的软件包</strong></p>
+<p>如果你确定第一步你已经没有问题了，我们下面要继续安装一些必须的软件包。ssh连接到你的iPhone或者iPad后执行下面的命令：</p>
+<span id="more"></span><pre>sudo -i 
+<p>apt-get install screen</pre><br>然后你的ios设备上面将会安装好screen这个软件包，不知道screen是什么的同学可以参考<a href="http://wangheng.org/html/linux.html#toc_0.1.1" target="_blank">这里</a>。</p>
+<p>执行下面的命令：</p>
+<pre>screen –S autossh 
+ssh -D 1987 [用户名]@[ip地址] 
+#如果你自定义了ssh的端口号，记得使用-p 加你的端口号，如下： 
+ssh -D 1987 –p [端口号] [用户名]@[ip地址]</pre><strong>3、配置PAC，用来实现自动切换。</strong>
+<p>可以使用我的pac文件，<a href="http://wangheng.org/tools/autossh.pac%E3%80%82%E5%9C%A8iPhone%E7%9A%84%E8%AE%BE%E7%BD%AE-&gt;WIFI-&gt;HTTP%E4%BB%A3%E7%90%86-&gt;%E8%87%AA%E5%8A%A8-&gt;URL">http://wangheng.org/tools/autossh.pac。在iPhone的设置-&gt;WIFI-&gt;HTTP代理-&gt;自动-&gt;URL</a> 里把它填上就可以了。<br>内容不多，如下：</p>
+<pre>function FindProxyForURL(url,host)
+{
+url = url.toLowerCase();
+if(
+shExpMatch(url, “*facebook.com*”) ||
+shExpMatch(url, “*googlecode.com*”) ||
+shExpMatch(url, “*twitter.com*”) ||
+shExpMatch(url, “*youtube.com*”) ||
+shExpMatch(url, “*wordpress.com*”) ||
+shExpMatch(url, “*appspot.com*”) ||
+shExpMatch(url, “*.google.com*”)
+)
+{
+return “SOCKS 127.0.0.1:1987″;
+}
+return “DIRECT”;
+}
+return “DIRECT”;
+}</pre>
+<p>好了，大功告成，享受你的无国界自由网络吧~<br></content></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>王恒</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://wangheng.org/using-ssh-for-the-iphone-automatic-proxy.html">http://wangheng.org/using-ssh-for-the-iphone-automatic-proxy.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签: </span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/ssh/"># ssh</a>
+                    
+                        <a href="/tags/iPad2/"># iPad2</a>
+                    
+                        <a href="/tags/Proxy/"># Proxy</a>
+                    
+                        <a href="/tags/iPhone/"># iPhone</a>
+                    
+                        <a href="/tags/Pear/"># Pear</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回前页</a>
+                <span>· </span>
+                <a href="/">回到首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/under-windows-install-php-pear.html">Windows下安装PHP Pear</a>
+            
+            
+            <a class="next" rel="next" href="/implement-ssh-without-password.html">实现SSH无密码登录</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 王恒 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> </span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
