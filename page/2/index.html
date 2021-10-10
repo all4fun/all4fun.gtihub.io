@@ -1,162 +1,281 @@
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-    <!-- 
-                                 _
-                                 | |
-          _ _ _  ____ ____   ____| | _   ____ ____   ____   ___   ____ ____
-         | | | |/ _  |  _ \ / _  | || \ / _  )  _ \ / _  | / _ \ / ___) _  |
-         | | | ( ( | | | | ( ( | | | | ( (/ /| | | ( ( | || |_| | |  ( ( | |
-          \____|\_||_|_| |_|\_|| |_| |_|\____)_| |_|\_|| (_)___/|_|   \_|| |
-                           (_____|                 (_____|           (_____|
- -->
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<meta name="description" content="王恒的技术博客 -- make progress a little day by day"> 
-<meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"> 
-
-<title>王恒&#39;s Blog</title>
-
-
-    <link rel="icon" href="/favicon.ico">  
-
-
-    <!-- stylesheets list from _config.yml -->
-    
-    <link rel="stylesheet" href="/css/style.css">  
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">  
-
-
-
-    <!-- scripts list from _config.yml -->
-    
-    <script src="/js/script.js"></script> 
-    <script src="/js/tocbot.min.js"></script> 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script> 
-
-
-        
-
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-    <div class="wrapper">
-        <header>
-    <nav class="navbar">
-        <div class="container">
-            <div class="navbar-header header-logo"><a href="/">王恒&#39;s Blog</a></div>
-            <div class="menu navbar-right">
-                
-                    <a class="menu-item" href="/archives">文章</a>
-                
-                    <a class="menu-item" href="/categories">分类</a>
-                
-                    <a class="menu-item" href="/tags">标签</a>
-                
-                    <a class="menu-item" href="/links">友情链接</a>
-                
-                    <a class="menu-item" href="/about">关于</a>
-                
-                <input id="switch_default" type="checkbox" class="switch_default" style="display: none;" >
-                <label for="switch_default" class="toggleBtn"></label>
-            </div>
-
-        </div>
-    </nav>
-    
-    <nav class="navbar-mobile" id="nav-mobile">
-        <div class="container">
-            <div class="navbar-header">
-                <div>
-                    <a href="/">王恒&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
-                </div>
-                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
-            </div>
-            <div class="menu" id="mobile-menu">
-                
-                    <a class="menu-item" href="/archives">文章</a>
-                
-                    <a class="menu-item" href="/categories">分类</a>
-                
-                    <a class="menu-item" href="/tags">标签</a>
-                
-                    <a class="menu-item" href="/links">友情链接</a>
-                
-                    <a class="menu-item" href="/about">关于</a>
-                
-            </div>
-        </div>
-    </nav>
-</header>
-<script>
-    hljs.initHighlightingOnLoad();
-    document.addEventListener('DOMContentLoaded', (event) => {
-    document.querySelectorAll('pre').forEach((block) => {
-        hljs.highlightBlock(block);
-    });
-    });
-    
-    var mobileBtn = function f() {
-        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
-        var mobileMenu = document.getElementById("mobile-menu");
-        if(toggleMenu.classList.contains("active")){
-           toggleMenu.classList.remove("active")
-            mobileMenu.classList.remove("active")
-        }else{
-            toggleMenu.classList.add("active")
-            mobileMenu.classList.add("active")
-        }
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>王恒's Blog - Do one thing and do it well.</title><meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"><meta name="author" content="王恒"><meta name="copyright" content="王恒"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="王恒的技术博客 -- make progress a little day by day">
+<meta property="og:type" content="website">
+<meta property="og:title" content="王恒&#39;s Blog">
+<meta property="og:url" content="http://wangheng.org/page/2/index.html">
+<meta property="og:site_name" content="王恒&#39;s Blog">
+<meta property="og:description" content="王恒的技术博客 -- make progress a little day by day">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://wangheng.org/img/avatar.png">
+<meta property="article:author" content="王恒">
+<meta property="article:tag" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://wangheng.org/img/avatar.png"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="http://wangheng.org/page/2/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: 王恒","link":"链接: ","source":"来源: 王恒's Blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
     }
-</script>
-        <div class="main">
-            
-    <div class="container">
-    <div class="intro">
-        <div class="avatar">
-            <a href="/archives"><img src="/image/avatar.jpeg"></a>
-        </div>
-        <div class="nickname">大龄搬砖爱好者~</div>
-        <div class="description"><p>Life is a box of chocolate, <br>you never know what you are gonna get…</p>
-</div>
-        <div class="links">
-            
-                
-                    <a class="link-item" title="Blog" href="/archives">
-                        
-                        
-                            <i class="iconfont icon-blog"></i>
-                        
-                    </a>
-                
-                    <a class="link-item" title="Instagram" href="">
-                        
-                        
-                            <i class="iconfont icon-instagram"></i>
-                        
-                    </a>
-                
-                    <a class="link-item" title="Github" target="_blank" rel="noopener" href="https://github.com/wujiwh">
-                        
-                        
-                            <i class="iconfont icon-github"></i>
-                        
-                    </a>
-                
-            
-        </div>
-    </div>
-</div>
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '王恒\'s Blog',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2021-10-10 11:50:22'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">92</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">136</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">33</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">王恒's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/vim-copy-and-paste-format-disorder.html" title="vim复制粘贴格式错乱">vim复制粘贴格式错乱</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2014-04-28T08:41:45.000Z" title="发表于 2014-04-28 16:41:45">2014-04-28</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/">最近添加</a></span></div><div class="content">
 
 
+使用vim的过程中，用SSH打开的终端中复制代码，常常出现格式错乱的情况，解决办法如下：
+运行如下命令，进入 paste 模式：
+:set paste
+进入 paste 模式后，按 i 键进入插入模式，然后再Shift+Ins进行粘贴，文本格式就不会错乱了。
+粘帖完成后想结束 paste 模式可以执行：
+:set nopaste
 
 
-        </div>
-        <footer id="footer" class="footer">
-    <div class="copyright">
-        <span>© 王恒 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> </span>
-    </div>
-</footer>
+</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/install-oracle12c-on-centos6-5.html" title="Centos 6.5 安装 Oracle 12C">Centos 6.5 安装 Oracle 12C</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2014-04-28T08:22:56.000Z" title="发表于 2014-04-28 16:22:56">2014-04-28</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/">最近添加</a></span></div><div class="content">
+Oracle已经发布Oracle 12C 一段时间了，Oracle此次发布只有64位版本，并无32位版本。我们的系统安装环境为CentOS 6.5 x86_64 。
+1、安装Oracle依赖包
+修改yum配置，默认同时安装32位和64位rpm
 
-    </div>
-</body>
-</html>
+yum install binutils compat-libcap1 compat-libstdc++-33 gcc gcc-c++ glibc glibc-devel ksh libgcc libstdc++ libstdc++-devel libaio libaio-devel libXext libXtst libX11 libXau libxcb libXi make sysstat
+&nbsp;
+2 、配置用户2.1.   创建相关用户和用户组
+/usr/sbin/groupadd oinstall
+
+/usr/sbin/groupadd dba
+/usr/sbin/useradd -g oinstall -G dba oracle
+#如果已经创建过oracle 可以执行
+/usr/sbin/usermod -g oinstall ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/wei-vim-tian-jia-vimgdb-zhi-chi.html" title="为Vim 添加vimgdb支持">为Vim 添加vimgdb支持</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2014-04-28T08:12:33.000Z" title="发表于 2014-04-28 16:12:33">2014-04-28</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/">最近添加</a></span></div><div class="content">
+1、    下载最新的vim74的源码包
+wget ftp://ftp.vim.org/pub/vim/unix/vim-7.4.tar.bz2
+2、下载vimgdb-for-vim7.4源码
+wget https://github.com/larrupingpig/vimgdb-for-vim7.4/archive/master.zip -O vimgdb-for-vim74.zip
+3、解压所有文件，并应用补丁文件
+ tar xjvf vim-7.4.tar.bz2 -C /tmp
+    unzip vimgdb-for-vim74.zip -d /tmp
+    cd /tmp
+    patch -p0 &lt; vimgdb-for-vim7.4-master/vim74.patch
+    cd vim74/src
+    ./configure --enable-gdb --prefix=/usr/local/vim74 \
+                --enable-multibyte \
+                --enable-fontset \
+ ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/c-li-yong-fan-she-gei-dui-xiang-fu-zhi.html" title="C#利用反射给对象赋值">C#利用反射给对象赋值</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2014-04-27T15:17:05.000Z" title="发表于 2014-04-27 23:17:05">2014-04-27</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/">最近添加</a></span></div><div class="content">
+我们如果想利用凡是给一个对象属性赋值可以通过PropertyInfo.SetValue()方式进行赋值，但要注意值的类型要与属性保持一致，例如：
+
+var property = obj.GetType().GetProperty(“PropertyName”);//此时可以使用GetProperty获取属性数组，循环进行赋值。
+该属性类型是已知基本类型可以直接将变量传入, 例如：string
+var value=”wangheng.org”;
+property.SetValue(obj，value,null);
+这里需要注意value值的类型必须和属性类型一致，否则会抛出TargetException异常。
+如果原值是其他类型。例如：目标类型为int，值为string
+string value=”100”;
+property.SetValue(obj，int.TryParse(value),null);//类型转换。
+上面几种都比较容易处理，但是如果该属性类型是未知非泛型类型，例如 int?
+var value=”100”;
+property.SetValue(obj，Convert ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/shi-yong-parted-chuang-jian-gpt-fen-qu.html" title="使用parted创建GPT分区">使用parted创建GPT分区</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2014-04-27T14:57:37.000Z" title="发表于 2014-04-27 22:57:37">2014-04-27</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/">最近添加</a></span></div><div class="content">
+操作环境：
+
+CentOS Linux 6.5
+硬盘：
+/dev/sda 大小500G，为4*15K HDD做的硬Raid10，用来部署系统分区以及Oracle应用分区。
+/dev/sdb 大小4.1T 为6*10K HDD做的硬Raid5，用来做Oracle的数据文件分区
+/dev/sdc 大小4.1T 为6*10K HDD做的硬Raid5，用来做Oracle的数据索引
+平时在Linux下使用的硬盘都没超过2T的单盘，所以刚开始用fdisk分区出来发现只有2T，还有点疑惑，一查才知道原来是因为fdisk不支持创建GPT分区，GPT支持大于2TB分区，MBR只能支持2TB的分区。下面是两种分区格式的具体区别：
+MBR分区表：（MBR含义：主引导记录）
+所支持的最大卷：2T （T; terabytes,1TB=1024GB）
+对分区的设限：最多4个主分区或3个主分区加一个扩展分区。
+GPT分区表：（GPT含义：GUID分区表）
+支持最大卷：18EB，（E：exabytes,1EB=1024TB）
+每个磁盘最多支持128个分区Linux下的parted工具的使用也很简单，具体操作如下：
+ ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/hi-2014.html" title="Hi 2014">Hi 2014</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2013-12-31T18:06:33.000Z" title="发表于 2014-01-01 02:06:33">2014-01-01</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/">最近添加</a></span></div><div class="content">
+
+
+</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/linux-windows-mac-refresh-dns.html" title="Linux/Windows/Mac刷新DNS缓存">Linux/Windows/Mac刷新DNS缓存</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2013-11-16T06:29:26.000Z" title="发表于 2013-11-16 14:29:26">2013-11-16</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/">最近添加</a></span></div><div class="content">
+有时候在网络环境比较糟糕的情况下，修改了域名的A记录执行，本地DNS却迟迟不主动更新。这个时候就需要我们去手动刷新一下本地的DNS记录缓存，方法记录如下：
+Windows ( XP, ME, 2000, 98)系统：
+
+
+开始——&gt;运行——&gt;输入cmd并回车
+在打开的命令行窗口，输入ipconfig /flushdns
+完成！你的Windows DNS 缓存已经得到刷新。
+
+Windows Vista 或 Windows 7 系统：1、打开命令提示符，并选择以管理员身份运行2. 在打开的命令行窗口，输入ipconfig /flushdns你将会看到如下的确认信息： Windows IP 配置已成功刷新 DNS 解析缓存。
+Linux系统：刷新 DNS 缓存需要重起 nscd daemon：
+
+要重起nscd daemon，在命令行窗口（terminal）输入/etc/rc.d/init.d/nscd restart
+命令执行完毕，你的DNS缓存就被刷新了。如果是比较新的Linux版本，你可能需要使用下面的命令： /etc/init.d/nscd restart
+
+Mac  ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/manually-compile-vim-configuration.html" title="手动编译vim配置">手动编译vim配置</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2013-07-30T01:44:41.000Z" title="发表于 2013-07-30 09:44:41">2013-07-30</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/Linux%E5%AD%A6%E4%B9%A0/Autohotkey/">Autohotkey</a></span></div><div class="content">
+下载vim源码http://www.vim.org/sources.php
+
+设置编译选项, 我的配置是:
+./configure  --prefix=/usr/local/vim \
+--enable-multibyte \
+--enable-fontset \
+--enable-xim  \
+--enable-gui=auto \
+--enable-pythoninterp=dynamic \
+--enable-pythoninterp \
+--enable-python3interp=dynamic \
+--enable-rubyinterp=dynamic \
+--enable-rubyinterp \
+--enable-perlinterp \
+--enable-cscope \
+--enable-sniff \
+--with-x  \
+--with-compiledby=erocpil  \
+--with-features=huge \
+--enable-luainterp=dynamic  \
+--with-python-config-dir=/usr/lib/pyth ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/tuning-memo-reproduced.html" title="性能调优备忘">性能调优备忘</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2013-07-30T01:26:37.000Z" title="发表于 2013-07-30 09:26:37">2013-07-30</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%B9%B1%E4%B8%83%E5%85%AB%E7%B3%9F/">乱七八糟</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/%E4%B9%B1%E4%B8%83%E5%85%AB%E7%B3%9F/%E8%BD%AC%E8%BD%BD/">转载</a></span></div><div class="content">
+1. 当性能遇到问题时，如果能在应用层进行计算和处理，那就把它从数据库层拿出来。排序和分组就是典型的例子。在应用层做性能提升总是要比在数据库层容易的多。就像对于MySQL，sqlite更容易掌控。
+
+
+关于并行计算，如果能避免就尽量避免。如果无法避免，记住，能力越大，责任越大。如果有可能，尽量避免直接对线程操作。尽可能在更高的抽象层上操作。例 如，在iOS中，GCD，分发和队列操作是你的好朋友。人类的大脑没有被设计成用来分析那些无穷临时状态——这是我的惨痛教训所得。
+
+尽可能简化状态，尽可能局部本地化。适用至上。
+
+短小可组合的方法是你的好朋友。
+
+代码注释是危险的，因为它们很容易更新不及时或给人误导，但这不能成为不写注释的理由。不要注释鸡毛蒜皮的事情，但如果需要，在某些特殊地方，战略性的长篇注释是需要的。你的记忆会背叛你，也许会在明天早上，也许会在一杯咖啡后。
+
+如果你认为一个用例场景也许“不会有问题吧”，它也许就是一个月后让你在发布的产品中遭受惨痛失败的地方。做一个怀疑主义者，测试，验证。
+
+有疑问时，和团队中所有相关人交流。
+
+做正确的事情——你通常会知道这指的是什么。
+
+你的 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/linux-set-up-a-proxy-server.html" title="Linux中设置代理服务器">Linux中设置代理服务器</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2013-07-30T01:22:32.000Z" title="发表于 2013-07-30 09:22:32">2013-07-30</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%B9%B1%E4%B8%83%E5%85%AB%E7%B3%9F/">乱七八糟</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/%E4%B9%B1%E4%B8%83%E5%85%AB%E7%B3%9F/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/">技术探讨</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/%E4%B9%B1%E4%B8%83%E5%85%AB%E7%B3%9F/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a></span></div><div class="content">
+&#160;&#160;&#160;&#160;&#160; 由于单位限制网络使用，给分配的一个Linux服务器是没有外网权限的，这给我配置开发调试环境造成了很大的不便。但是这怎么能难道我们一个专业的程序猿呢。下面介绍在Linux中使用代理服务器的步骤：  全局设置     如果您在 /etc/yum.conf 中定义代理服务器，所有 用户在使用 yum 时都会应用这个代理服务器设置。     为单个用户配置代理服务器     要为一个特定的用户启用代理访问，只要将实例框中的文本行加入这个用户的 shell 配置中。对于默认的 bash shell，配置是在 ~/.bash_profile 中。这一设置使得 yum 使用代理服务器 192.168.1.47:808，连接端口号 808。     # 这个帐号使用的代理服务器     http_proxy=”http://192.168.1.47:808”      export http_proxy     配置设定，为使用代理服务器     如果代理服务器需要用户名和密码，只要将它们加入 URL。要包含用户名 a，密码 a，添加设定 ...</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/#content-inner">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/#content-inner">10</a><a class="extend next" rel="next" href="/page/3/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">王恒</div><div class="author-info__description">王恒的技术博客 -- make progress a little day by day</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">92</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">136</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">33</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/all4fun"><i class="fab fa-github"></i><span>关注</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/all4fun" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/migrating-from-wordpress-to-hexo.html" title="从wordpress迁移到hexo填坑">从wordpress迁移到hexo填坑</a><time datetime="2018-10-22T05:50:30.000Z" title="发表于 2018-10-22 13:50:30">2018-10-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/kuaipan-uploader-dev-share.html" title="kuaipan_uploader开发分享">kuaipan_uploader开发分享</a><time datetime="2015-05-27T05:01:02.000Z" title="发表于 2015-05-27 13:01:02">2015-05-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/kuaipan-uploader.html" title="linux版快盘上传下载脚本">linux版快盘上传下载脚本</a><time datetime="2015-05-13T09:16:39.000Z" title="发表于 2015-05-13 17:16:39">2015-05-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/ubuntu-14-04-install-configure-denyhosts.html" title="ubuntu 安装配置denyhosts">ubuntu 安装配置denyhosts</a><time datetime="2015-05-06T01:19:37.000Z" title="发表于 2015-05-06 09:19:37">2015-05-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/raspberry-dht11-yeekink.html" title="raspi+DHT11+yeelink监控家里温湿度">raspi+DHT11+yeelink监控家里温湿度</a><time datetime="2015-01-27T16:25:09.000Z" title="发表于 2015-01-28 00:25:09">2015-01-28</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            <a class="card-more-btn" href="/categories/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a>
+            </div>
+            <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Linux%E5%AD%A6%E4%B9%A0/"><span class="card-category-list-name">Linux学习</span><span class="card-category-list-count">4</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Linux%E5%AD%A6%E4%B9%A0/Autohotkey/"><span class="card-category-list-name">Autohotkey</span><span class="card-category-list-count">1</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Route/"><span class="card-category-list-name">Route</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E4%B8%9A%E7%95%8C%E5%8A%A8%E6%80%81/"><span class="card-category-list-name">业界动态</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E4%B9%B1%E4%B8%83%E5%85%AB%E7%B3%9F/"><span class="card-category-list-name">乱七八糟</span><span class="card-category-list-count">5</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E4%B9%B1%E4%B8%83%E5%85%AB%E7%B3%9F/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/"><span class="card-category-list-name">技术探讨</span><span class="card-category-list-count">2</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E4%B9%B1%E4%B8%83%E5%85%AB%E7%B3%9F/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/Linux%E5%AD%A6%E4%B9%A0/"><span class="card-category-list-name">Linux学习</span><span class="card-category-list-count">1</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E4%B9%B1%E4%B8%83%E5%85%AB%E7%B3%9F/%E8%BD%AC%E8%BD%BD/"><span class="card-category-list-name">转载</span><span class="card-category-list-count">1</span></a></li></ul></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/NET/" style="font-size: 1.1em; color: #999">.NET</a> <a href="/tags/10-1/" style="font-size: 1.1em; color: #999">10.1</a> <a href="/tags/Ant/" style="font-size: 1.1em; color: #999">Ant</a> <a href="/tags/Apache/" style="font-size: 1.18em; color: #999ca1">Apache</a> <a href="/tags/Apache2/" style="font-size: 1.1em; color: #999">Apache2</a> <a href="/tags/Apple/" style="font-size: 1.18em; color: #999ca1">Apple</a> <a href="/tags/AutoProxy/" style="font-size: 1.18em; color: #999ca1">AutoProxy</a> <a href="/tags/BootThink/" style="font-size: 1.1em; color: #999">BootThink</a> <a href="/tags/C/" style="font-size: 1.26em; color: #999fa8">C#</a> <a href="/tags/Cron/" style="font-size: 1.1em; color: #999">Cron</a> <a href="/tags/DIY/" style="font-size: 1.1em; color: #999">DIY</a> <a href="/tags/DNS/" style="font-size: 1.18em; color: #999ca1">DNS</a> <a href="/tags/Darwin-Streaming-Server/" style="font-size: 1.1em; color: #999">Darwin Streaming Server</a> <a href="/tags/Dropbox/" style="font-size: 1.1em; color: #999">Dropbox</a> <a href="/tags/FTP/" style="font-size: 1.1em; color: #999">FTP</a> <a href="/tags/Firefox/" style="font-size: 1.18em; color: #999ca1">Firefox</a> <a href="/tags/Font/" style="font-size: 1.1em; color: #999">Font</a> <a href="/tags/GCC/" style="font-size: 1.1em; color: #999">GCC</a> <a href="/tags/Globus-Toolkit/" style="font-size: 1.1em; color: #999">Globus Toolkit</a> <a href="/tags/IIS/" style="font-size: 1.1em; color: #999">IIS</a> <a href="/tags/IOS/" style="font-size: 1.1em; color: #999">IOS</a> <a href="/tags/IP/" style="font-size: 1.18em; color: #999ca1">IP</a> <a href="/tags/Krait/" style="font-size: 1.1em; color: #999">Krait</a> <a href="/tags/LAMP/" style="font-size: 1.18em; color: #999ca1">LAMP</a> <a href="/tags/Linux/" style="font-size: 1.5em; color: #99a9bf">Linux</a> <a href="/tags/MBR/" style="font-size: 1.1em; color: #999">MBR</a> <a href="/tags/Mac-Os/" style="font-size: 1.1em; color: #999">Mac Os</a> <a href="/tags/NVIDIA/" style="font-size: 1.18em; color: #999ca1">NVIDIA</a> <a href="/tags/Openjdk/" style="font-size: 1.1em; color: #999">Openjdk</a> <a href="/tags/Oracle/" style="font-size: 1.1em; color: #999">Oracle</a> <a href="/tags/PHP/" style="font-size: 1.18em; color: #999ca1">PHP</a> <a href="/tags/Pear/" style="font-size: 1.1em; color: #999">Pear</a> <a href="/tags/Proxy/" style="font-size: 1.1em; color: #999">Proxy</a> <a href="/tags/Razer/" style="font-size: 1.1em; color: #999">Razer</a> <a href="/tags/Sort/" style="font-size: 1.1em; color: #999">Sort</a> <a href="/tags/Tunnelier/" style="font-size: 1.18em; color: #999ca1">Tunnelier</a> <a href="/tags/Ubuntu/" style="font-size: 1.42em; color: #99a6b7">Ubuntu</a> <a href="/tags/Unix/" style="font-size: 1.1em; color: #999">Unix</a> <a href="/tags/VPN/" style="font-size: 1.34em; color: #99a3b0">VPN</a> <a href="/tags/VPS/" style="font-size: 1.18em; color: #999ca1">VPS</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span><a class="card-more-btn" href="/archives/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2018/10/"><span class="card-archive-list-date">十月 2018</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2015/05/"><span class="card-archive-list-date">五月 2015</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2015/01/"><span class="card-archive-list-date">一月 2015</span><span class="card-archive-list-count">5</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2014/06/"><span class="card-archive-list-date">六月 2014</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2014/04/"><span class="card-archive-list-date">四月 2014</span><span class="card-archive-list-count">5</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2014/01/"><span class="card-archive-list-date">一月 2014</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2013/11/"><span class="card-archive-list-date">十一月 2013</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2013/07/"><span class="card-archive-list-date">七月 2013</span><span class="card-archive-list-count">3</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">92</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2021-10-10T03:50:22.336Z"></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 王恒</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

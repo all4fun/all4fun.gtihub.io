@@ -1,209 +1,153 @@
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-    <!-- 
-                                 _
-                                 | |
-          _ _ _  ____ ____   ____| | _   ____ ____   ____   ___   ____ ____
-         | | | |/ _  |  _ \ / _  | || \ / _  )  _ \ / _  | / _ \ / ___) _  |
-         | | | ( ( | | | | ( ( | | | | ( (/ /| | | ( ( | || |_| | |  ( ( | |
-          \____|\_||_|_| |_|\_|| |_| |_|\____)_| |_|\_|| (_)___/|_|   \_|| |
-                           (_____|                 (_____|           (_____|
- -->
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<meta name="description" content="王恒的技术博客 -- make progress a little day by day"> 
-<meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"> 
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>树莓派Wifi小车(一) | 王恒's Blog</title><meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"><meta name="author" content="王恒"><meta name="copyright" content="王恒"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="到年末了，最近也有了一些自己的时间。回到了原来的技术处，晚上终于不用疯狂加班了，下班回家也终于有功夫折腾自己以前想玩的玩具了: )  树莓派刚发布的时候就一直想搞一台，但是淘宝上面的价格也是一直居高不下，想想家里已经N多PC，NAS和笔记本了，一直找不到入手的理由。圣诞节附近随便一刷淘宝，发现新版本B+ 已经降到了170块，果断买下。 回家折腾了几天，性能果然弱的跟价格成正比。。。百兆的小网卡实">
+<meta property="og:type" content="article">
+<meta property="og:title" content="树莓派Wifi小车(一)">
+<meta property="og:url" content="http://wangheng.org/raspberry-wifi-car-1.html">
+<meta property="og:site_name" content="王恒&#39;s Blog">
+<meta property="og:description" content="到年末了，最近也有了一些自己的时间。回到了原来的技术处，晚上终于不用疯狂加班了，下班回家也终于有功夫折腾自己以前想玩的玩具了: )  树莓派刚发布的时候就一直想搞一台，但是淘宝上面的价格也是一直居高不下，想想家里已经N多PC，NAS和笔记本了，一直找不到入手的理由。圣诞节附近随便一刷淘宝，发现新版本B+ 已经降到了170块，果断买下。 回家折腾了几天，性能果然弱的跟价格成正比。。。百兆的小网卡实">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg">
+<meta property="article:published_time" content="2015-01-24T12:43:14.000Z">
+<meta property="article:modified_time" content="2018-11-13T16:11:49.000Z">
+<meta property="article:author" content="王恒">
+<meta property="article:tag" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="http://wangheng.org/raspberry-wifi-car-1"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: 王恒","link":"链接: ","source":"来源: 王恒's Blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '树莓派Wifi小车(一)',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2018-11-14 00:11:49'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
 
-<title>树莓派Wifi小车(一) | 王恒&#39;s Blog</title>
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
 
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
 
-    <link rel="icon" href="/favicon.ico">  
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
 
-
-    <!-- stylesheets list from _config.yml -->
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
     
-    <link rel="stylesheet" href="/css/style.css">  
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">  
-
-
-
-    <!-- scripts list from _config.yml -->
-    
-    <script src="/js/script.js"></script> 
-    <script src="/js/tocbot.min.js"></script> 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script> 
-
-
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
         
-
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-    <div class="wrapper">
-        <header>
-    <nav class="navbar">
-        <div class="container">
-            <div class="navbar-header header-logo"><a href="/">王恒&#39;s Blog</a></div>
-            <div class="menu navbar-right">
-                
-                    <a class="menu-item" href="/archives">文章</a>
-                
-                    <a class="menu-item" href="/categories">分类</a>
-                
-                    <a class="menu-item" href="/tags">标签</a>
-                
-                    <a class="menu-item" href="/links">友情链接</a>
-                
-                    <a class="menu-item" href="/about">关于</a>
-                
-                <input id="switch_default" type="checkbox" class="switch_default" style="display: none;" >
-                <label for="switch_default" class="toggleBtn"></label>
-            </div>
-
-        </div>
-    </nav>
-    
-    <nav class="navbar-mobile" id="nav-mobile">
-        <div class="container">
-            <div class="navbar-header">
-                <div>
-                    <a href="/">王恒&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
-                </div>
-                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
-            </div>
-            <div class="menu" id="mobile-menu">
-                
-                    <a class="menu-item" href="/archives">文章</a>
-                
-                    <a class="menu-item" href="/categories">分类</a>
-                
-                    <a class="menu-item" href="/tags">标签</a>
-                
-                    <a class="menu-item" href="/links">友情链接</a>
-                
-                    <a class="menu-item" href="/about">关于</a>
-                
-            </div>
-        </div>
-    </nav>
-</header>
-<script>
-    hljs.initHighlightingOnLoad();
-    document.addEventListener('DOMContentLoaded', (event) => {
-    document.querySelectorAll('pre').forEach((block) => {
-        hljs.highlightBlock(block);
-    });
-    });
-    
-    var mobileBtn = function f() {
-        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
-        var mobileMenu = document.getElementById("mobile-menu");
-        if(toggleMenu.classList.contains("active")){
-           toggleMenu.classList.remove("active")
-            mobileMenu.classList.remove("active")
-        }else{
-            toggleMenu.classList.add("active")
-            mobileMenu.classList.add("active")
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
         }
-    }
-</script>
-        <div class="main">
-            <div class="container">
+      }
     
-    
-        <div class="post-toc">
-    <div class="tocbot-list">
-    </div>
-    <div class="tocbot-list-menu">
-        <a class="tocbot-toc-expand" onclick="expand_toc()">展开所有</a>
-        <a onclick="go_top()">回顶部</a>
-        <a onclick="go_bottom()">到底部</a>
-    </div>
-</div>
-
-<script>
-    document.ready(
-        function () {
-            tocbot.init({
-                tocSelector: '.tocbot-list',
-                contentSelector: '.post-content',
-                headingSelector: 'h1, h2, h3, h4, h5',
-                collapseDepth: 1,
-                orderedList: false,
-                scrollSmooth: true,
-            })
-        }
-    )
-
-    function expand_toc() {
-        var b = document.querySelector(".tocbot-toc-expand");
-        tocbot.init({
-            tocSelector: '.tocbot-list',
-            contentSelector: '.post-content',
-            headingSelector: 'h1, h2, h3, h4, h5',
-            collapseDepth: 6,
-            orderedList: false,
-            scrollSmooth: true,
-        });
-        b.setAttribute("onclick", "collapse_toc()");
-        b.innerHTML = "折叠所有"
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
     }
-
-    function collapse_toc() {
-        var b = document.querySelector(".tocbot-toc-expand");
-        tocbot.init({
-            tocSelector: '.tocbot-list',
-            contentSelector: '.post-content',
-            headingSelector: 'h1, h2, h3, h4, h5',
-            collapseDepth: 1,
-            orderedList: false,
-            scrollSmooth: true,
-        });
-        b.setAttribute("onclick", "expand_toc()");
-        b.innerHTML = "Expand all"
-    }
-
-    function go_top() {
-        window.scrollTo(0, 0);
-    }
-
-    function go_bottom() {
-        window.scrollTo(0, document.body.scrollHeight);
-    }
-
-</script>
-    
-
-    
-    <article class="post-wrap">
-        <header class="post-header">
-            <h1 class="post-title">树莓派Wifi小车(一)</h1>
-            
-                <div class="post-meta">
-                    
-                        Author: <a itemprop="author" rel="author" href="/">王恒</a>
-                    
-
-                    
-                        <span class="post-time">
-                        Date: <a href="#">一月 24, 2015&nbsp;&nbsp;20:43:14</a>
-                        </span>
-                    
-                    
-                        <span class="post-category">
-                    Category:
-                            
-                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/">最近添加</a>
-                            
-                        </span>
-                    
-                </div>
-            
-        </header>
-
-        <div class="post-content">
-            <content>
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">92</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">136</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">33</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">王恒's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">树莓派Wifi小车(一)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2015-01-24T12:43:14.000Z" title="发表于 2015-01-24 20:43:14">2015-01-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2018-11-13T16:11:49.000Z" title="更新于 2018-11-14 00:11:49">2018-11-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/">最近添加</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="树莓派Wifi小车(一)"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div><article class="post-content" id="article-container"><content>
 到年末了，最近也有了一些自己的时间。回到了原来的技术处，晚上终于不用疯狂加班了，下班回家也终于有功夫折腾自己以前想玩的玩具了: )
 
 <p>树莓派刚发布的时候就一直想搞一台，但是淘宝上面的价格也是一直居高不下，想想家里已经N多PC，NAS和笔记本了，一直找不到入手的理由。圣诞节附近随便一刷淘宝，发现新版本B+ 已经降到了170块，果断买下。</p>
@@ -212,17 +156,17 @@
 <span id="more"></span>
 
 <p>不怕见笑，Beta版完成图如下：</p>
-<p><a href="uploads/2015/01/piCar.wangheng.org_.png"><img class="alignnone" src="uploads/2015/01/piCar.wangheng.org_.png" alt="" width="309" height="239" /></a></p>
+<p><a href="uploads/2015/01/piCar.wangheng.org_.png"><img class="alignnone" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="uploads/2015/01/piCar.wangheng.org_.png" alt="" width="309" height="239" /></a></p>
 <p>&nbsp;</p>
 <p>驱动板有两种，一种是L298N</p>
 <table style="border-spacing: 0px; font-family: tahoma, arial, 宋体, sans-serif; line-height: 21px; padding: 0pt 5.4pt; margin-left: 6.75pt; margin-right: 6.75pt; height: 90px; width: 527px;" border="1" width="741"><tbody><tr style="height: 2.55pt;"><td style="margin: 0px; padding: 0pt 5.4pt; border-bottom-color: #4bacc6; border-width: medium 1pt 1pt; border-style: none solid solid; border-left-color: #4bacc6; width: 88.5pt; border-right-color: #4bacc6; background-image: initial; background-attachment: initial; background-size: initial; background-origin: initial; background-clip: initial; background-position: initial; background-repeat: initial;" valign="top" width="118"><p style="margin: 0pt 0px; padding: 0px; text-align: center;"><span style="font-family: 幼圆; font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: large;"><span style="font-size: 12pt;">主控芯片</span></span></span></span></p></td><td style="margin: 0px; padding: 0pt 5.4pt; border-bottom-color: #4bacc6; border-width: medium 1pt 1pt medium; border-style: none solid solid none; width: 155.25pt; border-right-color: #4bacc6; background-image: initial; background-attachment: initial; background-size: initial; background-origin: initial; background-clip: initial; background-position: initial; background-repeat: initial;" valign="top" width="207"><p style="margin: 0pt 0px; padding: 0px;"><span style="font-family: 幼圆; font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: large;"><span style="font-size: 12pt;">L298N</span></span></span></span></p></td><td style="margin: 0px; padding: 0pt 5.4pt; border-bottom-color: #4bacc6; border-width: medium 1pt 1pt medium; border-style: none solid solid none; width: 87pt; border-right-color: #4bacc6; background-image: initial; background-attachment: initial; background-size: initial; background-origin: initial; background-clip: initial; background-position: initial; background-repeat: initial;" valign="top" width="116"><p style="margin: 0pt 0px; padding: 0px; text-align: center;"><span style="font-family: 幼圆; font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: large;"><span style="font-size: 12pt;">包装形式</span></span></span></span></p></td><td style="margin: 0px; padding: 0pt 5.4pt; border-bottom-color: #4bacc6; border-width: medium 1pt 1pt medium; border-style: none solid solid none; width: 180pt; border-right-color: #4bacc6; background-image: initial; background-attachment: initial; background-size: initial; background-origin: initial; background-clip: initial; background-position: initial; background-repeat: initial;" valign="top" width="240"><p style="margin: 0pt 0px; padding: 0px;"><span style="font-family: 幼圆; font-size: 12pt;">盒装出货</span></p></td></tr><tr style="height: 2.55pt;"><td style="margin: 0px; padding: 0pt 5.4pt; border-bottom-color: #4bacc6; border-width: medium 1pt 1pt; border-style: none solid solid; border-left-color: #4bacc6; width: 88.5pt; border-right-color: #4bacc6; background: #b4dce7;" valign="top" width="118"><p style="margin: 0pt 0px; padding: 0px; text-align: center;"><span style="font-family: 幼圆; font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: large;"><span style="font-size: 12pt;">逻辑电压</span></span></span></span></p></td><td style="margin: 0px; padding: 0pt 5.4pt; border-bottom-color: #4bacc6; border-width: medium 1pt 1pt medium; border-style: none solid solid none; width: 155.25pt; border-right-color: #4bacc6; background: #b4dce7;" valign="top" width="207"><p style="margin: 0pt 0px; padding: 0px;"><span style="font-family: 幼圆; font-size: 12pt;">5V</span></p></td><td style="margin: 0px; padding: 0pt 5.4pt; border-bottom-color: #4bacc6; border-width: medium 1pt 1pt medium; border-style: none solid solid none; width: 87pt; border-right-color: #4bacc6; background: #b4dce7;" valign="top" width="116"><p style="margin: 0pt 0px; padding: 0px; text-align: center;"><span style="font-family: 幼圆; font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: large;"><span style="font-size: 12pt;">驱动电压</span></span></span></span></p></td><td style="margin: 0px; padding: 0pt 5.4pt; border-bottom-color: #4bacc6; border-width: medium 1pt 1pt medium; border-style: none solid solid none; width: 180pt; border-right-color: #4bacc6; background: #b4dce7;" valign="top" width="240"><p style="margin: 0pt 0px; padding: 0px;"><span style="font-family: 幼圆; font-size: 12pt;">5V-35V</span></p></td></tr><tr style="height: 2.55pt;"><td style="margin: 0px; padding: 0pt 5.4pt; border-bottom-color: #4bacc6; border-width: medium 1pt 1pt; border-style: none solid solid; border-left-color: #4bacc6; width: 88.5pt; border-right-color: #4bacc6; background-image: initial; background-attachment: initial; background-size: initial; background-origin: initial; background-clip: initial; background-position: initial; background-repeat: initial;" valign="top" width="118"><p style="margin: 0pt 0px; padding: 0px; text-align: center;"><span style="font-family: 幼圆; font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: large;"><span style="font-size: 12pt;">逻辑电流</span></span></span></span></p></td><td style="margin: 0px; padding: 0pt 5.4pt; border-bottom-color: #4bacc6; border-width: medium 1pt 1pt medium; border-style: none solid solid none; width: 155.25pt; border-right-color: #4bacc6; background-image: initial; background-attachment: initial; background-size: initial; background-origin: initial; background-clip: initial; background-position: initial; background-repeat: initial;" valign="top" width="207"><p style="margin: 0pt 0px; padding: 0px;"><span style="font-family: 幼圆; font-size: 12pt;"><span style="font-size: 12pt;">0mA-36mA</span></span></p></td><td style="margin: 0px; padding: 0pt 5.4pt; border-bottom-color: #4bacc6; border-width: medium 1pt 1pt medium; border-style: none solid solid none; width: 87pt; border-right-color: #4bacc6; background-image: initial; background-attachment: initial; background-size: initial; background-origin: initial; background-clip: initial; background-position: initial; background-repeat: initial;" valign="top" width="116"><p style="margin: 0pt 0px; padding: 0px; text-align: center;"><span style="font-family: 幼圆; font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: large;"><span style="font-size: 12pt;">驱动电流</span></span></span></span></p></td><td style="margin: 0px; padding: 0pt 5.4pt; border-bottom-color: #4bacc6; border-width: medium 1pt 1pt medium; border-style: none solid solid none; width: 180pt; border-right-color: #4bacc6; background-image: initial; background-attachment: initial; background-size: initial; background-origin: initial; background-clip: initial; background-position: initial; background-repeat: initial;" valign="top" width="240"><p style="margin: 0pt 0px; padding: 0px;"><span style="font-family: 幼圆; font-size: 12pt;">2A(MAX单桥)</span></p></td></tr><tr style="height: 2.55pt;"><td style="margin: 0px; padding: 0pt 5.4pt; border-bottom-color: #4bacc6; border-width: medium 1pt 1pt; border-style: none solid solid; border-left-color: #4bacc6; width: 88.5pt; border-right-color: #4bacc6; background: #b4dce7;" valign="top" width="118"><p style="margin: 0pt 0px; padding: 0px; text-align: center;"><span style="font-family: 幼圆; font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: large;"><span style="font-size: 12pt;">存储温度</span></span></span></span></p></td><td style="margin: 0px; padding: 0pt 5.4pt; border-bottom-color: #4bacc6; border-width: medium 1pt 1pt medium; border-style: none solid solid none; width: 155.25pt; border-right-color: #4bacc6; background: #b4dce7;" valign="top" width="207"><p style="margin: 0pt 0px; padding: 0px;"><span style="font-family: 幼圆; font-size: 12pt;"><span style="font-size: 8px;"><span style="font-size: large;"><span style="font-size: 12pt;"><span style="font-size: 12pt;">-20℃ 到 +135℃</span></span></span></span></span></p></td><td style="margin: 0px; padding: 0pt 5.4pt; border-bottom-color: #4bacc6; border-width: medium 1pt 1pt medium; border-style: none solid solid none; width: 87pt; border-right-color: #4bacc6; background: #b4dce7;" valign="top" width="116"><p style="margin: 0pt 0px; padding: 0px; text-align: center;"><span style="font-family: 幼圆; font-size: 12pt;"><span style="font-size: large;"><span style="font-size: 12pt;"><span style="font-size: large;"><span style="font-size: 12pt;">最大功率</span></span></span></span></span></p></td><td style="margin: 0px; padding: 0pt 5.4pt; border-bottom-color: #4bacc6; border-width: medium 1pt 1pt medium; border-style: none solid solid none; width: 180pt; border-right-color: #4bacc6; background: #b4dce7;" valign="top" width="240"><p style="margin: 0pt 0px; padding: 0px;"><span style="font-family: 幼圆; font-size: 12pt;">25W</span></p></td></tr></tbody></table>
-另一种是L9110S芯片的驱动板，参数如下： <span style="color: #38761d; line-height: 21px; font-family: 楷体_gb2312; font-size: 12pt;">模块供电</span><span style="color: #38761d; line-height: 21px; font-family: 楷体_gb2312; font-size: 12pt;">电压：2.5-12V</span><p style="margin: 0pt 0px; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; line-height: 21px; color: #404040;"><span style="color: #38761d;"><span style="font-size: large;"><span style="font-family: 楷体_gb2312; font-size: 12pt;">电机工作电压2.5v-12V之间，</span></span></span></p><p style="margin: 0pt 0px; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; line-height: 21px; color: #404040;"><span style="color: #38761d;"><span style="font-size: large;"><span style="font-family: 楷体_gb2312; font-size: 12pt;">最大工作电流0.8A</span></span></span></p><p style="margin: 0pt 0px; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; line-height: 21px; color: #404040;"><span style="color: #38761d;"><span style="font-size: large;"><span style="font-family: 楷体_gb2312; font-size: 12pt;"><span style="color: #000000;">考虑到我们的小车不需那么大功率，直接用一个L9110S驱动板，单侧的轮子并联为一组，这样相当于驱动板驱动两路直流电机组。</span> </span></span></span></p><p style="margin: 0pt 0px; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; line-height: 21px; color: #404040;"><span style="color: #38761d;"><span style="font-size: large;"><span style="font-family: 楷体_gb2312; font-size: 12pt;"><span style="color: #000000;">代码部分，小车的server端用python写的，用了个把小时（网页css多年没写过了，折腾死）。网页版控制页面如下：</span></span></span></span></p><p style="margin: 0pt 0px; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; line-height: 21px; color: #404040;"><span style="color: #38761d;"><span style="font-size: large;"><span style="font-family: 楷体_gb2312; font-size: 12pt;"><span style="color: #000000;"><a href="uploads/2015/01/picar_web_ui.png"><img class="alignnone" src="uploads/2015/01/picar_web_ui.png" alt="" width="590" height="265" /></a></span></span></span></span></p>
+另一种是L9110S芯片的驱动板，参数如下： <span style="color: #38761d; line-height: 21px; font-family: 楷体_gb2312; font-size: 12pt;">模块供电</span><span style="color: #38761d; line-height: 21px; font-family: 楷体_gb2312; font-size: 12pt;">电压：2.5-12V</span><p style="margin: 0pt 0px; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; line-height: 21px; color: #404040;"><span style="color: #38761d;"><span style="font-size: large;"><span style="font-family: 楷体_gb2312; font-size: 12pt;">电机工作电压2.5v-12V之间，</span></span></span></p><p style="margin: 0pt 0px; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; line-height: 21px; color: #404040;"><span style="color: #38761d;"><span style="font-size: large;"><span style="font-family: 楷体_gb2312; font-size: 12pt;">最大工作电流0.8A</span></span></span></p><p style="margin: 0pt 0px; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; line-height: 21px; color: #404040;"><span style="color: #38761d;"><span style="font-size: large;"><span style="font-family: 楷体_gb2312; font-size: 12pt;"><span style="color: #000000;">考虑到我们的小车不需那么大功率，直接用一个L9110S驱动板，单侧的轮子并联为一组，这样相当于驱动板驱动两路直流电机组。</span> </span></span></span></p><p style="margin: 0pt 0px; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; line-height: 21px; color: #404040;"><span style="color: #38761d;"><span style="font-size: large;"><span style="font-family: 楷体_gb2312; font-size: 12pt;"><span style="color: #000000;">代码部分，小车的server端用python写的，用了个把小时（网页css多年没写过了，折腾死）。网页版控制页面如下：</span></span></span></span></p><p style="margin: 0pt 0px; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; line-height: 21px; color: #404040;"><span style="color: #38761d;"><span style="font-size: large;"><span style="font-family: 楷体_gb2312; font-size: 12pt;"><span style="color: #000000;"><a href="uploads/2015/01/picar_web_ui.png"><img class="alignnone" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="uploads/2015/01/picar_web_ui.png" alt="" width="590" height="265" /></a></span></span></span></span></p>
 刚开始用的图标太丑，在同事的提醒下，改了个按钮图标现在看起来顺眼多了，感谢@Jane同学。
 
 <p><strong>运行效果：</strong></p>
 <p><embed width="480" height="400" type="application/x-shockwave-flash" src="http://player.youku.com/player.php/sid/XODc4ODMyNzE2/v.swf" allowfullscreen="allowfullscreen" quality="high" align="middle" allowscriptaccess="always"></embed></p>
 <p><strong>核心代码：</strong><pre class="brush: python; gutter: true">&#039;&#039;&#039;<br>#=============================================================================</p>
-<h1 id="FileName-views-py"><a href="#FileName-views-py" class="headerlink" title="FileName: views.py"></a>FileName: views.py</h1><h1 id="Desc"><a href="#Desc" class="headerlink" title="Desc:"></a>Desc:</h1><h1 id="Author-wangheng"><a href="#Author-wangheng" class="headerlink" title="Author: wangheng"></a>Author: wangheng</h1><h1 id="Email-119-x75-x6a-x69-x77-x68-x40-103-x6d-x61-x69-x6c-46-x63-111-109"><a href="#Email-119-x75-x6a-x69-x77-x68-x40-103-x6d-x61-x69-x6c-46-x63-111-109" class="headerlink" title="Email: &#119;&#x75;&#x6a;&#x69;&#x77;&#x68;&#x40;&#103;&#x6d;&#x61;&#x69;&#x6c;&#46;&#x63;&#111;&#109;"></a>Email: <a href="mailto:&#119;&#x75;&#x6a;&#x69;&#x77;&#x68;&#x40;&#103;&#x6d;&#x61;&#x69;&#x6c;&#46;&#x63;&#111;&#109;">&#119;&#x75;&#x6a;&#x69;&#x77;&#x68;&#x40;&#103;&#x6d;&#x61;&#x69;&#x6c;&#46;&#x63;&#111;&#109;</a></h1><h1 id="HomePage-http-wangheng-org"><a href="#HomePage-http-wangheng-org" class="headerlink" title="HomePage: http://wangheng.org"></a>HomePage: <a href="http://wangheng.org/">http://wangheng.org</a></h1><h1 id="Version-0-0-1"><a href="#Version-0-0-1" class="headerlink" title="Version: 0.0.1"></a>Version: 0.0.1</h1><h1 id="LastChange-2015-01-14-13-46-29"><a href="#LastChange-2015-01-14-13-46-29" class="headerlink" title="LastChange: 2015-01-14 13:46:29"></a>LastChange: 2015-01-14 13:46:29</h1><h1 id="History"><a href="#History" class="headerlink" title="History:"></a>History:</h1><p>#=============================================================================<br>&#039;&#039;&#039;<br>from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash<br>from contextlib import closing<br>from pi_car import app<br>import re<br>import RPi.GPIO as GPIO<br>@app.route(&#039;/&#039;)<br>def show_index():<br>    return render_template(&#039;home.html&#039;)</p>
+<h1 id="FileName-views-py"><a href="#FileName-views-py" class="headerlink" title="FileName: views.py"></a>FileName: views.py</h1><h1 id="Desc"><a href="#Desc" class="headerlink" title="Desc:"></a>Desc:</h1><h1 id="Author-wangheng"><a href="#Author-wangheng" class="headerlink" title="Author: wangheng"></a>Author: wangheng</h1><h1 id="Email-x77-x75-x6a-105-119-104-x40-103-x6d-x61-x69-108-46-x63-x6f-x6d"><a href="#Email-x77-x75-x6a-105-119-104-x40-103-x6d-x61-x69-108-46-x63-x6f-x6d" class="headerlink" title="Email: &#x77;&#x75;&#x6a;&#105;&#119;&#104;&#x40;&#103;&#x6d;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#x6d;"></a>Email: <a href="mailto:&#x77;&#x75;&#x6a;&#105;&#119;&#104;&#x40;&#103;&#x6d;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#x6d;">&#x77;&#x75;&#x6a;&#105;&#119;&#104;&#x40;&#103;&#x6d;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#x6d;</a></h1><h1 id="HomePage-http-wangheng-org"><a href="#HomePage-http-wangheng-org" class="headerlink" title="HomePage: http://wangheng.org"></a>HomePage: <a href="http://wangheng.org/">http://wangheng.org</a></h1><h1 id="Version-0-0-1"><a href="#Version-0-0-1" class="headerlink" title="Version: 0.0.1"></a>Version: 0.0.1</h1><h1 id="LastChange-2015-01-14-13-46-29"><a href="#LastChange-2015-01-14-13-46-29" class="headerlink" title="LastChange: 2015-01-14 13:46:29"></a>LastChange: 2015-01-14 13:46:29</h1><h1 id="History"><a href="#History" class="headerlink" title="History:"></a>History:</h1><p>#=============================================================================<br>&#039;&#039;&#039;<br>from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash<br>from contextlib import closing<br>from pi_car import app<br>import re<br>import RPi.GPIO as GPIO<br>@app.route(&#039;/&#039;)<br>def show_index():<br>    return render_template(&#039;home.html&#039;)</p>
 <p>@app.route(&quot;/login&quot;, methods=[&quot;GET&quot;, &quot;POST&quot;])<br>def login():<br>    if request.method==&quot;GET&quot;:<br>        return &quot;get&quot;+request.form[&quot;user&quot;]<br>    elif request.method==&quot;POST&quot;:<br>        return &quot;post&quot;</p>
 <p>@app.route(&#039;/ctl&#039;,methods=[&#039;GET&#039;,&#039;POST&#039;])<br>def ctrl_id():<br>    if request.method == &#039;POST&#039;:<br>        id=request.form[&#039;id&#039;]<br>        GPIO.setmode(GPIO.BOARD)<br>        GPIO.setwarnings(False)<br>        GPIO.setup(11,GPIO.OUT)<br>        GPIO.setup(12,GPIO.OUT)<br>        GPIO.setup(15,GPIO.OUT)<br>        GPIO.setup(16,GPIO.OUT)</p>
 <pre><code>    if id == &amp;#039;t_left&amp;#039;:
@@ -250,66 +194,37 @@ return redirect(url_for(&amp;#039;show_index&amp;#039;))
 <p>def t_right():<br>    GPIO.output(11, True)<br>    GPIO.output(12, False)<br>    GPIO.output(15, False)<br>    GPIO.output(16, True)</pre><strong>启动网页服务：</strong></p>
 <p>使用root用户ssh登陆到树莓派，切换到piCar的目录，执行python server.py 打开你的浏览器，输入树莓派IP：2000 就能看到你的控制页面了。 :)</p>
 <p>程序的完整源码放到了  <a href="https://github.com/wujiwh/piCar/tree/master/server" target="_blank">https://github.com/wujiwh/piCar/tree/master/server</a> 需要的朋友可以参考一下。<br></content></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">王恒</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://wangheng.org/raspberry-wifi-car-1.html">http://wangheng.org/raspberry-wifi-car-1.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://wangheng.org" target="_blank">王恒's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/raspberry-wifi-car-2.html"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">树莓派Wifi小车(二)</div></div></a></div><div class="next-post pull-right"><a href="/disable-or-replace-google-font.html"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">禁用或替换博客google字体</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">王恒</div><div class="author-info__description">王恒的技术博客 -- make progress a little day by day</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">92</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">136</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">33</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/all4fun"><i class="fab fa-github"></i><span>关注</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/all4fun" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#FileName-views-py"><span class="toc-number">1.</span> <span class="toc-text">FileName: views.py</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Desc"><span class="toc-number">2.</span> <span class="toc-text">Desc:</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Author-wangheng"><span class="toc-number">3.</span> <span class="toc-text">Author: wangheng</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Email-x77-x75-x6a-105-119-104-x40-103-x6d-x61-x69-108-46-x63-x6f-x6d"><span class="toc-number">4.</span> <span class="toc-text">Email: wujiwh@gmail.com</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HomePage-http-wangheng-org"><span class="toc-number">5.</span> <span class="toc-text">HomePage: http:&#x2F;&#x2F;wangheng.org</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Version-0-0-1"><span class="toc-number">6.</span> <span class="toc-text">Version: 0.0.1</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#LastChange-2015-01-14-13-46-29"><span class="toc-number">7.</span> <span class="toc-text">LastChange: 2015-01-14 13:46:29</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#History"><span class="toc-number">8.</span> <span class="toc-text">History:</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/migrating-from-wordpress-to-hexo.html" title="从wordpress迁移到hexo填坑">从wordpress迁移到hexo填坑</a><time datetime="2018-10-22T05:50:30.000Z" title="发表于 2018-10-22 13:50:30">2018-10-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/kuaipan-uploader-dev-share.html" title="kuaipan_uploader开发分享">kuaipan_uploader开发分享</a><time datetime="2015-05-27T05:01:02.000Z" title="发表于 2015-05-27 13:01:02">2015-05-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/kuaipan-uploader.html" title="linux版快盘上传下载脚本">linux版快盘上传下载脚本</a><time datetime="2015-05-13T09:16:39.000Z" title="发表于 2015-05-13 17:16:39">2015-05-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/ubuntu-14-04-install-configure-denyhosts.html" title="ubuntu 安装配置denyhosts">ubuntu 安装配置denyhosts</a><time datetime="2015-05-06T01:19:37.000Z" title="发表于 2015-05-06 09:19:37">2015-05-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/raspberry-dht11-yeekink.html" title="raspi+DHT11+yeelink监控家里温湿度">raspi+DHT11+yeelink监控家里温湿度</a><time datetime="2015-01-27T16:25:09.000Z" title="发表于 2015-01-28 00:25:09">2015-01-28</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 王恒</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadDisqus () {
+  var disqus_config = function () {
+    this.page.url = 'http://wangheng.org/raspberry-wifi-car-1.html'
+    this.page.identifier = 'raspberry-wifi-car-1.html'
+    this.page.title = '树莓派Wifi小车(一)'
+  };
 
-        </div>
+  window.disqusReset = () => {
+    DISQUS.reset({
+      reload: true,
+      config: disqus_config
+    })
+  }
 
-        
-            <section class="post-copyright">
-                
-                    <p class="copyright-item">
-                        <span>Author:</span>
-                        <span>王恒</span>
-                    </p>
-                
-                
-                    <p class="copyright-item">
-                        <span>Permalink:</span>
-                        <span><a href="http://wangheng.org/raspberry-wifi-car-1.html">http://wangheng.org/raspberry-wifi-car-1.html</a></span>
-                    </p>
-                
-                
-                    <p class="copyright-item">
-                        <span>License:</span>
-                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
-                    </p>
-                
-                
+  if (window.DISQUS) disqusReset()
+  else {
+    (function() { 
+      var d = document, s = d.createElement('script');
+      s.src = 'https://.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  }
+}
 
-            </section>
-        
-        <section class="post-tags">
-            <div>
-                <span>标签: </span>
-                <span class="tag">
-                    
-                </span>
-            </div>
-            <div>
-                <a href="javascript:window.history.back();">返回前页</a>
-                <span>· </span>
-                <a href="/">回到首页</a>
-            </div>
-        </section>
-        <section class="post-nav">
-            
-                <a class="prev" rel="prev" href="/raspberry-wifi-car-2.html">树莓派Wifi小车(二)</a>
-            
-            
-            <a class="next" rel="next" href="/disable-or-replace-google-font.html">禁用或替换博客google字体</a>
-            
-        </section>
-
-
-    </article>
-</div>
-
-        </div>
-        <footer id="footer" class="footer">
-    <div class="copyright">
-        <span>© 王恒 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> </span>
-    </div>
-</footer>
-
-    </div>
-</body>
-</html>
+if ('Disqus' === 'Disqus' || !false) {
+  if (false) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+  else loadDisqus()
+} else {
+  function loadOtherComment () {
+    loadDisqus()
+  }
+}
+</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

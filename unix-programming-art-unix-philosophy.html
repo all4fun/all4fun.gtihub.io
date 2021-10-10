@@ -1,215 +1,154 @@
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-    <!-- 
-                                 _
-                                 | |
-          _ _ _  ____ ____   ____| | _   ____ ____   ____   ___   ____ ____
-         | | | |/ _  |  _ \ / _  | || \ / _  )  _ \ / _  | / _ \ / ___) _  |
-         | | | ( ( | | | | ( ( | | | | ( (/ /| | | ( ( | || |_| | |  ( ( | |
-          \____|\_||_|_| |_|\_|| |_| |_|\____)_| |_|\_|| (_)___/|_|   \_|| |
-                           (_____|                 (_____|           (_____|
- -->
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<meta name="description" content="王恒的技术博客 -- make progress a little day by day"> 
-<meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"> 
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Unix编程艺术&amp;mdash;&amp;mdash;Unix哲学(转载) | 王恒's Blog</title><meta name="keywords" content="Unix,编程艺术"><meta name="author" content="王恒"><meta name="copyright" content="王恒"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Unix编程艺术主要介绍了Unix系统领域中的设计和开发哲学、思想文化体系、原则与经验。此文大致摘录了Unix的哲学。  web程序员也应该看看此书，软件开发和web开发很多地方都是相通的。看完之后，我甚至觉得Unix哲学对于做人也有很大的参考价值。 模块原则 (使用简洁的接口拼合简单的部件) 计算机编程的本质就是控制复杂度  要编写复杂软件而又不至于一败涂地的唯一方法就是降低其整体复杂度——用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Unix编程艺术&amp;mdash;&amp;mdash;Unix哲学(转载)">
+<meta property="og:url" content="http://wangheng.org/unix-programming-art-unix-philosophy.html">
+<meta property="og:site_name" content="王恒&#39;s Blog">
+<meta property="og:description" content="Unix编程艺术主要介绍了Unix系统领域中的设计和开发哲学、思想文化体系、原则与经验。此文大致摘录了Unix的哲学。  web程序员也应该看看此书，软件开发和web开发很多地方都是相通的。看完之后，我甚至觉得Unix哲学对于做人也有很大的参考价值。 模块原则 (使用简洁的接口拼合简单的部件) 计算机编程的本质就是控制复杂度  要编写复杂软件而又不至于一败涂地的唯一方法就是降低其整体复杂度——用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg">
+<meta property="article:published_time" content="2012-02-21T01:55:50.000Z">
+<meta property="article:modified_time" content="2018-11-13T16:11:49.000Z">
+<meta property="article:author" content="王恒">
+<meta property="article:tag" content="Unix">
+<meta property="article:tag" content="编程艺术">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="http://wangheng.org/unix-programming-art-unix-philosophy"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: 王恒","link":"链接: ","source":"来源: 王恒's Blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Unix编程艺术&mdash;&mdash;Unix哲学(转载)',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2018-11-14 00:11:49'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
 
-<title>Unix编程艺术&amp;mdash;&amp;mdash;Unix哲学(转载) | 王恒&#39;s Blog</title>
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
 
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
 
-    <link rel="icon" href="/favicon.ico">  
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
 
-
-    <!-- stylesheets list from _config.yml -->
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
     
-    <link rel="stylesheet" href="/css/style.css">  
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">  
-
-
-
-    <!-- scripts list from _config.yml -->
-    
-    <script src="/js/script.js"></script> 
-    <script src="/js/tocbot.min.js"></script> 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script> 
-
-
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
         
-
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-    <div class="wrapper">
-        <header>
-    <nav class="navbar">
-        <div class="container">
-            <div class="navbar-header header-logo"><a href="/">王恒&#39;s Blog</a></div>
-            <div class="menu navbar-right">
-                
-                    <a class="menu-item" href="/archives">文章</a>
-                
-                    <a class="menu-item" href="/categories">分类</a>
-                
-                    <a class="menu-item" href="/tags">标签</a>
-                
-                    <a class="menu-item" href="/links">友情链接</a>
-                
-                    <a class="menu-item" href="/about">关于</a>
-                
-                <input id="switch_default" type="checkbox" class="switch_default" style="display: none;" >
-                <label for="switch_default" class="toggleBtn"></label>
-            </div>
-
-        </div>
-    </nav>
-    
-    <nav class="navbar-mobile" id="nav-mobile">
-        <div class="container">
-            <div class="navbar-header">
-                <div>
-                    <a href="/">王恒&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
-                </div>
-                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
-            </div>
-            <div class="menu" id="mobile-menu">
-                
-                    <a class="menu-item" href="/archives">文章</a>
-                
-                    <a class="menu-item" href="/categories">分类</a>
-                
-                    <a class="menu-item" href="/tags">标签</a>
-                
-                    <a class="menu-item" href="/links">友情链接</a>
-                
-                    <a class="menu-item" href="/about">关于</a>
-                
-            </div>
-        </div>
-    </nav>
-</header>
-<script>
-    hljs.initHighlightingOnLoad();
-    document.addEventListener('DOMContentLoaded', (event) => {
-    document.querySelectorAll('pre').forEach((block) => {
-        hljs.highlightBlock(block);
-    });
-    });
-    
-    var mobileBtn = function f() {
-        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
-        var mobileMenu = document.getElementById("mobile-menu");
-        if(toggleMenu.classList.contains("active")){
-           toggleMenu.classList.remove("active")
-            mobileMenu.classList.remove("active")
-        }else{
-            toggleMenu.classList.add("active")
-            mobileMenu.classList.add("active")
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
         }
-    }
-</script>
-        <div class="main">
-            <div class="container">
+      }
     
-    
-        <div class="post-toc">
-    <div class="tocbot-list">
-    </div>
-    <div class="tocbot-list-menu">
-        <a class="tocbot-toc-expand" onclick="expand_toc()">展开所有</a>
-        <a onclick="go_top()">回顶部</a>
-        <a onclick="go_bottom()">到底部</a>
-    </div>
-</div>
-
-<script>
-    document.ready(
-        function () {
-            tocbot.init({
-                tocSelector: '.tocbot-list',
-                contentSelector: '.post-content',
-                headingSelector: 'h1, h2, h3, h4, h5',
-                collapseDepth: 1,
-                orderedList: false,
-                scrollSmooth: true,
-            })
-        }
-    )
-
-    function expand_toc() {
-        var b = document.querySelector(".tocbot-toc-expand");
-        tocbot.init({
-            tocSelector: '.tocbot-list',
-            contentSelector: '.post-content',
-            headingSelector: 'h1, h2, h3, h4, h5',
-            collapseDepth: 6,
-            orderedList: false,
-            scrollSmooth: true,
-        });
-        b.setAttribute("onclick", "collapse_toc()");
-        b.innerHTML = "折叠所有"
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
     }
-
-    function collapse_toc() {
-        var b = document.querySelector(".tocbot-toc-expand");
-        tocbot.init({
-            tocSelector: '.tocbot-list',
-            contentSelector: '.post-content',
-            headingSelector: 'h1, h2, h3, h4, h5',
-            collapseDepth: 1,
-            orderedList: false,
-            scrollSmooth: true,
-        });
-        b.setAttribute("onclick", "expand_toc()");
-        b.innerHTML = "Expand all"
-    }
-
-    function go_top() {
-        window.scrollTo(0, 0);
-    }
-
-    function go_bottom() {
-        window.scrollTo(0, document.body.scrollHeight);
-    }
-
-</script>
-    
-
-    
-    <article class="post-wrap">
-        <header class="post-header">
-            <h1 class="post-title">Unix编程艺术&amp;mdash;&amp;mdash;Unix哲学(转载)</h1>
-            
-                <div class="post-meta">
-                    
-                        Author: <a itemprop="author" rel="author" href="/">王恒</a>
-                    
-
-                    
-                        <span class="post-time">
-                        Date: <a href="#">二月 21, 2012&nbsp;&nbsp;9:55:50</a>
-                        </span>
-                    
-                    
-                        <span class="post-category">
-                    Category:
-                            
-                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/">最近添加</a>
-                            
-                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E8%BD%AC%E8%BD%BD/">转载</a>
-                            
-                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E8%BD%AC%E8%BD%BD/%E4%B8%9A%E7%95%8C%E5%8A%A8%E6%80%81/">业界动态</a>
-                            
-                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E8%BD%AC%E8%BD%BD/%E4%B8%9A%E7%95%8C%E5%8A%A8%E6%80%81/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
-                            
-                        </span>
-                    
-                </div>
-            
-        </header>
-
-        <div class="post-content">
-            <content>
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">92</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">136</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">33</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">王恒's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">Unix编程艺术&amp;mdash;&amp;mdash;Unix哲学(转载)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2012-02-21T01:55:50.000Z" title="发表于 2012-02-21 09:55:50">2012-02-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2018-11-13T16:11:49.000Z" title="更新于 2018-11-14 00:11:49">2018-11-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/">最近添加</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E8%BD%AC%E8%BD%BD/">转载</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E8%BD%AC%E8%BD%BD/%E4%B8%9A%E7%95%8C%E5%8A%A8%E6%80%81/">业界动态</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E8%BD%AC%E8%BD%BD/%E4%B8%9A%E7%95%8C%E5%8A%A8%E6%80%81/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Unix编程艺术&amp;mdash;&amp;mdash;Unix哲学(转载)"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div><article class="post-content" id="article-container"><content>
 <a target="_blank" rel="noopener" href="http://book.douban.com/subject/1467587/">Unix编程艺术</a>主要介绍了Unix系统领域中的设计和开发哲学、思想文化体系、原则与经验。此文大致摘录了Unix的哲学。
 
 <p>web程序员也应该看看此书，软件开发和web开发很多地方都是相通的。看完之后，我甚至觉得Unix哲学对于做人也有很大的参考价值。</p>
@@ -280,75 +219,40 @@ Unix传统有一点很好，即从不相信任何所谓的"不二法门"。Unix�
 要为数据格式和代码留下扩展的空间，否则就会发现自己常常被原先不明智选择捆住了手脚，因为你无法既要改变它们又要维持对原来的兼容性。
 
 <p>设计协议或是文本格式时，应使其具有充分的自描述性以便可以扩展。要么包含进一个版本号，要么采用独立、自描述的语句、按照可以随时插入新的而不会搞乱格式读取代码的方法组织格式。</p>
-<h5>Unix哲学一言以蔽之</h5><img src="http://www.kuqin.com/upimg/allimg/110724/232142A95-0.png" alt="" />
+<h5>Unix哲学一言以蔽之</h5><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="http://www.kuqin.com/upimg/allimg/110724/232142A95-0.png" alt="" />
 
 <p>–EOF–<br></content></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">王恒</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://wangheng.org/unix-programming-art-unix-philosophy.html">http://wangheng.org/unix-programming-art-unix-philosophy.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://wangheng.org" target="_blank">王恒's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Unix/">Unix</a><a class="post-meta__tags" href="/tags/%E7%BC%96%E7%A8%8B%E8%89%BA%E6%9C%AF/">编程艺术</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/install-darwin-streaming-server-6-0-3-on-linux.html"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Linux编译安装Darwin Streaming Server 6.0.3</div></div></a></div><div class="next-post pull-right"><a href="/the-simple-to-configure-php.html"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">简单配置PHP</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">王恒</div><div class="author-info__description">王恒的技术博客 -- make progress a little day by day</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">92</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">136</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">33</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/all4fun"><i class="fab fa-github"></i><span>关注</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/all4fun" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">模块原则 (使用简洁的接口拼合简单的部件)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">清晰原则 (清晰胜于技巧)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">组合原则 (设计时考虑拼接组合)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">分离原则 (策略同机制分离，接口同引擎分离)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">简洁原则 (设计要简洁，复杂度能低就低)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">6.</span> <span class="toc-text">吝啬原则 (除非确无它法，不要编写庞大的程序)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">7.</span> <span class="toc-text">透明原则 (设计要可见，以便审查和调试)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">8.</span> <span class="toc-text">健壮原则 (健壮源于透明与简洁)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">9.</span> <span class="toc-text">表示原则 (把知识代入数据以求逻辑质朴而健壮)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">10.</span> <span class="toc-text">通俗原则 (接口避免标新立异)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">11.</span> <span class="toc-text">缄默原则 (无话可说？那就沉默)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">12.</span> <span class="toc-text">补救原则 (出现异常时，马上退出并给出足够错误信息)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">13.</span> <span class="toc-text">经济原则 (宁花机器一分，不花程序员一秒)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">14.</span> <span class="toc-text">生成原则 (避免手工hack,尽量编写程序去生成程序)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">15.</span> <span class="toc-text">优化原则 (过早优化是万恶之源)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">16.</span> <span class="toc-text">多样原则 (绝不相信所谓&quot;不二法门&quot;的断言)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">17.</span> <span class="toc-text">扩展原则 (设计着眼未来，未来总比预想来得快)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">18.</span> <span class="toc-text">Unix哲学一言以蔽之</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/migrating-from-wordpress-to-hexo.html" title="从wordpress迁移到hexo填坑">从wordpress迁移到hexo填坑</a><time datetime="2018-10-22T05:50:30.000Z" title="发表于 2018-10-22 13:50:30">2018-10-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/kuaipan-uploader-dev-share.html" title="kuaipan_uploader开发分享">kuaipan_uploader开发分享</a><time datetime="2015-05-27T05:01:02.000Z" title="发表于 2015-05-27 13:01:02">2015-05-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/kuaipan-uploader.html" title="linux版快盘上传下载脚本">linux版快盘上传下载脚本</a><time datetime="2015-05-13T09:16:39.000Z" title="发表于 2015-05-13 17:16:39">2015-05-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/ubuntu-14-04-install-configure-denyhosts.html" title="ubuntu 安装配置denyhosts">ubuntu 安装配置denyhosts</a><time datetime="2015-05-06T01:19:37.000Z" title="发表于 2015-05-06 09:19:37">2015-05-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/raspberry-dht11-yeekink.html" title="raspi+DHT11+yeelink监控家里温湿度">raspi+DHT11+yeelink监控家里温湿度</a><time datetime="2015-01-27T16:25:09.000Z" title="发表于 2015-01-28 00:25:09">2015-01-28</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 王恒</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadDisqus () {
+  var disqus_config = function () {
+    this.page.url = 'http://wangheng.org/unix-programming-art-unix-philosophy.html'
+    this.page.identifier = 'unix-programming-art-unix-philosophy.html'
+    this.page.title = 'Unix编程艺术&mdash;&mdash;Unix哲学(转载)'
+  };
 
-        </div>
+  window.disqusReset = () => {
+    DISQUS.reset({
+      reload: true,
+      config: disqus_config
+    })
+  }
 
-        
-            <section class="post-copyright">
-                
-                    <p class="copyright-item">
-                        <span>Author:</span>
-                        <span>王恒</span>
-                    </p>
-                
-                
-                    <p class="copyright-item">
-                        <span>Permalink:</span>
-                        <span><a href="http://wangheng.org/unix-programming-art-unix-philosophy.html">http://wangheng.org/unix-programming-art-unix-philosophy.html</a></span>
-                    </p>
-                
-                
-                    <p class="copyright-item">
-                        <span>License:</span>
-                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
-                    </p>
-                
-                
+  if (window.DISQUS) disqusReset()
+  else {
+    (function() { 
+      var d = document, s = d.createElement('script');
+      s.src = 'https://.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  }
+}
 
-            </section>
-        
-        <section class="post-tags">
-            <div>
-                <span>标签: </span>
-                <span class="tag">
-                    
-                    
-                        <a href="/tags/Unix/"># Unix</a>
-                    
-                        <a href="/tags/%E7%BC%96%E7%A8%8B%E8%89%BA%E6%9C%AF/"># 编程艺术</a>
-                    
-                        
-                </span>
-            </div>
-            <div>
-                <a href="javascript:window.history.back();">返回前页</a>
-                <span>· </span>
-                <a href="/">回到首页</a>
-            </div>
-        </section>
-        <section class="post-nav">
-            
-                <a class="prev" rel="prev" href="/install-darwin-streaming-server-6-0-3-on-linux.html">Linux编译安装Darwin Streaming Server 6.0.3</a>
-            
-            
-            <a class="next" rel="next" href="/the-simple-to-configure-php.html">简单配置PHP</a>
-            
-        </section>
-
-
-    </article>
-</div>
-
-        </div>
-        <footer id="footer" class="footer">
-    <div class="copyright">
-        <span>© 王恒 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> </span>
-    </div>
-</footer>
-
-    </div>
-</body>
-</html>
+if ('Disqus' === 'Disqus' || !false) {
+  if (false) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+  else loadDisqus()
+} else {
+  function loadOtherComment () {
+    loadDisqus()
+  }
+}
+</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

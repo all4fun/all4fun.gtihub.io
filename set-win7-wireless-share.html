@@ -1,147 +1,156 @@
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-    <!-- 
-                                 _
-                                 | |
-          _ _ _  ____ ____   ____| | _   ____ ____   ____   ___   ____ ____
-         | | | |/ _  |  _ \ / _  | || \ / _  )  _ \ / _  | / _ \ / ___) _  |
-         | | | ( ( | | | | ( ( | | | | ( (/ /| | | ( ( | || |_| | |  ( ( | |
-          \____|\_||_|_| |_|\_|| |_| |_|\____)_| |_|\_|| (_)___/|_|   \_|| |
-                           (_____|                 (_____|           (_____|
- -->
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<meta name="description" content="王恒的技术博客 -- make progress a little day by day"> 
-<meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"> 
-
-<title>设置Win7无线网络共享 | 王恒&#39;s Blog</title>
-
-
-    <link rel="icon" href="/favicon.ico">  
-
-
-    <!-- stylesheets list from _config.yml -->
-    
-    <link rel="stylesheet" href="/css/style.css">  
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">  
-
-
-
-    <!-- scripts list from _config.yml -->
-    
-    <script src="/js/script.js"></script> 
-    <script src="/js/tocbot.min.js"></script> 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script> 
-
-
-        
-
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-    <div class="wrapper">
-        <header>
-    <nav class="navbar">
-        <div class="container">
-            <div class="navbar-header header-logo"><a href="/">王恒&#39;s Blog</a></div>
-            <div class="menu navbar-right">
-                
-                    <a class="menu-item" href="/archives">文章</a>
-                
-                    <a class="menu-item" href="/categories">分类</a>
-                
-                    <a class="menu-item" href="/tags">标签</a>
-                
-                    <a class="menu-item" href="/links">友情链接</a>
-                
-                    <a class="menu-item" href="/about">关于</a>
-                
-                <input id="switch_default" type="checkbox" class="switch_default" style="display: none;" >
-                <label for="switch_default" class="toggleBtn"></label>
-            </div>
-
-        </div>
-    </nav>
-    
-    <nav class="navbar-mobile" id="nav-mobile">
-        <div class="container">
-            <div class="navbar-header">
-                <div>
-                    <a href="/">王恒&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
-                </div>
-                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
-            </div>
-            <div class="menu" id="mobile-menu">
-                
-                    <a class="menu-item" href="/archives">文章</a>
-                
-                    <a class="menu-item" href="/categories">分类</a>
-                
-                    <a class="menu-item" href="/tags">标签</a>
-                
-                    <a class="menu-item" href="/links">友情链接</a>
-                
-                    <a class="menu-item" href="/about">关于</a>
-                
-            </div>
-        </div>
-    </nav>
-</header>
-<script>
-    hljs.initHighlightingOnLoad();
-    document.addEventListener('DOMContentLoaded', (event) => {
-    document.querySelectorAll('pre').forEach((block) => {
-        hljs.highlightBlock(block);
-    });
-    });
-    
-    var mobileBtn = function f() {
-        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
-        var mobileMenu = document.getElementById("mobile-menu");
-        if(toggleMenu.classList.contains("active")){
-           toggleMenu.classList.remove("active")
-            mobileMenu.classList.remove("active")
-        }else{
-            toggleMenu.classList.add("active")
-            mobileMenu.classList.add("active")
-        }
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>设置Win7无线网络共享 | 王恒's Blog</title><meta name="keywords" content="Windows,Win7,虚拟WIFI,网络"><meta name="author" content="王恒"><meta name="copyright" content="王恒"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="有时候难免碰到多个人需要上网却只有一根网线的情况，其实WIN7系统里还有很多有意思的东西我们没有用过，例如，方便设置WIN7的无线网卡，来实现共享WIFI上网。如果你电脑上同时有无线和有线网卡不妨试试，下面就来说一下设置过程：  方法一： 1、首先以管理员身份运行命令提示符 开始-&gt;搜索框输入cmd，出来的cmd.exe上右键管理员身份运行，或者win+R打开运行提示框，输入cmd并回车。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设置Win7无线网络共享">
+<meta property="og:url" content="http://wangheng.org/set-win7-wireless-share.html">
+<meta property="og:site_name" content="王恒&#39;s Blog">
+<meta property="og:description" content="有时候难免碰到多个人需要上网却只有一根网线的情况，其实WIN7系统里还有很多有意思的东西我们没有用过，例如，方便设置WIN7的无线网卡，来实现共享WIFI上网。如果你电脑上同时有无线和有线网卡不妨试试，下面就来说一下设置过程：  方法一： 1、首先以管理员身份运行命令提示符 开始-&gt;搜索框输入cmd，出来的cmd.exe上右键管理员身份运行，或者win+R打开运行提示框，输入cmd并回车。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg">
+<meta property="article:published_time" content="2012-02-17T10:32:11.000Z">
+<meta property="article:modified_time" content="2018-11-13T16:11:49.000Z">
+<meta property="article:author" content="王恒">
+<meta property="article:tag" content="Windows">
+<meta property="article:tag" content="Win7">
+<meta property="article:tag" content="虚拟WIFI">
+<meta property="article:tag" content="网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="http://wangheng.org/set-win7-wireless-share"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: 王恒","link":"链接: ","source":"来源: 王恒's Blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
     }
-</script>
-        <div class="main">
-            <div class="container">
-    
-    
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '设置Win7无线网络共享',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2018-11-14 00:11:49'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
 
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
     
-    <article class="post-wrap">
-        <header class="post-header">
-            <h1 class="post-title">设置Win7无线网络共享</h1>
-            
-                <div class="post-meta">
-                    
-                        Author: <a itemprop="author" rel="author" href="/">王恒</a>
-                    
-
-                    
-                        <span class="post-time">
-                        Date: <a href="#">二月 17, 2012&nbsp;&nbsp;18:32:11</a>
-                        </span>
-                    
-                    
-                        <span class="post-category">
-                    Category:
-                            
-                                <a href="/categories/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/">技术探讨</a>
-                            
-                        </span>
-                    
-                </div>
-            
-        </header>
-
-        <div class="post-content">
-            <content>
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">92</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">136</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">33</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">王恒's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">设置Win7无线网络共享</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2012-02-17T10:32:11.000Z" title="发表于 2012-02-17 18:32:11">2012-02-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2018-11-13T16:11:49.000Z" title="更新于 2018-11-14 00:11:49">2018-11-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/">技术探讨</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="设置Win7无线网络共享"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div><article class="post-content" id="article-container"><content>
 有时候难免碰到多个人需要上网却只有一根网线的情况，其实WIN7系统里还有很多有意思的东西我们没有用过，例如，方便设置WIN7的无线网卡，来实现共享WIFI上网。如果你电脑上同时有无线和有线网卡不妨试试，下面就来说一下设置过程：
 
 <p><span style="font-size: medium;"><strong>方法一：</strong></span></p>
@@ -150,18 +159,18 @@
 <p><span style="font-size: small;"><strong>2、设置“虚拟Wifi网卡”模式</strong></span></p>
 <p>敲入命令：</p>
 <p>netsh wlan set hostednetwork mode=allow ssid=Master_Share key=1234567890</p>
-<blockquote><a href="uploads/2012/02/image.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="image" src="uploads/2012/02/image_thumb.png" alt="image" width="547" height="100" border="0" /></a>
+<blockquote><a href="uploads/2012/02/image.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="image" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="uploads/2012/02/image_thumb.png" alt="image" width="547" height="100" border="0" /></a>
 
 <p>其中：</blockquote><br>Mode：是否启用虚拟Wifi网卡，改为disallow则为禁用</p>
 <p>Ssid：设定无线网络的名称</p>
 <p>Key：设定无线网络的密码。</p>
-<p>执行完以后我们会在网络适配器里面看到一个“无线网络连接4“的虚拟网卡（一般情况是无线网络连接2，因为我机器曾接入多块无线网卡故为无线连接4）<img class="wlEmoticon wlEmoticon-smile" style="border-style: none;" src="uploads/2012/02/wlEmoticon-smile1.png" alt="Smile" /></p>
-<p><a href="uploads/2012/02/image1.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="image" src="uploads/2012/02/image_thumb1.png" alt="image" width="419" height="101" border="0" /></a></p>
+<p>执行完以后我们会在网络适配器里面看到一个“无线网络连接4“的虚拟网卡（一般情况是无线网络连接2，因为我机器曾接入多块无线网卡故为无线连接4）<img class="wlEmoticon wlEmoticon-smile" style="border-style: none;" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="uploads/2012/02/wlEmoticon-smile1.png" alt="Smile" /></p>
+<p><a href="uploads/2012/02/image1.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="image" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="uploads/2012/02/image_thumb1.png" alt="image" width="419" height="101" border="0" /></a></p>
 <p><span style="font-size: small;"><strong>3、启用“Internet连接共享”</strong></span></p>
 <p>打开控制面板找到并打开“网络和共享中心”窗口，右键单击已连接到Internet的网络连接，选择“属性”，切换到“共享”选项卡，选中其中的复选框，并选择允许其共享Internet的网络连接在这里即我们的虚拟Wifi网卡。</p>
 <span id="more"></span>
 
-<p><a href="uploads/2012/02/image2.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="image" src="uploads/2012/02/image_thumb2.png" alt="image" width="426" height="296" border="0" /></a></p>
+<p><a href="uploads/2012/02/image2.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="image" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="uploads/2012/02/image_thumb2.png" alt="image" width="426" height="296" border="0" /></a></p>
 <p>确定之后，提供共享的网卡图标旁边会出现“已共享”标志</p>
 <p>在命令提示符中运行以下命令：</p>
 <p>netsh wlan start hostednetwork</p>
@@ -170,23 +179,23 @@
 <p>是否能够上网了呢？</p>
 <p><span style="font-size: medium;"><strong>方法二：（推荐）</strong></span></p>
 <p><strong>更酷的玩法：</strong></p>
-<p>其实配置无线有更简单方便的方法 <img class="wlEmoticon wlEmoticon-smile" style="border-style: none;" src="uploads/2012/02/wlEmoticon-smile1.png" alt="Smile" /></p>
+<p>其实配置无线有更简单方便的方法 <img class="wlEmoticon wlEmoticon-smile" style="border-style: none;" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="uploads/2012/02/wlEmoticon-smile1.png" alt="Smile" /></p>
 <p>1、首先确保所有的网卡都没有设置Internet连接共享，如果设置过，请取消共享。</p>
 <p>打开控制面板-&gt;网络和共享中心-&gt;设置新的连接或网络</p>
 <p>选择“设置无线临时（计算机到计算机）网络”并点击下一步</p>
-<p><a href="uploads/2012/02/image3.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="image" src="uploads/2012/02/image_thumb3.png" alt="image" width="467" height="141" border="0" /></a></p>
+<p><a href="uploads/2012/02/image3.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="image" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="uploads/2012/02/image_thumb3.png" alt="image" width="467" height="141" border="0" /></a></p>
 <p>出现的窗口中输入你的无线网络名称和密码，注意安全类型选择WEP以方便设置（其实平时也不会总开着无线共享，所以也没必要非要wap2）。</p>
-<p><a href="uploads/2012/02/image4.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="image" src="uploads/2012/02/image_thumb4.png" alt="image" width="465" height="258" border="0" /></a></p>
+<p><a href="uploads/2012/02/image4.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="image" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="uploads/2012/02/image_thumb4.png" alt="image" width="465" height="258" border="0" /></a></p>
 <p>下一步继续，出现的窗口中选择启用Internet连接共享，（后面还可能让你选择已经接入网络的网卡，请正确选择）</p>
-<p><a href="uploads/2012/02/image5.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="image" src="uploads/2012/02/image_thumb5.png" alt="image" width="432" height="339" border="0" /></a></p>
-<p><a href="uploads/2012/02/image6.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="image" src="uploads/2012/02/image_thumb6.png" alt="image" width="436" height="186" border="0" /></a></p>
+<p><a href="uploads/2012/02/image5.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="image" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="uploads/2012/02/image_thumb5.png" alt="image" width="432" height="339" border="0" /></a></p>
+<p><a href="uploads/2012/02/image6.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="image" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="uploads/2012/02/image_thumb6.png" alt="image" width="436" height="186" border="0" /></a></p>
 <p>成功后无线状态显示为正“等待用户”~~</p>
-<p><a href="uploads/2012/02/image7.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="image" src="uploads/2012/02/image_thumb7.png" alt="image" width="349" height="93" border="0" /></a></p>
+<p><a href="uploads/2012/02/image7.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="image" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="uploads/2012/02/image_thumb7.png" alt="image" width="349" height="93" border="0" /></a></p>
 <p>用手机搜索一下无线信号，输入正确的密码来使用共享的无线网络。</p>
 <p><span style="font-size: medium;"><strong>疑难解答：</strong></span></p>
 <p>如果你前面的步骤不成功。</p>
 <p>1、请检查你提供共享的无线网卡（虚拟WIFI或方法二的无线网络2）的IP设置，确保配置如图所示：（DNS可以不用填）</p>
-<p><a href="uploads/2012/02/image8.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border-width: 0px;" title="image" src="uploads/2012/02/image_thumb8.png" alt="image" width="403" height="303" border="0" /></a></p>
+<p><a href="uploads/2012/02/image8.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border-width: 0px;" title="image" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="uploads/2012/02/image_thumb8.png" alt="image" width="403" height="303" border="0" /></a></p>
 <p>2、手机或者其他终端如果自动获取的IP跟上面图的IP地址不在一个网段（不是192.168.137.X），请在终端选择手动设置IP，设置如下：</p>
 <p>IP地址：192.168.137.2</p>
 <p>子网掩码：255.255.255.0</p>
@@ -197,76 +206,37 @@
 <p><strong>2、有线共享给无线</strong></p>
 <p><strong>3、无线共享给有线</strong>（哈哈，这个给力吧，曾经大二的时候就通过这种方法跟同学一起联网上浩方，好怀念！）</p>
 <p>好了，其实Windows系统还是很强大的！有任何问题的朋友可以留言共同学习~！<br></content></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">王恒</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://wangheng.org/set-win7-wireless-share.html">http://wangheng.org/set-win7-wireless-share.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://wangheng.org" target="_blank">王恒's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Windows/">Windows</a><a class="post-meta__tags" href="/tags/Win7/">Win7</a><a class="post-meta__tags" href="/tags/%E8%99%9A%E6%8B%9FWIFI/">虚拟WIFI</a><a class="post-meta__tags" href="/tags/%E7%BD%91%E7%BB%9C/">网络</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/the-simple-to-configure-php.html"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">简单配置PHP</div></div></a></div><div class="next-post pull-right"><a href="/the-apache2-configure-multi-the-domain.html"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Apache2配置多域名</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/efficient-office-support-tool-autohotkey.html" title="高效办公辅助工具Autohotkey"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2012-06-09</div><div class="title">高效办公辅助工具Autohotkey</div></div></a></div><div><a href="/implementation-windows-version-the-the-the-cron.html" title="C#实现Windows版Cron"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2012-06-10</div><div class="title">C#实现Windows版Cron</div></div></a></div><div><a href="/manually-produced-vpn-login.html" title="手动制作VPN登录器"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2012-06-12</div><div class="title">手动制作VPN登录器</div></div></a></div><div><a href="/win7-modify-the-network-card-mac-address.html" title="win7修改网卡MAC地址"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2012-11-17</div><div class="title">win7修改网卡MAC地址</div></div></a></div><div><a href="/cmd-in-window-property-the-settings.html" title="CMD窗口属性设置"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2012-05-20</div><div class="title">CMD窗口属性设置</div></div></a></div><div><a href="/iis-identify-attributes-targetframework-managedpipelinehandler.html" title="IIS无法识别的属性targetFramework、错误模块ManagedPipelineHandler"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2012-04-25</div><div class="title">IIS无法识别的属性targetFramework、错误模块ManagedPipelineHandler</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">王恒</div><div class="author-info__description">王恒的技术博客 -- make progress a little day by day</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">92</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">136</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">33</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/all4fun"><i class="fab fa-github"></i><span>关注</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/all4fun" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/migrating-from-wordpress-to-hexo.html" title="从wordpress迁移到hexo填坑">从wordpress迁移到hexo填坑</a><time datetime="2018-10-22T05:50:30.000Z" title="发表于 2018-10-22 13:50:30">2018-10-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/kuaipan-uploader-dev-share.html" title="kuaipan_uploader开发分享">kuaipan_uploader开发分享</a><time datetime="2015-05-27T05:01:02.000Z" title="发表于 2015-05-27 13:01:02">2015-05-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/kuaipan-uploader.html" title="linux版快盘上传下载脚本">linux版快盘上传下载脚本</a><time datetime="2015-05-13T09:16:39.000Z" title="发表于 2015-05-13 17:16:39">2015-05-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/ubuntu-14-04-install-configure-denyhosts.html" title="ubuntu 安装配置denyhosts">ubuntu 安装配置denyhosts</a><time datetime="2015-05-06T01:19:37.000Z" title="发表于 2015-05-06 09:19:37">2015-05-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/raspberry-dht11-yeekink.html" title="raspi+DHT11+yeelink监控家里温湿度">raspi+DHT11+yeelink监控家里温湿度</a><time datetime="2015-01-27T16:25:09.000Z" title="发表于 2015-01-28 00:25:09">2015-01-28</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 王恒</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadDisqus () {
+  var disqus_config = function () {
+    this.page.url = 'http://wangheng.org/set-win7-wireless-share.html'
+    this.page.identifier = 'set-win7-wireless-share.html'
+    this.page.title = '设置Win7无线网络共享'
+  };
 
-        </div>
+  window.disqusReset = () => {
+    DISQUS.reset({
+      reload: true,
+      config: disqus_config
+    })
+  }
 
-        
-            <section class="post-copyright">
-                
-                    <p class="copyright-item">
-                        <span>Author:</span>
-                        <span>王恒</span>
-                    </p>
-                
-                
-                    <p class="copyright-item">
-                        <span>Permalink:</span>
-                        <span><a href="http://wangheng.org/set-win7-wireless-share.html">http://wangheng.org/set-win7-wireless-share.html</a></span>
-                    </p>
-                
-                
-                    <p class="copyright-item">
-                        <span>License:</span>
-                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
-                    </p>
-                
-                
+  if (window.DISQUS) disqusReset()
+  else {
+    (function() { 
+      var d = document, s = d.createElement('script');
+      s.src = 'https://.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  }
+}
 
-            </section>
-        
-        <section class="post-tags">
-            <div>
-                <span>标签: </span>
-                <span class="tag">
-                    
-                    
-                        <a href="/tags/Windows/"># Windows</a>
-                    
-                        <a href="/tags/Win7/"># Win7</a>
-                    
-                        <a href="/tags/%E8%99%9A%E6%8B%9FWIFI/"># 虚拟WIFI</a>
-                    
-                        <a href="/tags/%E7%BD%91%E7%BB%9C/"># 网络</a>
-                    
-                        
-                </span>
-            </div>
-            <div>
-                <a href="javascript:window.history.back();">返回前页</a>
-                <span>· </span>
-                <a href="/">回到首页</a>
-            </div>
-        </section>
-        <section class="post-nav">
-            
-                <a class="prev" rel="prev" href="/the-simple-to-configure-php.html">简单配置PHP</a>
-            
-            
-            <a class="next" rel="next" href="/the-apache2-configure-multi-the-domain.html">Apache2配置多域名</a>
-            
-        </section>
-
-
-    </article>
-</div>
-
-        </div>
-        <footer id="footer" class="footer">
-    <div class="copyright">
-        <span>© 王恒 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> </span>
-    </div>
-</footer>
-
-    </div>
-</body>
-</html>
+if ('Disqus' === 'Disqus' || !false) {
+  if (false) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+  else loadDisqus()
+} else {
+  function loadOtherComment () {
+    loadDisqus()
+  }
+}
+</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

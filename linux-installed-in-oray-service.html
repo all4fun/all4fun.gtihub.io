@@ -1,165 +1,166 @@
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-    <!-- 
-                                 _
-                                 | |
-          _ _ _  ____ ____   ____| | _   ____ ____   ____   ___   ____ ____
-         | | | |/ _  |  _ \ / _  | || \ / _  )  _ \ / _  | / _ \ / ___) _  |
-         | | | ( ( | | | | ( ( | | | | ( (/ /| | | ( ( | || |_| | |  ( ( | |
-          \____|\_||_|_| |_|\_|| |_| |_|\____)_| |_|\_|| (_)___/|_|   \_|| |
-                           (_____|                 (_____|           (_____|
- -->
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<meta name="description" content="王恒的技术博客 -- make progress a little day by day"> 
-<meta name="keywords" content="Java,Hadoop,Linux,Shell,C#,PHP,Python,Coder,Arduino,Raspberry pi"> 
-
-<title>Linux中安装oray服务 | 王恒&#39;s Blog</title>
-
-
-    <link rel="icon" href="/favicon.ico">  
-
-
-    <!-- stylesheets list from _config.yml -->
-    
-    <link rel="stylesheet" href="/css/style.css">  
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">  
-
-
-
-    <!-- scripts list from _config.yml -->
-    
-    <script src="/js/script.js"></script> 
-    <script src="/js/tocbot.min.js"></script> 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script> 
-
-
-        
-
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-    <div class="wrapper">
-        <header>
-    <nav class="navbar">
-        <div class="container">
-            <div class="navbar-header header-logo"><a href="/">王恒&#39;s Blog</a></div>
-            <div class="menu navbar-right">
-                
-                    <a class="menu-item" href="/archives">文章</a>
-                
-                    <a class="menu-item" href="/categories">分类</a>
-                
-                    <a class="menu-item" href="/tags">标签</a>
-                
-                    <a class="menu-item" href="/links">友情链接</a>
-                
-                    <a class="menu-item" href="/about">关于</a>
-                
-                <input id="switch_default" type="checkbox" class="switch_default" style="display: none;" >
-                <label for="switch_default" class="toggleBtn"></label>
-            </div>
-
-        </div>
-    </nav>
-    
-    <nav class="navbar-mobile" id="nav-mobile">
-        <div class="container">
-            <div class="navbar-header">
-                <div>
-                    <a href="/">王恒&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
-                </div>
-                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
-            </div>
-            <div class="menu" id="mobile-menu">
-                
-                    <a class="menu-item" href="/archives">文章</a>
-                
-                    <a class="menu-item" href="/categories">分类</a>
-                
-                    <a class="menu-item" href="/tags">标签</a>
-                
-                    <a class="menu-item" href="/links">友情链接</a>
-                
-                    <a class="menu-item" href="/about">关于</a>
-                
-            </div>
-        </div>
-    </nav>
-</header>
-<script>
-    hljs.initHighlightingOnLoad();
-    document.addEventListener('DOMContentLoaded', (event) => {
-    document.querySelectorAll('pre').forEach((block) => {
-        hljs.highlightBlock(block);
-    });
-    });
-    
-    var mobileBtn = function f() {
-        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
-        var mobileMenu = document.getElementById("mobile-menu");
-        if(toggleMenu.classList.contains("active")){
-           toggleMenu.classList.remove("active")
-            mobileMenu.classList.remove("active")
-        }else{
-            toggleMenu.classList.add("active")
-            mobileMenu.classList.add("active")
-        }
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Linux中安装oray服务 | 王恒's Blog</title><meta name="keywords" content="Linux,nginx"><meta name="author" content="王恒"><meta name="copyright" content="王恒"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="家里面的路由器ddns经常不能用，索性在系统中直接安了一个oray的客户端。具体安装步骤如下：  1、首先安装必要的开发包 [&amp;#x72;&amp;#x6f;&amp;#111;&amp;#116;&amp;#64;&amp;#119;&amp;#x61;&amp;#x6e;&amp;#x67;&amp;#104;&amp;#x65;&amp;#x6e;&amp;#x67;&amp;#x2e;&amp;#x6f;&amp;#x72;&amp;#103; ~] apt-get install gcc g++ automa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux中安装oray服务">
+<meta property="og:url" content="http://wangheng.org/linux-installed-in-oray-service.html">
+<meta property="og:site_name" content="王恒&#39;s Blog">
+<meta property="og:description" content="家里面的路由器ddns经常不能用，索性在系统中直接安了一个oray的客户端。具体安装步骤如下：  1、首先安装必要的开发包 [&amp;#x72;&amp;#x6f;&amp;#111;&amp;#116;&amp;#64;&amp;#119;&amp;#x61;&amp;#x6e;&amp;#x67;&amp;#104;&amp;#x65;&amp;#x6e;&amp;#x67;&amp;#x2e;&amp;#x6f;&amp;#x72;&amp;#103; ~] apt-get install gcc g++ automa">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg">
+<meta property="article:published_time" content="2012-09-17T13:51:55.000Z">
+<meta property="article:modified_time" content="2018-11-13T16:11:49.000Z">
+<meta property="article:author" content="王恒">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="nginx">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="http://wangheng.org/linux-installed-in-oray-service"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: 王恒","link":"链接: ","source":"来源: 王恒's Blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
     }
-</script>
-        <div class="main">
-            <div class="container">
-    
-    
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Linux中安装oray服务',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2018-11-14 00:11:49'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
 
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
     
-    <article class="post-wrap">
-        <header class="post-header">
-            <h1 class="post-title">Linux中安装oray服务</h1>
-            
-                <div class="post-meta">
-                    
-                        Author: <a itemprop="author" rel="author" href="/">王恒</a>
-                    
-
-                    
-                        <span class="post-time">
-                        Date: <a href="#">九月 17, 2012&nbsp;&nbsp;21:51:55</a>
-                        </span>
-                    
-                    
-                        <span class="post-category">
-                    Category:
-                            
-                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/">最近添加</a>
-                            
-                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/">技术探讨</a>
-                            
-                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
-                            
-                                <a href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/Linux%E5%AD%A6%E4%B9%A0/Autohotkey/">Autohotkey</a>
-                            
-                        </span>
-                    
-                </div>
-            
-        </header>
-
-        <div class="post-content">
-            <content>
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">92</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">136</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">33</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">王恒's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">Linux中安装oray服务</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2012-09-17T13:51:55.000Z" title="发表于 2012-09-17 21:51:55">2012-09-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2018-11-13T16:11:49.000Z" title="更新于 2018-11-14 00:11:49">2018-11-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/">最近添加</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/">技术探讨</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9C%80%E8%BF%91%E6%B7%BB%E5%8A%A0/%E6%8A%80%E6%9C%AF%E6%8E%A2%E8%AE%A8/Linux%E5%AD%A6%E4%B9%A0/Autohotkey/">Autohotkey</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Linux中安装oray服务"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div><article class="post-content" id="article-container"><content>
 <p>
 家里面的路由器ddns经常不能用，索性在系统中直接安了一个oray的客户端。具体安装步骤如下：
 
 <p><strong>1、首先安装必要的开发包</strong></p>
-<p>[<a href="mailto:&#x72;&#x6f;&#x6f;&#116;&#64;&#x77;&#x61;&#110;&#103;&#104;&#101;&#x6e;&#x67;&#46;&#x6f;&#x72;&#x67;">&#x72;&#x6f;&#x6f;&#116;&#64;&#x77;&#x61;&#110;&#103;&#104;&#101;&#x6e;&#x67;&#46;&#x6f;&#x72;&#x67;</a> ~] apt-get install gcc g++ automake autoconf</p>
+<p>[<a href="mailto:&#x72;&#x6f;&#111;&#116;&#64;&#119;&#x61;&#x6e;&#x67;&#104;&#x65;&#x6e;&#x67;&#x2e;&#x6f;&#x72;&#103;">&#x72;&#x6f;&#111;&#116;&#64;&#119;&#x61;&#x6e;&#x67;&#104;&#x65;&#x6e;&#x67;&#x2e;&#x6f;&#x72;&#103;</a> ~] apt-get install gcc g++ automake autoconf</p>
 <p><strong>2、下载phddns-2.0.2.16556.tar.gz到某一个目录</strong></p>
-<p>[<a href="mailto:&#114;&#x6f;&#x6f;&#116;&#64;&#119;&#x61;&#x6e;&#x67;&#104;&#x65;&#110;&#103;&#x2e;&#x6f;&#114;&#103;">&#114;&#x6f;&#x6f;&#116;&#64;&#119;&#x61;&#x6e;&#x67;&#104;&#x65;&#110;&#103;&#x2e;&#x6f;&#114;&#103;</a> ~]# wget <a target="_blank" rel="noopener" href="http://download.oray.com/peanuthull/phddns-2.0.2.16556.tar.gz">http://download.oray.com/peanuthull/phddns-2.0.2.16556.tar.gz</a></p>
+<p>[<a href="mailto:&#x72;&#111;&#111;&#x74;&#64;&#119;&#97;&#110;&#103;&#x68;&#101;&#110;&#103;&#x2e;&#x6f;&#x72;&#x67;">&#x72;&#111;&#111;&#x74;&#64;&#119;&#97;&#110;&#103;&#x68;&#101;&#110;&#103;&#x2e;&#x6f;&#x72;&#x67;</a> ~]# wget <a target="_blank" rel="noopener" href="http://download.oray.com/peanuthull/phddns-2.0.2.16556.tar.gz">http://download.oray.com/peanuthull/phddns-2.0.2.16556.tar.gz</a></p>
 <p><strong>3、解压所有文件</strong></p>
-<p>[<a href="mailto:&#x72;&#111;&#x6f;&#x74;&#64;&#x77;&#x61;&#110;&#x67;&#104;&#101;&#110;&#103;&#x2e;&#x6f;&#114;&#103;">&#x72;&#111;&#x6f;&#x74;&#64;&#x77;&#x61;&#110;&#x67;&#104;&#101;&#110;&#103;&#x2e;&#x6f;&#114;&#103;</a> ~]# tar zxvf phddns-2.0.2.16556.tar.gz</p>
-<p><strong>4、进入目录并编译</strong><br>[<a href="mailto:&#114;&#111;&#111;&#x74;&#x40;&#119;&#97;&#x6e;&#103;&#x68;&#x65;&#x6e;&#x67;&#x2e;&#x6f;&#114;&#103;">&#114;&#111;&#111;&#x74;&#x40;&#119;&#97;&#x6e;&#103;&#x68;&#x65;&#x6e;&#x67;&#x2e;&#x6f;&#114;&#103;</a> ~]# cd phddns-2.0.2.16556<br>[<a href="mailto:&#x72;&#111;&#111;&#116;&#x40;&#x77;&#x61;&#110;&#x67;&#104;&#x65;&#110;&#103;&#46;&#x6f;&#x72;&#103;">&#x72;&#111;&#111;&#116;&#x40;&#x77;&#x61;&#110;&#x67;&#104;&#x65;&#110;&#103;&#46;&#x6f;&#x72;&#103;</a> phddns-2.0.2.16556]# aclocal<br>[<a href="mailto:&#x72;&#x6f;&#x6f;&#x74;&#64;&#119;&#97;&#x6e;&#x67;&#104;&#x65;&#110;&#103;&#46;&#x6f;&#114;&#103;">&#x72;&#x6f;&#x6f;&#x74;&#64;&#119;&#97;&#x6e;&#x67;&#104;&#x65;&#110;&#103;&#46;&#x6f;&#114;&#103;</a> phddns-2.0.2.16556]# autoconf<br>[<a href="mailto:&#114;&#111;&#111;&#116;&#x40;&#x77;&#x61;&#x6e;&#103;&#104;&#101;&#110;&#103;&#x2e;&#x6f;&#x72;&#103;">&#114;&#111;&#111;&#116;&#x40;&#x77;&#x61;&#x6e;&#103;&#104;&#101;&#110;&#103;&#x2e;&#x6f;&#x72;&#103;</a> phddns-2.0.2.16556]# automake<br>[<a href="mailto:&#114;&#111;&#111;&#116;&#x40;&#x77;&#97;&#x6e;&#x67;&#x68;&#101;&#110;&#x67;&#46;&#x6f;&#114;&#x67;">&#114;&#111;&#111;&#116;&#x40;&#x77;&#97;&#x6e;&#x67;&#x68;&#101;&#110;&#x67;&#46;&#x6f;&#114;&#x67;</a> phddns-2.0.2.16556]# ./configure<br>[<a href="mailto:&#114;&#111;&#111;&#x74;&#x40;&#119;&#x61;&#110;&#103;&#x68;&#101;&#110;&#x67;&#x2e;&#111;&#114;&#x67;">&#114;&#111;&#111;&#x74;&#x40;&#119;&#x61;&#110;&#103;&#x68;&#101;&#110;&#x67;&#x2e;&#111;&#114;&#x67;</a> phddns-2.0.2.16556]# make<br>[<a href="mailto:&#114;&#x6f;&#x6f;&#116;&#64;&#x77;&#97;&#110;&#x67;&#x68;&#101;&#x6e;&#x67;&#x2e;&#111;&#x72;&#x67;">&#114;&#x6f;&#x6f;&#116;&#64;&#x77;&#97;&#110;&#x67;&#x68;&#101;&#x6e;&#x67;&#x2e;&#111;&#x72;&#x67;</a> phddns-2.0.2.16556]# cd src<br>[<a href="mailto:&#114;&#x6f;&#111;&#x74;&#x40;&#x77;&#97;&#x6e;&#103;&#104;&#101;&#x6e;&#103;&#x2e;&#x6f;&#x72;&#103;">&#114;&#x6f;&#111;&#x74;&#x40;&#x77;&#97;&#x6e;&#103;&#104;&#101;&#x6e;&#103;&#x2e;&#x6f;&#x72;&#103;</a> src]# ls -l phddns<br>-rwxr-xr-x 1 root root 80968 Aug 2 11:18 phddns</p>
+<p>[<a href="mailto:&#x72;&#x6f;&#111;&#x74;&#64;&#x77;&#x61;&#110;&#103;&#x68;&#x65;&#110;&#x67;&#x2e;&#x6f;&#114;&#x67;">&#x72;&#x6f;&#111;&#x74;&#64;&#x77;&#x61;&#110;&#103;&#x68;&#x65;&#110;&#x67;&#x2e;&#x6f;&#114;&#x67;</a> ~]# tar zxvf phddns-2.0.2.16556.tar.gz</p>
+<p><strong>4、进入目录并编译</strong><br>[<a href="mailto:&#114;&#x6f;&#x6f;&#116;&#x40;&#x77;&#x61;&#x6e;&#x67;&#104;&#101;&#110;&#x67;&#x2e;&#x6f;&#x72;&#x67;">&#114;&#x6f;&#x6f;&#116;&#x40;&#x77;&#x61;&#x6e;&#x67;&#104;&#101;&#110;&#x67;&#x2e;&#x6f;&#x72;&#x67;</a> ~]# cd phddns-2.0.2.16556<br>[<a href="mailto:&#114;&#111;&#111;&#x74;&#64;&#x77;&#97;&#110;&#103;&#x68;&#101;&#110;&#103;&#46;&#111;&#114;&#103;">&#114;&#111;&#111;&#x74;&#64;&#x77;&#97;&#110;&#103;&#x68;&#101;&#110;&#103;&#46;&#111;&#114;&#103;</a> phddns-2.0.2.16556]# aclocal<br>[<a href="mailto:&#114;&#111;&#111;&#116;&#x40;&#x77;&#97;&#x6e;&#x67;&#104;&#101;&#110;&#103;&#46;&#x6f;&#114;&#x67;">&#114;&#111;&#111;&#116;&#x40;&#x77;&#97;&#x6e;&#x67;&#104;&#101;&#110;&#103;&#46;&#x6f;&#114;&#x67;</a> phddns-2.0.2.16556]# autoconf<br>[<a href="mailto:&#x72;&#111;&#x6f;&#116;&#64;&#119;&#x61;&#110;&#x67;&#104;&#101;&#110;&#x67;&#x2e;&#x6f;&#x72;&#x67;">&#x72;&#111;&#x6f;&#116;&#64;&#119;&#x61;&#110;&#x67;&#104;&#101;&#110;&#x67;&#x2e;&#x6f;&#x72;&#x67;</a> phddns-2.0.2.16556]# automake<br>[<a href="mailto:&#114;&#111;&#111;&#x74;&#64;&#119;&#x61;&#x6e;&#x67;&#x68;&#101;&#x6e;&#x67;&#46;&#111;&#114;&#103;">&#114;&#111;&#111;&#x74;&#64;&#119;&#x61;&#x6e;&#x67;&#x68;&#101;&#x6e;&#x67;&#46;&#111;&#114;&#103;</a> phddns-2.0.2.16556]# ./configure<br>[<a href="mailto:&#114;&#x6f;&#x6f;&#116;&#x40;&#119;&#97;&#x6e;&#x67;&#x68;&#101;&#x6e;&#x67;&#46;&#111;&#x72;&#x67;">&#114;&#x6f;&#x6f;&#116;&#x40;&#119;&#97;&#x6e;&#x67;&#x68;&#101;&#x6e;&#x67;&#46;&#111;&#x72;&#x67;</a> phddns-2.0.2.16556]# make<br>[<a href="mailto:&#x72;&#111;&#111;&#x74;&#64;&#x77;&#97;&#110;&#103;&#104;&#101;&#110;&#x67;&#x2e;&#x6f;&#114;&#103;">&#x72;&#111;&#111;&#x74;&#64;&#x77;&#97;&#110;&#103;&#104;&#101;&#110;&#x67;&#x2e;&#x6f;&#114;&#103;</a> phddns-2.0.2.16556]# cd src<br>[<a href="mailto:&#114;&#x6f;&#111;&#x74;&#64;&#x77;&#97;&#x6e;&#103;&#104;&#101;&#x6e;&#x67;&#x2e;&#111;&#114;&#103;">&#114;&#x6f;&#111;&#x74;&#64;&#x77;&#97;&#x6e;&#103;&#104;&#101;&#x6e;&#x67;&#x2e;&#111;&#114;&#103;</a> src]# ls -l phddns<br>-rwxr-xr-x 1 root root 80968 Aug 2 11:18 phddns</p>
 <p><strong>5、执行编译好的程序并配置（默认使用/etc/phlinux.conf，如果不存在这个文件则自动进入交互配置）</strong></p>
-<p>[<a href="mailto:&#114;&#x6f;&#x6f;&#x74;&#x40;&#119;&#x61;&#x6e;&#103;&#104;&#101;&#110;&#103;&#46;&#x6f;&#x72;&#x67;">&#114;&#x6f;&#x6f;&#x74;&#x40;&#119;&#x61;&#x6e;&#103;&#104;&#101;&#110;&#103;&#46;&#x6f;&#x72;&#x67;</a> src]# ./phddns<br>输入服务器地址，如无特殊情况可使用默认值<br>Enter server address(press ENTER use phlinux3.oray.net):</p>
+<p>[<a href="mailto:&#114;&#111;&#x6f;&#116;&#64;&#x77;&#97;&#x6e;&#x67;&#x68;&#101;&#x6e;&#x67;&#46;&#x6f;&#x72;&#103;">&#114;&#111;&#x6f;&#116;&#64;&#x77;&#97;&#x6e;&#x67;&#x68;&#101;&#x6e;&#x67;&#46;&#x6f;&#x72;&#103;</a> src]# ./phddns<br>输入服务器地址，如无特殊情况可使用默认值<br>Enter server address(press ENTER use phlinux3.oray.net):</p>
 <p>输入您的Oray帐号名称<br>Enter your Oray account:</p>
 <p>对应的Oray帐号密码<br>Password:</p>
 <p>选择帮定的网卡，如无特殊，默认即可<br>Network interface(s):<br>eth0:192.168.141.18<br>lo:127.0.0.1<br>Choose one(default eth0):</p>
@@ -167,14 +168,14 @@
 <p>保存配置文件，选择yes则直接保存到/etc/phlinux.conf，输入other可以指定文件<br>Save to configuration file (/etc/phlinux.conf)?(yes/no/other):</p>
 <p>接下来程序将已交互模式开始运行<br>192.168.141.18<br>NIC bind success<br>OnStatusChanged okConnecting<br>OnStatusChanged okDomainListed<br>OnDomainRegistered skyvense22.gicp.net<br>OnStatusChanged okDomainsRegistered<br>UserType: 0<br>看到上面这些就表示登录成功，这个时候可以按ctrl+c先退出程序</p>
 <span id="more"></span><strong>6、将phddns拷贝到你希望的位置</strong>
-<p>[<a href="mailto:&#114;&#x6f;&#x6f;&#x74;&#x40;&#x77;&#97;&#110;&#103;&#x68;&#x65;&#110;&#103;&#46;&#x6f;&#114;&#x67;">&#114;&#x6f;&#x6f;&#x74;&#x40;&#x77;&#97;&#110;&#103;&#x68;&#x65;&#110;&#103;&#46;&#x6f;&#114;&#x67;</a> src]# cp phddns /usr/bin/</p>
+<p>[<a href="mailto:&#x72;&#x6f;&#x6f;&#116;&#64;&#119;&#x61;&#x6e;&#103;&#104;&#101;&#110;&#x67;&#x2e;&#111;&#114;&#x67;">&#x72;&#x6f;&#x6f;&#116;&#64;&#119;&#x61;&#x6e;&#103;&#104;&#101;&#110;&#x67;&#x2e;&#111;&#114;&#x67;</a> src]# cp phddns /usr/bin/</p>
 <p><strong>7、以后台模式启动花生壳并检查运行情况</strong></p>
-<p>[<a href="mailto:&#x72;&#111;&#x6f;&#116;&#64;&#x77;&#x61;&#110;&#x67;&#104;&#x65;&#x6e;&#103;&#46;&#x6f;&#x72;&#x67;">&#x72;&#111;&#x6f;&#116;&#64;&#x77;&#x61;&#110;&#x67;&#104;&#x65;&#x6e;&#103;&#46;&#x6f;&#x72;&#x67;</a> ~]# /usr/bin/phddns -c /etc/phlinux.conf -d<br>phlinux started as daemon!<br>[<a href="mailto:&#x72;&#x6f;&#x6f;&#x74;&#x40;&#119;&#x61;&#x6e;&#x67;&#x68;&#101;&#x6e;&#x67;&#x2e;&#x6f;&#114;&#103;">&#x72;&#x6f;&#x6f;&#x74;&#x40;&#119;&#x61;&#x6e;&#x67;&#x68;&#101;&#x6e;&#x67;&#x2e;&#x6f;&#114;&#103;</a> ~]# tail /var/log/phddns.log<br>2011/08/02 11:28:58.256| ExecuteUpdate OK, BeginKeepAlive!<br>2011/08/02 11:29:59.354| SendKeepAlive() 8208<br>2011/08/02 11:30:00.355| RecvKeepaliveResponse() Data comes, OPCODE:8272<br>2011/08/02 11:30:00.356| Keepalive response received, client ip: 116.<em><strong>.123.96<br>2011/08/02 11:31:00.447| SendKeepAlive() 8208<br>2011/08/02 11:31:01.450| RecvKeepaliveResponse() Data comes, OPCODE:8272<br>2011/08/02 11:31:01.450| Keepalive response received, client ip: 116.</strong></em>.123.96</p>
+<p>[<a href="mailto:&#114;&#111;&#111;&#x74;&#64;&#x77;&#97;&#x6e;&#103;&#x68;&#101;&#x6e;&#x67;&#46;&#x6f;&#x72;&#103;">&#114;&#111;&#111;&#x74;&#64;&#x77;&#97;&#x6e;&#103;&#x68;&#101;&#x6e;&#x67;&#46;&#x6f;&#x72;&#103;</a> ~]# /usr/bin/phddns -c /etc/phlinux.conf -d<br>phlinux started as daemon!<br>[<a href="mailto:&#114;&#x6f;&#111;&#x74;&#x40;&#x77;&#97;&#110;&#103;&#104;&#x65;&#110;&#103;&#46;&#111;&#114;&#103;">&#114;&#x6f;&#111;&#x74;&#x40;&#x77;&#97;&#110;&#103;&#104;&#x65;&#110;&#103;&#46;&#111;&#114;&#103;</a> ~]# tail /var/log/phddns.log<br>2011/08/02 11:28:58.256| ExecuteUpdate OK, BeginKeepAlive!<br>2011/08/02 11:29:59.354| SendKeepAlive() 8208<br>2011/08/02 11:30:00.355| RecvKeepaliveResponse() Data comes, OPCODE:8272<br>2011/08/02 11:30:00.356| Keepalive response received, client ip: 116.<em><strong>.123.96<br>2011/08/02 11:31:00.447| SendKeepAlive() 8208<br>2011/08/02 11:31:01.450| RecvKeepaliveResponse() Data comes, OPCODE:8272<br>2011/08/02 11:31:01.450| Keepalive response received, client ip: 116.</strong></em>.123.96</p>
 <p><strong>8、退出花生壳</strong></p>
-<p>查看进程ID<br>[<a href="mailto:&#114;&#111;&#111;&#x74;&#64;&#x77;&#x61;&#x6e;&#103;&#x68;&#x65;&#x6e;&#x67;&#46;&#x6f;&#x72;&#103;">&#114;&#111;&#111;&#x74;&#64;&#x77;&#x61;&#x6e;&#103;&#x68;&#x65;&#x6e;&#x67;&#46;&#x6f;&#x72;&#103;</a> ~]# ps -A | grep phddns<br>13731 ? 00:00:00 phlinux<br>让后台进程退出<br>[<a href="mailto:&#114;&#111;&#x6f;&#116;&#x40;&#119;&#97;&#x6e;&#x67;&#104;&#x65;&#110;&#103;&#x2e;&#111;&#x72;&#103;">&#114;&#111;&#x6f;&#116;&#x40;&#119;&#97;&#x6e;&#x67;&#104;&#x65;&#110;&#103;&#x2e;&#111;&#x72;&#103;</a> ~]# kill -9 13731</p>
-<p>9、将花生壳加到系统启动时运行<br>[<a href="mailto:&#114;&#111;&#111;&#116;&#64;&#119;&#x61;&#110;&#103;&#104;&#101;&#110;&#x67;&#46;&#x6f;&#114;&#103;">&#114;&#111;&#111;&#116;&#64;&#119;&#x61;&#110;&#103;&#104;&#101;&#110;&#x67;&#46;&#x6f;&#114;&#103;</a> ~]# vi /etc/rc.local<br>在文件的末尾加上一行：/usr/bin/phddns -c /etc/phlinux.conf -d</p>
+<p>查看进程ID<br>[<a href="mailto:&#x72;&#x6f;&#x6f;&#x74;&#x40;&#x77;&#x61;&#110;&#103;&#104;&#x65;&#110;&#103;&#46;&#111;&#114;&#x67;">&#x72;&#x6f;&#x6f;&#x74;&#x40;&#x77;&#x61;&#110;&#103;&#104;&#x65;&#110;&#103;&#46;&#111;&#114;&#x67;</a> ~]# ps -A | grep phddns<br>13731 ? 00:00:00 phlinux<br>让后台进程退出<br>[<a href="mailto:&#x72;&#111;&#x6f;&#x74;&#x40;&#x77;&#x61;&#x6e;&#103;&#104;&#x65;&#x6e;&#103;&#x2e;&#111;&#x72;&#103;">&#x72;&#111;&#x6f;&#x74;&#x40;&#x77;&#x61;&#x6e;&#103;&#104;&#x65;&#x6e;&#103;&#x2e;&#111;&#x72;&#103;</a> ~]# kill -9 13731</p>
+<p>9、将花生壳加到系统启动时运行<br>[<a href="mailto:&#114;&#x6f;&#111;&#x74;&#64;&#119;&#97;&#110;&#103;&#104;&#x65;&#x6e;&#x67;&#x2e;&#111;&#x72;&#103;">&#114;&#x6f;&#111;&#x74;&#64;&#119;&#97;&#110;&#103;&#104;&#x65;&#x6e;&#x67;&#x2e;&#111;&#x72;&#103;</a> ~]# vi /etc/rc.local<br>在文件的末尾加上一行：/usr/bin/phddns -c /etc/phlinux.conf -d</p>
 <p><strong>二、花生壳Linux版本命令行参数说明</strong></p>
-<p>[<a href="mailto:&#x72;&#111;&#x6f;&#x74;&#64;&#119;&#x61;&#x6e;&#x67;&#x68;&#101;&#x6e;&#103;&#x2e;&#x6f;&#114;&#103;">&#x72;&#111;&#x6f;&#x74;&#64;&#119;&#x61;&#x6e;&#x67;&#x68;&#101;&#x6e;&#103;&#x2e;&#x6f;&#114;&#103;</a> ~]# /usr/bin/phlinux -h<br>Peanuthull Linux-core 2.0 by oray.com, copyright 2011<br>Peanuthull Linux-core Help<br>–first-run<br>-f, run for the first time<br>用于首次启动时配置参数</p>
+<p>[<a href="mailto:&#114;&#111;&#x6f;&#116;&#x40;&#119;&#x61;&#x6e;&#x67;&#x68;&#x65;&#110;&#x67;&#x2e;&#111;&#x72;&#103;">&#114;&#111;&#x6f;&#116;&#x40;&#119;&#x61;&#x6e;&#x67;&#x68;&#x65;&#110;&#x67;&#x2e;&#111;&#x72;&#103;</a> ~]# /usr/bin/phlinux -h<br>Peanuthull Linux-core 2.0 by oray.com, copyright 2011<br>Peanuthull Linux-core Help<br>–first-run<br>-f, run for the first time<br>用于首次启动时配置参数</p>
 <p>–interact<br>-i, run as interactive mode<br>program will request for necessary parameters.<br>this mode will automatically enabled at first running,<br>or your configuration file has been lost.<br>启动交互模式</p>
 <p>–daemon<br>-d, run as a daemon<br>program will quit after put itself to background,<br>and continue running even you logout,<br>you can use kill -9 &lt;PID&gt; to terminate.<br>后台模式</p>
 <p>–config<br>-c, run with configuration file<br>program will run with the file<br>指定使用哪一个配置文件</p>
@@ -182,72 +183,37 @@
 <p>–help<br>-h, print this screen.<br>Please visit <a target="_blank" rel="noopener" href="http://www.oray.com/">http://www.oray.com</a> for detail.</p>
 </p>
 </content>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">王恒</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://wangheng.org/linux-installed-in-oray-service.html">http://wangheng.org/linux-installed-in-oray-service.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://wangheng.org" target="_blank">王恒's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Linux/">Linux</a><a class="post-meta__tags" href="/tags/nginx/">nginx</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/nginx-set-directory-browsing-and-solve-the-problem-of-chinese-garbled.html"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">nginx设置目录浏览及中文乱码问题解决</div></div></a></div><div class="next-post pull-right"><a href="/to-use-scribefire-offline-writing-a-blog.html"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">使用ScribeFire离线编写博客</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/implement-ssh-without-password.html" title="实现SSH无密码登录"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2012-07-23</div><div class="title">实现SSH无密码登录</div></div></a></div><div><a href="/install-darwin-streaming-server-6-0-3-on-linux.html" title="Linux编译安装Darwin Streaming Server 6.0.3"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2012-03-01</div><div class="title">Linux编译安装Darwin Streaming Server 6.0.3</div></div></a></div><div><a href="/kuaipan-uploader.html" title="linux版快盘上传下载脚本"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2015-05-13</div><div class="title">linux版快盘上传下载脚本</div></div></a></div><div><a href="/linux-set-up-a-proxy-server.html" title="Linux中设置代理服务器"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2013-07-30</div><div class="title">Linux中设置代理服务器</div></div></a></div><div><a href="/linux-temporarily-or-permanently-modify-the-dns.html" title="Linux临时或永久修改DNS"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2012-06-11</div><div class="title">Linux临时或永久修改DNS</div></div></a></div><div><a href="/manually-compile-vim-configuration.html" title="手动编译vim配置"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2013-07-30</div><div class="title">手动编译vim配置</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">王恒</div><div class="author-info__description">王恒的技术博客 -- make progress a little day by day</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">92</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">136</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">33</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/all4fun"><i class="fab fa-github"></i><span>关注</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/all4fun" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/migrating-from-wordpress-to-hexo.html" title="从wordpress迁移到hexo填坑">从wordpress迁移到hexo填坑</a><time datetime="2018-10-22T05:50:30.000Z" title="发表于 2018-10-22 13:50:30">2018-10-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/kuaipan-uploader-dev-share.html" title="kuaipan_uploader开发分享">kuaipan_uploader开发分享</a><time datetime="2015-05-27T05:01:02.000Z" title="发表于 2015-05-27 13:01:02">2015-05-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/kuaipan-uploader.html" title="linux版快盘上传下载脚本">linux版快盘上传下载脚本</a><time datetime="2015-05-13T09:16:39.000Z" title="发表于 2015-05-13 17:16:39">2015-05-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/ubuntu-14-04-install-configure-denyhosts.html" title="ubuntu 安装配置denyhosts">ubuntu 安装配置denyhosts</a><time datetime="2015-05-06T01:19:37.000Z" title="发表于 2015-05-06 09:19:37">2015-05-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/raspberry-dht11-yeekink.html" title="raspi+DHT11+yeelink监控家里温湿度">raspi+DHT11+yeelink监控家里温湿度</a><time datetime="2015-01-27T16:25:09.000Z" title="发表于 2015-01-28 00:25:09">2015-01-28</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 王恒</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadDisqus () {
+  var disqus_config = function () {
+    this.page.url = 'http://wangheng.org/linux-installed-in-oray-service.html'
+    this.page.identifier = 'linux-installed-in-oray-service.html'
+    this.page.title = 'Linux中安装oray服务'
+  };
 
-        </div>
+  window.disqusReset = () => {
+    DISQUS.reset({
+      reload: true,
+      config: disqus_config
+    })
+  }
 
-        
-            <section class="post-copyright">
-                
-                    <p class="copyright-item">
-                        <span>Author:</span>
-                        <span>王恒</span>
-                    </p>
-                
-                
-                    <p class="copyright-item">
-                        <span>Permalink:</span>
-                        <span><a href="http://wangheng.org/linux-installed-in-oray-service.html">http://wangheng.org/linux-installed-in-oray-service.html</a></span>
-                    </p>
-                
-                
-                    <p class="copyright-item">
-                        <span>License:</span>
-                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
-                    </p>
-                
-                
+  if (window.DISQUS) disqusReset()
+  else {
+    (function() { 
+      var d = document, s = d.createElement('script');
+      s.src = 'https://.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  }
+}
 
-            </section>
-        
-        <section class="post-tags">
-            <div>
-                <span>标签: </span>
-                <span class="tag">
-                    
-                    
-                        <a href="/tags/Linux/"># Linux</a>
-                    
-                        <a href="/tags/nginx/"># nginx</a>
-                    
-                        
-                </span>
-            </div>
-            <div>
-                <a href="javascript:window.history.back();">返回前页</a>
-                <span>· </span>
-                <a href="/">回到首页</a>
-            </div>
-        </section>
-        <section class="post-nav">
-            
-                <a class="prev" rel="prev" href="/nginx-set-directory-browsing-and-solve-the-problem-of-chinese-garbled.html">nginx设置目录浏览及中文乱码问题解决</a>
-            
-            
-            <a class="next" rel="next" href="/to-use-scribefire-offline-writing-a-blog.html">使用ScribeFire离线编写博客</a>
-            
-        </section>
-
-
-    </article>
-</div>
-
-        </div>
-        <footer id="footer" class="footer">
-    <div class="copyright">
-        <span>© 王恒 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> </span>
-    </div>
-</footer>
-
-    </div>
-</body>
-</html>
+if ('Disqus' === 'Disqus' || !false) {
+  if (false) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+  else loadDisqus()
+} else {
+  function loadOtherComment () {
+    loadDisqus()
+  }
+}
+</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
