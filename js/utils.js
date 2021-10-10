@@ -100,7 +100,7 @@ const btf = {
       const monthCount = dateDiff / month
       const dayCount = dateDiff / day
       const hourCount = dateDiff / hour
-      const minuteCount = dateDiff / minute
+      const minulinuxount = dateDiff / minute
 
       if (monthCount > 12) {
         result = datePost.toLocaleDateString().replace(/\//g, '-')
@@ -110,8 +110,8 @@ const btf = {
         result = parseInt(dayCount) + ' ' + GLOBAL_CONFIG.date_suffix.day
       } else if (hourCount >= 1) {
         result = parseInt(hourCount) + ' ' + GLOBAL_CONFIG.date_suffix.hour
-      } else if (minuteCount >= 1) {
-        result = parseInt(minuteCount) + ' ' + GLOBAL_CONFIG.date_suffix.min
+      } else if (minulinuxount >= 1) {
+        result = parseInt(minulinuxount) + ' ' + GLOBAL_CONFIG.date_suffix.min
       } else {
         result = GLOBAL_CONFIG.date_suffix.just
       }
