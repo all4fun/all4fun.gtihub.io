@@ -67,41 +67,6 @@
       </categories>
   </entry>
   <entry>
-    <title>清除mysql的log-bin日志</title>
-    <url>/clear-the-mysql-log-bin-log.html</url>
-    <content><![CDATA[<content>
-<p>前一阵子工作项目上的事情忙的焦头烂额，最近要进行部门调整将要去做新的项目。又要学习很多新的知识了，还是很兴奋激动的。今天下班回来查看了一下VPS状态，发现VPS的空间只剩下了1G多！第一反应是被入侵了，但是看了一下log并没有发现什么异常的登录，加上平时基本都是用私钥免密码登录的VPS，别入侵的可能也不是很大。那我就很疑惑了，因为系统文件占用应该也就3G多，我平时并没有在VPS放过什么大文件，不应该一下子少那么多空间。于是开始一番du查找终于找到了罪魁祸首！原来是mysql的log文件导致的。</p>  <p>装mysql并运行一段时间后，在mysql目录下出现一堆类似mysql-bin.000***，从mysql-bin.000001开始一直排列下来，而且占用了大量硬盘空间，高达十几个G.。原来mysql-bin.000001、mysql-bin.000002等文件是数据库的操作日志，例如UPDATE一个表，或者DELETE一些数据，即使该语句没有匹配的数据，这个命令也会存储到日志文件中，还包括每个语句执行的时间，也会记录进去的。 这些形如mysql-bin.00001的文件主要是用来做什么的呢? <strong>1、数据恢复</strong> </p>  <p>如果你的数据库出问题了，而你之前有过备份，那么可以看日志文件，找出是哪个命令导致你的数据库出问题了，想办法挽回损失。 </p>  <p><strong>2、主从服务器之间同步数据</strong> </p>  <p>主服务器上所有的操作都在记录日志中，从服务器可以根据该日志来进行，以确保两个同步。</p>  <p><strong>3、清除办法</strong></p>  <p>运行 /usr/local/mysql/bin/mysql -u root -p 登录执行：</p>  <pre lang="mysql" line="1">reset master;</pre>
-
-<p>如果你只有一个mysql服务器，在/etc/ 下面找到my.cnf文件vim /etc/my.cnf把里面的 </p>
-
-<pre>
-#log-bin=mysql-bin 
-#binlog_format=mixed 
-这两行注释掉，然后将mysql下的var目录中的这些日志文件全部删除，重启mysql服务即可。
-</pre>
-
-<p>但是如果你设置了主从服务器，那么就需要做以下操作了。 </p>
-
-<p>A：在每个从属服务器上，使用SHOW SLAVE STATUS来检查它正在读取哪个日志。 </p>
-
-<p>B：使用SHOW MASTER LOGS获得主服务器上的一系列日志。 </p>
-
-<p>C：在所有的从属服务器中判定最早的日志，这个是目标日志，如果所有的从属服务器是更新的，就是清单上的最后一个日志。 </p>
-
-<p>D：清理所有的日志，但是不包括目标日志，因为从服务器还要跟它同步。 简单地说,这些MySQL目录下的形如mysql-bin.000***的文件时MySQL的事务日志。 删除复制服务器已经拿走的binlog是安全的，一般来说网络状况好的时候，保留最新的那一个足以。 </p>
-</content>
-]]></content>
-      <categories>
-        <category>Technical</category>
-      </categories>
-      <tags>
-        <tag>ssh</tag>
-        <tag>VPS</tag>
-        <tag>日志</tag>
-        <tag>IOS</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>CMD窗口属性设置</title>
     <url>/cmd-in-window-property-the-settings.html</url>
     <content><![CDATA[<content>
@@ -145,38 +110,38 @@
       </tags>
   </entry>
   <entry>
-    <title>配置nginx伪静态以支持ThinkPHP的PATHINFO模式</title>
-    <url>/configure-nginx-to-support-thinkphp-pathinfo-mode.html</url>
+    <title>清除mysql的log-bin日志</title>
+    <url>/clear-the-mysql-log-bin-log.html</url>
     <content><![CDATA[<content>
-ThinkPHP是一款很不错的框架，也是PHP开发中最近用的比较火的。平时在本地开发中打开apache的mod<em>rewrite </em>配合.htaccess文件就可以完美的支持ThinkPHP的PATHINFO模式，但是家里的linux机器搭建的却是nginx 环境。这就造成了url 重写出现了很多奇怪的问题，所以需要对nginx 的配置文件修改一下来让它支持ThinkPHP的框架。
-首先你的项目的config文件中要配置这一项
-<pre class="brush: php; gutter: true">  &#039;URL_MODEL&#039; =&gt; 2, // rewrite</pre>
-在服务器中切换到nginx的安装目录，我这里是 /usr/local/nginx。然后添加thinkphp.conf 文件
+<p>前一阵子工作项目上的事情忙的焦头烂额，最近要进行部门调整将要去做新的项目。又要学习很多新的知识了，还是很兴奋激动的。今天下班回来查看了一下VPS状态，发现VPS的空间只剩下了1G多！第一反应是被入侵了，但是看了一下log并没有发现什么异常的登录，加上平时基本都是用私钥免密码登录的VPS，别入侵的可能也不是很大。那我就很疑惑了，因为系统文件占用应该也就3G多，我平时并没有在VPS放过什么大文件，不应该一下子少那么多空间。于是开始一番du查找终于找到了罪魁祸首！原来是mysql的log文件导致的。</p>  <p>装mysql并运行一段时间后，在mysql目录下出现一堆类似mysql-bin.000***，从mysql-bin.000001开始一直排列下来，而且占用了大量硬盘空间，高达十几个G.。原来mysql-bin.000001、mysql-bin.000002等文件是数据库的操作日志，例如UPDATE一个表，或者DELETE一些数据，即使该语句没有匹配的数据，这个命令也会存储到日志文件中，还包括每个语句执行的时间，也会记录进去的。 这些形如mysql-bin.00001的文件主要是用来做什么的呢? <strong>1、数据恢复</strong> </p>  <p>如果你的数据库出问题了，而你之前有过备份，那么可以看日志文件，找出是哪个命令导致你的数据库出问题了，想办法挽回损失。 </p>  <p><strong>2、主从服务器之间同步数据</strong> </p>  <p>主服务器上所有的操作都在记录日志中，从服务器可以根据该日志来进行，以确保两个同步。</p>  <p><strong>3、清除办法</strong></p>  <p>运行 /usr/local/mysql/bin/mysql -u root -p 登录执行：</p>  <pre lang="mysql" line="1">reset master;</pre>
 
-<p>vim /usr/local/nginx/conf/thinkphp.conf<br>内容如下</p>
-<pre class="brush: bash; gutter: true">location / {
-  if (!-e $request_filename){
-  rewrite ^/(.*)$ /index.php?s=/$1 last;
-  }
-}</pre><img title="nginx_thinkphp" src="uploads/2012/12/nginx_thinkphp-300x90.jpg" alt="" width="300" height="90" />
+<p>如果你只有一个mysql服务器，在/etc/ 下面找到my.cnf文件vim /etc/my.cnf把里面的 </p>
 
-<p>然后在你的配置文件中include一下刚刚的配置文件。</p>
-<img title="nginx_thinkphp_config" src="uploads/2012/12/nginx_thinkphp_config-300x245.jpg" alt="" width="300" height="245" />
+<pre>
+#log-bin=mysql-bin 
+#binlog_format=mixed 
+这两行注释掉，然后将mysql下的var目录中的这些日志文件全部删除，重启mysql服务即可。
+</pre>
 
-<p>如果你的ThinkPHP入口文件index.php不在根目录，则需要把thinkphp.conf改成这样</p>
-<pre class="brush: bash; gutter: true">location /入口文件所在目录/ {
-  if (!-e $request_filename){
-  rewrite ^/abc/(.*)$ /abc/index.php?s=/$1 last;
-  }
-}</pre>
+<p>但是如果你设置了主从服务器，那么就需要做以下操作了。 </p>
+
+<p>A：在每个从属服务器上，使用SHOW SLAVE STATUS来检查它正在读取哪个日志。 </p>
+
+<p>B：使用SHOW MASTER LOGS获得主服务器上的一系列日志。 </p>
+
+<p>C：在所有的从属服务器中判定最早的日志，这个是目标日志，如果所有的从属服务器是更新的，就是清单上的最后一个日志。 </p>
+
+<p>D：清理所有的日志，但是不包括目标日志，因为从服务器还要跟它同步。 简单地说,这些MySQL目录下的形如mysql-bin.000***的文件时MySQL的事务日志。 删除复制服务器已经拿走的binlog是安全的，一般来说网络状况好的时候，保留最新的那一个足以。 </p>
 </content>
 ]]></content>
       <categories>
         <category>Technical</category>
       </categories>
       <tags>
-        <tag>中文乱码</tag>
-        <tag>Oracle</tag>
+        <tag>ssh</tag>
+        <tag>VPS</tag>
+        <tag>日志</tag>
+        <tag>IOS</tag>
       </tags>
   </entry>
   <entry>
@@ -190,7 +155,7 @@ iPad2可不仅仅是一个电子书，也不仅仅是用来看电影大号MP4。
 <p>好了，现在我假设你的设备已经越狱成功。很棒，下面请让你的ipad接入一个无线网络，后续的步骤也可能需要网络 ：）</p>
 <p>如果你想使用电脑来SSH 到iPad2 你可能需要使用Cydia来安装openssh。</p>
 <p>记得安装完Openssh要修改root和mobile用户的密码哦！（默认是<span style="background-color: #ffff00;">alpine</span>）</p>
-<p>PC端可以可以使用putty 和winscp配合来访问iPad2，MAC系统或者Linux可以使用系统自带的终端 ssh <a href="mailto:&#114;&#x6f;&#x6f;&#116;&#64;&#x31;&#57;&#x32;&#46;&#x31;&#54;&#x38;&#46;&#49;&#46;&#54;">&#114;&#x6f;&#x6f;&#116;&#64;&#x31;&#57;&#x32;&#46;&#x31;&#54;&#x38;&#46;&#49;&#46;&#54;</a>  。我这里使用的是Tunnelier，它集成了putty 和winscp两款工具的功能，个人感觉很好用！</p>
+<p>PC端可以可以使用putty 和winscp配合来访问iPad2，MAC系统或者Linux可以使用系统自带的终端 ssh <a href="mailto:&#x72;&#x6f;&#x6f;&#x74;&#64;&#x31;&#57;&#50;&#x2e;&#x31;&#54;&#56;&#46;&#x31;&#46;&#x36;">&#x72;&#x6f;&#x6f;&#x74;&#64;&#x31;&#57;&#50;&#x2e;&#x31;&#54;&#56;&#46;&#x31;&#46;&#x36;</a>  。我这里使用的是Tunnelier，它集成了putty 和winscp两款工具的功能，个人感觉很好用！</p>
 <p><strong>可能用的的工具：</strong></p>
 <p>Tunnelier （地址：<a href="http://www.bitvise.com/tunnelier">www.bitvise.com/<strong>tunnelier</strong></a>）<em><span style="color: #a5a5a5;">推荐</span></em></p>
 <p>putty （地址：<a href="http://www.putty.org/">www.<strong>putty</strong>.org/</a>）</p>
@@ -281,6 +246,41 @@ ldid -S hello
       </tags>
   </entry>
   <entry>
+    <title>配置nginx伪静态以支持ThinkPHP的PATHINFO模式</title>
+    <url>/configure-nginx-to-support-thinkphp-pathinfo-mode.html</url>
+    <content><![CDATA[<content>
+ThinkPHP是一款很不错的框架，也是PHP开发中最近用的比较火的。平时在本地开发中打开apache的mod<em>rewrite </em>配合.htaccess文件就可以完美的支持ThinkPHP的PATHINFO模式，但是家里的linux机器搭建的却是nginx 环境。这就造成了url 重写出现了很多奇怪的问题，所以需要对nginx 的配置文件修改一下来让它支持ThinkPHP的框架。
+首先你的项目的config文件中要配置这一项
+<pre class="brush: php; gutter: true">  &#039;URL_MODEL&#039; =&gt; 2, // rewrite</pre>
+在服务器中切换到nginx的安装目录，我这里是 /usr/local/nginx。然后添加thinkphp.conf 文件
+
+<p>vim /usr/local/nginx/conf/thinkphp.conf<br>内容如下</p>
+<pre class="brush: bash; gutter: true">location / {
+  if (!-e $request_filename){
+  rewrite ^/(.*)$ /index.php?s=/$1 last;
+  }
+}</pre><img title="nginx_thinkphp" src="uploads/2012/12/nginx_thinkphp-300x90.jpg" alt="" width="300" height="90" />
+
+<p>然后在你的配置文件中include一下刚刚的配置文件。</p>
+<img title="nginx_thinkphp_config" src="uploads/2012/12/nginx_thinkphp_config-300x245.jpg" alt="" width="300" height="245" />
+
+<p>如果你的ThinkPHP入口文件index.php不在根目录，则需要把thinkphp.conf改成这样</p>
+<pre class="brush: bash; gutter: true">location /入口文件所在目录/ {
+  if (!-e $request_filename){
+  rewrite ^/abc/(.*)$ /abc/index.php?s=/$1 last;
+  }
+}</pre>
+</content>
+]]></content>
+      <categories>
+        <category>Technical</category>
+      </categories>
+      <tags>
+        <tag>中文乱码</tag>
+        <tag>Oracle</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>禁用或替换博客google字体</title>
     <url>/disable-or-replace-google-font.html</url>
     <content><![CDATA[<content>
@@ -318,67 +318,6 @@ $protocol = is_ssl() ? ‘https’ : ‘http’;
       <tags>
         <tag>代理</tag>
         <tag>Firefox</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>高效办公辅助工具Autohotkey</title>
-    <url>/efficient-office-support-tool-autohotkey.html</url>
-    <content><![CDATA[<content>
-<p><strong>序：</strong>工欲善其事，必先利其器。近期工作中要对公司的AFP软件进行汉化，由此也带来了大量的重复性工作，海量的字符串提取，组合，规整，键盘鼠标表示压力颇大~ 为此特别找回了大学玩魔兽对战用的改键插件Autohotkey，嘿嘿。</p>  <p><a href="http://www.autohotkey.com/">AutoHotKey</a> 软件可以实现很多有趣的功能，可以简化你的重复性工作。<a href="http://www.autohotkey.com/download/" target="_blank">这里</a>下载</p>  <p>选择一个适合你的版本，办公环境稳定的可以选择安装版，需要便携要求的可以下载绿色版本，当然安装版的好处是：系统会自动关联 .ahk 文件。安装完成后打开Autohotkey软件，然后你会在系统托盘处看到一个H字样的小图标。现在右击托盘处图标，选择Edit this Script来设置。<a href="uploads/2012/06/image.png"><img style="border-right-width: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px" title="image" border="0" alt="image" src="uploads/2012/06/image_thumb.png" width="227" height="244" /></a> </p>  <p>在打开的配置文件中加入你需要的功能。例如：加入 </p>  <pre>#w::Run <a href="http://wangheng.org">wangheng.org</a></pre>
-
-<p>然后选择Reload This Script，现在按win键(小旗标识那个键)+w，怎么样是不是直接在浏览器打开本博的主页呢？</p>
-
-<p>这里简单地解释一下那两行语句的意思：#号代表 Win 键；两个英文冒号作为热键和命令的分隔符使用；run是Autohotkey中常用的命令之一，它的后面是要运行的程序完整路径或网址（思考：如果要按win+q就打开QQ，该怎么写呢？）。当然如果你的程序或命令的所在目录是加到了系统的PATH中，则可以直接写执行程序的名字。例如</p>
-
-<pre>#n::run notepad</pre><span id="more"></span><p>代码中只是写着“notepad”，没有写上完整路径但是却能打开，明白为什么了吧。（Tips：Autohotkey 能替换掉系统的默认快捷键）</p>
-
-<p>Ctrl 的符号是 ^ </p>
-
-<p>Alt 的符号是 ! </p>
-
-<p>Shift 的符号是 + </p>
-
-<p>如果你想按下Ctrl + Alt + Shift + N来启动 notepad的话，可以这样写：</p>
-
-<p>^!+n::run notepad</p>
-
-<p>所以一法通，万法通，现在你可以完全定制自己的热键了。</p>
-
-<p>如果只是上面的这些技巧那么这篇博客就没有什么必要了，下面要介绍的是我如果利用visual studio中的Vim插件和Autohotkey来完成一些很费事的工作的。</p>
-
-<p>由于经常拼接类似这样的语句</p>
-
-<p>public const String A=&quot;A&quot;;</p>
-
-<p>每个源码文件中都可能有数十个这样的字符串，所以带来的工作量可想而知！~我是这样写的，首先将A字符串复制到剪切板。</p>
-
-<p>!d::send {esc}{o}public const String {esc}{p}{A}{=}{&quot;}{esc}{p}{A}{&quot;}{;}</p>
-
-<p>哈哈，现在随便在哪一行按alt+d，是不是直接在下一行打出了public const String A=&quot;A&quot;;这条语句呢？如果你的机器没有安装vim或者vim插件还可以这样写：（不过需要先手动换行，代码倒是少一些）</p>
-
-<p>!d::send public const String ^{v}=&quot;^{v}&quot;;</p>
-
-<p>很多浏览器或编辑工具都支持按Ctrl+Tab来切换标签，但总感觉Ctrl不如Alt好按，所以加了一条</p>
-
-<pre>!a::send ^{tab}</pre>
-
-<p>平时好多地方登录都要输入邮箱，所以加了这样一行：</p>
-
-<pre>!u::send <a href="mailto:me@wangheng.org">me@wangheng.org</a></pre>
-
-<p>这样平时也能节省自己不少时间~分秒必争嘛~</p>
-</content>
-]]></content>
-      <categories>
-        <category>Technical</category>
-        <category>Autohotkey</category>
-      </categories>
-      <tags>
-        <tag>Windows</tag>
-        <tag>vim</tag>
-        <tag>visual studio</tag>
-        <tag>Win7</tag>
-        <tag>Cron</tag>
       </tags>
   </entry>
   <entry>
@@ -542,16 +481,16 @@ gt4.0.8-all-source-installer   gt4.0.8-all-source-installer.tar.gz</pre>
 <p>The private key is<br>stored in /etc/grid-security/hostkey.pem</p>
 <p>The request is<br>stored in /etc/grid-security/hostcert_request.pem</p>
 <p>&nbsp;</p>
-<p>Please e-mail the<br>request to the Globus Simple CA <a href="mailto:&#99;&#121;&#x5f;&#120;&#x69;&#97;&#x6f;&#120;&#105;&#97;&#x6f;&#64;&#x79;&#x61;&#104;&#111;&#x6f;&#46;&#99;&#x6f;&#x6d;&#x2e;&#x63;&#x6e;">&#99;&#121;&#x5f;&#120;&#x69;&#97;&#x6f;&#120;&#105;&#97;&#x6f;&#64;&#x79;&#x61;&#104;&#111;&#x6f;&#46;&#99;&#x6f;&#x6d;&#x2e;&#x63;&#x6e;</a></p>
+<p>Please e-mail the<br>request to the Globus Simple CA <a href="mailto:&#99;&#121;&#95;&#120;&#x69;&#x61;&#x6f;&#x78;&#105;&#97;&#x6f;&#64;&#121;&#97;&#104;&#111;&#x6f;&#x2e;&#99;&#111;&#x6d;&#46;&#x63;&#x6e;">&#99;&#121;&#95;&#120;&#x69;&#x61;&#x6f;&#x78;&#105;&#97;&#x6f;&#64;&#121;&#97;&#104;&#111;&#x6f;&#x2e;&#99;&#111;&#x6d;&#46;&#x63;&#x6e;</a></p>
 <p>You may use a<br>command similar to the following:</p>
 <p>&nbsp;</p>
-<p>cat /etc/grid-security/hostcert_request.pem |<br>mail <a href="mailto:&#x63;&#x79;&#x5f;&#x78;&#x69;&#x61;&#x6f;&#120;&#x69;&#x61;&#111;&#x40;&#x79;&#x61;&#x68;&#111;&#x6f;&#46;&#x63;&#111;&#x6d;&#x2e;&#99;&#x6e;">&#x63;&#x79;&#x5f;&#x78;&#x69;&#x61;&#x6f;&#120;&#x69;&#x61;&#111;&#x40;&#x79;&#x61;&#x68;&#111;&#x6f;&#46;&#x63;&#111;&#x6d;&#x2e;&#99;&#x6e;</a></p>
+<p>cat /etc/grid-security/hostcert_request.pem |<br>mail <a href="mailto:&#x63;&#121;&#95;&#x78;&#105;&#x61;&#x6f;&#120;&#105;&#x61;&#x6f;&#64;&#121;&#97;&#104;&#111;&#111;&#x2e;&#99;&#x6f;&#109;&#46;&#x63;&#x6e;">&#x63;&#121;&#95;&#x78;&#105;&#x61;&#x6f;&#120;&#105;&#x61;&#x6f;&#64;&#121;&#97;&#104;&#111;&#111;&#x2e;&#99;&#x6f;&#109;&#46;&#x63;&#x6e;</a></p>
 <p>&nbsp;</p>
 <p>Only use the above<br>if this machine can send AND receive e-mail. if not, please</p>
 <p>mail using some<br>other method.</p>
 <p>&nbsp;</p>
 <p>Your certificate<br>will be mailed to you within two working days.</p>
-<p>If you receive no<br>response, contact Globus Simple CA at <a href="mailto:&#99;&#x79;&#95;&#x78;&#x69;&#x61;&#111;&#120;&#105;&#x61;&#111;&#x40;&#x79;&#97;&#x68;&#x6f;&#x6f;&#46;&#x63;&#111;&#109;&#x2e;&#x63;&#110;">&#99;&#x79;&#95;&#x78;&#x69;&#x61;&#111;&#120;&#105;&#x61;&#111;&#x40;&#x79;&#97;&#x68;&#x6f;&#x6f;&#46;&#x63;&#111;&#109;&#x2e;&#x63;&#110;</a></p>
+<p>If you receive no<br>response, contact Globus Simple CA at <a href="mailto:&#99;&#121;&#95;&#x78;&#x69;&#97;&#x6f;&#120;&#x69;&#97;&#x6f;&#x40;&#121;&#97;&#x68;&#x6f;&#x6f;&#x2e;&#99;&#x6f;&#x6d;&#x2e;&#99;&#110;">&#99;&#121;&#95;&#x78;&#x69;&#97;&#x6f;&#120;&#x69;&#97;&#x6f;&#x40;&#121;&#97;&#x68;&#x6f;&#x6f;&#x2e;&#99;&#x6f;&#x6d;&#x2e;&#99;&#110;</a></p>
 <p>&nbsp;</p>
 <p>[root@xx1<br>grid-security]# pwd</p>
 <p>/etc/grid-security</p>
@@ -606,6 +545,67 @@ gt4.0.8-all-source-installer   gt4.0.8-all-source-installer.tar.gz</pre>
         <tag>Ant</tag>
         <tag>Openjdk</tag>
         <tag>openssh</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>高效办公辅助工具Autohotkey</title>
+    <url>/efficient-office-support-tool-autohotkey.html</url>
+    <content><![CDATA[<content>
+<p><strong>序：</strong>工欲善其事，必先利其器。近期工作中要对公司的AFP软件进行汉化，由此也带来了大量的重复性工作，海量的字符串提取，组合，规整，键盘鼠标表示压力颇大~ 为此特别找回了大学玩魔兽对战用的改键插件Autohotkey，嘿嘿。</p>  <p><a href="http://www.autohotkey.com/">AutoHotKey</a> 软件可以实现很多有趣的功能，可以简化你的重复性工作。<a href="http://www.autohotkey.com/download/" target="_blank">这里</a>下载</p>  <p>选择一个适合你的版本，办公环境稳定的可以选择安装版，需要便携要求的可以下载绿色版本，当然安装版的好处是：系统会自动关联 .ahk 文件。安装完成后打开Autohotkey软件，然后你会在系统托盘处看到一个H字样的小图标。现在右击托盘处图标，选择Edit this Script来设置。<a href="uploads/2012/06/image.png"><img style="border-right-width: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px" title="image" border="0" alt="image" src="uploads/2012/06/image_thumb.png" width="227" height="244" /></a> </p>  <p>在打开的配置文件中加入你需要的功能。例如：加入 </p>  <pre>#w::Run <a href="http://wangheng.org">wangheng.org</a></pre>
+
+<p>然后选择Reload This Script，现在按win键(小旗标识那个键)+w，怎么样是不是直接在浏览器打开本博的主页呢？</p>
+
+<p>这里简单地解释一下那两行语句的意思：#号代表 Win 键；两个英文冒号作为热键和命令的分隔符使用；run是Autohotkey中常用的命令之一，它的后面是要运行的程序完整路径或网址（思考：如果要按win+q就打开QQ，该怎么写呢？）。当然如果你的程序或命令的所在目录是加到了系统的PATH中，则可以直接写执行程序的名字。例如</p>
+
+<pre>#n::run notepad</pre><span id="more"></span><p>代码中只是写着“notepad”，没有写上完整路径但是却能打开，明白为什么了吧。（Tips：Autohotkey 能替换掉系统的默认快捷键）</p>
+
+<p>Ctrl 的符号是 ^ </p>
+
+<p>Alt 的符号是 ! </p>
+
+<p>Shift 的符号是 + </p>
+
+<p>如果你想按下Ctrl + Alt + Shift + N来启动 notepad的话，可以这样写：</p>
+
+<p>^!+n::run notepad</p>
+
+<p>所以一法通，万法通，现在你可以完全定制自己的热键了。</p>
+
+<p>如果只是上面的这些技巧那么这篇博客就没有什么必要了，下面要介绍的是我如果利用visual studio中的Vim插件和Autohotkey来完成一些很费事的工作的。</p>
+
+<p>由于经常拼接类似这样的语句</p>
+
+<p>public const String A=&quot;A&quot;;</p>
+
+<p>每个源码文件中都可能有数十个这样的字符串，所以带来的工作量可想而知！~我是这样写的，首先将A字符串复制到剪切板。</p>
+
+<p>!d::send {esc}{o}public const String {esc}{p}{A}{=}{&quot;}{esc}{p}{A}{&quot;}{;}</p>
+
+<p>哈哈，现在随便在哪一行按alt+d，是不是直接在下一行打出了public const String A=&quot;A&quot;;这条语句呢？如果你的机器没有安装vim或者vim插件还可以这样写：（不过需要先手动换行，代码倒是少一些）</p>
+
+<p>!d::send public const String ^{v}=&quot;^{v}&quot;;</p>
+
+<p>很多浏览器或编辑工具都支持按Ctrl+Tab来切换标签，但总感觉Ctrl不如Alt好按，所以加了一条</p>
+
+<pre>!a::send ^{tab}</pre>
+
+<p>平时好多地方登录都要输入邮箱，所以加了这样一行：</p>
+
+<pre>!u::send <a href="mailto:me@wangheng.org">me@wangheng.org</a></pre>
+
+<p>这样平时也能节省自己不少时间~分秒必争嘛~</p>
+</content>
+]]></content>
+      <categories>
+        <category>Technical</category>
+        <category>Autohotkey</category>
+      </categories>
+      <tags>
+        <tag>Windows</tag>
+        <tag>vim</tag>
+        <tag>visual studio</tag>
+        <tag>Win7</tag>
+        <tag>Cron</tag>
       </tags>
   </entry>
   <entry>
@@ -762,7 +762,7 @@ setTimeout("javascript:location.href='hi.html' ", 5000);
 <pre class="brush: bash; gutter: true">[root@B ~]$ cat id_rsa.pub &gt;&gt; .ssh/authorized_keys 
 [root@B ~]$ chmod 600 .ssh/authorized_keys</pre><strong>authorized_keys的权限必须是600。(</strong>要保证.ssh和authorized_keys都只有用户自己有写权限。否则验证无效。)
 
-<p><strong>第四步、验证A机无密码登录B机。</strong><pre class="brush: bash; gutter: true">[root@A ~]$ ssh <a href="mailto:&#x72;&#111;&#111;&#x74;&#x40;&#x31;&#x39;&#x32;&#x2e;&#49;&#54;&#x38;&#x2e;&#x31;&#x2e;&#50;">&#x72;&#111;&#111;&#x74;&#x40;&#x31;&#x39;&#x32;&#x2e;&#49;&#54;&#x38;&#x2e;&#x31;&#x2e;&#50;</a></pre><br>第一次登录时如果询问是否将B机器加到A机器的list of known hosts，还需要你输入yes。现在A机可以无密码登录B机了。</p>
+<p><strong>第四步、验证A机无密码登录B机。</strong><pre class="brush: bash; gutter: true">[root@A ~]$ ssh <a href="mailto:&#114;&#x6f;&#111;&#x74;&#64;&#49;&#x39;&#x32;&#x2e;&#49;&#54;&#56;&#x2e;&#49;&#x2e;&#50;">&#114;&#x6f;&#111;&#x74;&#64;&#49;&#x39;&#x32;&#x2e;&#49;&#54;&#56;&#x2e;&#49;&#x2e;&#50;</a></pre><br>第一次登录时如果询问是否将B机器加到A机器的list of known hosts，还需要你输入yes。现在A机可以无密码登录B机了。</p>
 <p><strong>小结：</strong>私钥文件也可以保存下来在别的机器上面使用，被登录的机子要有登录机子的公钥。这个<strong>公钥/私钥对</strong>一般在私钥宿主机产生。想让A，B机无密码互登录，B机器上重复以上步骤即可~</p>
 <p><span style="font-size: x-large;"><strong>二、在Windows中</strong></span></p>
 <p>在Windows中要想实现无密码登录Linux主机也很简单。一般在Windows中远程ssh连接Linux主机大家都会使用<a href="http://www.putty.org/" target="_blank">putty</a> 或者Tunnelier这样的工具，我一般使用Tunnelier比较多，因为它集成了sftp工具和其他一些很实用的功能。例如使用Tunnelier很容易实现<a href="http://wangheng.org/firefox-the-ssh-the-autoproxy-smart-over-wall.html">Firefox+SSH+AutoProxy智能翻墙</a>，想试试的同学可以翻翻我以前发过的文章。下面具体介绍Windows下使用putty无密码登录Linux</p>
@@ -804,112 +804,6 @@ setTimeout("javascript:location.href='hi.html' ", 5000);
         <tag>coder</tag>
         <tag>C#</tag>
         <tag>Viki</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux编译安装Darwin Streaming Server 6.0.3</title>
-    <url>/install-darwin-streaming-server-6-0-3-on-linux.html</url>
-    <content><![CDATA[<content>
-<p>&#160;&#160;&#160; 买回来VPS后就一直想在上面搭建一个流媒体服务，在网上搜索了很多资料，大部分都是介绍Linux中安装Darwin Streaming Server 5.5.5版本，因为这个版本提供了针对linux的安装脚本。但既然官网有了6.0.3版本，于是果断尝试安装最新的版本。</p>  <p><b>1</b><b>、什么是Darwin Streaming Server</b></p>  <p>&#160;&#160;&#160; 目前主流的流媒体服务器有微软的windows media server、RealNetworks的Helixserver和苹果公司的Darwin Streaming Server. 微软的windows media server只能在windows2000 server和windows 2003 server下使用，不在考虑之列。RealNetworks的Helixserver是一款跨平台的软件，功能也很强大，但并非免费软件。</p>  <p>&#160;&#160;&#160; Darwin Streaming Server简称DSS。DSS是Apple公司提供的开源实时流媒体播放服务器程序。整个程序使用C++编写，在设计上遵循高性能，简单，模块化等程序设计原则，务求做到程序高效，可扩充性好。并且DSS是一个开放源代码的，基于标准的流媒体服务器，可以运行在Windows NT和Windows 2000，以及几个UNIX实现上，包括Mac OS X，Linux，FreeBSD，和Solaris操作系统上的。</p>  <p><b>2</b><b>、在Linux</b><b>中编译安装Darwin Streaming Server</b></p>  <p>首先需要进行一些必要的准备工作：</p>  <pre lang="bash" line="1">apt-get install patch make gcc g++ </pre>
-
-<p>准备好软件暂存的目录，并从官网下载软件的源码：</p>
-
-<pre lang="bash" line="1">mkdir soft
-cd soft
-wget http://dss.macosforge.org/downloads/DarwinStreamingSrvr6.0.3-Source.tar</pre>
-
-<p>源码下载完成后，需要解压tar包，</p>
-
-<pre lang="bash" line="1">tar xvf DarwinStreamingSrvr6.0.3-Source.tar</pre>
-
-<p>给源码安装补丁文件，进入DarwinStreamingSrvr6.0.3-Source目录，并打补丁：</p><span id="more"></span><pre lang="bash" line="1">cd DarwinStreamingSrvr6.0.3-Source
-wget http://www.abrahamsson.com/dss-6.0.3.patch
-patch -p1 < dss-6.0.3.patch  </pre>
-
-<p>执行</p>
-
-<pre lang="bash" line="1">./Buildit </pre>
-
-<p>编译完成后，我们来生成linux下的dss安装包</p>
-
-<pre lang="bash" line="1">执行 ./buildtarball </pre>
-
-<p>生成DarwinStreamingSrvr-Linux.tar.gz</p>
-
-<p>解压缩</p>
-
-<pre lang="bash" line="1">tar -zxvf DarwinStreamingSrvr-Linux.tar.gz 
-cd DarwinStreamingSrvr-Linux </pre>
-
-<p>对Install文件做修改</p>
-
-<pre lang="bash" line="1">if [ $INSTALL_OS = "Linux" ]; then 
-/usr/sbin/useradd -M qtss > /dev/null 2>&1 
-else 
-/usr/sbin/useradd qtss > /dev/null 2>&1 
-fi</pre>
-
-<p>将-M修改成-m</p>
-
-<p><a href="uploads/2012/03/clip_image0014.png"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="clip_image001[4]" border="0" alt="clip_image001[4]" src="uploads/2012/03/clip_image0014_thumb.png" width="528" height="161" /></a></p>
-
-<pre lang="bash">执行./Install </pre>
-
-<p>Please enter a new administrator user name: 【新管理员】</p>
-
-<p>Please enter a new administrator Password: 【密码】</p>
-
-<p>查看是否安裝成功</p>
-
-<pre lang="bash">ps aux | grep Darwin(查看流媒体服务器的进程) </pre>
-
-<p>root ... ... ... /usr/local/sbin/DarwinStreamingServer 
-  <br />
-
-<p>  <br />qtss … … … /usr/local/sbin/DarwinStreamingServer</p></p>
-<pre lang="bash">netstat -ntulp | grep Darwin(查看流媒体服务器的端口)</pre>
-
-<p>&#160;<a href="uploads/2012/03/clip_image0024.png"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="clip_image002[4]" border="0" alt="clip_image002[4]" src="uploads/2012/03/clip_image0024_thumb.png" width="523" height="253" /></a></p>
-
-<p><b>3</b><b>、启动 Darwin Streaming Server </b></p>
-
-<pre lang="bash" line="1">sudo /usr/local/sbin/DarwinStreamingServer</pre>
-
-<p>启动 Web 管理介面 (tcp port 1220)</p>
-
-<pre lang="bash" line="1">sudo /usr/local/sbin/streamingadminserver.pl</pre>
-
-<p>ps. 以上两项在刚安装好的时候会自动启动，不需手动执行</p>
-
-<p>小技巧：自动启动流媒体服务器的方法：</p>
-
-<p>自动运行流媒体服务器序非常简单，把上述命令添加在/etc/rc.d/rc.local脚本中即可。</p>
-
-<p>最后在服务器输入 http://你的IP:1220/来访问web管理</p>
-
-<p><a href="uploads/2012/03/image.png"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="image" border="0" alt="image" src="uploads/2012/03/image_thumb.png" width="369" height="211" /></a></p>
-
-<p>默认的媒体文件存放在/usr/local/movies</p>
-
-<p>你可以在web管理面板修改这个路径。</p>
-
-<p><strong>4、访问自己的流媒体服务</strong></p>
-
-<p>可以使用VLC media player这个软件，输入</p>
-
-<p>rtsp://你的IP/sample_100kbit.mp4</p>
-
-<p>来播放默认的测试视频。如果你的网速够给力的话效果还不错 ：)</p>
-</content>
-]]></content>
-      <categories>
-        <category>Technical</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>编译</tag>
-        <tag>Darwin Streaming Server</tag>
-        <tag>流媒体</tag>
       </tags>
   </entry>
   <entry>
@@ -1048,6 +942,112 @@ cd ~
       <categories>
         <category>最近添加</category>
       </categories>
+  </entry>
+  <entry>
+    <title>Linux编译安装Darwin Streaming Server 6.0.3</title>
+    <url>/install-darwin-streaming-server-6-0-3-on-linux.html</url>
+    <content><![CDATA[<content>
+<p>&#160;&#160;&#160; 买回来VPS后就一直想在上面搭建一个流媒体服务，在网上搜索了很多资料，大部分都是介绍Linux中安装Darwin Streaming Server 5.5.5版本，因为这个版本提供了针对linux的安装脚本。但既然官网有了6.0.3版本，于是果断尝试安装最新的版本。</p>  <p><b>1</b><b>、什么是Darwin Streaming Server</b></p>  <p>&#160;&#160;&#160; 目前主流的流媒体服务器有微软的windows media server、RealNetworks的Helixserver和苹果公司的Darwin Streaming Server. 微软的windows media server只能在windows2000 server和windows 2003 server下使用，不在考虑之列。RealNetworks的Helixserver是一款跨平台的软件，功能也很强大，但并非免费软件。</p>  <p>&#160;&#160;&#160; Darwin Streaming Server简称DSS。DSS是Apple公司提供的开源实时流媒体播放服务器程序。整个程序使用C++编写，在设计上遵循高性能，简单，模块化等程序设计原则，务求做到程序高效，可扩充性好。并且DSS是一个开放源代码的，基于标准的流媒体服务器，可以运行在Windows NT和Windows 2000，以及几个UNIX实现上，包括Mac OS X，Linux，FreeBSD，和Solaris操作系统上的。</p>  <p><b>2</b><b>、在Linux</b><b>中编译安装Darwin Streaming Server</b></p>  <p>首先需要进行一些必要的准备工作：</p>  <pre lang="bash" line="1">apt-get install patch make gcc g++ </pre>
+
+<p>准备好软件暂存的目录，并从官网下载软件的源码：</p>
+
+<pre lang="bash" line="1">mkdir soft
+cd soft
+wget http://dss.macosforge.org/downloads/DarwinStreamingSrvr6.0.3-Source.tar</pre>
+
+<p>源码下载完成后，需要解压tar包，</p>
+
+<pre lang="bash" line="1">tar xvf DarwinStreamingSrvr6.0.3-Source.tar</pre>
+
+<p>给源码安装补丁文件，进入DarwinStreamingSrvr6.0.3-Source目录，并打补丁：</p><span id="more"></span><pre lang="bash" line="1">cd DarwinStreamingSrvr6.0.3-Source
+wget http://www.abrahamsson.com/dss-6.0.3.patch
+patch -p1 < dss-6.0.3.patch  </pre>
+
+<p>执行</p>
+
+<pre lang="bash" line="1">./Buildit </pre>
+
+<p>编译完成后，我们来生成linux下的dss安装包</p>
+
+<pre lang="bash" line="1">执行 ./buildtarball </pre>
+
+<p>生成DarwinStreamingSrvr-Linux.tar.gz</p>
+
+<p>解压缩</p>
+
+<pre lang="bash" line="1">tar -zxvf DarwinStreamingSrvr-Linux.tar.gz 
+cd DarwinStreamingSrvr-Linux </pre>
+
+<p>对Install文件做修改</p>
+
+<pre lang="bash" line="1">if [ $INSTALL_OS = "Linux" ]; then 
+/usr/sbin/useradd -M qtss > /dev/null 2>&1 
+else 
+/usr/sbin/useradd qtss > /dev/null 2>&1 
+fi</pre>
+
+<p>将-M修改成-m</p>
+
+<p><a href="uploads/2012/03/clip_image0014.png"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="clip_image001[4]" border="0" alt="clip_image001[4]" src="uploads/2012/03/clip_image0014_thumb.png" width="528" height="161" /></a></p>
+
+<pre lang="bash">执行./Install </pre>
+
+<p>Please enter a new administrator user name: 【新管理员】</p>
+
+<p>Please enter a new administrator Password: 【密码】</p>
+
+<p>查看是否安裝成功</p>
+
+<pre lang="bash">ps aux | grep Darwin(查看流媒体服务器的进程) </pre>
+
+<p>root ... ... ... /usr/local/sbin/DarwinStreamingServer 
+  <br />
+
+<p>  <br />qtss … … … /usr/local/sbin/DarwinStreamingServer</p></p>
+<pre lang="bash">netstat -ntulp | grep Darwin(查看流媒体服务器的端口)</pre>
+
+<p>&#160;<a href="uploads/2012/03/clip_image0024.png"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="clip_image002[4]" border="0" alt="clip_image002[4]" src="uploads/2012/03/clip_image0024_thumb.png" width="523" height="253" /></a></p>
+
+<p><b>3</b><b>、启动 Darwin Streaming Server </b></p>
+
+<pre lang="bash" line="1">sudo /usr/local/sbin/DarwinStreamingServer</pre>
+
+<p>启动 Web 管理介面 (tcp port 1220)</p>
+
+<pre lang="bash" line="1">sudo /usr/local/sbin/streamingadminserver.pl</pre>
+
+<p>ps. 以上两项在刚安装好的时候会自动启动，不需手动执行</p>
+
+<p>小技巧：自动启动流媒体服务器的方法：</p>
+
+<p>自动运行流媒体服务器序非常简单，把上述命令添加在/etc/rc.d/rc.local脚本中即可。</p>
+
+<p>最后在服务器输入 http://你的IP:1220/来访问web管理</p>
+
+<p><a href="uploads/2012/03/image.png"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="image" border="0" alt="image" src="uploads/2012/03/image_thumb.png" width="369" height="211" /></a></p>
+
+<p>默认的媒体文件存放在/usr/local/movies</p>
+
+<p>你可以在web管理面板修改这个路径。</p>
+
+<p><strong>4、访问自己的流媒体服务</strong></p>
+
+<p>可以使用VLC media player这个软件，输入</p>
+
+<p>rtsp://你的IP/sample_100kbit.mp4</p>
+
+<p>来播放默认的测试视频。如果你的网速够给力的话效果还不错 ：)</p>
+</content>
+]]></content>
+      <categories>
+        <category>Technical</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>编译</tag>
+        <tag>Darwin Streaming Server</tag>
+        <tag>流媒体</tag>
+      </tags>
   </entry>
   <entry>
     <title>互联网常见Open API文档资源(转载)</title>
@@ -1296,7 +1296,7 @@ static void Main()
 
 <p>如果你想使用自己的app_key你需要首先注册一个金山快盘账号，然后到这里<a href="http://www.kuaipan.cn/developers">地址</a>创建一个你自己的应用并把得到的 consumer_key、consumer_secret填写到脚本相应位置。<br>当然此步骤可以略过，你可以直接使用脚本中填写好的consumer_key、consumer_secret，我创建的应用名称all4fun.</p>
 <p><strong>3.安装</strong><pre class="brush: bash; gutter: true">wget <a href="https://github.com/wujiwh/kuaipan_uploader/archive/master.zip">https://github.com/wujiwh/kuaipan_uploader/archive/master.zip</a><br>unzip master.zip<br>cd kuaipan_uploader-master<br>#或者 ：<br>git clone <a href="https://github.com/wujiwh/kuaipan_uploader.git">https://github.com/wujiwh/kuaipan_uploader.git</a><br>cd kuaipan_uploader<br>#上面两种方式选择一种即可<br>#赋予脚本执行权限并执行<br>chmod a+x kuaipan_uploader.sh<br>./kuaipan_uploader.sh</pre><br>然后根据提示完成API的授权流程，得到授权Token。脚本会自动保存得到的授权信息到CONFIG_FILE 变量对应配置文件，默认为~/.kuaipan_upload.conf<strong> </strong></p>
-<p><strong>4.</strong><strong>使用说明</strong><pre class="brush: bash; gutter: false">KuaiPan Uploader v1.1.0<br>wangheng - <a href="mailto:&#x77;&#x75;&#106;&#105;&#119;&#x68;&#64;&#103;&#x6d;&#x61;&#x69;&#108;&#x2e;&#x63;&#x6f;&#109;">&#x77;&#x75;&#106;&#105;&#119;&#x68;&#64;&#103;&#x6d;&#x61;&#x69;&#108;&#x2e;&#x63;&#x6f;&#109;</a></p>
+<p><strong>4.</strong><strong>使用说明</strong><pre class="brush: bash; gutter: false">KuaiPan Uploader v1.1.0<br>wangheng - <a href="mailto:&#x77;&#x75;&#x6a;&#105;&#x77;&#104;&#x40;&#103;&#x6d;&#97;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;">&#x77;&#x75;&#x6a;&#105;&#x77;&#104;&#x40;&#103;&#x6d;&#97;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
 <p>Usage: /usr/bin/kuaipan COMMAND [PARAMETERS]…</p>
 <p>Commands:<br>         upload   [local file]  &lt;remote file&gt;<br>         download [remote file] &lt;local file&gt;<br>         delete   [remote file/remote dir]<br>         list     &lt;remote dir&gt;<br>         info<br>         relink</p>
 <p>For more informations, please visit  <a href="http://wangheng.org/">http://wangheng.org</a>.</pre><br>其中[XXX]内的为必填参数，&lt;XXX&gt;内的为可选参数</p>
@@ -1417,14 +1417,14 @@ sync：将每个输入块填充到ibs个字节，不足部分用空（NUL）字�
 家里面的路由器ddns经常不能用，索性在系统中直接安了一个oray的客户端。具体安装步骤如下：
 
 <p><strong>1、首先安装必要的开发包</strong></p>
-<p>[<a href="mailto:&#114;&#111;&#x6f;&#x74;&#64;&#x77;&#x61;&#110;&#x67;&#x68;&#x65;&#x6e;&#x67;&#46;&#x6f;&#x72;&#x67;">&#114;&#111;&#x6f;&#x74;&#64;&#x77;&#x61;&#110;&#x67;&#x68;&#x65;&#x6e;&#x67;&#46;&#x6f;&#x72;&#x67;</a> ~] apt-get install gcc g++ automake autoconf</p>
+<p>[<a href="mailto:&#x72;&#111;&#111;&#116;&#x40;&#x77;&#x61;&#110;&#103;&#104;&#101;&#x6e;&#103;&#x2e;&#111;&#x72;&#103;">&#x72;&#111;&#111;&#116;&#x40;&#x77;&#x61;&#110;&#103;&#104;&#101;&#x6e;&#103;&#x2e;&#111;&#x72;&#103;</a> ~] apt-get install gcc g++ automake autoconf</p>
 <p><strong>2、下载phddns-2.0.2.16556.tar.gz到某一个目录</strong></p>
-<p>[<a href="mailto:&#114;&#x6f;&#x6f;&#x74;&#64;&#119;&#97;&#110;&#x67;&#x68;&#101;&#x6e;&#103;&#x2e;&#111;&#114;&#x67;">&#114;&#x6f;&#x6f;&#x74;&#64;&#119;&#97;&#110;&#x67;&#x68;&#101;&#x6e;&#103;&#x2e;&#111;&#114;&#x67;</a> ~]# wget <a href="http://download.oray.com/peanuthull/phddns-2.0.2.16556.tar.gz">http://download.oray.com/peanuthull/phddns-2.0.2.16556.tar.gz</a></p>
+<p>[<a href="mailto:&#x72;&#111;&#111;&#116;&#x40;&#x77;&#x61;&#110;&#x67;&#x68;&#x65;&#110;&#x67;&#46;&#111;&#114;&#103;">&#x72;&#111;&#111;&#116;&#x40;&#x77;&#x61;&#110;&#x67;&#x68;&#x65;&#110;&#x67;&#46;&#111;&#114;&#103;</a> ~]# wget <a href="http://download.oray.com/peanuthull/phddns-2.0.2.16556.tar.gz">http://download.oray.com/peanuthull/phddns-2.0.2.16556.tar.gz</a></p>
 <p><strong>3、解压所有文件</strong></p>
-<p>[<a href="mailto:&#x72;&#111;&#111;&#116;&#64;&#x77;&#97;&#110;&#103;&#x68;&#x65;&#x6e;&#103;&#46;&#111;&#114;&#103;">&#x72;&#111;&#111;&#116;&#64;&#x77;&#97;&#110;&#103;&#x68;&#x65;&#x6e;&#103;&#46;&#111;&#114;&#103;</a> ~]# tar zxvf phddns-2.0.2.16556.tar.gz</p>
-<p><strong>4、进入目录并编译</strong><br>[<a href="mailto:&#114;&#x6f;&#111;&#x74;&#64;&#x77;&#x61;&#110;&#103;&#104;&#x65;&#x6e;&#x67;&#46;&#x6f;&#114;&#x67;">&#114;&#x6f;&#111;&#x74;&#64;&#x77;&#x61;&#110;&#103;&#104;&#x65;&#x6e;&#x67;&#46;&#x6f;&#114;&#x67;</a> ~]# cd phddns-2.0.2.16556<br>[<a href="mailto:&#114;&#111;&#x6f;&#116;&#64;&#119;&#97;&#110;&#x67;&#104;&#x65;&#x6e;&#103;&#x2e;&#x6f;&#114;&#103;">&#114;&#111;&#x6f;&#116;&#64;&#119;&#97;&#110;&#x67;&#104;&#x65;&#x6e;&#103;&#x2e;&#x6f;&#114;&#103;</a> phddns-2.0.2.16556]# aclocal<br>[<a href="mailto:&#x72;&#111;&#111;&#x74;&#64;&#119;&#97;&#110;&#x67;&#x68;&#101;&#x6e;&#103;&#x2e;&#x6f;&#x72;&#103;">&#x72;&#111;&#111;&#x74;&#64;&#119;&#97;&#110;&#x67;&#x68;&#101;&#x6e;&#103;&#x2e;&#x6f;&#x72;&#103;</a> phddns-2.0.2.16556]# autoconf<br>[<a href="mailto:&#114;&#111;&#x6f;&#116;&#64;&#x77;&#x61;&#x6e;&#103;&#x68;&#101;&#x6e;&#103;&#46;&#111;&#x72;&#103;">&#114;&#111;&#x6f;&#116;&#64;&#x77;&#x61;&#x6e;&#103;&#x68;&#101;&#x6e;&#103;&#46;&#111;&#x72;&#103;</a> phddns-2.0.2.16556]# automake<br>[<a href="mailto:&#114;&#111;&#x6f;&#x74;&#64;&#x77;&#x61;&#x6e;&#x67;&#104;&#x65;&#x6e;&#x67;&#46;&#111;&#x72;&#x67;">&#114;&#111;&#x6f;&#x74;&#64;&#x77;&#x61;&#x6e;&#x67;&#104;&#x65;&#x6e;&#x67;&#46;&#111;&#x72;&#x67;</a> phddns-2.0.2.16556]# ./configure<br>[<a href="mailto:&#x72;&#x6f;&#111;&#116;&#64;&#119;&#97;&#110;&#x67;&#104;&#101;&#110;&#x67;&#46;&#x6f;&#x72;&#103;">&#x72;&#x6f;&#111;&#116;&#64;&#119;&#97;&#110;&#x67;&#104;&#101;&#110;&#x67;&#46;&#x6f;&#x72;&#103;</a> phddns-2.0.2.16556]# make<br>[<a href="mailto:&#x72;&#x6f;&#111;&#116;&#x40;&#119;&#x61;&#110;&#103;&#x68;&#x65;&#x6e;&#x67;&#46;&#x6f;&#114;&#103;">&#x72;&#x6f;&#111;&#116;&#x40;&#119;&#x61;&#110;&#103;&#x68;&#x65;&#x6e;&#x67;&#46;&#x6f;&#114;&#103;</a> phddns-2.0.2.16556]# cd src<br>[<a href="mailto:&#114;&#x6f;&#x6f;&#x74;&#x40;&#119;&#97;&#x6e;&#103;&#x68;&#101;&#x6e;&#x67;&#x2e;&#111;&#x72;&#103;">&#114;&#x6f;&#x6f;&#x74;&#x40;&#119;&#97;&#x6e;&#103;&#x68;&#101;&#x6e;&#x67;&#x2e;&#111;&#x72;&#103;</a> src]# ls -l phddns<br>-rwxr-xr-x 1 root root 80968 Aug 2 11:18 phddns</p>
+<p>[<a href="mailto:&#x72;&#111;&#x6f;&#x74;&#64;&#119;&#97;&#x6e;&#x67;&#x68;&#101;&#x6e;&#x67;&#x2e;&#111;&#x72;&#x67;">&#x72;&#111;&#x6f;&#x74;&#64;&#119;&#97;&#x6e;&#x67;&#x68;&#101;&#x6e;&#x67;&#x2e;&#111;&#x72;&#x67;</a> ~]# tar zxvf phddns-2.0.2.16556.tar.gz</p>
+<p><strong>4、进入目录并编译</strong><br>[<a href="mailto:&#114;&#111;&#111;&#116;&#x40;&#119;&#x61;&#x6e;&#x67;&#x68;&#101;&#110;&#103;&#46;&#111;&#x72;&#103;">&#114;&#111;&#111;&#116;&#x40;&#119;&#x61;&#x6e;&#x67;&#x68;&#101;&#110;&#103;&#46;&#111;&#x72;&#103;</a> ~]# cd phddns-2.0.2.16556<br>[<a href="mailto:&#114;&#x6f;&#x6f;&#116;&#64;&#119;&#x61;&#110;&#x67;&#104;&#x65;&#110;&#103;&#x2e;&#x6f;&#114;&#x67;">&#114;&#x6f;&#x6f;&#116;&#64;&#119;&#x61;&#110;&#x67;&#104;&#x65;&#110;&#103;&#x2e;&#x6f;&#114;&#x67;</a> phddns-2.0.2.16556]# aclocal<br>[<a href="mailto:&#114;&#111;&#111;&#116;&#x40;&#x77;&#x61;&#110;&#x67;&#x68;&#x65;&#110;&#x67;&#46;&#x6f;&#x72;&#103;">&#114;&#111;&#111;&#116;&#x40;&#x77;&#x61;&#110;&#x67;&#x68;&#x65;&#110;&#x67;&#46;&#x6f;&#x72;&#103;</a> phddns-2.0.2.16556]# autoconf<br>[<a href="mailto:&#114;&#x6f;&#x6f;&#x74;&#64;&#x77;&#x61;&#110;&#x67;&#x68;&#x65;&#x6e;&#x67;&#x2e;&#x6f;&#114;&#x67;">&#114;&#x6f;&#x6f;&#x74;&#64;&#x77;&#x61;&#110;&#x67;&#x68;&#x65;&#x6e;&#x67;&#x2e;&#x6f;&#114;&#x67;</a> phddns-2.0.2.16556]# automake<br>[<a href="mailto:&#x72;&#x6f;&#111;&#116;&#64;&#x77;&#x61;&#x6e;&#103;&#104;&#101;&#x6e;&#x67;&#46;&#111;&#x72;&#103;">&#x72;&#x6f;&#111;&#116;&#64;&#x77;&#x61;&#x6e;&#103;&#104;&#101;&#x6e;&#x67;&#46;&#111;&#x72;&#103;</a> phddns-2.0.2.16556]# ./configure<br>[<a href="mailto:&#114;&#x6f;&#x6f;&#x74;&#x40;&#x77;&#97;&#x6e;&#103;&#104;&#x65;&#x6e;&#103;&#x2e;&#111;&#114;&#x67;">&#114;&#x6f;&#x6f;&#x74;&#x40;&#x77;&#97;&#x6e;&#103;&#104;&#x65;&#x6e;&#103;&#x2e;&#111;&#114;&#x67;</a> phddns-2.0.2.16556]# make<br>[<a href="mailto:&#x72;&#111;&#x6f;&#116;&#x40;&#x77;&#97;&#110;&#x67;&#x68;&#101;&#110;&#x67;&#46;&#x6f;&#x72;&#103;">&#x72;&#111;&#x6f;&#116;&#x40;&#x77;&#97;&#110;&#x67;&#x68;&#101;&#110;&#x67;&#46;&#x6f;&#x72;&#103;</a> phddns-2.0.2.16556]# cd src<br>[<a href="mailto:&#x72;&#111;&#x6f;&#116;&#64;&#119;&#97;&#110;&#103;&#x68;&#x65;&#110;&#x67;&#46;&#111;&#x72;&#103;">&#x72;&#111;&#x6f;&#116;&#64;&#119;&#97;&#110;&#103;&#x68;&#x65;&#110;&#x67;&#46;&#111;&#x72;&#103;</a> src]# ls -l phddns<br>-rwxr-xr-x 1 root root 80968 Aug 2 11:18 phddns</p>
 <p><strong>5、执行编译好的程序并配置（默认使用/etc/phlinux.conf，如果不存在这个文件则自动进入交互配置）</strong></p>
-<p>[<a href="mailto:&#114;&#x6f;&#x6f;&#x74;&#x40;&#119;&#97;&#x6e;&#103;&#104;&#x65;&#x6e;&#103;&#x2e;&#x6f;&#114;&#x67;">&#114;&#x6f;&#x6f;&#x74;&#x40;&#119;&#97;&#x6e;&#103;&#104;&#x65;&#x6e;&#103;&#x2e;&#x6f;&#114;&#x67;</a> src]# ./phddns<br>输入服务器地址，如无特殊情况可使用默认值<br>Enter server address(press ENTER use phlinux3.oray.net):</p>
+<p>[<a href="mailto:&#x72;&#111;&#x6f;&#116;&#x40;&#x77;&#97;&#110;&#103;&#x68;&#x65;&#x6e;&#103;&#x2e;&#x6f;&#x72;&#x67;">&#x72;&#111;&#x6f;&#116;&#x40;&#x77;&#97;&#110;&#103;&#x68;&#x65;&#x6e;&#103;&#x2e;&#x6f;&#x72;&#x67;</a> src]# ./phddns<br>输入服务器地址，如无特殊情况可使用默认值<br>Enter server address(press ENTER use phlinux3.oray.net):</p>
 <p>输入您的Oray帐号名称<br>Enter your Oray account:</p>
 <p>对应的Oray帐号密码<br>Password:</p>
 <p>选择帮定的网卡，如无特殊，默认即可<br>Network interface(s):<br>eth0:192.168.141.18<br>lo:127.0.0.1<br>Choose one(default eth0):</p>
@@ -1432,14 +1432,14 @@ sync：将每个输入块填充到ibs个字节，不足部分用空（NUL）字�
 <p>保存配置文件，选择yes则直接保存到/etc/phlinux.conf，输入other可以指定文件<br>Save to configuration file (/etc/phlinux.conf)?(yes/no/other):</p>
 <p>接下来程序将已交互模式开始运行<br>192.168.141.18<br>NIC bind success<br>OnStatusChanged okConnecting<br>OnStatusChanged okDomainListed<br>OnDomainRegistered skyvense22.gicp.net<br>OnStatusChanged okDomainsRegistered<br>UserType: 0<br>看到上面这些就表示登录成功，这个时候可以按ctrl+c先退出程序</p>
 <span id="more"></span><strong>6、将phddns拷贝到你希望的位置</strong>
-<p>[<a href="mailto:&#114;&#111;&#x6f;&#116;&#x40;&#119;&#x61;&#110;&#103;&#x68;&#x65;&#110;&#103;&#x2e;&#x6f;&#x72;&#x67;">&#114;&#111;&#x6f;&#116;&#x40;&#119;&#x61;&#110;&#103;&#x68;&#x65;&#110;&#103;&#x2e;&#x6f;&#x72;&#x67;</a> src]# cp phddns /usr/bin/</p>
+<p>[<a href="mailto:&#x72;&#111;&#x6f;&#116;&#64;&#119;&#97;&#110;&#x67;&#x68;&#101;&#110;&#103;&#x2e;&#111;&#x72;&#x67;">&#x72;&#111;&#x6f;&#116;&#64;&#119;&#97;&#110;&#x67;&#x68;&#101;&#110;&#103;&#x2e;&#111;&#x72;&#x67;</a> src]# cp phddns /usr/bin/</p>
 <p><strong>7、以后台模式启动花生壳并检查运行情况</strong></p>
-<p>[<a href="mailto:&#114;&#x6f;&#111;&#116;&#x40;&#x77;&#97;&#x6e;&#x67;&#x68;&#101;&#110;&#x67;&#x2e;&#111;&#114;&#103;">&#114;&#x6f;&#111;&#116;&#x40;&#x77;&#97;&#x6e;&#x67;&#x68;&#101;&#110;&#x67;&#x2e;&#111;&#114;&#103;</a> ~]# /usr/bin/phddns -c /etc/phlinux.conf -d<br>phlinux started as daemon!<br>[<a href="mailto:&#x72;&#111;&#x6f;&#x74;&#x40;&#x77;&#97;&#x6e;&#103;&#x68;&#101;&#x6e;&#103;&#x2e;&#111;&#114;&#103;">&#x72;&#111;&#x6f;&#x74;&#x40;&#x77;&#97;&#x6e;&#103;&#x68;&#101;&#x6e;&#103;&#x2e;&#111;&#114;&#103;</a> ~]# tail /var/log/phddns.log<br>2011/08/02 11:28:58.256| ExecuteUpdate OK, BeginKeepAlive!<br>2011/08/02 11:29:59.354| SendKeepAlive() 8208<br>2011/08/02 11:30:00.355| RecvKeepaliveResponse() Data comes, OPCODE:8272<br>2011/08/02 11:30:00.356| Keepalive response received, client ip: 116.<em><strong>.123.96<br>2011/08/02 11:31:00.447| SendKeepAlive() 8208<br>2011/08/02 11:31:01.450| RecvKeepaliveResponse() Data comes, OPCODE:8272<br>2011/08/02 11:31:01.450| Keepalive response received, client ip: 116.</strong></em>.123.96</p>
+<p>[<a href="mailto:&#x72;&#x6f;&#111;&#116;&#64;&#x77;&#97;&#110;&#x67;&#x68;&#101;&#x6e;&#x67;&#46;&#111;&#x72;&#x67;">&#x72;&#x6f;&#111;&#116;&#64;&#x77;&#97;&#110;&#x67;&#x68;&#101;&#x6e;&#x67;&#46;&#111;&#x72;&#x67;</a> ~]# /usr/bin/phddns -c /etc/phlinux.conf -d<br>phlinux started as daemon!<br>[<a href="mailto:&#114;&#111;&#111;&#x74;&#64;&#119;&#x61;&#x6e;&#x67;&#104;&#101;&#x6e;&#103;&#x2e;&#111;&#x72;&#103;">&#114;&#111;&#111;&#x74;&#64;&#119;&#x61;&#x6e;&#x67;&#104;&#101;&#x6e;&#103;&#x2e;&#111;&#x72;&#103;</a> ~]# tail /var/log/phddns.log<br>2011/08/02 11:28:58.256| ExecuteUpdate OK, BeginKeepAlive!<br>2011/08/02 11:29:59.354| SendKeepAlive() 8208<br>2011/08/02 11:30:00.355| RecvKeepaliveResponse() Data comes, OPCODE:8272<br>2011/08/02 11:30:00.356| Keepalive response received, client ip: 116.<em><strong>.123.96<br>2011/08/02 11:31:00.447| SendKeepAlive() 8208<br>2011/08/02 11:31:01.450| RecvKeepaliveResponse() Data comes, OPCODE:8272<br>2011/08/02 11:31:01.450| Keepalive response received, client ip: 116.</strong></em>.123.96</p>
 <p><strong>8、退出花生壳</strong></p>
-<p>查看进程ID<br>[<a href="mailto:&#114;&#111;&#111;&#x74;&#64;&#119;&#97;&#x6e;&#x67;&#104;&#x65;&#110;&#x67;&#46;&#x6f;&#114;&#103;">&#114;&#111;&#111;&#x74;&#64;&#119;&#97;&#x6e;&#x67;&#104;&#x65;&#110;&#x67;&#46;&#x6f;&#114;&#103;</a> ~]# ps -A | grep phddns<br>13731 ? 00:00:00 phlinux<br>让后台进程退出<br>[<a href="mailto:&#114;&#111;&#x6f;&#116;&#64;&#x77;&#97;&#110;&#x67;&#x68;&#101;&#x6e;&#x67;&#46;&#111;&#114;&#x67;">&#114;&#111;&#x6f;&#116;&#64;&#x77;&#97;&#110;&#x67;&#x68;&#101;&#x6e;&#x67;&#46;&#111;&#114;&#x67;</a> ~]# kill -9 13731</p>
-<p>9、将花生壳加到系统启动时运行<br>[<a href="mailto:&#x72;&#x6f;&#111;&#x74;&#x40;&#x77;&#97;&#x6e;&#103;&#104;&#x65;&#110;&#103;&#x2e;&#111;&#114;&#103;">&#x72;&#x6f;&#111;&#x74;&#x40;&#x77;&#97;&#x6e;&#103;&#104;&#x65;&#110;&#103;&#x2e;&#111;&#114;&#103;</a> ~]# vi /etc/rc.local<br>在文件的末尾加上一行：/usr/bin/phddns -c /etc/phlinux.conf -d</p>
+<p>查看进程ID<br>[<a href="mailto:&#x72;&#x6f;&#x6f;&#116;&#64;&#119;&#x61;&#x6e;&#103;&#104;&#101;&#110;&#x67;&#46;&#x6f;&#x72;&#x67;">&#x72;&#x6f;&#x6f;&#116;&#64;&#119;&#x61;&#x6e;&#103;&#104;&#101;&#110;&#x67;&#46;&#x6f;&#x72;&#x67;</a> ~]# ps -A | grep phddns<br>13731 ? 00:00:00 phlinux<br>让后台进程退出<br>[<a href="mailto:&#114;&#111;&#x6f;&#116;&#64;&#119;&#x61;&#x6e;&#103;&#104;&#101;&#110;&#x67;&#x2e;&#x6f;&#x72;&#x67;">&#114;&#111;&#x6f;&#116;&#64;&#119;&#x61;&#x6e;&#103;&#104;&#101;&#110;&#x67;&#x2e;&#x6f;&#x72;&#x67;</a> ~]# kill -9 13731</p>
+<p>9、将花生壳加到系统启动时运行<br>[<a href="mailto:&#114;&#111;&#111;&#x74;&#x40;&#x77;&#x61;&#x6e;&#x67;&#x68;&#101;&#x6e;&#103;&#x2e;&#x6f;&#x72;&#103;">&#114;&#111;&#111;&#x74;&#x40;&#x77;&#x61;&#x6e;&#x67;&#x68;&#101;&#x6e;&#103;&#x2e;&#x6f;&#x72;&#103;</a> ~]# vi /etc/rc.local<br>在文件的末尾加上一行：/usr/bin/phddns -c /etc/phlinux.conf -d</p>
 <p><strong>二、花生壳Linux版本命令行参数说明</strong></p>
-<p>[<a href="mailto:&#x72;&#x6f;&#x6f;&#x74;&#x40;&#119;&#x61;&#x6e;&#x67;&#104;&#101;&#110;&#103;&#x2e;&#111;&#114;&#x67;">&#x72;&#x6f;&#x6f;&#x74;&#x40;&#119;&#x61;&#x6e;&#x67;&#104;&#101;&#110;&#103;&#x2e;&#111;&#114;&#x67;</a> ~]# /usr/bin/phlinux -h<br>Peanuthull Linux-core 2.0 by oray.com, copyright 2011<br>Peanuthull Linux-core Help<br>–first-run<br>-f, run for the first time<br>用于首次启动时配置参数</p>
+<p>[<a href="mailto:&#114;&#x6f;&#x6f;&#116;&#x40;&#x77;&#x61;&#x6e;&#103;&#x68;&#x65;&#x6e;&#x67;&#x2e;&#x6f;&#x72;&#103;">&#114;&#x6f;&#x6f;&#116;&#x40;&#x77;&#x61;&#x6e;&#103;&#x68;&#x65;&#x6e;&#x67;&#x2e;&#x6f;&#x72;&#103;</a> ~]# /usr/bin/phlinux -h<br>Peanuthull Linux-core 2.0 by oray.com, copyright 2011<br>Peanuthull Linux-core Help<br>–first-run<br>-f, run for the first time<br>用于首次启动时配置参数</p>
 <p>–interact<br>-i, run as interactive mode<br>program will request for necessary parameters.<br>this mode will automatically enabled at first running,<br>or your configuration file has been lost.<br>启动交互模式</p>
 <p>–daemon<br>-d, run as a daemon<br>program will quit after put itself to background,<br>and continue running even you logout,<br>you can use kill -9 &lt;PID&gt; to terminate.<br>后台模式</p>
 <p>–config<br>-c, run with configuration file<br>program will run with the file<br>指定使用哪一个配置文件</p>
@@ -1698,28 +1698,6 @@ nameserver 8.8.4.4</pre>
       </tags>
   </entry>
   <entry>
-    <title>修改openssh-server 的默认端口号</title>
-    <url>/modify-openssh-server-port-number.html</url>
-    <content><![CDATA[<content>
-买来的一个VPS默认的SSH端口号是22，为了安全，防止别人恶意枚举密码，可以自己修改成别的端口号。
-
-<p><strong>1、首先，编辑sshd_config文件</strong><pre lang="bash">$ sudo nano /etc/ssh/sshd_config</pre><a href="uploads/2011/12/image.png"><img style="background-image: none; margin: 10px 0px; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="image" src="uploads/2011/12/image_thumb.png" alt="王恒上传" width="291" height="229" border="0" /></a></p>
-<p>将Port 修改成自己定义的端口号，我这里改成了8080</p>
-<strong>
-2、重启sshd服务</strong><pre lang="bash">$ sudo service sshd restart</pre><span id="more"></span>
-如果没什么错误，就可以使用新的端口连接了
-</content>
-]]></content>
-      <categories>
-        <category>Technical</category>
-      </categories>
-      <tags>
-        <tag>ssh</tag>
-        <tag>openssh</tag>
-        <tag>端口</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>nginx设置目录浏览及中文乱码问题解决</title>
     <url>/nginx-set-directory-browsing-and-solve-the-problem-of-chinese-garbled.html</url>
     <content><![CDATA[<content>
@@ -1742,6 +1720,28 @@ nameserver 8.8.4.4</pre>
       <tags>
         <tag>中文乱码</tag>
         <tag>air video</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>修改openssh-server 的默认端口号</title>
+    <url>/modify-openssh-server-port-number.html</url>
+    <content><![CDATA[<content>
+买来的一个VPS默认的SSH端口号是22，为了安全，防止别人恶意枚举密码，可以自己修改成别的端口号。
+
+<p><strong>1、首先，编辑sshd_config文件</strong><pre lang="bash">$ sudo nano /etc/ssh/sshd_config</pre><a href="uploads/2011/12/image.png"><img style="background-image: none; margin: 10px 0px; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="image" src="uploads/2011/12/image_thumb.png" alt="王恒上传" width="291" height="229" border="0" /></a></p>
+<p>将Port 修改成自己定义的端口号，我这里改成了8080</p>
+<strong>
+2、重启sshd服务</strong><pre lang="bash">$ sudo service sshd restart</pre><span id="more"></span>
+如果没什么错误，就可以使用新的端口连接了
+</content>
+]]></content>
+      <categories>
+        <category>Technical</category>
+      </categories>
+      <tags>
+        <tag>ssh</tag>
+        <tag>openssh</tag>
+        <tag>端口</tag>
       </tags>
   </entry>
   <entry>
@@ -2031,7 +2031,7 @@ while(True):
 <p><strong>运行效果：</strong></p>
 <p><embed width="480" height="400" type="application/x-shockwave-flash" src="http://player.youku.com/player.php/sid/XODc4ODMyNzE2/v.swf" allowfullscreen="allowfullscreen" quality="high" align="middle" allowscriptaccess="always"></embed></p>
 <p><strong>核心代码：</strong><pre class="brush: python; gutter: true">&#039;&#039;&#039;<br>#=============================================================================</p>
-<h1 id="FileName-views-py"><a href="#FileName-views-py" class="headerlink" title="FileName: views.py"></a>FileName: views.py</h1><h1 id="Desc"><a href="#Desc" class="headerlink" title="Desc:"></a>Desc:</h1><h1 id="Author-wangheng"><a href="#Author-wangheng" class="headerlink" title="Author: wangheng"></a>Author: wangheng</h1><h1 id="Email-x77-x75-106-105-x77-x68-64-103-109-97-105-x6c-46-99-x6f-109"><a href="#Email-x77-x75-106-105-x77-x68-64-103-109-97-105-x6c-46-99-x6f-109" class="headerlink" title="Email: &#x77;&#x75;&#106;&#105;&#x77;&#x68;&#64;&#103;&#109;&#97;&#105;&#x6c;&#46;&#99;&#x6f;&#109;"></a>Email: <a href="mailto:&#x77;&#x75;&#106;&#105;&#x77;&#x68;&#64;&#103;&#109;&#97;&#105;&#x6c;&#46;&#99;&#x6f;&#109;">&#x77;&#x75;&#106;&#105;&#x77;&#x68;&#64;&#103;&#109;&#97;&#105;&#x6c;&#46;&#99;&#x6f;&#109;</a></h1><h1 id="HomePage-http-wangheng-org"><a href="#HomePage-http-wangheng-org" class="headerlink" title="HomePage: http://wangheng.org"></a>HomePage: <a href="http://wangheng.org/">http://wangheng.org</a></h1><h1 id="Version-0-0-1"><a href="#Version-0-0-1" class="headerlink" title="Version: 0.0.1"></a>Version: 0.0.1</h1><h1 id="LastChange-2015-01-14-13-46-29"><a href="#LastChange-2015-01-14-13-46-29" class="headerlink" title="LastChange: 2015-01-14 13:46:29"></a>LastChange: 2015-01-14 13:46:29</h1><h1 id="History"><a href="#History" class="headerlink" title="History:"></a>History:</h1><p>#=============================================================================<br>&#039;&#039;&#039;<br>from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash<br>from contextlib import closing<br>from pi_car import app<br>import re<br>import RPi.GPIO as GPIO<br>@app.route(&#039;/&#039;)<br>def show_index():<br>    return render_template(&#039;home.html&#039;)</p>
+<h1 id="FileName-views-py"><a href="#FileName-views-py" class="headerlink" title="FileName: views.py"></a>FileName: views.py</h1><h1 id="Desc"><a href="#Desc" class="headerlink" title="Desc:"></a>Desc:</h1><h1 id="Author-wangheng"><a href="#Author-wangheng" class="headerlink" title="Author: wangheng"></a>Author: wangheng</h1><h1 id="Email-x77-x75-106-x69-119-x68-64-103-x6d-x61-x69-x6c-46-x63-x6f-109"><a href="#Email-x77-x75-106-x69-119-x68-64-103-x6d-x61-x69-x6c-46-x63-x6f-109" class="headerlink" title="Email: &#x77;&#x75;&#106;&#x69;&#119;&#x68;&#64;&#103;&#x6d;&#x61;&#x69;&#x6c;&#46;&#x63;&#x6f;&#109;"></a>Email: <a href="mailto:&#x77;&#x75;&#106;&#x69;&#119;&#x68;&#64;&#103;&#x6d;&#x61;&#x69;&#x6c;&#46;&#x63;&#x6f;&#109;">&#x77;&#x75;&#106;&#x69;&#119;&#x68;&#64;&#103;&#x6d;&#x61;&#x69;&#x6c;&#46;&#x63;&#x6f;&#109;</a></h1><h1 id="HomePage-http-wangheng-org"><a href="#HomePage-http-wangheng-org" class="headerlink" title="HomePage: http://wangheng.org"></a>HomePage: <a href="http://wangheng.org/">http://wangheng.org</a></h1><h1 id="Version-0-0-1"><a href="#Version-0-0-1" class="headerlink" title="Version: 0.0.1"></a>Version: 0.0.1</h1><h1 id="LastChange-2015-01-14-13-46-29"><a href="#LastChange-2015-01-14-13-46-29" class="headerlink" title="LastChange: 2015-01-14 13:46:29"></a>LastChange: 2015-01-14 13:46:29</h1><h1 id="History"><a href="#History" class="headerlink" title="History:"></a>History:</h1><p>#=============================================================================<br>&#039;&#039;&#039;<br>from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash<br>from contextlib import closing<br>from pi_car import app<br>import re<br>import RPi.GPIO as GPIO<br>@app.route(&#039;/&#039;)<br>def show_index():<br>    return render_template(&#039;home.html&#039;)</p>
 <p>@app.route(&quot;/login&quot;, methods=[&quot;GET&quot;, &quot;POST&quot;])<br>def login():<br>    if request.method==&quot;GET&quot;:<br>        return &quot;get&quot;+request.form[&quot;user&quot;]<br>    elif request.method==&quot;POST&quot;:<br>        return &quot;post&quot;</p>
 <p>@app.route(&#039;/ctl&#039;,methods=[&#039;GET&#039;,&#039;POST&#039;])<br>def ctrl_id():<br>    if request.method == &#039;POST&#039;:<br>        id=request.form[&#039;id&#039;]<br>        GPIO.setmode(GPIO.BOARD)<br>        GPIO.setwarnings(False)<br>        GPIO.setup(11,GPIO.OUT)<br>        GPIO.setup(12,GPIO.OUT)<br>        GPIO.setup(15,GPIO.OUT)<br>        GPIO.setup(16,GPIO.OUT)</p>
 <pre><code>    if id == &amp;#039;t_left&amp;#039;:
@@ -2369,37 +2369,6 @@ margin:8px 8px 0 8px;
       </tags>
   </entry>
   <entry>
-    <title>分享iPad2越狱工具</title>
-    <url>/share-ipad2-jailbreak-tool.html</url>
-    <content><![CDATA[<content>
-过年在家看书学习之余，也有了闲工夫折腾一下ipad。虽然个人不提倡盗版，并且平时用到的工具ipad上也都装了。但越狱可不仅仅是为了装盗版，呵呵。顶着越狱后系统可能出现各种问题的压力，为了以后更方便的各种折腾，果断越了！
-
-<p>附图：</p>
-<p><a href="http://wangheng.org/share-ipad2-jailbreak-tool.html/d1" rel="attachment wp-att-94379"><img class="alignleft size-medium wp-image-94379" title="cydia-ipad" src="uploads/2012/01/d1-225x300.png" alt="越狱后" width="225" height="300" /></a></p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>工具是傻瓜式的一键越狱，跟除夕时候放出的命令行越狱工具没太大本质区别，不过GUI工具却是修复了一些小bug，所以对需要的朋友还是推荐使用GUI工具。 ：）</p>
-<p>下面是工具的下载地址：</p>
-<p><a title="点击下载" href="http://dl.dropbox.com/u/25381010/absinthe-win-0.3.zip" target="_blank">点击下载</a><br></content></p>
-]]></content>
-      <categories>
-        <category>Technical</category>
-      </categories>
-      <tags>
-        <tag>iPad2</tag>
-        <tag>越狱</tag>
-        <tag>分享</tag>
-        <tag>工具</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Ubuntu 搭建 Vpn 服务</title>
     <url>/setup-vpn-the-server.html</url>
     <content><![CDATA[<content>
@@ -2441,6 +2410,37 @@ iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth0 -j MASQUERADE</pre>
       </tags>
   </entry>
   <entry>
+    <title>分享iPad2越狱工具</title>
+    <url>/share-ipad2-jailbreak-tool.html</url>
+    <content><![CDATA[<content>
+过年在家看书学习之余，也有了闲工夫折腾一下ipad。虽然个人不提倡盗版，并且平时用到的工具ipad上也都装了。但越狱可不仅仅是为了装盗版，呵呵。顶着越狱后系统可能出现各种问题的压力，为了以后更方便的各种折腾，果断越了！
+
+<p>附图：</p>
+<p><a href="http://wangheng.org/share-ipad2-jailbreak-tool.html/d1" rel="attachment wp-att-94379"><img class="alignleft size-medium wp-image-94379" title="cydia-ipad" src="uploads/2012/01/d1-225x300.png" alt="越狱后" width="225" height="300" /></a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>工具是傻瓜式的一键越狱，跟除夕时候放出的命令行越狱工具没太大本质区别，不过GUI工具却是修复了一些小bug，所以对需要的朋友还是推荐使用GUI工具。 ：）</p>
+<p>下面是工具的下载地址：</p>
+<p><a title="点击下载" href="http://dl.dropbox.com/u/25381010/absinthe-win-0.3.zip" target="_blank">点击下载</a><br></content></p>
+]]></content>
+      <categories>
+        <category>Technical</category>
+      </categories>
+      <tags>
+        <tag>iPad2</tag>
+        <tag>越狱</tag>
+        <tag>分享</tag>
+        <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>分享个人wiki部署脚本</title>
     <url>/share-personal-wiki-deployment-script.html</url>
     <content><![CDATA[<content>
@@ -2458,7 +2458,7 @@ iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth0 -j MASQUERADE</pre>
 <p>打开c:\path.txt 将里面的内容全部复制，粘贴到系统的path变量中(覆盖原来的path)。完成此步骤后，cmd中会使用github生成的配置进行ssh的key-agent验证登录，故实现了git命令免密码的效果。完成后，运行cmd，输入git，能识别这个命令表示成功。然后就可以使用我写的这个脚本了(汗，脚本依赖有点高~~)</p>
 <p><strong>脚本的代码如下：</strong></p>
 <span id="more"></span><pre class="brush: python; gutter: true">&quot;=========================================================
-<p>&quot;     FileName: vimwiki_sync.vim<br>&quot;         Desc:<br>&quot;       Author: WangHeng<br>&quot;        Email: <a href="mailto:&#x6d;&#101;&#64;&#119;&#x61;&#x6e;&#x67;&#x68;&#x65;&#x6e;&#103;&#x2e;&#x6f;&#114;&#x67;">&#x6d;&#101;&#64;&#119;&#x61;&#x6e;&#x67;&#x68;&#x65;&#x6e;&#103;&#x2e;&#x6f;&#114;&#x67;</a><br>&quot;     HomePage: <a href="http://wangheng.org/">http://wangheng.org</a><br>&quot;      Version: 1.1<br>&quot;   LastChange: 2012-07-19 22:32:39<br>&quot;      History: 1、2012-07-20 暂时注释VimwikiGet(&#039;path_html&#039;)<br>&quot;                不好用原因待研究<br>&quot;=========================================================</p>
+<p>&quot;     FileName: vimwiki_sync.vim<br>&quot;         Desc:<br>&quot;       Author: WangHeng<br>&quot;        Email: <a href="mailto:&#109;&#101;&#64;&#119;&#x61;&#x6e;&#x67;&#104;&#x65;&#x6e;&#x67;&#46;&#111;&#x72;&#103;">&#109;&#101;&#64;&#119;&#x61;&#x6e;&#x67;&#104;&#x65;&#x6e;&#x67;&#46;&#111;&#x72;&#103;</a><br>&quot;     HomePage: <a href="http://wangheng.org/">http://wangheng.org</a><br>&quot;      Version: 1.1<br>&quot;   LastChange: 2012-07-19 22:32:39<br>&quot;      History: 1、2012-07-20 暂时注释VimwikiGet(&#039;path_html&#039;)<br>&quot;                不好用原因待研究<br>&quot;=========================================================</p>
 <p>&quot; let s:wiki_html_path=VimwikiGet(&#039;path_html&#039;)这条命令有时候不好用，故暂时注释掉<br>if !has(&#039;python&#039;)<br>    echo &quot;Git Auto Upload Error:\nRequired vim compiled with +python&quot;<br>    finish<br>endif</p>
 <p>function! s:Vimwiki_Upload()</p>
 <p>python &lt;&lt;EOF<br>import os<br>import time</p>
@@ -2816,6 +2816,50 @@ report_memleaks = On
       </categories>
   </entry>
   <entry>
+    <title>Ubuntu 10.10 更新源总结</title>
+    <url>/ubuntu-10-10-update-source.html</url>
+    <content><![CDATA[<content>
+<div>1.首先备份你的sources 文件</div><div><pre>sudo cp /etc/apt/sources.list /etc/apt/sources.list.bksudo gedit /etc/apt/sources.list</pre>
+编辑你的源列表，将原来的内容全部删除，添加下面列表中最适合你的源（注意不要全部添加），选择一个最合适你的即可，复制到你的列表中，然后保存列表。
+
+<p>2.使用sudo apt-get update 更新源列表信息<br>可以在运行“sudo apt-get update ”时查看一下错误信息，把不能连接的源删除再重新运行“sudo apt-get update ”。</p>
+<p>3.使用sudo apt-get upgrade 升级<br>或者用ubuntu自带的更新管理器升级也可<span id="more"></span></p>
+<p>Ubuntu 10.10源列表：</p>
+<p>台湾源<br>代码:<br>deb <a href="http://tw.archive.ubuntu.com/ubuntu/">http://tw.archive.ubuntu.com/ubuntu/</a> maverick main universe restricted multiverse<br>deb-src <a href="http://tw.archive.ubuntu.com/ubuntu/">http://tw.archive.ubuntu.com/ubuntu/</a> maverick main universe restricted multiverse<br>deb <a href="http://tw.archive.ubuntu.com/ubuntu/">http://tw.archive.ubuntu.com/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb-src <a href="http://tw.archive.ubuntu.com/ubuntu/">http://tw.archive.ubuntu.com/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb <a href="http://tw.archive.ubuntu.com/ubuntu/">http://tw.archive.ubuntu.com/ubuntu/</a> maverick-updates universe main multiverse restricted<br>deb-src <a href="http://tw.archive.ubuntu.com/ubuntu/">http://tw.archive.ubuntu.com/ubuntu/</a> maverick-updates universe main multiverse restricted</p>
+<p>SRT Sources<br>代码:</p>
+<p>deb <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick main restricted universe multiverse<br>deb <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-security main restricted universe multiverse<br>deb <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-updates main restricted universe multiverse<br>deb <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-proposed main restricted universe multiverse<br>deb <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-backports main restricted universe multiverse<br>deb-src <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick main restricted universe multiverse<br>deb-src <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-security main restricted universe multiverse<br>deb-src <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-updates main restricted universe multiverse<br>deb-src <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-proposed main restricted universe multiverse<br>deb-src <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-backports main restricted universe multiverse</p>
+<p>网易 Ubuntu 10.10 源（速度很快）<br>代码:</p>
+<p>deb <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick main universe restricted multiverse<br>deb-src <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick main universe restricted multiverse<br>deb <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb-src <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-updates universe main multiverse restricted<br>deb <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb-src <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-updates universe main multiverse restricted</p>
+<p>ubuntu 10.10 上海 源，提供 Kernel，Hiweed，ubuntu<br>代码:</p>
+<p>deb <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick main universe restricted multiverse<br>deb-src <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick main universe restricted multiverse<br>deb <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb-src <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-updates universe main multiverse restricted<br>deb <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb-src <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-updates universe main multiverse restricted</p>
+<p>搜狐 Ubuntu 10.10 源<br>代码:</p>
+<p>deb <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick main universe restricted multiverse<br>deb-src <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick main universe restricted multiverse<br>deb <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb-src <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-updates universe main multiverse restricted<br>deb <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb-src <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-updates universe main multiverse restricted</p>
+<p>骨头源，骨头源是bones7456架设的一个Ubuntu源 ，提供ubuntu,deepin<br>代码:<br>deb <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick main universe restricted multiverse<br>deb-src <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick main universe restricted multiverse<br>deb <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb-src <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-updates universe main multiverse restricted<br>deb <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb-src <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-updates universe main multiverse restricted</p>
+<p>lupaworld 源，提供 ArchLinux，Everest，FreeBSD，Fedora，LFS，Magiclinux，Mandriva，OpenOffice，openSUSE，Puppy，Red Hat，Slitaz，Turbolinux，Ubuntu，中标普华</p>
+<p>代码:</p>
+<p>deb <a href="http://mirror.lupaworld.com/ubuntu/">http://mirror.lupaworld.com/ubuntu/</a> maverick main universe restricted multiverse<br>deb-src <a href="http://mirror.lupaworld.com/ubuntu/">http://mirror.lupaworld.com/ubuntu/</a> maverick main universe restricted multiverse<br>deb <a href="http://mirror.lupaworld.com/ubuntu/">http://mirror.lupaworld.com/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb-src <a href="http://mirror.lupaworld.com/ubuntu/">http://mirror.lupaworld.com/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb <a href="http://mirror.lupaworld.com/ubuntu/">http://mirror.lupaworld.com/ubuntu/</a> maverick-updates universe main multiverse restricted<br>deb <a href="http://mirror.lupaworld.com/ubuntu/">http://mirror.lupaworld.com/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb-src <a href="http://mirror.lupaworld.com/ubuntu/">http://mirror.lupaworld.com/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb <a href="http://mirror.lupaworld.com/ubuntu/">http://mirror.lupaworld.com/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a href="http://mirror.lupaworld.com/ubuntu/">http://mirror.lupaworld.com/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a href="http://mirror.lupaworld.com/ubuntu/">http://mirror.lupaworld.com/ubuntu/</a> maverick-updates universe main multiverse restricted</p>
+<p>rootguide源，ubuntu官方上海源，提供 Kernel，Hiweed，ubuntu</p>
+<p>代码:<br>deb <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick main universe restricted multiverse<br>deb-src <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick main universe restricted multiverse<br>deb <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb-src <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-updates universe main multiverse restricted<br>deb <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb-src <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-updates universe main multiverse restricted</p>
+<p>网易开源镜像站,提供FreeBSD，OpenBSD，archlinux，centos，cygwin，debian，fedora，gentoo，kernel，openSUSE，slackware，ubuntu</p>
+<p>代码:<br>deb <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick main universe restricted multiverse<br>deb-src <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick main universe restricted multiverse<br>deb <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb-src <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-updates universe main multiverse restricted<br>deb <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb-src <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-updates universe main multiverse restricted</p>
+<p>搜 狐开源镜像站，提供 CPAN，FreeBSD，NetBSD，OpenBSD，apache，archlinux，centos，cygwin，dag，debian，fedora，gentoo，kernel，lfs，mysql，nginx，openSUSE，php，rpmfusion，slackware，ubuntu</p>
+<p>代码:</p>
+<p>deb <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick main universe restricted multiverse<br>deb-src <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick main universe restricted multiverse<br>deb <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb-src <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-updates universe main multiverse restricted<br>deb <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb-src <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-updates universe main multiverse restricted</p>
+</div>
+&nbsp;
+</content>
+]]></content>
+      <categories>
+        <category>Technical</category>
+      </categories>
+      <tags>
+        <tag>Ubuntu</tag>
+        <tag>10.1</tag>
+        <tag>更新源</tag>
+        <tag>source</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ubuntu 12.04更新源</title>
     <url>/ubuntu-12-04-source-list.html</url>
     <content><![CDATA[<content>
@@ -2869,50 +2913,6 @@ sudo apt-get upgrade</pre>
       <tags>
         <tag>Ubuntu</tag>
         <tag>更新源</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Ubuntu 10.10 更新源总结</title>
-    <url>/ubuntu-10-10-update-source.html</url>
-    <content><![CDATA[<content>
-<div>1.首先备份你的sources 文件</div><div><pre>sudo cp /etc/apt/sources.list /etc/apt/sources.list.bksudo gedit /etc/apt/sources.list</pre>
-编辑你的源列表，将原来的内容全部删除，添加下面列表中最适合你的源（注意不要全部添加），选择一个最合适你的即可，复制到你的列表中，然后保存列表。
-
-<p>2.使用sudo apt-get update 更新源列表信息<br>可以在运行“sudo apt-get update ”时查看一下错误信息，把不能连接的源删除再重新运行“sudo apt-get update ”。</p>
-<p>3.使用sudo apt-get upgrade 升级<br>或者用ubuntu自带的更新管理器升级也可<span id="more"></span></p>
-<p>Ubuntu 10.10源列表：</p>
-<p>台湾源<br>代码:<br>deb <a href="http://tw.archive.ubuntu.com/ubuntu/">http://tw.archive.ubuntu.com/ubuntu/</a> maverick main universe restricted multiverse<br>deb-src <a href="http://tw.archive.ubuntu.com/ubuntu/">http://tw.archive.ubuntu.com/ubuntu/</a> maverick main universe restricted multiverse<br>deb <a href="http://tw.archive.ubuntu.com/ubuntu/">http://tw.archive.ubuntu.com/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb-src <a href="http://tw.archive.ubuntu.com/ubuntu/">http://tw.archive.ubuntu.com/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb <a href="http://tw.archive.ubuntu.com/ubuntu/">http://tw.archive.ubuntu.com/ubuntu/</a> maverick-updates universe main multiverse restricted<br>deb-src <a href="http://tw.archive.ubuntu.com/ubuntu/">http://tw.archive.ubuntu.com/ubuntu/</a> maverick-updates universe main multiverse restricted</p>
-<p>SRT Sources<br>代码:</p>
-<p>deb <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick main restricted universe multiverse<br>deb <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-security main restricted universe multiverse<br>deb <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-updates main restricted universe multiverse<br>deb <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-proposed main restricted universe multiverse<br>deb <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-backports main restricted universe multiverse<br>deb-src <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick main restricted universe multiverse<br>deb-src <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-security main restricted universe multiverse<br>deb-src <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-updates main restricted universe multiverse<br>deb-src <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-proposed main restricted universe multiverse<br>deb-src <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-backports main restricted universe multiverse</p>
-<p>网易 Ubuntu 10.10 源（速度很快）<br>代码:</p>
-<p>deb <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick main universe restricted multiverse<br>deb-src <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick main universe restricted multiverse<br>deb <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb-src <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-updates universe main multiverse restricted<br>deb <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb-src <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-updates universe main multiverse restricted</p>
-<p>ubuntu 10.10 上海 源，提供 Kernel，Hiweed，ubuntu<br>代码:</p>
-<p>deb <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick main universe restricted multiverse<br>deb-src <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick main universe restricted multiverse<br>deb <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb-src <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-updates universe main multiverse restricted<br>deb <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb-src <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-updates universe main multiverse restricted</p>
-<p>搜狐 Ubuntu 10.10 源<br>代码:</p>
-<p>deb <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick main universe restricted multiverse<br>deb-src <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick main universe restricted multiverse<br>deb <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb-src <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-updates universe main multiverse restricted<br>deb <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb-src <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-updates universe main multiverse restricted</p>
-<p>骨头源，骨头源是bones7456架设的一个Ubuntu源 ，提供ubuntu,deepin<br>代码:<br>deb <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick main universe restricted multiverse<br>deb-src <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick main universe restricted multiverse<br>deb <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb-src <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-updates universe main multiverse restricted<br>deb <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb-src <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a href="http://ubuntu.srt.cn/ubuntu/">http://ubuntu.srt.cn/ubuntu/</a> maverick-updates universe main multiverse restricted</p>
-<p>lupaworld 源，提供 ArchLinux，Everest，FreeBSD，Fedora，LFS，Magiclinux，Mandriva，OpenOffice，openSUSE，Puppy，Red Hat，Slitaz，Turbolinux，Ubuntu，中标普华</p>
-<p>代码:</p>
-<p>deb <a href="http://mirror.lupaworld.com/ubuntu/">http://mirror.lupaworld.com/ubuntu/</a> maverick main universe restricted multiverse<br>deb-src <a href="http://mirror.lupaworld.com/ubuntu/">http://mirror.lupaworld.com/ubuntu/</a> maverick main universe restricted multiverse<br>deb <a href="http://mirror.lupaworld.com/ubuntu/">http://mirror.lupaworld.com/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb-src <a href="http://mirror.lupaworld.com/ubuntu/">http://mirror.lupaworld.com/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb <a href="http://mirror.lupaworld.com/ubuntu/">http://mirror.lupaworld.com/ubuntu/</a> maverick-updates universe main multiverse restricted<br>deb <a href="http://mirror.lupaworld.com/ubuntu/">http://mirror.lupaworld.com/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb-src <a href="http://mirror.lupaworld.com/ubuntu/">http://mirror.lupaworld.com/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb <a href="http://mirror.lupaworld.com/ubuntu/">http://mirror.lupaworld.com/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a href="http://mirror.lupaworld.com/ubuntu/">http://mirror.lupaworld.com/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a href="http://mirror.lupaworld.com/ubuntu/">http://mirror.lupaworld.com/ubuntu/</a> maverick-updates universe main multiverse restricted</p>
-<p>rootguide源，ubuntu官方上海源，提供 Kernel，Hiweed，ubuntu</p>
-<p>代码:<br>deb <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick main universe restricted multiverse<br>deb-src <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick main universe restricted multiverse<br>deb <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb-src <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-updates universe main multiverse restricted<br>deb <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb-src <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a href="http://mirror.rootguide.org/ubuntu/">http://mirror.rootguide.org/ubuntu/</a> maverick-updates universe main multiverse restricted</p>
-<p>网易开源镜像站,提供FreeBSD，OpenBSD，archlinux，centos，cygwin，debian，fedora，gentoo，kernel，openSUSE，slackware，ubuntu</p>
-<p>代码:<br>deb <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick main universe restricted multiverse<br>deb-src <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick main universe restricted multiverse<br>deb <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb-src <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-updates universe main multiverse restricted<br>deb <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb-src <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a href="http://mirrors.163.com/ubuntu/">http://mirrors.163.com/ubuntu/</a> maverick-updates universe main multiverse restricted</p>
-<p>搜 狐开源镜像站，提供 CPAN，FreeBSD，NetBSD，OpenBSD，apache，archlinux，centos，cygwin，dag，debian，fedora，gentoo，kernel，lfs，mysql，nginx，openSUSE，php，rpmfusion，slackware，ubuntu</p>
-<p>代码:</p>
-<p>deb <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick main universe restricted multiverse<br>deb-src <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick main universe restricted multiverse<br>deb <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb-src <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-security universe main multiverse restricted<br>deb <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-updates universe main multiverse restricted<br>deb <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb-src <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-proposed universe main multiverse restricted<br>deb <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-backports universe main multiverse restricted<br>deb-src <a href="http://mirrors.shlug.org/ubuntu/">http://mirrors.shlug.org/ubuntu/</a> maverick-updates universe main multiverse restricted</p>
-</div>
-&nbsp;
-</content>
-]]></content>
-      <categories>
-        <category>Technical</category>
-      </categories>
-      <tags>
-        <tag>Ubuntu</tag>
-        <tag>更新源</tag>
-        <tag>10.1</tag>
-        <tag>source</tag>
       </tags>
   </entry>
   <entry>

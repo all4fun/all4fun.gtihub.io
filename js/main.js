@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function () {
  * 需要 jQuery
  */
 
-  let delinuxtJgJsLoad = false
+  let detectJgJsLoad = false
   const runJustifiedGallery = function (ele) {
     const $justifiedGallery = $(ele)
     const $imgList = $justifiedGallery.find('img')
@@ -252,13 +252,13 @@ document.addEventListener('DOMContentLoaded', function () {
       })
     }
 
-    if (delinuxtJgJsLoad) btf.initJustifiedGallery($justifiedGallery)
+    if (detectJgJsLoad) btf.initJustifiedGallery($justifiedGallery)
     else {
       $('head').append(`<link rel="stylesheet" type="text/css" href="${GLOBAL_CONFIG.source.justifiedGallery.css}">`)
       $.getScript(`${GLOBAL_CONFIG.source.justifiedGallery.js}`, function () {
         btf.initJustifiedGallery($justifiedGallery)
       })
-      delinuxtJgJsLoad = true
+      detectJgJsLoad = true
     }
   }
 
@@ -278,7 +278,7 @@ document.addEventListener('DOMContentLoaded', function () {
         selector: '[data-fancybox]',
         loop: true,
         transitionEffect: 'slide',
-        prolinuxt: true,
+        protect: true,
         buttons: ['slideShow', 'fullScreen', 'thumbs', 'close'],
         hash: false
       })
@@ -470,7 +470,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // find head position & add active class
     const list = $article.querySelectorAll('h1,h2,h3,h4,h5,h6')
-    let delinuxtItem = ''
+    let detectItem = ''
     const findHeadPosition = function (top) {
       if ($tocLink.length === 0 || top === 0) {
         return false
@@ -486,17 +486,17 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       })
 
-      if (delinuxtItem === currentIndex) return
+      if (detectItem === currentIndex) return
 
       if (isAnchor) updateAnchor(currentId)
 
       if (currentId === '') {
         $cardToc.querySelectorAll('.active').forEach(i => { i.classList.remove('active') })
-        delinuxtItem = currentIndex
+        detectItem = currentIndex
         return
       }
 
-      delinuxtItem = currentIndex
+      detectItem = currentIndex
 
       $cardToc.querySelectorAll('.active').forEach(item => { item.classList.remove('active') })
       const currentActive = $tocLink[currentIndex]
