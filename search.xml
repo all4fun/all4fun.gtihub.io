@@ -67,6 +67,41 @@
       </categories>
   </entry>
   <entry>
+    <title>清除mysql的log-bin日志</title>
+    <url>/clear-the-mysql-log-bin-log.html</url>
+    <content><![CDATA[<content>
+<p>前一阵子工作项目上的事情忙的焦头烂额，最近要进行部门调整将要去做新的项目。又要学习很多新的知识了，还是很兴奋激动的。今天下班回来查看了一下VPS状态，发现VPS的空间只剩下了1G多！第一反应是被入侵了，但是看了一下log并没有发现什么异常的登录，加上平时基本都是用私钥免密码登录的VPS，别入侵的可能也不是很大。那我就很疑惑了，因为系统文件占用应该也就3G多，我平时并没有在VPS放过什么大文件，不应该一下子少那么多空间。于是开始一番du查找终于找到了罪魁祸首！原来是mysql的log文件导致的。</p>  <p>装mysql并运行一段时间后，在mysql目录下出现一堆类似mysql-bin.000***，从mysql-bin.000001开始一直排列下来，而且占用了大量硬盘空间，高达十几个G.。原来mysql-bin.000001、mysql-bin.000002等文件是数据库的操作日志，例如UPDATE一个表，或者DELETE一些数据，即使该语句没有匹配的数据，这个命令也会存储到日志文件中，还包括每个语句执行的时间，也会记录进去的。 这些形如mysql-bin.00001的文件主要是用来做什么的呢? <strong>1、数据恢复</strong> </p>  <p>如果你的数据库出问题了，而你之前有过备份，那么可以看日志文件，找出是哪个命令导致你的数据库出问题了，想办法挽回损失。 </p>  <p><strong>2、主从服务器之间同步数据</strong> </p>  <p>主服务器上所有的操作都在记录日志中，从服务器可以根据该日志来进行，以确保两个同步。</p>  <p><strong>3、清除办法</strong></p>  <p>运行 /usr/local/mysql/bin/mysql -u root -p 登录执行：</p>  <pre lang="mysql" line="1">reset master;</pre>
+
+<p>如果你只有一个mysql服务器，在/etc/ 下面找到my.cnf文件vim /etc/my.cnf把里面的 </p>
+
+<pre>
+#log-bin=mysql-bin 
+#binlog_format=mixed 
+这两行注释掉，然后将mysql下的var目录中的这些日志文件全部删除，重启mysql服务即可。
+</pre>
+
+<p>但是如果你设置了主从服务器，那么就需要做以下操作了。 </p>
+
+<p>A：在每个从属服务器上，使用SHOW SLAVE STATUS来检查它正在读取哪个日志。 </p>
+
+<p>B：使用SHOW MASTER LOGS获得主服务器上的一系列日志。 </p>
+
+<p>C：在所有的从属服务器中判定最早的日志，这个是目标日志，如果所有的从属服务器是更新的，就是清单上的最后一个日志。 </p>
+
+<p>D：清理所有的日志，但是不包括目标日志，因为从服务器还要跟它同步。 简单地说,这些MySQL目录下的形如mysql-bin.000***的文件时MySQL的事务日志。 删除复制服务器已经拿走的binlog是安全的，一般来说网络状况好的时候，保留最新的那一个足以。 </p>
+</content>
+]]></content>
+      <categories>
+        <category>Technical</category>
+      </categories>
+      <tags>
+        <tag>ssh</tag>
+        <tag>VPS</tag>
+        <tag>日志</tag>
+        <tag>IOS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CMD窗口属性设置</title>
     <url>/cmd-in-window-property-the-settings.html</url>
     <content><![CDATA[<content>
@@ -110,38 +145,38 @@
       </tags>
   </entry>
   <entry>
-    <title>清除mysql的log-bin日志</title>
-    <url>/clear-the-mysql-log-bin-log.html</url>
+    <title>配置nginx伪静态以支持ThinkPHP的PATHINFO模式</title>
+    <url>/configure-nginx-to-support-thinkphp-pathinfo-mode.html</url>
     <content><![CDATA[<content>
-<p>前一阵子工作项目上的事情忙的焦头烂额，最近要进行部门调整将要去做新的项目。又要学习很多新的知识了，还是很兴奋激动的。今天下班回来查看了一下VPS状态，发现VPS的空间只剩下了1G多！第一反应是被入侵了，但是看了一下log并没有发现什么异常的登录，加上平时基本都是用私钥免密码登录的VPS，别入侵的可能也不是很大。那我就很疑惑了，因为系统文件占用应该也就3G多，我平时并没有在VPS放过什么大文件，不应该一下子少那么多空间。于是开始一番du查找终于找到了罪魁祸首！原来是mysql的log文件导致的。</p>  <p>装mysql并运行一段时间后，在mysql目录下出现一堆类似mysql-bin.000***，从mysql-bin.000001开始一直排列下来，而且占用了大量硬盘空间，高达十几个G.。原来mysql-bin.000001、mysql-bin.000002等文件是数据库的操作日志，例如UPDATE一个表，或者DELETE一些数据，即使该语句没有匹配的数据，这个命令也会存储到日志文件中，还包括每个语句执行的时间，也会记录进去的。 这些形如mysql-bin.00001的文件主要是用来做什么的呢? <strong>1、数据恢复</strong> </p>  <p>如果你的数据库出问题了，而你之前有过备份，那么可以看日志文件，找出是哪个命令导致你的数据库出问题了，想办法挽回损失。 </p>  <p><strong>2、主从服务器之间同步数据</strong> </p>  <p>主服务器上所有的操作都在记录日志中，从服务器可以根据该日志来进行，以确保两个同步。</p>  <p><strong>3、清除办法</strong></p>  <p>运行 /usr/local/mysql/bin/mysql -u root -p 登录执行：</p>  <pre lang="mysql" line="1">reset master;</pre>
+ThinkPHP是一款很不错的框架，也是PHP开发中最近用的比较火的。平时在本地开发中打开apache的mod<em>rewrite </em>配合.htaccess文件就可以完美的支持ThinkPHP的PATHINFO模式，但是家里的linux机器搭建的却是nginx 环境。这就造成了url 重写出现了很多奇怪的问题，所以需要对nginx 的配置文件修改一下来让它支持ThinkPHP的框架。
+首先你的项目的config文件中要配置这一项
+<pre class="brush: php; gutter: true">  &#039;URL_MODEL&#039; =&gt; 2, // rewrite</pre>
+在服务器中切换到nginx的安装目录，我这里是 /usr/local/nginx。然后添加thinkphp.conf 文件
 
-<p>如果你只有一个mysql服务器，在/etc/ 下面找到my.cnf文件vim /etc/my.cnf把里面的 </p>
+<p>vim /usr/local/nginx/conf/thinkphp.conf<br>内容如下</p>
+<pre class="brush: bash; gutter: true">location / {
+  if (!-e $request_filename){
+  rewrite ^/(.*)$ /index.php?s=/$1 last;
+  }
+}</pre><img title="nginx_thinkphp" src="uploads/2012/12/nginx_thinkphp-300x90.jpg" alt="" width="300" height="90" />
 
-<pre>
-#log-bin=mysql-bin 
-#binlog_format=mixed 
-这两行注释掉，然后将mysql下的var目录中的这些日志文件全部删除，重启mysql服务即可。
-</pre>
+<p>然后在你的配置文件中include一下刚刚的配置文件。</p>
+<img title="nginx_thinkphp_config" src="uploads/2012/12/nginx_thinkphp_config-300x245.jpg" alt="" width="300" height="245" />
 
-<p>但是如果你设置了主从服务器，那么就需要做以下操作了。 </p>
-
-<p>A：在每个从属服务器上，使用SHOW SLAVE STATUS来检查它正在读取哪个日志。 </p>
-
-<p>B：使用SHOW MASTER LOGS获得主服务器上的一系列日志。 </p>
-
-<p>C：在所有的从属服务器中判定最早的日志，这个是目标日志，如果所有的从属服务器是更新的，就是清单上的最后一个日志。 </p>
-
-<p>D：清理所有的日志，但是不包括目标日志，因为从服务器还要跟它同步。 简单地说,这些MySQL目录下的形如mysql-bin.000***的文件时MySQL的事务日志。 删除复制服务器已经拿走的binlog是安全的，一般来说网络状况好的时候，保留最新的那一个足以。 </p>
+<p>如果你的ThinkPHP入口文件index.php不在根目录，则需要把thinkphp.conf改成这样</p>
+<pre class="brush: bash; gutter: true">location /入口文件所在目录/ {
+  if (!-e $request_filename){
+  rewrite ^/abc/(.*)$ /abc/index.php?s=/$1 last;
+  }
+}</pre>
 </content>
 ]]></content>
       <categories>
         <category>Technical</category>
       </categories>
       <tags>
-        <tag>ssh</tag>
-        <tag>VPS</tag>
-        <tag>日志</tag>
-        <tag>IOS</tag>
+        <tag>中文乱码</tag>
+        <tag>Oracle</tag>
       </tags>
   </entry>
   <entry>
@@ -155,7 +190,7 @@ iPad2可不仅仅是一个电子书，也不仅仅是用来看电影大号MP4。
 <p>好了，现在我假设你的设备已经越狱成功。很棒，下面请让你的ipad接入一个无线网络，后续的步骤也可能需要网络 ：）</p>
 <p>如果你想使用电脑来SSH 到iPad2 你可能需要使用Cydia来安装openssh。</p>
 <p>记得安装完Openssh要修改root和mobile用户的密码哦！（默认是<span style="background-color: #ffff00;">alpine</span>）</p>
-<p>PC端可以可以使用putty 和winscp配合来访问iPad2，MAC系统或者Linux可以使用系统自带的终端 ssh <a href="mailto:&#x72;&#x6f;&#x6f;&#x74;&#64;&#x31;&#57;&#50;&#x2e;&#x31;&#54;&#56;&#46;&#x31;&#46;&#x36;">&#x72;&#x6f;&#x6f;&#x74;&#64;&#x31;&#57;&#50;&#x2e;&#x31;&#54;&#56;&#46;&#x31;&#46;&#x36;</a>  。我这里使用的是Tunnelier，它集成了putty 和winscp两款工具的功能，个人感觉很好用！</p>
+<p>PC端可以可以使用putty 和winscp配合来访问iPad2，MAC系统或者Linux可以使用系统自带的终端 ssh <a href="mailto:&#x72;&#x6f;&#111;&#x74;&#64;&#49;&#x39;&#50;&#x2e;&#49;&#54;&#x38;&#x2e;&#x31;&#46;&#x36;">&#x72;&#x6f;&#111;&#x74;&#64;&#49;&#x39;&#50;&#x2e;&#49;&#54;&#x38;&#x2e;&#x31;&#46;&#x36;</a>  。我这里使用的是Tunnelier，它集成了putty 和winscp两款工具的功能，个人感觉很好用！</p>
 <p><strong>可能用的的工具：</strong></p>
 <p>Tunnelier （地址：<a href="http://www.bitvise.com/tunnelier">www.bitvise.com/<strong>tunnelier</strong></a>）<em><span style="color: #a5a5a5;">推荐</span></em></p>
 <p>putty （地址：<a href="http://www.putty.org/">www.<strong>putty</strong>.org/</a>）</p>
@@ -246,41 +281,6 @@ ldid -S hello
       </tags>
   </entry>
   <entry>
-    <title>配置nginx伪静态以支持ThinkPHP的PATHINFO模式</title>
-    <url>/configure-nginx-to-support-thinkphp-pathinfo-mode.html</url>
-    <content><![CDATA[<content>
-ThinkPHP是一款很不错的框架，也是PHP开发中最近用的比较火的。平时在本地开发中打开apache的mod<em>rewrite </em>配合.htaccess文件就可以完美的支持ThinkPHP的PATHINFO模式，但是家里的linux机器搭建的却是nginx 环境。这就造成了url 重写出现了很多奇怪的问题，所以需要对nginx 的配置文件修改一下来让它支持ThinkPHP的框架。
-首先你的项目的config文件中要配置这一项
-<pre class="brush: php; gutter: true">  &#039;URL_MODEL&#039; =&gt; 2, // rewrite</pre>
-在服务器中切换到nginx的安装目录，我这里是 /usr/local/nginx。然后添加thinkphp.conf 文件
-
-<p>vim /usr/local/nginx/conf/thinkphp.conf<br>内容如下</p>
-<pre class="brush: bash; gutter: true">location / {
-  if (!-e $request_filename){
-  rewrite ^/(.*)$ /index.php?s=/$1 last;
-  }
-}</pre><img title="nginx_thinkphp" src="uploads/2012/12/nginx_thinkphp-300x90.jpg" alt="" width="300" height="90" />
-
-<p>然后在你的配置文件中include一下刚刚的配置文件。</p>
-<img title="nginx_thinkphp_config" src="uploads/2012/12/nginx_thinkphp_config-300x245.jpg" alt="" width="300" height="245" />
-
-<p>如果你的ThinkPHP入口文件index.php不在根目录，则需要把thinkphp.conf改成这样</p>
-<pre class="brush: bash; gutter: true">location /入口文件所在目录/ {
-  if (!-e $request_filename){
-  rewrite ^/abc/(.*)$ /abc/index.php?s=/$1 last;
-  }
-}</pre>
-</content>
-]]></content>
-      <categories>
-        <category>Technical</category>
-      </categories>
-      <tags>
-        <tag>中文乱码</tag>
-        <tag>Oracle</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>禁用或替换博客google字体</title>
     <url>/disable-or-replace-google-font.html</url>
     <content><![CDATA[<content>
@@ -301,6 +301,67 @@ $protocol = is_ssl() ? ‘https’ : ‘http’;
       <categories>
         <category>最近添加</category>
       </categories>
+  </entry>
+  <entry>
+    <title>高效办公辅助工具Autohotkey</title>
+    <url>/efficient-office-support-tool-autohotkey.html</url>
+    <content><![CDATA[<content>
+<p><strong>序：</strong>工欲善其事，必先利其器。近期工作中要对公司的AFP软件进行汉化，由此也带来了大量的重复性工作，海量的字符串提取，组合，规整，键盘鼠标表示压力颇大~ 为此特别找回了大学玩魔兽对战用的改键插件Autohotkey，嘿嘿。</p>  <p><a href="http://www.autohotkey.com/">AutoHotKey</a> 软件可以实现很多有趣的功能，可以简化你的重复性工作。<a href="http://www.autohotkey.com/download/" target="_blank">这里</a>下载</p>  <p>选择一个适合你的版本，办公环境稳定的可以选择安装版，需要便携要求的可以下载绿色版本，当然安装版的好处是：系统会自动关联 .ahk 文件。安装完成后打开Autohotkey软件，然后你会在系统托盘处看到一个H字样的小图标。现在右击托盘处图标，选择Edit this Script来设置。<a href="uploads/2012/06/image.png"><img style="border-right-width: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px" title="image" border="0" alt="image" src="uploads/2012/06/image_thumb.png" width="227" height="244" /></a> </p>  <p>在打开的配置文件中加入你需要的功能。例如：加入 </p>  <pre>#w::Run <a href="http://wangheng.org">wangheng.org</a></pre>
+
+<p>然后选择Reload This Script，现在按win键(小旗标识那个键)+w，怎么样是不是直接在浏览器打开本博的主页呢？</p>
+
+<p>这里简单地解释一下那两行语句的意思：#号代表 Win 键；两个英文冒号作为热键和命令的分隔符使用；run是Autohotkey中常用的命令之一，它的后面是要运行的程序完整路径或网址（思考：如果要按win+q就打开QQ，该怎么写呢？）。当然如果你的程序或命令的所在目录是加到了系统的PATH中，则可以直接写执行程序的名字。例如</p>
+
+<pre>#n::run notepad</pre><span id="more"></span><p>代码中只是写着“notepad”，没有写上完整路径但是却能打开，明白为什么了吧。（Tips：Autohotkey 能替换掉系统的默认快捷键）</p>
+
+<p>Ctrl 的符号是 ^ </p>
+
+<p>Alt 的符号是 ! </p>
+
+<p>Shift 的符号是 + </p>
+
+<p>如果你想按下Ctrl + Alt + Shift + N来启动 notepad的话，可以这样写：</p>
+
+<p>^!+n::run notepad</p>
+
+<p>所以一法通，万法通，现在你可以完全定制自己的热键了。</p>
+
+<p>如果只是上面的这些技巧那么这篇博客就没有什么必要了，下面要介绍的是我如果利用visual studio中的Vim插件和Autohotkey来完成一些很费事的工作的。</p>
+
+<p>由于经常拼接类似这样的语句</p>
+
+<p>public const String A=&quot;A&quot;;</p>
+
+<p>每个源码文件中都可能有数十个这样的字符串，所以带来的工作量可想而知！~我是这样写的，首先将A字符串复制到剪切板。</p>
+
+<p>!d::send {esc}{o}public const String {esc}{p}{A}{=}{&quot;}{esc}{p}{A}{&quot;}{;}</p>
+
+<p>哈哈，现在随便在哪一行按alt+d，是不是直接在下一行打出了public const String A=&quot;A&quot;;这条语句呢？如果你的机器没有安装vim或者vim插件还可以这样写：（不过需要先手动换行，代码倒是少一些）</p>
+
+<p>!d::send public const String ^{v}=&quot;^{v}&quot;;</p>
+
+<p>很多浏览器或编辑工具都支持按Ctrl+Tab来切换标签，但总感觉Ctrl不如Alt好按，所以加了一条</p>
+
+<pre>!a::send ^{tab}</pre>
+
+<p>平时好多地方登录都要输入邮箱，所以加了这样一行：</p>
+
+<pre>!u::send <a href="mailto:me@wangheng.org">me@wangheng.org</a></pre>
+
+<p>这样平时也能节省自己不少时间~分秒必争嘛~</p>
+</content>
+]]></content>
+      <categories>
+        <category>Technical</category>
+        <category>Autohotkey</category>
+      </categories>
+      <tags>
+        <tag>Windows</tag>
+        <tag>vim</tag>
+        <tag>visual studio</tag>
+        <tag>Win7</tag>
+        <tag>Cron</tag>
+      </tags>
   </entry>
   <entry>
     <title>国内外代理IP服务器列表</title>
@@ -481,16 +542,16 @@ gt4.0.8-all-source-installer   gt4.0.8-all-source-installer.tar.gz</pre>
 <p>The private key is<br>stored in /etc/grid-security/hostkey.pem</p>
 <p>The request is<br>stored in /etc/grid-security/hostcert_request.pem</p>
 <p>&nbsp;</p>
-<p>Please e-mail the<br>request to the Globus Simple CA <a href="mailto:&#99;&#121;&#95;&#120;&#x69;&#x61;&#x6f;&#x78;&#105;&#97;&#x6f;&#64;&#121;&#97;&#104;&#111;&#x6f;&#x2e;&#99;&#111;&#x6d;&#46;&#x63;&#x6e;">&#99;&#121;&#95;&#120;&#x69;&#x61;&#x6f;&#x78;&#105;&#97;&#x6f;&#64;&#121;&#97;&#104;&#111;&#x6f;&#x2e;&#99;&#111;&#x6d;&#46;&#x63;&#x6e;</a></p>
+<p>Please e-mail the<br>request to the Globus Simple CA <a href="mailto:&#99;&#x79;&#95;&#120;&#x69;&#x61;&#111;&#x78;&#105;&#97;&#111;&#x40;&#x79;&#x61;&#104;&#x6f;&#111;&#46;&#99;&#111;&#x6d;&#x2e;&#x63;&#110;">&#99;&#x79;&#95;&#120;&#x69;&#x61;&#111;&#x78;&#105;&#97;&#111;&#x40;&#x79;&#x61;&#104;&#x6f;&#111;&#46;&#99;&#111;&#x6d;&#x2e;&#x63;&#110;</a></p>
 <p>You may use a<br>command similar to the following:</p>
 <p>&nbsp;</p>
-<p>cat /etc/grid-security/hostcert_request.pem |<br>mail <a href="mailto:&#x63;&#121;&#95;&#x78;&#105;&#x61;&#x6f;&#120;&#105;&#x61;&#x6f;&#64;&#121;&#97;&#104;&#111;&#111;&#x2e;&#99;&#x6f;&#109;&#46;&#x63;&#x6e;">&#x63;&#121;&#95;&#x78;&#105;&#x61;&#x6f;&#120;&#105;&#x61;&#x6f;&#64;&#121;&#97;&#104;&#111;&#111;&#x2e;&#99;&#x6f;&#109;&#46;&#x63;&#x6e;</a></p>
+<p>cat /etc/grid-security/hostcert_request.pem |<br>mail <a href="mailto:&#x63;&#121;&#x5f;&#120;&#x69;&#97;&#111;&#120;&#105;&#97;&#x6f;&#64;&#121;&#97;&#104;&#111;&#x6f;&#46;&#x63;&#111;&#x6d;&#x2e;&#x63;&#110;">&#x63;&#121;&#x5f;&#120;&#x69;&#97;&#111;&#120;&#105;&#97;&#x6f;&#64;&#121;&#97;&#104;&#111;&#x6f;&#46;&#x63;&#111;&#x6d;&#x2e;&#x63;&#110;</a></p>
 <p>&nbsp;</p>
 <p>Only use the above<br>if this machine can send AND receive e-mail. if not, please</p>
 <p>mail using some<br>other method.</p>
 <p>&nbsp;</p>
 <p>Your certificate<br>will be mailed to you within two working days.</p>
-<p>If you receive no<br>response, contact Globus Simple CA at <a href="mailto:&#99;&#121;&#95;&#x78;&#x69;&#97;&#x6f;&#120;&#x69;&#97;&#x6f;&#x40;&#121;&#97;&#x68;&#x6f;&#x6f;&#x2e;&#99;&#x6f;&#x6d;&#x2e;&#99;&#110;">&#99;&#121;&#95;&#x78;&#x69;&#97;&#x6f;&#120;&#x69;&#97;&#x6f;&#x40;&#121;&#97;&#x68;&#x6f;&#x6f;&#x2e;&#99;&#x6f;&#x6d;&#x2e;&#99;&#110;</a></p>
+<p>If you receive no<br>response, contact Globus Simple CA at <a href="mailto:&#x63;&#121;&#95;&#120;&#x69;&#x61;&#111;&#x78;&#x69;&#x61;&#111;&#x40;&#x79;&#x61;&#x68;&#x6f;&#111;&#x2e;&#99;&#111;&#109;&#46;&#99;&#x6e;">&#x63;&#121;&#95;&#120;&#x69;&#x61;&#111;&#x78;&#x69;&#x61;&#111;&#x40;&#x79;&#x61;&#x68;&#x6f;&#111;&#x2e;&#99;&#111;&#109;&#46;&#99;&#x6e;</a></p>
 <p>&nbsp;</p>
 <p>[root@xx1<br>grid-security]# pwd</p>
 <p>/etc/grid-security</p>
@@ -545,67 +606,6 @@ gt4.0.8-all-source-installer   gt4.0.8-all-source-installer.tar.gz</pre>
         <tag>Ant</tag>
         <tag>Openjdk</tag>
         <tag>openssh</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>高效办公辅助工具Autohotkey</title>
-    <url>/efficient-office-support-tool-autohotkey.html</url>
-    <content><![CDATA[<content>
-<p><strong>序：</strong>工欲善其事，必先利其器。近期工作中要对公司的AFP软件进行汉化，由此也带来了大量的重复性工作，海量的字符串提取，组合，规整，键盘鼠标表示压力颇大~ 为此特别找回了大学玩魔兽对战用的改键插件Autohotkey，嘿嘿。</p>  <p><a href="http://www.autohotkey.com/">AutoHotKey</a> 软件可以实现很多有趣的功能，可以简化你的重复性工作。<a href="http://www.autohotkey.com/download/" target="_blank">这里</a>下载</p>  <p>选择一个适合你的版本，办公环境稳定的可以选择安装版，需要便携要求的可以下载绿色版本，当然安装版的好处是：系统会自动关联 .ahk 文件。安装完成后打开Autohotkey软件，然后你会在系统托盘处看到一个H字样的小图标。现在右击托盘处图标，选择Edit this Script来设置。<a href="uploads/2012/06/image.png"><img style="border-right-width: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px" title="image" border="0" alt="image" src="uploads/2012/06/image_thumb.png" width="227" height="244" /></a> </p>  <p>在打开的配置文件中加入你需要的功能。例如：加入 </p>  <pre>#w::Run <a href="http://wangheng.org">wangheng.org</a></pre>
-
-<p>然后选择Reload This Script，现在按win键(小旗标识那个键)+w，怎么样是不是直接在浏览器打开本博的主页呢？</p>
-
-<p>这里简单地解释一下那两行语句的意思：#号代表 Win 键；两个英文冒号作为热键和命令的分隔符使用；run是Autohotkey中常用的命令之一，它的后面是要运行的程序完整路径或网址（思考：如果要按win+q就打开QQ，该怎么写呢？）。当然如果你的程序或命令的所在目录是加到了系统的PATH中，则可以直接写执行程序的名字。例如</p>
-
-<pre>#n::run notepad</pre><span id="more"></span><p>代码中只是写着“notepad”，没有写上完整路径但是却能打开，明白为什么了吧。（Tips：Autohotkey 能替换掉系统的默认快捷键）</p>
-
-<p>Ctrl 的符号是 ^ </p>
-
-<p>Alt 的符号是 ! </p>
-
-<p>Shift 的符号是 + </p>
-
-<p>如果你想按下Ctrl + Alt + Shift + N来启动 notepad的话，可以这样写：</p>
-
-<p>^!+n::run notepad</p>
-
-<p>所以一法通，万法通，现在你可以完全定制自己的热键了。</p>
-
-<p>如果只是上面的这些技巧那么这篇博客就没有什么必要了，下面要介绍的是我如果利用visual studio中的Vim插件和Autohotkey来完成一些很费事的工作的。</p>
-
-<p>由于经常拼接类似这样的语句</p>
-
-<p>public const String A=&quot;A&quot;;</p>
-
-<p>每个源码文件中都可能有数十个这样的字符串，所以带来的工作量可想而知！~我是这样写的，首先将A字符串复制到剪切板。</p>
-
-<p>!d::send {esc}{o}public const String {esc}{p}{A}{=}{&quot;}{esc}{p}{A}{&quot;}{;}</p>
-
-<p>哈哈，现在随便在哪一行按alt+d，是不是直接在下一行打出了public const String A=&quot;A&quot;;这条语句呢？如果你的机器没有安装vim或者vim插件还可以这样写：（不过需要先手动换行，代码倒是少一些）</p>
-
-<p>!d::send public const String ^{v}=&quot;^{v}&quot;;</p>
-
-<p>很多浏览器或编辑工具都支持按Ctrl+Tab来切换标签，但总感觉Ctrl不如Alt好按，所以加了一条</p>
-
-<pre>!a::send ^{tab}</pre>
-
-<p>平时好多地方登录都要输入邮箱，所以加了这样一行：</p>
-
-<pre>!u::send <a href="mailto:me@wangheng.org">me@wangheng.org</a></pre>
-
-<p>这样平时也能节省自己不少时间~分秒必争嘛~</p>
-</content>
-]]></content>
-      <categories>
-        <category>Technical</category>
-        <category>Autohotkey</category>
-      </categories>
-      <tags>
-        <tag>Windows</tag>
-        <tag>vim</tag>
-        <tag>visual studio</tag>
-        <tag>Win7</tag>
-        <tag>Cron</tag>
       </tags>
   </entry>
   <entry>
@@ -762,7 +762,7 @@ setTimeout("javascript:location.href='hi.html' ", 5000);
 <pre class="brush: bash; gutter: true">[root@B ~]$ cat id_rsa.pub &gt;&gt; .ssh/authorized_keys 
 [root@B ~]$ chmod 600 .ssh/authorized_keys</pre><strong>authorized_keys的权限必须是600。(</strong>要保证.ssh和authorized_keys都只有用户自己有写权限。否则验证无效。)
 
-<p><strong>第四步、验证A机无密码登录B机。</strong><pre class="brush: bash; gutter: true">[root@A ~]$ ssh <a href="mailto:&#114;&#x6f;&#111;&#x74;&#64;&#49;&#x39;&#x32;&#x2e;&#49;&#54;&#56;&#x2e;&#49;&#x2e;&#50;">&#114;&#x6f;&#111;&#x74;&#64;&#49;&#x39;&#x32;&#x2e;&#49;&#54;&#56;&#x2e;&#49;&#x2e;&#50;</a></pre><br>第一次登录时如果询问是否将B机器加到A机器的list of known hosts，还需要你输入yes。现在A机可以无密码登录B机了。</p>
+<p><strong>第四步、验证A机无密码登录B机。</strong><pre class="brush: bash; gutter: true">[root@A ~]$ ssh <a href="mailto:&#114;&#111;&#x6f;&#x74;&#64;&#49;&#x39;&#x32;&#x2e;&#49;&#54;&#56;&#46;&#49;&#46;&#50;">&#114;&#111;&#x6f;&#x74;&#64;&#49;&#x39;&#x32;&#x2e;&#49;&#54;&#56;&#46;&#49;&#46;&#50;</a></pre><br>第一次登录时如果询问是否将B机器加到A机器的list of known hosts，还需要你输入yes。现在A机可以无密码登录B机了。</p>
 <p><strong>小结：</strong>私钥文件也可以保存下来在别的机器上面使用，被登录的机子要有登录机子的公钥。这个<strong>公钥/私钥对</strong>一般在私钥宿主机产生。想让A，B机无密码互登录，B机器上重复以上步骤即可~</p>
 <p><span style="font-size: x-large;"><strong>二、在Windows中</strong></span></p>
 <p>在Windows中要想实现无密码登录Linux主机也很简单。一般在Windows中远程ssh连接Linux主机大家都会使用<a href="http://www.putty.org/" target="_blank">putty</a> 或者Tunnelier这样的工具，我一般使用Tunnelier比较多，因为它集成了sftp工具和其他一些很实用的功能。例如使用Tunnelier很容易实现<a href="http://wangheng.org/firefox-the-ssh-the-autoproxy-smart-over-wall.html">Firefox+SSH+AutoProxy智能翻墙</a>，想试试的同学可以翻翻我以前发过的文章。下面具体介绍Windows下使用putty无密码登录Linux</p>
@@ -807,6 +807,112 @@ setTimeout("javascript:location.href='hi.html' ", 5000);
       </tags>
   </entry>
   <entry>
+    <title>Linux编译安装Darwin Streaming Server 6.0.3</title>
+    <url>/install-darwin-streaming-server-6-0-3-on-linux.html</url>
+    <content><![CDATA[<content>
+<p>&#160;&#160;&#160; 买回来VPS后就一直想在上面搭建一个流媒体服务，在网上搜索了很多资料，大部分都是介绍Linux中安装Darwin Streaming Server 5.5.5版本，因为这个版本提供了针对linux的安装脚本。但既然官网有了6.0.3版本，于是果断尝试安装最新的版本。</p>  <p><b>1</b><b>、什么是Darwin Streaming Server</b></p>  <p>&#160;&#160;&#160; 目前主流的流媒体服务器有微软的windows media server、RealNetworks的Helixserver和苹果公司的Darwin Streaming Server. 微软的windows media server只能在windows2000 server和windows 2003 server下使用，不在考虑之列。RealNetworks的Helixserver是一款跨平台的软件，功能也很强大，但并非免费软件。</p>  <p>&#160;&#160;&#160; Darwin Streaming Server简称DSS。DSS是Apple公司提供的开源实时流媒体播放服务器程序。整个程序使用C++编写，在设计上遵循高性能，简单，模块化等程序设计原则，务求做到程序高效，可扩充性好。并且DSS是一个开放源代码的，基于标准的流媒体服务器，可以运行在Windows NT和Windows 2000，以及几个UNIX实现上，包括Mac OS X，Linux，FreeBSD，和Solaris操作系统上的。</p>  <p><b>2</b><b>、在Linux</b><b>中编译安装Darwin Streaming Server</b></p>  <p>首先需要进行一些必要的准备工作：</p>  <pre lang="bash" line="1">apt-get install patch make gcc g++ </pre>
+
+<p>准备好软件暂存的目录，并从官网下载软件的源码：</p>
+
+<pre lang="bash" line="1">mkdir soft
+cd soft
+wget http://dss.macosforge.org/downloads/DarwinStreamingSrvr6.0.3-Source.tar</pre>
+
+<p>源码下载完成后，需要解压tar包，</p>
+
+<pre lang="bash" line="1">tar xvf DarwinStreamingSrvr6.0.3-Source.tar</pre>
+
+<p>给源码安装补丁文件，进入DarwinStreamingSrvr6.0.3-Source目录，并打补丁：</p><span id="more"></span><pre lang="bash" line="1">cd DarwinStreamingSrvr6.0.3-Source
+wget http://www.abrahamsson.com/dss-6.0.3.patch
+patch -p1 < dss-6.0.3.patch  </pre>
+
+<p>执行</p>
+
+<pre lang="bash" line="1">./Buildit </pre>
+
+<p>编译完成后，我们来生成linux下的dss安装包</p>
+
+<pre lang="bash" line="1">执行 ./buildtarball </pre>
+
+<p>生成DarwinStreamingSrvr-Linux.tar.gz</p>
+
+<p>解压缩</p>
+
+<pre lang="bash" line="1">tar -zxvf DarwinStreamingSrvr-Linux.tar.gz 
+cd DarwinStreamingSrvr-Linux </pre>
+
+<p>对Install文件做修改</p>
+
+<pre lang="bash" line="1">if [ $INSTALL_OS = "Linux" ]; then 
+/usr/sbin/useradd -M qtss > /dev/null 2>&1 
+else 
+/usr/sbin/useradd qtss > /dev/null 2>&1 
+fi</pre>
+
+<p>将-M修改成-m</p>
+
+<p><a href="uploads/2012/03/clip_image0014.png"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="clip_image001[4]" border="0" alt="clip_image001[4]" src="uploads/2012/03/clip_image0014_thumb.png" width="528" height="161" /></a></p>
+
+<pre lang="bash">执行./Install </pre>
+
+<p>Please enter a new administrator user name: 【新管理员】</p>
+
+<p>Please enter a new administrator Password: 【密码】</p>
+
+<p>查看是否安裝成功</p>
+
+<pre lang="bash">ps aux | grep Darwin(查看流媒体服务器的进程) </pre>
+
+<p>root ... ... ... /usr/local/sbin/DarwinStreamingServer 
+  <br />
+
+<p>  <br />qtss … … … /usr/local/sbin/DarwinStreamingServer</p></p>
+<pre lang="bash">netstat -ntulp | grep Darwin(查看流媒体服务器的端口)</pre>
+
+<p>&#160;<a href="uploads/2012/03/clip_image0024.png"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="clip_image002[4]" border="0" alt="clip_image002[4]" src="uploads/2012/03/clip_image0024_thumb.png" width="523" height="253" /></a></p>
+
+<p><b>3</b><b>、启动 Darwin Streaming Server </b></p>
+
+<pre lang="bash" line="1">sudo /usr/local/sbin/DarwinStreamingServer</pre>
+
+<p>启动 Web 管理介面 (tcp port 1220)</p>
+
+<pre lang="bash" line="1">sudo /usr/local/sbin/streamingadminserver.pl</pre>
+
+<p>ps. 以上两项在刚安装好的时候会自动启动，不需手动执行</p>
+
+<p>小技巧：自动启动流媒体服务器的方法：</p>
+
+<p>自动运行流媒体服务器序非常简单，把上述命令添加在/etc/rc.d/rc.local脚本中即可。</p>
+
+<p>最后在服务器输入 http://你的IP:1220/来访问web管理</p>
+
+<p><a href="uploads/2012/03/image.png"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="image" border="0" alt="image" src="uploads/2012/03/image_thumb.png" width="369" height="211" /></a></p>
+
+<p>默认的媒体文件存放在/usr/local/movies</p>
+
+<p>你可以在web管理面板修改这个路径。</p>
+
+<p><strong>4、访问自己的流媒体服务</strong></p>
+
+<p>可以使用VLC media player这个软件，输入</p>
+
+<p>rtsp://你的IP/sample_100kbit.mp4</p>
+
+<p>来播放默认的测试视频。如果你的网速够给力的话效果还不错 ：)</p>
+</content>
+]]></content>
+      <categories>
+        <category>Technical</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>编译</tag>
+        <tag>Darwin Streaming Server</tag>
+        <tag>流媒体</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>安装nvidia官方驱动</title>
     <url>/install-nvidia-official-drivers.html</url>
     <content><![CDATA[<content>
@@ -820,6 +926,65 @@ setTimeout("javascript:location.href='hi.html' ", 5000);
         <tag>NVIDIA</tag>
         <tag>程序员</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>互联网常见Open API文档资源(转载)</title>
+    <url>/internet-common-open-api-resources.html</url>
+    <content><![CDATA[<content>
+所谓的开放API（<a href="http://www.williamlong.info/archives/2144.html">OpenAPI</a>）是服务型网站常见的一种应用，网站的服务商将自己的网站服务封装成一系列API（Application Programming Interface，应用编程接口）开放出去，供第三方开发者使用，这种行为就叫做开放网站的API，所开放的API就被称作OpenAPI（开放API）。
+
+<p>网站提供开放平台的API后，可以吸引一些第三方的开发人员在该平台上开发商业应用，平台提供商可以获得更多的流量与市场份额，第三方开发者不需要庞大的硬件与技术投资就可以轻松快捷的创业，从而达到双赢的目的，开放API是大平台发展、共享的途径，让开发者开发一个有价值应用，付出的成本更少，成功的机会更多。今天，OpenAPI作为互联网在线服务的发展基础，已经成为越来越多互联网企业发展服务的必然选择。下面我就列举一些常见网站服务的Open API文档资源索引。</p>
+<p><strong>SNS类网站API</strong></p>
+<p>Facebook - <a href="http://developers.facebook.com/">http://developers.facebook.com/</a></p>
+<p>人人网开放平台 - <a href="http://dev.renren.com/">http://dev.renren.com/<span id="more"></span></a></p>
+<p>51.com开放平台 - <a href="http://developers.51.com/">http://developers.51.com/</a></p>
+<p>MySpace开发者平台 - <a href="http://developer.myspace.cn/">http://developer.myspace.cn/</a></p>
+<p>Opensocial - <a href="http://wiki.opensocial.org/">http://wiki.opensocial.org/</a></p>
+<p>Google Gadgets 小工具 API 开发人员指南 - <a href="http://www.google.com/intl/zh-TW/apis/gadgets/docs-home.html">http://www.google.com/intl/zh-TW/apis/gadgets/docs-home.html</a></p>
+<p>Gadgets API 开发人员指南 - <a href="http://code.google.com/intl/zh-CN/apis/gadgets/docs/dev_guide.html">http://code.google.com/intl/zh-CN/apis/gadgets/docs/dev_guide.html</a></p>
+<p>Gadgets API - <a href="http://code.google.com/intl/zh-CN/apis/gadgets/">http://code.google.com/intl/zh-CN/apis/gadgets/</a></p>
+<p><strong>电子商务类</strong></p>
+<p>Amazon API - <a href="http://aws.amazon.com/">http://aws.amazon.com/</a></p>
+<p>eBay API - <a href="http://developer.ebay.com/">http://developer.ebay.com/</a></p>
+<p>淘宝开放平台 - <a href="http://www.taobao.com/theme/tao_source/">http://www.taobao.com/theme/tao_source/</a></p>
+<p><strong>微博API</strong></p>
+<p>Twitter API - <a href="http://apiwiki.twitter.com/Twitter-API-Documentation">http://apiwiki.twitter.com/Twitter-API-Documentation</a></p>
+<p>Status.Net(Laconica) API - <a href="http://status.net/wiki/Twitter-compatible_API">http://status.net/wiki/Twitter-compatible_API</a></p>
+<p>新浪微博开发者平台 - <a href="http://open.t.sina.com.cn">http://open.t.sina.com.cn</a></p>
+<p>注：需要授权的开发者才能访问，其API调用格式类似Twitter，但需要一个API Key用于认证管理。</p>
+<p>搜狐博客开放平台 - <a href="http://ow.blog.sohu.com/">http://ow.blog.sohu.com/</a></p>
+<p>Follow5 API - <a href="http://www.follow5.com/f5/jsp/other/api/api.jsp">http://www.follow5.com/f5/jsp/other/api/api.jsp</a></p>
+<p>嘀咕API - <a href="http://code.google.com/p/digu-api/wiki/DiguApi">http://code.google.com/p/digu-api/wiki/DiguApi</a></p>
+<p>做啥API - <a href="http://code.google.com/p/zuosa-api/wiki/ZuosaApiDoc">http://code.google.com/p/zuosa-api/wiki/ZuosaApiDoc</a></p>
+<p>人间网API - <a href="http://renjian.com/api.html">http://renjian.com/api.html</a></p>
+<p>9911微博API - <a href="http://www.9911.com/api.php">http://www.9911.com/api.php</a></p>
+<p><strong>Google Maps API</strong></p>
+<p>Google Maps API Developer Guide - <a href="http://code.google.com/intl/en/apis/maps/documentation/">http://code.google.com/intl/en/apis/maps/documentation/</a></p>
+<p>Google Maps API Tutorial - <a href="http://econym.org.uk/gmap/extensions.htm">http://econym.org.uk/gmap/extensions.htm</a></p>
+<p>GMaps Utility Library - <a href="http://code.google.com/p/gmaps-utility-library-dev/wiki/Libraries">http://code.google.com/p/gmaps-utility-library-dev/wiki/Libraries</a></p>
+<p>GMaps Utility Examples - <a href="http://gmaps-utility-library.googlecode.com/svn/trunk/labeledmarker/release/examples/">http://gmaps-utility-library.googlecode.com/svn/trunk/labeledmarker/release/examples/</a></p>
+<p>Saving User-Added Form Data - <a href="http://code.google.com/intl/zh-CN/apis/maps/articles/phpsqlinfo.html">http://code.google.com/intl/zh-CN/apis/maps/articles/phpsqlinfo.html</a></p>
+<p><strong>Firefox类</strong></p>
+<p>Mozilla 开发者中心的扩展开发专题 - <a href="https://developer.mozilla.org/en/Extensions">https://developer.mozilla.org/en/Extensions</a></p>
+<p>XUL 1.0 规范 - <a href="http://www-archive.mozilla.org/projects/xul/xul.html">http://www-archive.mozilla.org/projects/xul/xul.html</a></p>
+<p>更多地了解这种基于 XML 的用户界面语言，它可以构建各种富跨平台应用程序。</p>
+<p>Mozilla Development Center 的 XUL 教程 - <a href="http://developer.mozilla.org/en/docs/XUL_Tutorial">http://developer.mozilla.org/en/docs/XUL_Tutorial</a></p>
+<p>Getting started with extension development 编写一个最简单的Firefox扩展 - <a href="http://kb.mozillazine.org/Getting_started_with_extension_development">http://kb.mozillazine.org/Getting_started_with_extension_development</a></p>
+<p>Setting up extension development environment - <a href="http://developer.mozilla.org/en/docs/Setting_up_extension_development_environment">http://developer.mozilla.org/en/docs/Setting_up_extension_development_environment</a></p>
+<p>实战 Firefox 扩展开发 - <a href="http://www.ibm.com/developerworks/cn/web/wa-lo-firefox-ext/">http://www.ibm.com/developerworks/cn/web/wa-lo-firefox-ext/</a></p>
+<p>使用 XUL 实现浏览器扩展 (1) - <a href="http://www.ibm.com/developerworks/cn/web/wa-xul1/">http://www.ibm.com/developerworks/cn/web/wa-xul1/</a></p>
+<p>使用 XUL 实现浏览器扩展 (2) - <a href="http://www.ibm.com/developerworks/cn/web/wa-xul2/">http://www.ibm.com/developerworks/cn/web/wa-xul2/</a></p>
+<p><strong>应用类</strong></p>
+<p>豆瓣API - <a href="http://www.douban.com/service/apidoc/">http://www.douban.com/service/apidoc/</a></p>
+<p>Flickr API - <a href="http://www.flickr.com/services/api/">http://www.flickr.com/services/api/</a></p>
+<p>Last.fm API - <a href="http://www.last.fm/api">http://www.last.fm/api</a></p>
+<p>Box.net API - <a href="http://developers.box.net/">http://developers.box.net/</a></p>
+<p>Delicious API - <a href="http://delicious.com/help/api">http://delicious.com/help/api</a></p>
+<p>API统计 - <a href="http://www.programmableweb.com/apis">http://www.programmableweb.com/apis</a><br></content></p>
+]]></content>
+      <categories>
+        <category>乱七八糟</category>
+      </categories>
   </entry>
   <entry>
     <title>Centos 6.5 安装 Oracle 12C</title>
@@ -941,171 +1106,6 @@ cd ~
 ]]></content>
       <categories>
         <category>最近添加</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Linux编译安装Darwin Streaming Server 6.0.3</title>
-    <url>/install-darwin-streaming-server-6-0-3-on-linux.html</url>
-    <content><![CDATA[<content>
-<p>&#160;&#160;&#160; 买回来VPS后就一直想在上面搭建一个流媒体服务，在网上搜索了很多资料，大部分都是介绍Linux中安装Darwin Streaming Server 5.5.5版本，因为这个版本提供了针对linux的安装脚本。但既然官网有了6.0.3版本，于是果断尝试安装最新的版本。</p>  <p><b>1</b><b>、什么是Darwin Streaming Server</b></p>  <p>&#160;&#160;&#160; 目前主流的流媒体服务器有微软的windows media server、RealNetworks的Helixserver和苹果公司的Darwin Streaming Server. 微软的windows media server只能在windows2000 server和windows 2003 server下使用，不在考虑之列。RealNetworks的Helixserver是一款跨平台的软件，功能也很强大，但并非免费软件。</p>  <p>&#160;&#160;&#160; Darwin Streaming Server简称DSS。DSS是Apple公司提供的开源实时流媒体播放服务器程序。整个程序使用C++编写，在设计上遵循高性能，简单，模块化等程序设计原则，务求做到程序高效，可扩充性好。并且DSS是一个开放源代码的，基于标准的流媒体服务器，可以运行在Windows NT和Windows 2000，以及几个UNIX实现上，包括Mac OS X，Linux，FreeBSD，和Solaris操作系统上的。</p>  <p><b>2</b><b>、在Linux</b><b>中编译安装Darwin Streaming Server</b></p>  <p>首先需要进行一些必要的准备工作：</p>  <pre lang="bash" line="1">apt-get install patch make gcc g++ </pre>
-
-<p>准备好软件暂存的目录，并从官网下载软件的源码：</p>
-
-<pre lang="bash" line="1">mkdir soft
-cd soft
-wget http://dss.macosforge.org/downloads/DarwinStreamingSrvr6.0.3-Source.tar</pre>
-
-<p>源码下载完成后，需要解压tar包，</p>
-
-<pre lang="bash" line="1">tar xvf DarwinStreamingSrvr6.0.3-Source.tar</pre>
-
-<p>给源码安装补丁文件，进入DarwinStreamingSrvr6.0.3-Source目录，并打补丁：</p><span id="more"></span><pre lang="bash" line="1">cd DarwinStreamingSrvr6.0.3-Source
-wget http://www.abrahamsson.com/dss-6.0.3.patch
-patch -p1 < dss-6.0.3.patch  </pre>
-
-<p>执行</p>
-
-<pre lang="bash" line="1">./Buildit </pre>
-
-<p>编译完成后，我们来生成linux下的dss安装包</p>
-
-<pre lang="bash" line="1">执行 ./buildtarball </pre>
-
-<p>生成DarwinStreamingSrvr-Linux.tar.gz</p>
-
-<p>解压缩</p>
-
-<pre lang="bash" line="1">tar -zxvf DarwinStreamingSrvr-Linux.tar.gz 
-cd DarwinStreamingSrvr-Linux </pre>
-
-<p>对Install文件做修改</p>
-
-<pre lang="bash" line="1">if [ $INSTALL_OS = "Linux" ]; then 
-/usr/sbin/useradd -M qtss > /dev/null 2>&1 
-else 
-/usr/sbin/useradd qtss > /dev/null 2>&1 
-fi</pre>
-
-<p>将-M修改成-m</p>
-
-<p><a href="uploads/2012/03/clip_image0014.png"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="clip_image001[4]" border="0" alt="clip_image001[4]" src="uploads/2012/03/clip_image0014_thumb.png" width="528" height="161" /></a></p>
-
-<pre lang="bash">执行./Install </pre>
-
-<p>Please enter a new administrator user name: 【新管理员】</p>
-
-<p>Please enter a new administrator Password: 【密码】</p>
-
-<p>查看是否安裝成功</p>
-
-<pre lang="bash">ps aux | grep Darwin(查看流媒体服务器的进程) </pre>
-
-<p>root ... ... ... /usr/local/sbin/DarwinStreamingServer 
-  <br />
-
-<p>  <br />qtss … … … /usr/local/sbin/DarwinStreamingServer</p></p>
-<pre lang="bash">netstat -ntulp | grep Darwin(查看流媒体服务器的端口)</pre>
-
-<p>&#160;<a href="uploads/2012/03/clip_image0024.png"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="clip_image002[4]" border="0" alt="clip_image002[4]" src="uploads/2012/03/clip_image0024_thumb.png" width="523" height="253" /></a></p>
-
-<p><b>3</b><b>、启动 Darwin Streaming Server </b></p>
-
-<pre lang="bash" line="1">sudo /usr/local/sbin/DarwinStreamingServer</pre>
-
-<p>启动 Web 管理介面 (tcp port 1220)</p>
-
-<pre lang="bash" line="1">sudo /usr/local/sbin/streamingadminserver.pl</pre>
-
-<p>ps. 以上两项在刚安装好的时候会自动启动，不需手动执行</p>
-
-<p>小技巧：自动启动流媒体服务器的方法：</p>
-
-<p>自动运行流媒体服务器序非常简单，把上述命令添加在/etc/rc.d/rc.local脚本中即可。</p>
-
-<p>最后在服务器输入 http://你的IP:1220/来访问web管理</p>
-
-<p><a href="uploads/2012/03/image.png"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="image" border="0" alt="image" src="uploads/2012/03/image_thumb.png" width="369" height="211" /></a></p>
-
-<p>默认的媒体文件存放在/usr/local/movies</p>
-
-<p>你可以在web管理面板修改这个路径。</p>
-
-<p><strong>4、访问自己的流媒体服务</strong></p>
-
-<p>可以使用VLC media player这个软件，输入</p>
-
-<p>rtsp://你的IP/sample_100kbit.mp4</p>
-
-<p>来播放默认的测试视频。如果你的网速够给力的话效果还不错 ：)</p>
-</content>
-]]></content>
-      <categories>
-        <category>Technical</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>编译</tag>
-        <tag>Darwin Streaming Server</tag>
-        <tag>流媒体</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>互联网常见Open API文档资源(转载)</title>
-    <url>/internet-common-open-api-resources.html</url>
-    <content><![CDATA[<content>
-所谓的开放API（<a href="http://www.williamlong.info/archives/2144.html">OpenAPI</a>）是服务型网站常见的一种应用，网站的服务商将自己的网站服务封装成一系列API（Application Programming Interface，应用编程接口）开放出去，供第三方开发者使用，这种行为就叫做开放网站的API，所开放的API就被称作OpenAPI（开放API）。
-
-<p>网站提供开放平台的API后，可以吸引一些第三方的开发人员在该平台上开发商业应用，平台提供商可以获得更多的流量与市场份额，第三方开发者不需要庞大的硬件与技术投资就可以轻松快捷的创业，从而达到双赢的目的，开放API是大平台发展、共享的途径，让开发者开发一个有价值应用，付出的成本更少，成功的机会更多。今天，OpenAPI作为互联网在线服务的发展基础，已经成为越来越多互联网企业发展服务的必然选择。下面我就列举一些常见网站服务的Open API文档资源索引。</p>
-<p><strong>SNS类网站API</strong></p>
-<p>Facebook - <a href="http://developers.facebook.com/">http://developers.facebook.com/</a></p>
-<p>人人网开放平台 - <a href="http://dev.renren.com/">http://dev.renren.com/<span id="more"></span></a></p>
-<p>51.com开放平台 - <a href="http://developers.51.com/">http://developers.51.com/</a></p>
-<p>MySpace开发者平台 - <a href="http://developer.myspace.cn/">http://developer.myspace.cn/</a></p>
-<p>Opensocial - <a href="http://wiki.opensocial.org/">http://wiki.opensocial.org/</a></p>
-<p>Google Gadgets 小工具 API 开发人员指南 - <a href="http://www.google.com/intl/zh-TW/apis/gadgets/docs-home.html">http://www.google.com/intl/zh-TW/apis/gadgets/docs-home.html</a></p>
-<p>Gadgets API 开发人员指南 - <a href="http://code.google.com/intl/zh-CN/apis/gadgets/docs/dev_guide.html">http://code.google.com/intl/zh-CN/apis/gadgets/docs/dev_guide.html</a></p>
-<p>Gadgets API - <a href="http://code.google.com/intl/zh-CN/apis/gadgets/">http://code.google.com/intl/zh-CN/apis/gadgets/</a></p>
-<p><strong>电子商务类</strong></p>
-<p>Amazon API - <a href="http://aws.amazon.com/">http://aws.amazon.com/</a></p>
-<p>eBay API - <a href="http://developer.ebay.com/">http://developer.ebay.com/</a></p>
-<p>淘宝开放平台 - <a href="http://www.taobao.com/theme/tao_source/">http://www.taobao.com/theme/tao_source/</a></p>
-<p><strong>微博API</strong></p>
-<p>Twitter API - <a href="http://apiwiki.twitter.com/Twitter-API-Documentation">http://apiwiki.twitter.com/Twitter-API-Documentation</a></p>
-<p>Status.Net(Laconica) API - <a href="http://status.net/wiki/Twitter-compatible_API">http://status.net/wiki/Twitter-compatible_API</a></p>
-<p>新浪微博开发者平台 - <a href="http://open.t.sina.com.cn">http://open.t.sina.com.cn</a></p>
-<p>注：需要授权的开发者才能访问，其API调用格式类似Twitter，但需要一个API Key用于认证管理。</p>
-<p>搜狐博客开放平台 - <a href="http://ow.blog.sohu.com/">http://ow.blog.sohu.com/</a></p>
-<p>Follow5 API - <a href="http://www.follow5.com/f5/jsp/other/api/api.jsp">http://www.follow5.com/f5/jsp/other/api/api.jsp</a></p>
-<p>嘀咕API - <a href="http://code.google.com/p/digu-api/wiki/DiguApi">http://code.google.com/p/digu-api/wiki/DiguApi</a></p>
-<p>做啥API - <a href="http://code.google.com/p/zuosa-api/wiki/ZuosaApiDoc">http://code.google.com/p/zuosa-api/wiki/ZuosaApiDoc</a></p>
-<p>人间网API - <a href="http://renjian.com/api.html">http://renjian.com/api.html</a></p>
-<p>9911微博API - <a href="http://www.9911.com/api.php">http://www.9911.com/api.php</a></p>
-<p><strong>Google Maps API</strong></p>
-<p>Google Maps API Developer Guide - <a href="http://code.google.com/intl/en/apis/maps/documentation/">http://code.google.com/intl/en/apis/maps/documentation/</a></p>
-<p>Google Maps API Tutorial - <a href="http://econym.org.uk/gmap/extensions.htm">http://econym.org.uk/gmap/extensions.htm</a></p>
-<p>GMaps Utility Library - <a href="http://code.google.com/p/gmaps-utility-library-dev/wiki/Libraries">http://code.google.com/p/gmaps-utility-library-dev/wiki/Libraries</a></p>
-<p>GMaps Utility Examples - <a href="http://gmaps-utility-library.googlecode.com/svn/trunk/labeledmarker/release/examples/">http://gmaps-utility-library.googlecode.com/svn/trunk/labeledmarker/release/examples/</a></p>
-<p>Saving User-Added Form Data - <a href="http://code.google.com/intl/zh-CN/apis/maps/articles/phpsqlinfo.html">http://code.google.com/intl/zh-CN/apis/maps/articles/phpsqlinfo.html</a></p>
-<p><strong>Firefox类</strong></p>
-<p>Mozilla 开发者中心的扩展开发专题 - <a href="https://developer.mozilla.org/en/Extensions">https://developer.mozilla.org/en/Extensions</a></p>
-<p>XUL 1.0 规范 - <a href="http://www-archive.mozilla.org/projects/xul/xul.html">http://www-archive.mozilla.org/projects/xul/xul.html</a></p>
-<p>更多地了解这种基于 XML 的用户界面语言，它可以构建各种富跨平台应用程序。</p>
-<p>Mozilla Development Center 的 XUL 教程 - <a href="http://developer.mozilla.org/en/docs/XUL_Tutorial">http://developer.mozilla.org/en/docs/XUL_Tutorial</a></p>
-<p>Getting started with extension development 编写一个最简单的Firefox扩展 - <a href="http://kb.mozillazine.org/Getting_started_with_extension_development">http://kb.mozillazine.org/Getting_started_with_extension_development</a></p>
-<p>Setting up extension development environment - <a href="http://developer.mozilla.org/en/docs/Setting_up_extension_development_environment">http://developer.mozilla.org/en/docs/Setting_up_extension_development_environment</a></p>
-<p>实战 Firefox 扩展开发 - <a href="http://www.ibm.com/developerworks/cn/web/wa-lo-firefox-ext/">http://www.ibm.com/developerworks/cn/web/wa-lo-firefox-ext/</a></p>
-<p>使用 XUL 实现浏览器扩展 (1) - <a href="http://www.ibm.com/developerworks/cn/web/wa-xul1/">http://www.ibm.com/developerworks/cn/web/wa-xul1/</a></p>
-<p>使用 XUL 实现浏览器扩展 (2) - <a href="http://www.ibm.com/developerworks/cn/web/wa-xul2/">http://www.ibm.com/developerworks/cn/web/wa-xul2/</a></p>
-<p><strong>应用类</strong></p>
-<p>豆瓣API - <a href="http://www.douban.com/service/apidoc/">http://www.douban.com/service/apidoc/</a></p>
-<p>Flickr API - <a href="http://www.flickr.com/services/api/">http://www.flickr.com/services/api/</a></p>
-<p>Last.fm API - <a href="http://www.last.fm/api">http://www.last.fm/api</a></p>
-<p>Box.net API - <a href="http://developers.box.net/">http://developers.box.net/</a></p>
-<p>Delicious API - <a href="http://delicious.com/help/api">http://delicious.com/help/api</a></p>
-<p>API统计 - <a href="http://www.programmableweb.com/apis">http://www.programmableweb.com/apis</a><br></content></p>
-]]></content>
-      <categories>
-        <category>乱七八糟</category>
       </categories>
   </entry>
   <entry>
@@ -1296,7 +1296,7 @@ static void Main()
 
 <p>如果你想使用自己的app_key你需要首先注册一个金山快盘账号，然后到这里<a href="http://www.kuaipan.cn/developers">地址</a>创建一个你自己的应用并把得到的 consumer_key、consumer_secret填写到脚本相应位置。<br>当然此步骤可以略过，你可以直接使用脚本中填写好的consumer_key、consumer_secret，我创建的应用名称all4fun.</p>
 <p><strong>3.安装</strong><pre class="brush: bash; gutter: true">wget <a href="https://github.com/wujiwh/kuaipan_uploader/archive/master.zip">https://github.com/wujiwh/kuaipan_uploader/archive/master.zip</a><br>unzip master.zip<br>cd kuaipan_uploader-master<br>#或者 ：<br>git clone <a href="https://github.com/wujiwh/kuaipan_uploader.git">https://github.com/wujiwh/kuaipan_uploader.git</a><br>cd kuaipan_uploader<br>#上面两种方式选择一种即可<br>#赋予脚本执行权限并执行<br>chmod a+x kuaipan_uploader.sh<br>./kuaipan_uploader.sh</pre><br>然后根据提示完成API的授权流程，得到授权Token。脚本会自动保存得到的授权信息到CONFIG_FILE 变量对应配置文件，默认为~/.kuaipan_upload.conf<strong> </strong></p>
-<p><strong>4.</strong><strong>使用说明</strong><pre class="brush: bash; gutter: false">KuaiPan Uploader v1.1.0<br>wangheng - <a href="mailto:&#x77;&#x75;&#x6a;&#105;&#x77;&#104;&#x40;&#103;&#x6d;&#97;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;">&#x77;&#x75;&#x6a;&#105;&#x77;&#104;&#x40;&#103;&#x6d;&#97;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
+<p><strong>4.</strong><strong>使用说明</strong><pre class="brush: bash; gutter: false">KuaiPan Uploader v1.1.0<br>wangheng - <a href="mailto:&#x77;&#x75;&#x6a;&#105;&#x77;&#x68;&#x40;&#x67;&#x6d;&#97;&#105;&#x6c;&#46;&#99;&#x6f;&#x6d;">&#x77;&#x75;&#x6a;&#105;&#x77;&#x68;&#x40;&#x67;&#x6d;&#97;&#105;&#x6c;&#46;&#99;&#x6f;&#x6d;</a></p>
 <p>Usage: /usr/bin/kuaipan COMMAND [PARAMETERS]…</p>
 <p>Commands:<br>         upload   [local file]  &lt;remote file&gt;<br>         download [remote file] &lt;local file&gt;<br>         delete   [remote file/remote dir]<br>         list     &lt;remote dir&gt;<br>         info<br>         relink</p>
 <p>For more informations, please visit  <a href="http://wangheng.org/">http://wangheng.org</a>.</pre><br>其中[XXX]内的为必填参数，&lt;XXX&gt;内的为可选参数</p>
@@ -1417,14 +1417,14 @@ sync：将每个输入块填充到ibs个字节，不足部分用空（NUL）字�
 家里面的路由器ddns经常不能用，索性在系统中直接安了一个oray的客户端。具体安装步骤如下：
 
 <p><strong>1、首先安装必要的开发包</strong></p>
-<p>[<a href="mailto:&#x72;&#111;&#111;&#116;&#x40;&#x77;&#x61;&#110;&#103;&#104;&#101;&#x6e;&#103;&#x2e;&#111;&#x72;&#103;">&#x72;&#111;&#111;&#116;&#x40;&#x77;&#x61;&#110;&#103;&#104;&#101;&#x6e;&#103;&#x2e;&#111;&#x72;&#103;</a> ~] apt-get install gcc g++ automake autoconf</p>
+<p>[<a href="mailto:&#114;&#x6f;&#111;&#x74;&#x40;&#x77;&#x61;&#110;&#x67;&#x68;&#x65;&#x6e;&#x67;&#x2e;&#x6f;&#114;&#x67;">&#114;&#x6f;&#111;&#x74;&#x40;&#x77;&#x61;&#110;&#x67;&#x68;&#x65;&#x6e;&#x67;&#x2e;&#x6f;&#114;&#x67;</a> ~] apt-get install gcc g++ automake autoconf</p>
 <p><strong>2、下载phddns-2.0.2.16556.tar.gz到某一个目录</strong></p>
-<p>[<a href="mailto:&#x72;&#111;&#111;&#116;&#x40;&#x77;&#x61;&#110;&#x67;&#x68;&#x65;&#110;&#x67;&#46;&#111;&#114;&#103;">&#x72;&#111;&#111;&#116;&#x40;&#x77;&#x61;&#110;&#x67;&#x68;&#x65;&#110;&#x67;&#46;&#111;&#114;&#103;</a> ~]# wget <a href="http://download.oray.com/peanuthull/phddns-2.0.2.16556.tar.gz">http://download.oray.com/peanuthull/phddns-2.0.2.16556.tar.gz</a></p>
+<p>[<a href="mailto:&#x72;&#x6f;&#x6f;&#x74;&#64;&#119;&#97;&#110;&#103;&#x68;&#101;&#110;&#103;&#x2e;&#111;&#x72;&#103;">&#x72;&#x6f;&#x6f;&#x74;&#64;&#119;&#97;&#110;&#103;&#x68;&#101;&#110;&#103;&#x2e;&#111;&#x72;&#103;</a> ~]# wget <a href="http://download.oray.com/peanuthull/phddns-2.0.2.16556.tar.gz">http://download.oray.com/peanuthull/phddns-2.0.2.16556.tar.gz</a></p>
 <p><strong>3、解压所有文件</strong></p>
-<p>[<a href="mailto:&#x72;&#111;&#x6f;&#x74;&#64;&#119;&#97;&#x6e;&#x67;&#x68;&#101;&#x6e;&#x67;&#x2e;&#111;&#x72;&#x67;">&#x72;&#111;&#x6f;&#x74;&#64;&#119;&#97;&#x6e;&#x67;&#x68;&#101;&#x6e;&#x67;&#x2e;&#111;&#x72;&#x67;</a> ~]# tar zxvf phddns-2.0.2.16556.tar.gz</p>
-<p><strong>4、进入目录并编译</strong><br>[<a href="mailto:&#114;&#111;&#111;&#116;&#x40;&#119;&#x61;&#x6e;&#x67;&#x68;&#101;&#110;&#103;&#46;&#111;&#x72;&#103;">&#114;&#111;&#111;&#116;&#x40;&#119;&#x61;&#x6e;&#x67;&#x68;&#101;&#110;&#103;&#46;&#111;&#x72;&#103;</a> ~]# cd phddns-2.0.2.16556<br>[<a href="mailto:&#114;&#x6f;&#x6f;&#116;&#64;&#119;&#x61;&#110;&#x67;&#104;&#x65;&#110;&#103;&#x2e;&#x6f;&#114;&#x67;">&#114;&#x6f;&#x6f;&#116;&#64;&#119;&#x61;&#110;&#x67;&#104;&#x65;&#110;&#103;&#x2e;&#x6f;&#114;&#x67;</a> phddns-2.0.2.16556]# aclocal<br>[<a href="mailto:&#114;&#111;&#111;&#116;&#x40;&#x77;&#x61;&#110;&#x67;&#x68;&#x65;&#110;&#x67;&#46;&#x6f;&#x72;&#103;">&#114;&#111;&#111;&#116;&#x40;&#x77;&#x61;&#110;&#x67;&#x68;&#x65;&#110;&#x67;&#46;&#x6f;&#x72;&#103;</a> phddns-2.0.2.16556]# autoconf<br>[<a href="mailto:&#114;&#x6f;&#x6f;&#x74;&#64;&#x77;&#x61;&#110;&#x67;&#x68;&#x65;&#x6e;&#x67;&#x2e;&#x6f;&#114;&#x67;">&#114;&#x6f;&#x6f;&#x74;&#64;&#x77;&#x61;&#110;&#x67;&#x68;&#x65;&#x6e;&#x67;&#x2e;&#x6f;&#114;&#x67;</a> phddns-2.0.2.16556]# automake<br>[<a href="mailto:&#x72;&#x6f;&#111;&#116;&#64;&#x77;&#x61;&#x6e;&#103;&#104;&#101;&#x6e;&#x67;&#46;&#111;&#x72;&#103;">&#x72;&#x6f;&#111;&#116;&#64;&#x77;&#x61;&#x6e;&#103;&#104;&#101;&#x6e;&#x67;&#46;&#111;&#x72;&#103;</a> phddns-2.0.2.16556]# ./configure<br>[<a href="mailto:&#114;&#x6f;&#x6f;&#x74;&#x40;&#x77;&#97;&#x6e;&#103;&#104;&#x65;&#x6e;&#103;&#x2e;&#111;&#114;&#x67;">&#114;&#x6f;&#x6f;&#x74;&#x40;&#x77;&#97;&#x6e;&#103;&#104;&#x65;&#x6e;&#103;&#x2e;&#111;&#114;&#x67;</a> phddns-2.0.2.16556]# make<br>[<a href="mailto:&#x72;&#111;&#x6f;&#116;&#x40;&#x77;&#97;&#110;&#x67;&#x68;&#101;&#110;&#x67;&#46;&#x6f;&#x72;&#103;">&#x72;&#111;&#x6f;&#116;&#x40;&#x77;&#97;&#110;&#x67;&#x68;&#101;&#110;&#x67;&#46;&#x6f;&#x72;&#103;</a> phddns-2.0.2.16556]# cd src<br>[<a href="mailto:&#x72;&#111;&#x6f;&#116;&#64;&#119;&#97;&#110;&#103;&#x68;&#x65;&#110;&#x67;&#46;&#111;&#x72;&#103;">&#x72;&#111;&#x6f;&#116;&#64;&#119;&#97;&#110;&#103;&#x68;&#x65;&#110;&#x67;&#46;&#111;&#x72;&#103;</a> src]# ls -l phddns<br>-rwxr-xr-x 1 root root 80968 Aug 2 11:18 phddns</p>
+<p>[<a href="mailto:&#114;&#x6f;&#111;&#116;&#x40;&#x77;&#97;&#x6e;&#x67;&#x68;&#101;&#x6e;&#x67;&#x2e;&#x6f;&#114;&#103;">&#114;&#x6f;&#111;&#116;&#x40;&#x77;&#97;&#x6e;&#x67;&#x68;&#101;&#x6e;&#x67;&#x2e;&#x6f;&#114;&#103;</a> ~]# tar zxvf phddns-2.0.2.16556.tar.gz</p>
+<p><strong>4、进入目录并编译</strong><br>[<a href="mailto:&#114;&#111;&#111;&#x74;&#64;&#x77;&#97;&#110;&#103;&#104;&#x65;&#x6e;&#103;&#x2e;&#x6f;&#114;&#103;">&#114;&#111;&#111;&#x74;&#64;&#x77;&#97;&#110;&#103;&#104;&#x65;&#x6e;&#103;&#x2e;&#x6f;&#114;&#103;</a> ~]# cd phddns-2.0.2.16556<br>[<a href="mailto:&#x72;&#x6f;&#111;&#116;&#64;&#119;&#x61;&#x6e;&#103;&#x68;&#x65;&#x6e;&#103;&#46;&#x6f;&#114;&#103;">&#x72;&#x6f;&#111;&#116;&#64;&#119;&#x61;&#x6e;&#103;&#x68;&#x65;&#x6e;&#103;&#46;&#x6f;&#114;&#103;</a> phddns-2.0.2.16556]# aclocal<br>[<a href="mailto:&#x72;&#x6f;&#x6f;&#x74;&#64;&#119;&#x61;&#110;&#x67;&#x68;&#x65;&#x6e;&#x67;&#x2e;&#111;&#x72;&#x67;">&#x72;&#x6f;&#x6f;&#x74;&#64;&#119;&#x61;&#110;&#x67;&#x68;&#x65;&#x6e;&#x67;&#x2e;&#111;&#x72;&#x67;</a> phddns-2.0.2.16556]# autoconf<br>[<a href="mailto:&#x72;&#x6f;&#x6f;&#x74;&#64;&#119;&#x61;&#110;&#x67;&#104;&#101;&#x6e;&#103;&#x2e;&#111;&#x72;&#x67;">&#x72;&#x6f;&#x6f;&#x74;&#64;&#119;&#x61;&#110;&#x67;&#104;&#101;&#x6e;&#103;&#x2e;&#111;&#x72;&#x67;</a> phddns-2.0.2.16556]# automake<br>[<a href="mailto:&#x72;&#x6f;&#111;&#116;&#64;&#119;&#97;&#x6e;&#103;&#x68;&#101;&#x6e;&#103;&#46;&#x6f;&#114;&#x67;">&#x72;&#x6f;&#111;&#116;&#64;&#119;&#97;&#x6e;&#103;&#x68;&#101;&#x6e;&#103;&#46;&#x6f;&#114;&#x67;</a> phddns-2.0.2.16556]# ./configure<br>[<a href="mailto:&#114;&#x6f;&#x6f;&#x74;&#x40;&#119;&#x61;&#x6e;&#x67;&#x68;&#x65;&#110;&#x67;&#x2e;&#111;&#x72;&#x67;">&#114;&#x6f;&#x6f;&#x74;&#x40;&#119;&#x61;&#x6e;&#x67;&#x68;&#x65;&#110;&#x67;&#x2e;&#111;&#x72;&#x67;</a> phddns-2.0.2.16556]# make<br>[<a href="mailto:&#114;&#111;&#111;&#x74;&#64;&#x77;&#97;&#x6e;&#103;&#104;&#x65;&#x6e;&#103;&#46;&#x6f;&#114;&#103;">&#114;&#111;&#111;&#x74;&#64;&#x77;&#97;&#x6e;&#103;&#104;&#x65;&#x6e;&#103;&#46;&#x6f;&#114;&#103;</a> phddns-2.0.2.16556]# cd src<br>[<a href="mailto:&#x72;&#111;&#111;&#x74;&#64;&#119;&#97;&#x6e;&#103;&#x68;&#101;&#x6e;&#103;&#46;&#x6f;&#114;&#x67;">&#x72;&#111;&#111;&#x74;&#64;&#119;&#97;&#x6e;&#103;&#x68;&#101;&#x6e;&#103;&#46;&#x6f;&#114;&#x67;</a> src]# ls -l phddns<br>-rwxr-xr-x 1 root root 80968 Aug 2 11:18 phddns</p>
 <p><strong>5、执行编译好的程序并配置（默认使用/etc/phlinux.conf，如果不存在这个文件则自动进入交互配置）</strong></p>
-<p>[<a href="mailto:&#x72;&#111;&#x6f;&#116;&#x40;&#x77;&#97;&#110;&#103;&#x68;&#x65;&#x6e;&#103;&#x2e;&#x6f;&#x72;&#x67;">&#x72;&#111;&#x6f;&#116;&#x40;&#x77;&#97;&#110;&#103;&#x68;&#x65;&#x6e;&#103;&#x2e;&#x6f;&#x72;&#x67;</a> src]# ./phddns<br>输入服务器地址，如无特殊情况可使用默认值<br>Enter server address(press ENTER use phlinux3.oray.net):</p>
+<p>[<a href="mailto:&#114;&#111;&#111;&#x74;&#64;&#x77;&#97;&#110;&#x67;&#104;&#101;&#110;&#103;&#x2e;&#111;&#x72;&#103;">&#114;&#111;&#111;&#x74;&#64;&#x77;&#97;&#110;&#x67;&#104;&#101;&#110;&#103;&#x2e;&#111;&#x72;&#103;</a> src]# ./phddns<br>输入服务器地址，如无特殊情况可使用默认值<br>Enter server address(press ENTER use phlinux3.oray.net):</p>
 <p>输入您的Oray帐号名称<br>Enter your Oray account:</p>
 <p>对应的Oray帐号密码<br>Password:</p>
 <p>选择帮定的网卡，如无特殊，默认即可<br>Network interface(s):<br>eth0:192.168.141.18<br>lo:127.0.0.1<br>Choose one(default eth0):</p>
@@ -1432,14 +1432,14 @@ sync：将每个输入块填充到ibs个字节，不足部分用空（NUL）字�
 <p>保存配置文件，选择yes则直接保存到/etc/phlinux.conf，输入other可以指定文件<br>Save to configuration file (/etc/phlinux.conf)?(yes/no/other):</p>
 <p>接下来程序将已交互模式开始运行<br>192.168.141.18<br>NIC bind success<br>OnStatusChanged okConnecting<br>OnStatusChanged okDomainListed<br>OnDomainRegistered skyvense22.gicp.net<br>OnStatusChanged okDomainsRegistered<br>UserType: 0<br>看到上面这些就表示登录成功，这个时候可以按ctrl+c先退出程序</p>
 <span id="more"></span><strong>6、将phddns拷贝到你希望的位置</strong>
-<p>[<a href="mailto:&#x72;&#111;&#x6f;&#116;&#64;&#119;&#97;&#110;&#x67;&#x68;&#101;&#110;&#103;&#x2e;&#111;&#x72;&#x67;">&#x72;&#111;&#x6f;&#116;&#64;&#119;&#97;&#110;&#x67;&#x68;&#101;&#110;&#103;&#x2e;&#111;&#x72;&#x67;</a> src]# cp phddns /usr/bin/</p>
+<p>[<a href="mailto:&#x72;&#x6f;&#x6f;&#x74;&#64;&#119;&#97;&#110;&#x67;&#x68;&#101;&#x6e;&#x67;&#x2e;&#x6f;&#x72;&#x67;">&#x72;&#x6f;&#x6f;&#x74;&#64;&#119;&#97;&#110;&#x67;&#x68;&#101;&#x6e;&#x67;&#x2e;&#x6f;&#x72;&#x67;</a> src]# cp phddns /usr/bin/</p>
 <p><strong>7、以后台模式启动花生壳并检查运行情况</strong></p>
-<p>[<a href="mailto:&#x72;&#x6f;&#111;&#116;&#64;&#x77;&#97;&#110;&#x67;&#x68;&#101;&#x6e;&#x67;&#46;&#111;&#x72;&#x67;">&#x72;&#x6f;&#111;&#116;&#64;&#x77;&#97;&#110;&#x67;&#x68;&#101;&#x6e;&#x67;&#46;&#111;&#x72;&#x67;</a> ~]# /usr/bin/phddns -c /etc/phlinux.conf -d<br>phlinux started as daemon!<br>[<a href="mailto:&#114;&#111;&#111;&#x74;&#64;&#119;&#x61;&#x6e;&#x67;&#104;&#101;&#x6e;&#103;&#x2e;&#111;&#x72;&#103;">&#114;&#111;&#111;&#x74;&#64;&#119;&#x61;&#x6e;&#x67;&#104;&#101;&#x6e;&#103;&#x2e;&#111;&#x72;&#103;</a> ~]# tail /var/log/phddns.log<br>2011/08/02 11:28:58.256| ExecuteUpdate OK, BeginKeepAlive!<br>2011/08/02 11:29:59.354| SendKeepAlive() 8208<br>2011/08/02 11:30:00.355| RecvKeepaliveResponse() Data comes, OPCODE:8272<br>2011/08/02 11:30:00.356| Keepalive response received, client ip: 116.<em><strong>.123.96<br>2011/08/02 11:31:00.447| SendKeepAlive() 8208<br>2011/08/02 11:31:01.450| RecvKeepaliveResponse() Data comes, OPCODE:8272<br>2011/08/02 11:31:01.450| Keepalive response received, client ip: 116.</strong></em>.123.96</p>
+<p>[<a href="mailto:&#114;&#111;&#111;&#116;&#x40;&#x77;&#x61;&#x6e;&#103;&#x68;&#x65;&#x6e;&#x67;&#46;&#x6f;&#x72;&#103;">&#114;&#111;&#111;&#116;&#x40;&#x77;&#x61;&#x6e;&#103;&#x68;&#x65;&#x6e;&#x67;&#46;&#x6f;&#x72;&#103;</a> ~]# /usr/bin/phddns -c /etc/phlinux.conf -d<br>phlinux started as daemon!<br>[<a href="mailto:&#x72;&#111;&#111;&#116;&#x40;&#119;&#97;&#x6e;&#103;&#104;&#101;&#x6e;&#103;&#46;&#111;&#114;&#x67;">&#x72;&#111;&#111;&#116;&#x40;&#119;&#97;&#x6e;&#103;&#104;&#101;&#x6e;&#103;&#46;&#111;&#114;&#x67;</a> ~]# tail /var/log/phddns.log<br>2011/08/02 11:28:58.256| ExecuteUpdate OK, BeginKeepAlive!<br>2011/08/02 11:29:59.354| SendKeepAlive() 8208<br>2011/08/02 11:30:00.355| RecvKeepaliveResponse() Data comes, OPCODE:8272<br>2011/08/02 11:30:00.356| Keepalive response received, client ip: 116.<em><strong>.123.96<br>2011/08/02 11:31:00.447| SendKeepAlive() 8208<br>2011/08/02 11:31:01.450| RecvKeepaliveResponse() Data comes, OPCODE:8272<br>2011/08/02 11:31:01.450| Keepalive response received, client ip: 116.</strong></em>.123.96</p>
 <p><strong>8、退出花生壳</strong></p>
-<p>查看进程ID<br>[<a href="mailto:&#x72;&#x6f;&#x6f;&#116;&#64;&#119;&#x61;&#x6e;&#103;&#104;&#101;&#110;&#x67;&#46;&#x6f;&#x72;&#x67;">&#x72;&#x6f;&#x6f;&#116;&#64;&#119;&#x61;&#x6e;&#103;&#104;&#101;&#110;&#x67;&#46;&#x6f;&#x72;&#x67;</a> ~]# ps -A | grep phddns<br>13731 ? 00:00:00 phlinux<br>让后台进程退出<br>[<a href="mailto:&#114;&#111;&#x6f;&#116;&#64;&#119;&#x61;&#x6e;&#103;&#104;&#101;&#110;&#x67;&#x2e;&#x6f;&#x72;&#x67;">&#114;&#111;&#x6f;&#116;&#64;&#119;&#x61;&#x6e;&#103;&#104;&#101;&#110;&#x67;&#x2e;&#x6f;&#x72;&#x67;</a> ~]# kill -9 13731</p>
-<p>9、将花生壳加到系统启动时运行<br>[<a href="mailto:&#114;&#111;&#111;&#x74;&#x40;&#x77;&#x61;&#x6e;&#x67;&#x68;&#101;&#x6e;&#103;&#x2e;&#x6f;&#x72;&#103;">&#114;&#111;&#111;&#x74;&#x40;&#x77;&#x61;&#x6e;&#x67;&#x68;&#101;&#x6e;&#103;&#x2e;&#x6f;&#x72;&#103;</a> ~]# vi /etc/rc.local<br>在文件的末尾加上一行：/usr/bin/phddns -c /etc/phlinux.conf -d</p>
+<p>查看进程ID<br>[<a href="mailto:&#x72;&#111;&#x6f;&#116;&#64;&#119;&#97;&#110;&#x67;&#x68;&#x65;&#x6e;&#103;&#46;&#111;&#114;&#103;">&#x72;&#111;&#x6f;&#116;&#64;&#119;&#97;&#110;&#x67;&#x68;&#x65;&#x6e;&#103;&#46;&#111;&#114;&#103;</a> ~]# ps -A | grep phddns<br>13731 ? 00:00:00 phlinux<br>让后台进程退出<br>[<a href="mailto:&#x72;&#111;&#x6f;&#116;&#64;&#119;&#97;&#x6e;&#x67;&#104;&#101;&#110;&#x67;&#x2e;&#111;&#114;&#103;">&#x72;&#111;&#x6f;&#116;&#64;&#119;&#97;&#x6e;&#x67;&#104;&#101;&#110;&#x67;&#x2e;&#111;&#114;&#103;</a> ~]# kill -9 13731</p>
+<p>9、将花生壳加到系统启动时运行<br>[<a href="mailto:&#114;&#x6f;&#111;&#x74;&#64;&#119;&#x61;&#110;&#x67;&#104;&#x65;&#x6e;&#x67;&#x2e;&#111;&#x72;&#x67;">&#114;&#x6f;&#111;&#x74;&#64;&#119;&#x61;&#110;&#x67;&#104;&#x65;&#x6e;&#x67;&#x2e;&#111;&#x72;&#x67;</a> ~]# vi /etc/rc.local<br>在文件的末尾加上一行：/usr/bin/phddns -c /etc/phlinux.conf -d</p>
 <p><strong>二、花生壳Linux版本命令行参数说明</strong></p>
-<p>[<a href="mailto:&#114;&#x6f;&#x6f;&#116;&#x40;&#x77;&#x61;&#x6e;&#103;&#x68;&#x65;&#x6e;&#x67;&#x2e;&#x6f;&#x72;&#103;">&#114;&#x6f;&#x6f;&#116;&#x40;&#x77;&#x61;&#x6e;&#103;&#x68;&#x65;&#x6e;&#x67;&#x2e;&#x6f;&#x72;&#103;</a> ~]# /usr/bin/phlinux -h<br>Peanuthull Linux-core 2.0 by oray.com, copyright 2011<br>Peanuthull Linux-core Help<br>–first-run<br>-f, run for the first time<br>用于首次启动时配置参数</p>
+<p>[<a href="mailto:&#x72;&#x6f;&#x6f;&#116;&#x40;&#119;&#97;&#x6e;&#x67;&#x68;&#x65;&#x6e;&#103;&#x2e;&#111;&#x72;&#x67;">&#x72;&#x6f;&#x6f;&#116;&#x40;&#119;&#97;&#x6e;&#x67;&#x68;&#x65;&#x6e;&#103;&#x2e;&#111;&#x72;&#x67;</a> ~]# /usr/bin/phlinux -h<br>Peanuthull Linux-core 2.0 by oray.com, copyright 2011<br>Peanuthull Linux-core Help<br>–first-run<br>-f, run for the first time<br>用于首次启动时配置参数</p>
 <p>–interact<br>-i, run as interactive mode<br>program will request for necessary parameters.<br>this mode will automatically enabled at first running,<br>or your configuration file has been lost.<br>启动交互模式</p>
 <p>–daemon<br>-d, run as a daemon<br>program will quit after put itself to background,<br>and continue running even you logout,<br>you can use kill -9 &lt;PID&gt; to terminate.<br>后台模式</p>
 <p>–config<br>-c, run with configuration file<br>program will run with the file<br>指定使用哪一个配置文件</p>
@@ -1624,6 +1624,23 @@ nameserver 8.8.4.4</pre>
       </tags>
   </entry>
   <entry>
+    <title>推荐几款visual studio配色方案和字体</title>
+    <url>/modify-font-and-color.html</url>
+    <content><![CDATA[<content>
+<p><em>以前经常用Live Writer写博客，最近发现文章发布不上去了，</em><em>google了一下发现原来GFW才是罪魁祸首。前几天把笔记本的硬盘换了，发现上次写的两篇博文还没发布，真悲剧。只好凭记忆重写一遍了…</em></p>  <p>年假前连续三天都加班到了晚上十二点，长时间的工作导致对着电脑code时，越来越反感白色背景配色。为了缓解眼睛的刺痛，还是决定换个舒服的配色方案。经过一翻搜寻，找到了几款很不错的配色！</p>  <p><strong>1、son of obsidian（推荐）</strong></p>  <p><a href="uploads/2012/01/son-of-obsidian3.jpg"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="son of obsidian" border="0" alt="son of obsidian" src="uploads/2012/01/son-of-obsidian_thumb1.jpg" width="382" height="105" /></a></p>  <p>这是<a href="http://studiostyl.es/">http://studiostyl.es/</a>上最热门的一款的配色方案，也是我目前正在使用的配色，只是感觉选中文字时的底色太不明显，于是将底色改成了蓝色。用了一段时间后确实看着很舒服，看来用的人多总是有一定道理的。</p><span id="more"></span><strong>2、Bespin</strong>   <p><a href="uploads/2012/01/image5.png"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="image" border="0" alt="image" src="uploads/2012/01/image_thumb5.png" width="377" height="99" /></a></p>  <p>很喜欢这款Bespin的配色方案，清新，温和，用着也很舒服。唯一的问题是使用 vim 查找字符时，高亮后看不到光标的位置，懒得去改，所以也就没用这款配色。</p>  <p><strong>3、wekeroad-ink</strong></p>  <p><a href="uploads/2012/01/wekeroad-ink1.jpg"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="wekeroad-ink" border="0" alt="wekeroad-ink" src="uploads/2012/01/wekeroad-ink_thumb1.jpg" width="379" height="106" /></a></p>  <p>也是款不错的配色方案，喜欢的朋友也可以试一下。但是背景是纯黑的，个人感觉看时间长了还是不舒服。 :）</p>  <p><em><strong><font size="3">点击下载：</font></strong><a href="uploads/2012/01/vsSetting.rar" target="_blank"><strong><font size="3">配置文件</font></strong></a></em></p>  <p>其实配色都没有好坏之分，只要找到自己最喜欢最适合的那它就是最好的！</p>  <p>编辑器的字体我选择的是系统自带的幼圆，它也是等宽字体，字形瘦长好看并且支持 ClearType，综合效果都很好！所以完全没有必要费力气再去网上下载其他的字体。</p>
+</content>
+]]></content>
+      <categories>
+        <category>Technical</category>
+      </categories>
+      <tags>
+        <tag>visual studio</tag>
+        <tag>配色</tag>
+        <tag>Font</tag>
+        <tag>字体</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>从wordpress迁移到hexo填坑</title>
     <url>/migrating-from-wordpress-to-hexo.html</url>
     <content><![CDATA[<h1 id="前记"><a href="#前记" class="headerlink" title="前记"></a>前记</h1><p>用了好久的wordpress，说起来上次更新还是三年前。今天本想整理总结下最近的学习，却总也打不开<code>wp-admin</code>后台了，看了下是vps的php进程有报错 :( 想了想wordpress这套框架虽然很好，然而好多功能对我来说并不是必要的，于是动了心思从wordpress 迁移到静态化的博客框架 hexo。当然另外一个好处就是可以用 Markdown 语法写日志了 :)</p>
@@ -1681,20 +1698,25 @@ nameserver 8.8.4.4</pre>
       </tags>
   </entry>
   <entry>
-    <title>推荐几款visual studio配色方案和字体</title>
-    <url>/modify-font-and-color.html</url>
+    <title>修改openssh-server 的默认端口号</title>
+    <url>/modify-openssh-server-port-number.html</url>
     <content><![CDATA[<content>
-<p><em>以前经常用Live Writer写博客，最近发现文章发布不上去了，</em><em>google了一下发现原来GFW才是罪魁祸首。前几天把笔记本的硬盘换了，发现上次写的两篇博文还没发布，真悲剧。只好凭记忆重写一遍了…</em></p>  <p>年假前连续三天都加班到了晚上十二点，长时间的工作导致对着电脑code时，越来越反感白色背景配色。为了缓解眼睛的刺痛，还是决定换个舒服的配色方案。经过一翻搜寻，找到了几款很不错的配色！</p>  <p><strong>1、son of obsidian（推荐）</strong></p>  <p><a href="uploads/2012/01/son-of-obsidian3.jpg"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="son of obsidian" border="0" alt="son of obsidian" src="uploads/2012/01/son-of-obsidian_thumb1.jpg" width="382" height="105" /></a></p>  <p>这是<a href="http://studiostyl.es/">http://studiostyl.es/</a>上最热门的一款的配色方案，也是我目前正在使用的配色，只是感觉选中文字时的底色太不明显，于是将底色改成了蓝色。用了一段时间后确实看着很舒服，看来用的人多总是有一定道理的。</p><span id="more"></span><strong>2、Bespin</strong>   <p><a href="uploads/2012/01/image5.png"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="image" border="0" alt="image" src="uploads/2012/01/image_thumb5.png" width="377" height="99" /></a></p>  <p>很喜欢这款Bespin的配色方案，清新，温和，用着也很舒服。唯一的问题是使用 vim 查找字符时，高亮后看不到光标的位置，懒得去改，所以也就没用这款配色。</p>  <p><strong>3、wekeroad-ink</strong></p>  <p><a href="uploads/2012/01/wekeroad-ink1.jpg"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="wekeroad-ink" border="0" alt="wekeroad-ink" src="uploads/2012/01/wekeroad-ink_thumb1.jpg" width="379" height="106" /></a></p>  <p>也是款不错的配色方案，喜欢的朋友也可以试一下。但是背景是纯黑的，个人感觉看时间长了还是不舒服。 :）</p>  <p><em><strong><font size="3">点击下载：</font></strong><a href="uploads/2012/01/vsSetting.rar" target="_blank"><strong><font size="3">配置文件</font></strong></a></em></p>  <p>其实配色都没有好坏之分，只要找到自己最喜欢最适合的那它就是最好的！</p>  <p>编辑器的字体我选择的是系统自带的幼圆，它也是等宽字体，字形瘦长好看并且支持 ClearType，综合效果都很好！所以完全没有必要费力气再去网上下载其他的字体。</p>
+买来的一个VPS默认的SSH端口号是22，为了安全，防止别人恶意枚举密码，可以自己修改成别的端口号。
+
+<p><strong>1、首先，编辑sshd_config文件</strong><pre lang="bash">$ sudo nano /etc/ssh/sshd_config</pre><a href="uploads/2011/12/image.png"><img style="background-image: none; margin: 10px 0px; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="image" src="uploads/2011/12/image_thumb.png" alt="王恒上传" width="291" height="229" border="0" /></a></p>
+<p>将Port 修改成自己定义的端口号，我这里改成了8080</p>
+<strong>
+2、重启sshd服务</strong><pre lang="bash">$ sudo service sshd restart</pre><span id="more"></span>
+如果没什么错误，就可以使用新的端口连接了
 </content>
 ]]></content>
       <categories>
         <category>Technical</category>
       </categories>
       <tags>
-        <tag>visual studio</tag>
-        <tag>配色</tag>
-        <tag>Font</tag>
-        <tag>字体</tag>
+        <tag>ssh</tag>
+        <tag>openssh</tag>
+        <tag>端口</tag>
       </tags>
   </entry>
   <entry>
@@ -1720,28 +1742,6 @@ nameserver 8.8.4.4</pre>
       <tags>
         <tag>中文乱码</tag>
         <tag>air video</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>修改openssh-server 的默认端口号</title>
-    <url>/modify-openssh-server-port-number.html</url>
-    <content><![CDATA[<content>
-买来的一个VPS默认的SSH端口号是22，为了安全，防止别人恶意枚举密码，可以自己修改成别的端口号。
-
-<p><strong>1、首先，编辑sshd_config文件</strong><pre lang="bash">$ sudo nano /etc/ssh/sshd_config</pre><a href="uploads/2011/12/image.png"><img style="background-image: none; margin: 10px 0px; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="image" src="uploads/2011/12/image_thumb.png" alt="王恒上传" width="291" height="229" border="0" /></a></p>
-<p>将Port 修改成自己定义的端口号，我这里改成了8080</p>
-<strong>
-2、重启sshd服务</strong><pre lang="bash">$ sudo service sshd restart</pre><span id="more"></span>
-如果没什么错误，就可以使用新的端口连接了
-</content>
-]]></content>
-      <categories>
-        <category>Technical</category>
-      </categories>
-      <tags>
-        <tag>ssh</tag>
-        <tag>openssh</tag>
-        <tag>端口</tag>
       </tags>
   </entry>
   <entry>
@@ -2031,7 +2031,7 @@ while(True):
 <p><strong>运行效果：</strong></p>
 <p><embed width="480" height="400" type="application/x-shockwave-flash" src="http://player.youku.com/player.php/sid/XODc4ODMyNzE2/v.swf" allowfullscreen="allowfullscreen" quality="high" align="middle" allowscriptaccess="always"></embed></p>
 <p><strong>核心代码：</strong><pre class="brush: python; gutter: true">&#039;&#039;&#039;<br>#=============================================================================</p>
-<h1 id="FileName-views-py"><a href="#FileName-views-py" class="headerlink" title="FileName: views.py"></a>FileName: views.py</h1><h1 id="Desc"><a href="#Desc" class="headerlink" title="Desc:"></a>Desc:</h1><h1 id="Author-wangheng"><a href="#Author-wangheng" class="headerlink" title="Author: wangheng"></a>Author: wangheng</h1><h1 id="Email-x77-x75-106-x69-119-x68-64-103-x6d-x61-x69-x6c-46-x63-x6f-109"><a href="#Email-x77-x75-106-x69-119-x68-64-103-x6d-x61-x69-x6c-46-x63-x6f-109" class="headerlink" title="Email: &#x77;&#x75;&#106;&#x69;&#119;&#x68;&#64;&#103;&#x6d;&#x61;&#x69;&#x6c;&#46;&#x63;&#x6f;&#109;"></a>Email: <a href="mailto:&#x77;&#x75;&#106;&#x69;&#119;&#x68;&#64;&#103;&#x6d;&#x61;&#x69;&#x6c;&#46;&#x63;&#x6f;&#109;">&#x77;&#x75;&#106;&#x69;&#119;&#x68;&#64;&#103;&#x6d;&#x61;&#x69;&#x6c;&#46;&#x63;&#x6f;&#109;</a></h1><h1 id="HomePage-http-wangheng-org"><a href="#HomePage-http-wangheng-org" class="headerlink" title="HomePage: http://wangheng.org"></a>HomePage: <a href="http://wangheng.org/">http://wangheng.org</a></h1><h1 id="Version-0-0-1"><a href="#Version-0-0-1" class="headerlink" title="Version: 0.0.1"></a>Version: 0.0.1</h1><h1 id="LastChange-2015-01-14-13-46-29"><a href="#LastChange-2015-01-14-13-46-29" class="headerlink" title="LastChange: 2015-01-14 13:46:29"></a>LastChange: 2015-01-14 13:46:29</h1><h1 id="History"><a href="#History" class="headerlink" title="History:"></a>History:</h1><p>#=============================================================================<br>&#039;&#039;&#039;<br>from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash<br>from contextlib import closing<br>from pi_car import app<br>import re<br>import RPi.GPIO as GPIO<br>@app.route(&#039;/&#039;)<br>def show_index():<br>    return render_template(&#039;home.html&#039;)</p>
+<h1 id="FileName-views-py"><a href="#FileName-views-py" class="headerlink" title="FileName: views.py"></a>FileName: views.py</h1><h1 id="Desc"><a href="#Desc" class="headerlink" title="Desc:"></a>Desc:</h1><h1 id="Author-wangheng"><a href="#Author-wangheng" class="headerlink" title="Author: wangheng"></a>Author: wangheng</h1><h1 id="Email-x77-117-106-x69-119-x68-x40-103-109-97-x69-108-x2e-99-x6f-x6d"><a href="#Email-x77-117-106-x69-119-x68-x40-103-109-97-x69-108-x2e-99-x6f-x6d" class="headerlink" title="Email: &#x77;&#117;&#106;&#x69;&#119;&#x68;&#x40;&#103;&#109;&#97;&#x69;&#108;&#x2e;&#99;&#x6f;&#x6d;"></a>Email: <a href="mailto:&#x77;&#117;&#106;&#x69;&#119;&#x68;&#x40;&#103;&#109;&#97;&#x69;&#108;&#x2e;&#99;&#x6f;&#x6d;">&#x77;&#117;&#106;&#x69;&#119;&#x68;&#x40;&#103;&#109;&#97;&#x69;&#108;&#x2e;&#99;&#x6f;&#x6d;</a></h1><h1 id="HomePage-http-wangheng-org"><a href="#HomePage-http-wangheng-org" class="headerlink" title="HomePage: http://wangheng.org"></a>HomePage: <a href="http://wangheng.org/">http://wangheng.org</a></h1><h1 id="Version-0-0-1"><a href="#Version-0-0-1" class="headerlink" title="Version: 0.0.1"></a>Version: 0.0.1</h1><h1 id="LastChange-2015-01-14-13-46-29"><a href="#LastChange-2015-01-14-13-46-29" class="headerlink" title="LastChange: 2015-01-14 13:46:29"></a>LastChange: 2015-01-14 13:46:29</h1><h1 id="History"><a href="#History" class="headerlink" title="History:"></a>History:</h1><p>#=============================================================================<br>&#039;&#039;&#039;<br>from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash<br>from contextlib import closing<br>from pi_car import app<br>import re<br>import RPi.GPIO as GPIO<br>@app.route(&#039;/&#039;)<br>def show_index():<br>    return render_template(&#039;home.html&#039;)</p>
 <p>@app.route(&quot;/login&quot;, methods=[&quot;GET&quot;, &quot;POST&quot;])<br>def login():<br>    if request.method==&quot;GET&quot;:<br>        return &quot;get&quot;+request.form[&quot;user&quot;]<br>    elif request.method==&quot;POST&quot;:<br>        return &quot;post&quot;</p>
 <p>@app.route(&#039;/ctl&#039;,methods=[&#039;GET&#039;,&#039;POST&#039;])<br>def ctrl_id():<br>    if request.method == &#039;POST&#039;:<br>        id=request.form[&#039;id&#039;]<br>        GPIO.setmode(GPIO.BOARD)<br>        GPIO.setwarnings(False)<br>        GPIO.setup(11,GPIO.OUT)<br>        GPIO.setup(12,GPIO.OUT)<br>        GPIO.setup(15,GPIO.OUT)<br>        GPIO.setup(16,GPIO.OUT)</p>
 <pre><code>    if id == &amp;#039;t_left&amp;#039;:
@@ -2299,6 +2299,47 @@ margin:8px 8px 0 8px;
       </categories>
   </entry>
   <entry>
+    <title>Ubuntu 搭建 Vpn 服务</title>
+    <url>/setup-vpn-the-server.html</url>
+    <content><![CDATA[<content>
+最近通过优惠券买了一个美国的VPS，虽然配置低了点，但是用来做平时网站的备份，或者临时当作离线下载服务器都是很不错的主意！因为国内周知的原因，访问一些国外的网站很受限制，所以想起了用自己的VPS来搭建一个VPN的想法。具体实现如下：
+
+<ol>
+<li>安装pptpd，这是个VPN服务器端软件<pre>sudo apt-get install pptpd</pre></li>
+<li>修改文件 /etc/pptpd.conf<pre>sudo vi /etc/pptpd.conf</pre>
+找到# TAG: localip一行，在后面添加以下2行：<br>localip 192.168.0.1<br>remoteip 192.168.0.234-238,192.168.0.245</li>
+<li>修改文件 /etc/ppp/pptpd-options<pre>sudo vi /etc/ppp/pptpd-options</pre>
+找到 #ms-dns这行，去掉前面的#号，修改成google提供的DNS server或其他DNS：<br>ms-dns 8.8.8.8<br>ms-dns 8.8.4.4</li>
+<li>修改文件 /etc/ppp/chap-secrets，按一行四列添加账号、服务器名、密码和IP限制。服务器名（默认 写pptpd 即可，务必与 pptpd-options 文件的name一行一样）。如创建一个名为user，密码为userpasswd，不限制登录IP的VPN账号：<br>user pptpd userpasswd *</li>
+<li>修改文件 /etc/sysctl.conf，去掉这一行 #net.ipv4.ip_forward=1 的#号，开启ipv4 forward，然后运行命令：<pre>sudo sysctl –p</pre>
+运行后会显示 net.ipv4.ip_forward = 1，就表示修改生效了。</li>
+<li>使用iptables建立一个NAT<pre>sudo apt-get install iptables
+iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth0 -j MASQUERADE</pre>
+上面的24表示子网掩码，代表24个1.<br>eth0是网卡名字，可以通过命令 ifconfig 查看</li>
+</ol>
+<p>为防止重启服务器后iptables丢失，先运行</p>
+<pre>iptables-save &gt; /etc/iptables.rule</pre>
+<p>然后修改文件 /etc/network/interfaces ，在eth0/eth1.. 下面加入<br>pre-up iptables-restore &lt; /etc/iptables.rule<br>7. 现在应该就搞定了,最后重启 pptpd</p>
+<pre>sudo /etc/init.d/pptpd restart</pre>
+<ol start="8">
+<li>在client端设置连接VPN进行测试，client是Ubuntu的话请看这里<br>测试是否可以连接到VPN server：<pre>ping server_IP</pre>
+不能的话，问题应该出在前4步。<br>测试是否可以连接到外网：（任何其他外网IP都行）<pre>ping 8.8.8.8</pre>
+不能的话，问题应该出在第5-6步，看看是否正确设置了 ipv4 forward<br>测试是否可以解析DNS：<pre>nslookup google.com</pre>
+</content></li>
+</ol>
+]]></content>
+      <categories>
+        <category>Technical</category>
+      </categories>
+      <tags>
+        <tag>VPS</tag>
+        <tag>代理</tag>
+        <tag>Ubuntu</tag>
+        <tag>VPN</tag>
+        <tag>翻墙</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>设置Win7无线网络共享</title>
     <url>/set-win7-wireless-share.html</url>
     <content><![CDATA[<content>
@@ -2369,44 +2410,48 @@ margin:8px 8px 0 8px;
       </tags>
   </entry>
   <entry>
-    <title>Ubuntu 搭建 Vpn 服务</title>
-    <url>/setup-vpn-the-server.html</url>
+    <title>分享个人wiki部署脚本</title>
+    <url>/share-personal-wiki-deployment-script.html</url>
     <content><![CDATA[<content>
-最近通过优惠券买了一个美国的VPS，虽然配置低了点，但是用来做平时网站的备份，或者临时当作离线下载服务器都是很不错的主意！因为国内周知的原因，访问一些国外的网站很受限制，所以想起了用自己的VPS来搭建一个VPN的想法。具体实现如下：
+上一篇介绍了如何<a href="http://wangheng.org/use-vimwiki-set-up-a-personal-wiki.html">使用vimwiki组建个人wiki</a>，但是如何同步自己的vimwiki 到线上却成了很多人的困扰。丘迟的维基世界介绍了<a href="http://wiki.ktmud.com/tips/vim/ways-to-sync-vimwiki.html" target="_blank">同步 vimwiki 到线上的各种方法</a>，如果你的桌面是使用linux的话，当然问题不大，很轻松就能写出一个同步的脚本。但是还是有很多人平时工作在windows的系统环境中，这里我自己写了一个vim的小插件用来一键同步vimwiki到线上。
 
-<ol>
-<li>安装pptpd，这是个VPN服务器端软件<pre>sudo apt-get install pptpd</pre></li>
-<li>修改文件 /etc/pptpd.conf<pre>sudo vi /etc/pptpd.conf</pre>
-找到# TAG: localip一行，在后面添加以下2行：<br>localip 192.168.0.1<br>remoteip 192.168.0.234-238,192.168.0.245</li>
-<li>修改文件 /etc/ppp/pptpd-options<pre>sudo vi /etc/ppp/pptpd-options</pre>
-找到 #ms-dns这行，去掉前面的#号，修改成google提供的DNS server或其他DNS：<br>ms-dns 8.8.8.8<br>ms-dns 8.8.4.4</li>
-<li>修改文件 /etc/ppp/chap-secrets，按一行四列添加账号、服务器名、密码和IP限制。服务器名（默认 写pptpd 即可，务必与 pptpd-options 文件的name一行一样）。如创建一个名为user，密码为userpasswd，不限制登录IP的VPN账号：<br>user pptpd userpasswd *</li>
-<li>修改文件 /etc/sysctl.conf，去掉这一行 #net.ipv4.ip_forward=1 的#号，开启ipv4 forward，然后运行命令：<pre>sudo sysctl –p</pre>
-运行后会显示 net.ipv4.ip_forward = 1，就表示修改生效了。</li>
-<li>使用iptables建立一个NAT<pre>sudo apt-get install iptables
-iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth0 -j MASQUERADE</pre>
-上面的24表示子网掩码，代表24个1.<br>eth0是网卡名字，可以通过命令 ifconfig 查看</li>
-</ol>
-<p>为防止重启服务器后iptables丢失，先运行</p>
-<pre>iptables-save &gt; /etc/iptables.rule</pre>
-<p>然后修改文件 /etc/network/interfaces ，在eth0/eth1.. 下面加入<br>pre-up iptables-restore &lt; /etc/iptables.rule<br>7. 现在应该就搞定了,最后重启 pptpd</p>
-<pre>sudo /etc/init.d/pptpd restart</pre>
-<ol start="8">
-<li>在client端设置连接VPN进行测试，client是Ubuntu的话请看这里<br>测试是否可以连接到VPN server：<pre>ping server_IP</pre>
-不能的话，问题应该出在前4步。<br>测试是否可以连接到外网：（任何其他外网IP都行）<pre>ping 8.8.8.8</pre>
-不能的话，问题应该出在第5-6步，看看是否正确设置了 ipv4 forward<br>测试是否可以解析DNS：<pre>nslookup google.com</pre>
-</content></li>
-</ol>
+<p><strong>首先分析一下这个同步需求：</strong><ol><br>    <li>需要自动同步 vimwiki_html 的所有文件</li><br>    <li>有变更的文件才同步上去</li><br>    <li>被删掉的文件也要能同步删掉</li><br>    <li>由于文件修改频繁，不需要一旦修改就马上同步</li><br>    <li>有需要时可以手动同步</li><br>    <li>最好能排除一些不用放在线上的文件</li><br>    <li>不能占用太多系统资源</li></ol><br>这里我将vimwiki生成的html托管在了自己的github上面，此vim脚本的运行需要依赖你gvim对应版本的python，或者自己在windows下编译一个gvim。(好吧，这个实在够蛋疼。。。)</p>
+<p><strong>安装并配置你的github</strong></p>
+<p>首先关闭360安全卫士等流氓软件！切记！</p>
+<p>从github下载<a href="http://github-windows.s3.amazonaws.com/GitHubSetup.exe" target="_blank">github for window</a>，链接如下：</p>
+<p><a href="http://github-windows.s3.amazonaws.com/GitHubSetup.exe">http://github-windows.s3.amazonaws.com/GitHubSetup.exe</a></p>
+<p>安装完成后，用你的账号登录，然后在tools/options中设置默认的shell为cmd，如下图：</p>
+<p><a href="uploads/2012/07/image6.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="image" src="uploads/2012/07/image_thumb6.png" alt="image" width="439" height="287" border="0" /></a></p>
+<p>完成后双击桌面上的git shell图标，打开git shell 后执行如下命令</p>
+<p>echo %path% &gt;&gt;c:\path.txt</p>
+<p>打开c:\path.txt 将里面的内容全部复制，粘贴到系统的path变量中(覆盖原来的path)。完成此步骤后，cmd中会使用github生成的配置进行ssh的key-agent验证登录，故实现了git命令免密码的效果。完成后，运行cmd，输入git，能识别这个命令表示成功。然后就可以使用我写的这个脚本了(汗，脚本依赖有点高~~)</p>
+<p><strong>脚本的代码如下：</strong></p>
+<span id="more"></span><pre class="brush: python; gutter: true">&quot;=========================================================
+<p>&quot;     FileName: vimwiki_sync.vim<br>&quot;         Desc:<br>&quot;       Author: WangHeng<br>&quot;        Email: <a href="mailto:&#x6d;&#x65;&#64;&#x77;&#97;&#x6e;&#103;&#104;&#101;&#x6e;&#x67;&#x2e;&#111;&#114;&#103;">&#x6d;&#x65;&#64;&#x77;&#97;&#x6e;&#103;&#104;&#101;&#x6e;&#x67;&#x2e;&#111;&#114;&#103;</a><br>&quot;     HomePage: <a href="http://wangheng.org/">http://wangheng.org</a><br>&quot;      Version: 1.1<br>&quot;   LastChange: 2012-07-19 22:32:39<br>&quot;      History: 1、2012-07-20 暂时注释VimwikiGet(&#039;path_html&#039;)<br>&quot;                不好用原因待研究<br>&quot;=========================================================</p>
+<p>&quot; let s:wiki_html_path=VimwikiGet(&#039;path_html&#039;)这条命令有时候不好用，故暂时注释掉<br>if !has(&#039;python&#039;)<br>    echo &quot;Git Auto Upload Error:\nRequired vim compiled with +python&quot;<br>    finish<br>endif</p>
+<p>function! s:Vimwiki_Upload()</p>
+<p>python &lt;&lt;EOF<br>import os<br>import time</p>
+<p>dt = time.strftime(&quot;%Y-%m-%d %H:%M&quot;, time.localtime())</p>
+<p>#Edit the html_path to your html files path.<br>html_path=&#039;XXX\html&#039; #替换成你的public_html所在路径</p>
+<h1 id="html-path-vim-eval-039-s-wiki-html-path-039"><a href="#html-path-vim-eval-039-s-wiki-html-path-039" class="headerlink" title="html_path=vim.eval(&#039;s:wiki_html_path&#039;)"></a>html_path=vim.eval(&#039;s:wiki_html_path&#039;)</h1><p>os.chdir(html_path)<br>path=os.getcwd()<br>print &quot;Now, will sync files in &quot;+path+&quot; at &quot;+dt<br>os.system(&#039;git add .&amp;&amp;git commit -a -m &quot;auto commited at %s &quot;&amp;&amp;git push&#039; % (dt))</p>
+<p>print &quot;All done~!&quot;<br>EOF</p>
+<p>endfunction</p>
+<p>command! -range VimwikiUpload :call s:Vimwiki_Upload()</p>
+<p>nnoremap &lt;F11&gt; :VimwikiUpload&lt;cr&gt;</pre><br>或者直接<a href="http://wangheng.org/tools/viki/vimwiki_sync.vim" target="_blank">点击这里</a>下载。</p>
+<p>使用方法是在vim的普通模式下按F11，另外你还可以将中间的那段python代码提出来作为一个单独的python脚本，这样你就可以将它加到计划任务定时执行了，有需求的朋友可以试试~~任何问题欢迎留言交流~<br></content></p>
 ]]></content>
       <categories>
         <category>Technical</category>
+        <category>Route</category>
       </categories>
       <tags>
-        <tag>VPS</tag>
-        <tag>代理</tag>
-        <tag>Ubuntu</tag>
-        <tag>VPN</tag>
-        <tag>翻墙</tag>
+        <tag>vim</tag>
+        <tag>备份</tag>
+        <tag>vim插件</tag>
+        <tag>部署</tag>
+        <tag>github</tag>
+        <tag>python</tag>
+        <tag>symfony</tag>
       </tags>
   </entry>
   <entry>
@@ -2439,82 +2484,6 @@ iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth0 -j MASQUERADE</pre>
         <tag>分享</tag>
         <tag>工具</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>分享个人wiki部署脚本</title>
-    <url>/share-personal-wiki-deployment-script.html</url>
-    <content><![CDATA[<content>
-上一篇介绍了如何<a href="http://wangheng.org/use-vimwiki-set-up-a-personal-wiki.html">使用vimwiki组建个人wiki</a>，但是如何同步自己的vimwiki 到线上却成了很多人的困扰。丘迟的维基世界介绍了<a href="http://wiki.ktmud.com/tips/vim/ways-to-sync-vimwiki.html" target="_blank">同步 vimwiki 到线上的各种方法</a>，如果你的桌面是使用linux的话，当然问题不大，很轻松就能写出一个同步的脚本。但是还是有很多人平时工作在windows的系统环境中，这里我自己写了一个vim的小插件用来一键同步vimwiki到线上。
-
-<p><strong>首先分析一下这个同步需求：</strong><ol><br>    <li>需要自动同步 vimwiki_html 的所有文件</li><br>    <li>有变更的文件才同步上去</li><br>    <li>被删掉的文件也要能同步删掉</li><br>    <li>由于文件修改频繁，不需要一旦修改就马上同步</li><br>    <li>有需要时可以手动同步</li><br>    <li>最好能排除一些不用放在线上的文件</li><br>    <li>不能占用太多系统资源</li></ol><br>这里我将vimwiki生成的html托管在了自己的github上面，此vim脚本的运行需要依赖你gvim对应版本的python，或者自己在windows下编译一个gvim。(好吧，这个实在够蛋疼。。。)</p>
-<p><strong>安装并配置你的github</strong></p>
-<p>首先关闭360安全卫士等流氓软件！切记！</p>
-<p>从github下载<a href="http://github-windows.s3.amazonaws.com/GitHubSetup.exe" target="_blank">github for window</a>，链接如下：</p>
-<p><a href="http://github-windows.s3.amazonaws.com/GitHubSetup.exe">http://github-windows.s3.amazonaws.com/GitHubSetup.exe</a></p>
-<p>安装完成后，用你的账号登录，然后在tools/options中设置默认的shell为cmd，如下图：</p>
-<p><a href="uploads/2012/07/image6.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="image" src="uploads/2012/07/image_thumb6.png" alt="image" width="439" height="287" border="0" /></a></p>
-<p>完成后双击桌面上的git shell图标，打开git shell 后执行如下命令</p>
-<p>echo %path% &gt;&gt;c:\path.txt</p>
-<p>打开c:\path.txt 将里面的内容全部复制，粘贴到系统的path变量中(覆盖原来的path)。完成此步骤后，cmd中会使用github生成的配置进行ssh的key-agent验证登录，故实现了git命令免密码的效果。完成后，运行cmd，输入git，能识别这个命令表示成功。然后就可以使用我写的这个脚本了(汗，脚本依赖有点高~~)</p>
-<p><strong>脚本的代码如下：</strong></p>
-<span id="more"></span><pre class="brush: python; gutter: true">&quot;=========================================================
-<p>&quot;     FileName: vimwiki_sync.vim<br>&quot;         Desc:<br>&quot;       Author: WangHeng<br>&quot;        Email: <a href="mailto:&#109;&#101;&#64;&#119;&#x61;&#x6e;&#x67;&#104;&#x65;&#x6e;&#x67;&#46;&#111;&#x72;&#103;">&#109;&#101;&#64;&#119;&#x61;&#x6e;&#x67;&#104;&#x65;&#x6e;&#x67;&#46;&#111;&#x72;&#103;</a><br>&quot;     HomePage: <a href="http://wangheng.org/">http://wangheng.org</a><br>&quot;      Version: 1.1<br>&quot;   LastChange: 2012-07-19 22:32:39<br>&quot;      History: 1、2012-07-20 暂时注释VimwikiGet(&#039;path_html&#039;)<br>&quot;                不好用原因待研究<br>&quot;=========================================================</p>
-<p>&quot; let s:wiki_html_path=VimwikiGet(&#039;path_html&#039;)这条命令有时候不好用，故暂时注释掉<br>if !has(&#039;python&#039;)<br>    echo &quot;Git Auto Upload Error:\nRequired vim compiled with +python&quot;<br>    finish<br>endif</p>
-<p>function! s:Vimwiki_Upload()</p>
-<p>python &lt;&lt;EOF<br>import os<br>import time</p>
-<p>dt = time.strftime(&quot;%Y-%m-%d %H:%M&quot;, time.localtime())</p>
-<p>#Edit the html_path to your html files path.<br>html_path=&#039;XXX\html&#039; #替换成你的public_html所在路径</p>
-<h1 id="html-path-vim-eval-039-s-wiki-html-path-039"><a href="#html-path-vim-eval-039-s-wiki-html-path-039" class="headerlink" title="html_path=vim.eval(&#039;s:wiki_html_path&#039;)"></a>html_path=vim.eval(&#039;s:wiki_html_path&#039;)</h1><p>os.chdir(html_path)<br>path=os.getcwd()<br>print &quot;Now, will sync files in &quot;+path+&quot; at &quot;+dt<br>os.system(&#039;git add .&amp;&amp;git commit -a -m &quot;auto commited at %s &quot;&amp;&amp;git push&#039; % (dt))</p>
-<p>print &quot;All done~!&quot;<br>EOF</p>
-<p>endfunction</p>
-<p>command! -range VimwikiUpload :call s:Vimwiki_Upload()</p>
-<p>nnoremap &lt;F11&gt; :VimwikiUpload&lt;cr&gt;</pre><br>或者直接<a href="http://wangheng.org/tools/viki/vimwiki_sync.vim" target="_blank">点击这里</a>下载。</p>
-<p>使用方法是在vim的普通模式下按F11，另外你还可以将中间的那段python代码提出来作为一个单独的python脚本，这样你就可以将它加到计划任务定时执行了，有需求的朋友可以试试~~任何问题欢迎留言交流~<br></content></p>
-]]></content>
-      <categories>
-        <category>Technical</category>
-        <category>Route</category>
-      </categories>
-      <tags>
-        <tag>vim</tag>
-        <tag>备份</tag>
-        <tag>vim插件</tag>
-        <tag>部署</tag>
-        <tag>github</tag>
-        <tag>python</tag>
-        <tag>symfony</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>使用parted创建GPT分区</title>
-    <url>/shi-yong-parted-chuang-jian-gpt-fen-qu.html</url>
-    <content><![CDATA[<content>
-操作环境：
-
-<p>CentOS Linux 6.5</p>
-<p>硬盘：</p>
-<p>/dev/sda 大小500G，为4*15K HDD做的硬Raid10，用来部署系统分区以及Oracle应用分区。</p>
-<p>/dev/sdb 大小4.1T 为6*10K HDD做的硬Raid5，用来做Oracle的数据文件分区</p>
-<p>/dev/sdc 大小4.1T 为6*10K HDD做的硬Raid5，用来做Oracle的数据索引</p>
-<p>平时在Linux下使用的硬盘都没超过2T的单盘，所以刚开始用fdisk分区出来发现只有2T，还有点疑惑，一查才知道原来是因为fdisk不支持创建GPT分区，GPT支持大于2TB分区，MBR只能支持2TB的分区。下面是两种分区格式的具体区别：</p>
-<blockquote>MBR分区表：（MBR含义：主引导记录）
-所支持的最大卷：2T （T; terabytes,1TB=1024GB）
-对分区的设限：最多4个主分区或3个主分区加一个扩展分区。
-GPT分区表：（GPT含义：GUID分区表）
-支持最大卷：18EB，（E：exabytes,1EB=1024TB）
-每个磁盘最多支持128个分区</blockquote><strong><span style="font-size: medium;">Linux下的parted工具的使用也很简单，具体操作如下：</span></strong>
-
-<p>root@me:/mnt# <strong>parted /dev/sda</strong><br>Using /dev/sda<br>Welcome to GNU Parted! Type ‘help’ to view a list of commands.</p>
-<p>(parted) <strong>mklabel gpt</strong><br>Warning: The existing disk label on /dev/sda will be destroyed and all data on this disk<br>will be lost. Do you want to continue?<br>Yes/No? <strong>yes</strong></p>
-<p>(parted) <strong>print </strong><br>Model: DELL PERC 6/i Adapter (scsi)<br>Disk /dev/sda: 500GB<br>Sector size (logical/physical): 512B/512B<br>Partition Table: gpt<br>Number  Start  End  Size  File system  Name  Flags</p>
-<p>(parted)<strong>mkpart primary 0GB 500GB</strong><br>Warning: You requested a partition from 0.00B to 500GB.<br>The closest location we can manage is 17.4kB to 500GB.<br>Is this still acceptable to you?<br>Yes/No? <strong>yes</strong><br>Warning: The resulting partition is not properly aligned for best performance.<br>Ignore/Cancel? <strong>Ignore</strong></p>
-<p>(parted) <strong>print </strong><br>Model: DELL PERC 6/i Adapter (scsi)<br>Disk /dev/sda: 500GB<br>Sector size (logical/physical): 512B/512B<br>Partition Table: gpt<br>Number  Start   End    Size   File system  Name     Flags<br>1      17.4kB  500GB  500GB               primary</p>
-<p>(parted)<strong>quit </strong><br>Information: You may need to update /etc/fstab.<br>root@me:/#<strong>mkfs.ext4 /dev/sda1</strong><br>mke2fs 1.41.12 (17-May-2010)<br>文件系统标签=<br>操作系统:Linux<br>块大小=4096 (log=2)<br>分块大小=4096 (log=2)<br>Stride=0 blocks, Stripe width=0 blocks<br>30490624 inodes, 121962487 blocks<br>6098124 blocks (5.00%) reserved for the super user<br>第一个数据块=0<br>Maximum filesystem blocks=4294967296<br>3722 block groups<br>32768 blocks per group, 32768 fragments per group<br>8192 inodes per group<br>Superblock backups stored on blocks:<br>32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208,<br>4096000, 7962624, 11239424, 20480000, 23887872, 71663616, 78675968,<br>102400000<br>正在写入inode表: 完成<br>Creating journal (32768 blocks): 完成<br>Writing superblocks and filesystem accounting information: 完成<br>This filesystem will be automatically checked every 24 mounts or<br>180 days, whichever comes first.  Use tune2fs -c or -i to override.</p>
-<p>这样我们就完成了分区的创建以及格式化，其他分区步骤类似，全部完成并装好系统我们可以编辑/etc/fstab 文件以实现开机自动挂载分区。<br></content></p>
-]]></content>
-      <categories>
-        <category>最近添加</category>
-      </categories>
   </entry>
   <entry>
     <title>备份网站到FTP和Dropbox脚本</title>
@@ -2593,32 +2562,35 @@ crontab -e
       </tags>
   </entry>
   <entry>
-    <title>解决MySQL远程连接丢失问题</title>
-    <url>/solve-the-mysql-remote-connection-is-lost.html</url>
+    <title>使用parted创建GPT分区</title>
+    <url>/shi-yong-parted-chuang-jian-gpt-fen-qu.html</url>
     <content><![CDATA[<content>
-最近服务器很不稳定，于是重装了mysql 和php 服务，但是接着却遇到了很头疼的麻烦。
-远程连接mysql是总是提示：
-Lost connection to MySQL server at ‘reading initial communication packet’, system error: 0
+操作环境：
 
-<p>很明显这是连接初始化阶段就丢失了连接的错误。</p>
-<p>google半天大多是说的注释掉配置文件中 bind-address = 127.0.0.1 这一句。<br>但是我的配置文件并没有配置这一句，各种搜索均未果。今天偶然在网上看到一个遇到同样问题的人贴出的配置，发现他多了一句配置 skip-name-resolve，抱着试试看的态度改了一下并重启了mysql服务，果然远程一下子就连接上了，真是无语。</p>
-<p>其实问题很简单，都是MySQL的配置文件默认没有为远程连接配置好，只需要更改下MySQL的配置文件即可。<br>具体的解决步骤如下，希望能帮助遇到同样问题的同学们：<br>找到并修改my.cnf文件。在不同的Linux系统下，my.cnf放在不同的位置。这里以Ubuntu Server做示例，其他系统请根据情况自行找到my.cnf的路径。一般只会存放在/etc/my.cnf或者/etc/mysql/my.cnf下。</p>
-<p>首先用vim打开my.cnf：</p>
-<pre class="brush: bash; gutter: true">vim /etc/mysql/my.cnf</pre>
-<p>看看是否有绑定本地回环地址的配置，如果有，注释掉下面这段文字：（在文字之前加上#号即可）</p>
-<pre class="brush: bash; gutter: true">bind-address = 127.0.0.1</pre>
-<p>然后找到[mysqld]部分的参数，在配置后面建立一个新行，添加下面这个参数：</p>
-<p>skip-name-resolve<br>保存文件并重启MySQL：</p>
-<pre class="brush: bash; gutter: true">/etc/init.d/mysql restart</pre>
-<p>这样就会发现，问题已经解决了！远程连接不会丢失了。<br></content></p>
+<p>CentOS Linux 6.5</p>
+<p>硬盘：</p>
+<p>/dev/sda 大小500G，为4*15K HDD做的硬Raid10，用来部署系统分区以及Oracle应用分区。</p>
+<p>/dev/sdb 大小4.1T 为6*10K HDD做的硬Raid5，用来做Oracle的数据文件分区</p>
+<p>/dev/sdc 大小4.1T 为6*10K HDD做的硬Raid5，用来做Oracle的数据索引</p>
+<p>平时在Linux下使用的硬盘都没超过2T的单盘，所以刚开始用fdisk分区出来发现只有2T，还有点疑惑，一查才知道原来是因为fdisk不支持创建GPT分区，GPT支持大于2TB分区，MBR只能支持2TB的分区。下面是两种分区格式的具体区别：</p>
+<blockquote>MBR分区表：（MBR含义：主引导记录）
+所支持的最大卷：2T （T; terabytes,1TB=1024GB）
+对分区的设限：最多4个主分区或3个主分区加一个扩展分区。
+GPT分区表：（GPT含义：GUID分区表）
+支持最大卷：18EB，（E：exabytes,1EB=1024TB）
+每个磁盘最多支持128个分区</blockquote><strong><span style="font-size: medium;">Linux下的parted工具的使用也很简单，具体操作如下：</span></strong>
+
+<p>root@me:/mnt# <strong>parted /dev/sda</strong><br>Using /dev/sda<br>Welcome to GNU Parted! Type ‘help’ to view a list of commands.</p>
+<p>(parted) <strong>mklabel gpt</strong><br>Warning: The existing disk label on /dev/sda will be destroyed and all data on this disk<br>will be lost. Do you want to continue?<br>Yes/No? <strong>yes</strong></p>
+<p>(parted) <strong>print </strong><br>Model: DELL PERC 6/i Adapter (scsi)<br>Disk /dev/sda: 500GB<br>Sector size (logical/physical): 512B/512B<br>Partition Table: gpt<br>Number  Start  End  Size  File system  Name  Flags</p>
+<p>(parted)<strong>mkpart primary 0GB 500GB</strong><br>Warning: You requested a partition from 0.00B to 500GB.<br>The closest location we can manage is 17.4kB to 500GB.<br>Is this still acceptable to you?<br>Yes/No? <strong>yes</strong><br>Warning: The resulting partition is not properly aligned for best performance.<br>Ignore/Cancel? <strong>Ignore</strong></p>
+<p>(parted) <strong>print </strong><br>Model: DELL PERC 6/i Adapter (scsi)<br>Disk /dev/sda: 500GB<br>Sector size (logical/physical): 512B/512B<br>Partition Table: gpt<br>Number  Start   End    Size   File system  Name     Flags<br>1      17.4kB  500GB  500GB               primary</p>
+<p>(parted)<strong>quit </strong><br>Information: You may need to update /etc/fstab.<br>root@me:/#<strong>mkfs.ext4 /dev/sda1</strong><br>mke2fs 1.41.12 (17-May-2010)<br>文件系统标签=<br>操作系统:Linux<br>块大小=4096 (log=2)<br>分块大小=4096 (log=2)<br>Stride=0 blocks, Stripe width=0 blocks<br>30490624 inodes, 121962487 blocks<br>6098124 blocks (5.00%) reserved for the super user<br>第一个数据块=0<br>Maximum filesystem blocks=4294967296<br>3722 block groups<br>32768 blocks per group, 32768 fragments per group<br>8192 inodes per group<br>Superblock backups stored on blocks:<br>32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208,<br>4096000, 7962624, 11239424, 20480000, 23887872, 71663616, 78675968,<br>102400000<br>正在写入inode表: 完成<br>Creating journal (32768 blocks): 完成<br>Writing superblocks and filesystem accounting information: 完成<br>This filesystem will be automatically checked every 24 mounts or<br>180 days, whichever comes first.  Use tune2fs -c or -i to override.</p>
+<p>这样我们就完成了分区的创建以及格式化，其他分区步骤类似，全部完成并装好系统我们可以编辑/etc/fstab 文件以实现开机自动挂载分区。<br></content></p>
 ]]></content>
       <categories>
-        <category>Technical</category>
+        <category>最近添加</category>
       </categories>
-      <tags>
-        <tag>日志</tag>
-        <tag>Linux</tag>
-      </tags>
   </entry>
   <entry>
     <title>Apache2配置多域名</title>
@@ -2661,6 +2633,34 @@ chown -R www-data:www-data /var/www/test/*
         <tag>Ubuntu</tag>
         <tag>Apache2</tag>
         <tag>多域名</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决MySQL远程连接丢失问题</title>
+    <url>/solve-the-mysql-remote-connection-is-lost.html</url>
+    <content><![CDATA[<content>
+最近服务器很不稳定，于是重装了mysql 和php 服务，但是接着却遇到了很头疼的麻烦。
+远程连接mysql是总是提示：
+Lost connection to MySQL server at ‘reading initial communication packet’, system error: 0
+
+<p>很明显这是连接初始化阶段就丢失了连接的错误。</p>
+<p>google半天大多是说的注释掉配置文件中 bind-address = 127.0.0.1 这一句。<br>但是我的配置文件并没有配置这一句，各种搜索均未果。今天偶然在网上看到一个遇到同样问题的人贴出的配置，发现他多了一句配置 skip-name-resolve，抱着试试看的态度改了一下并重启了mysql服务，果然远程一下子就连接上了，真是无语。</p>
+<p>其实问题很简单，都是MySQL的配置文件默认没有为远程连接配置好，只需要更改下MySQL的配置文件即可。<br>具体的解决步骤如下，希望能帮助遇到同样问题的同学们：<br>找到并修改my.cnf文件。在不同的Linux系统下，my.cnf放在不同的位置。这里以Ubuntu Server做示例，其他系统请根据情况自行找到my.cnf的路径。一般只会存放在/etc/my.cnf或者/etc/mysql/my.cnf下。</p>
+<p>首先用vim打开my.cnf：</p>
+<pre class="brush: bash; gutter: true">vim /etc/mysql/my.cnf</pre>
+<p>看看是否有绑定本地回环地址的配置，如果有，注释掉下面这段文字：（在文字之前加上#号即可）</p>
+<pre class="brush: bash; gutter: true">bind-address = 127.0.0.1</pre>
+<p>然后找到[mysqld]部分的参数，在配置后面建立一个新行，添加下面这个参数：</p>
+<p>skip-name-resolve<br>保存文件并重启MySQL：</p>
+<pre class="brush: bash; gutter: true">/etc/init.d/mysql restart</pre>
+<p>这样就会发现，问题已经解决了！远程连接不会丢失了。<br></content></p>
+]]></content>
+      <categories>
+        <category>Technical</category>
+      </categories>
+      <tags>
+        <tag>日志</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -3101,22 +3101,6 @@ sudo pptpsetup –create test –encrypt –server HOST_NAME –username USER_NA
       </tags>
   </entry>
   <entry>
-    <title>Windows下安装PHP Pear</title>
-    <url>/under-windows-install-php-pear.html</url>
-    <content><![CDATA[<content>
-<h5><font size="4">PEAR简介</font></h5>  PEAR是PHP扩展与应用库(the PHP Extension and Application Repository)的缩写。它是一个PHP扩展及应用的一个代码仓库，简单地说，PEAR之于PHP就像是CPAN(Comprehensive Perl Archive Network)之于Perl。  <p> PEAR的基本目标是发展成为PHP扩展和库代码的知识库，而这个项目最有雄心的目标则是试图定义一种标准，这种标准将帮助开发者编写可移植、可重用的代码。</p>  <p><strong><font size="4">在WAMP集成环境中安装PEAR</font></strong></p>  <p><strong>1、首先下载一个</strong><a href="http://pear.php.net/go-pear.phar" target="_blank"><strong>go-pear.phar</strong></a><strong>文件。</strong></p>  <p><a href="http://pear.php.net/go-pear.phar" target="_blank">点击这里</a>下载~</p>  <p><strong>2、进入到php的运行目录安装</strong></p>  <p>我这里使用了一个wamp的集成开发环境，版本是wampserver2.2e-php5.4.3-httpd2.2.22-mysql5.5.24-32b，我本地的安装路径是C:\wamp\bin\php\php5.4.3&gt;</p>  <p>执行如下的命令：</p>  <p>php.exe -d phar.require_hash=0 go-pear.phar</p>  <p><a href="uploads/2012/07/image2.png"><img style="background-image: none; border-bottom: 0px; border-left: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="image" border="0" alt="image" src="uploads/2012/07/image_thumb2.png" width="573" height="483" /></a></p><span id="more"></span><p>到这一步可以修改PEAR安装的$prefix路径，我选择了默认，一路回车进行安装。</p>  <p><strong>3、修改include_path选项</strong></p>  <p>最后PEAR默认扩展包安装后，提示是否需要配置php.ini文件中的include_path选项指向pear的安装目录</p>  <p><a href="uploads/2012/07/image3.png"><img style="background-image: none; border-bottom: 0px; border-left: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="image" border="0" alt="image" src="uploads/2012/07/image_thumb3.png" width="578" height="371" /></a></p>  <p>当然需要配置，否则无法使用，Y并回车，安装包会自动修改include_path选项。提示我们环境变量没有设置，所以下面我们还需要设置一下系统的环境变量。</p>  <p>新建一个环境变量名，如下图</p>  <p><a href="uploads/2012/07/image4.png"><img style="background-image: none; border-bottom: 0px; border-left: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="image" border="0" alt="image" src="uploads/2012/07/image_thumb4.png" width="393" height="276" /></a></p>  <p>然后在PATH变量中加入%php_home%就完成啦~。</p>  <p><strong><font size="4">PEAR常用命令</font></strong></p>  <p>在命令行方式下，运用PEAR的相关命令可以安装自己需要的PEAR安装包。</p>  <p> pear help&#160; 列出pear的所有命令，类似于pear的命令帮助命令。</p>  <p> pear help &lt;command&gt;&#160; 列出某个pear命令的具体信息</p>  <p> pear help shortcuts&#160; 列出所有pear命令的简写</p>
-</content>
-]]></content>
-      <categories>
-        <category>Technical</category>
-      </categories>
-      <tags>
-        <tag>Windows</tag>
-        <tag>PHP</tag>
-        <tag>Apache</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>北京联通DNS劫持！</title>
     <url>/unicom-dns-hijacking.html</url>
     <content><![CDATA[<content>
@@ -3132,6 +3116,22 @@ sudo pptpsetup –create test –encrypt –server HOST_NAME –username USER_NA
         <tag>DNS</tag>
         <tag>劫持</tag>
         <tag>联通</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Windows下安装PHP Pear</title>
+    <url>/under-windows-install-php-pear.html</url>
+    <content><![CDATA[<content>
+<h5><font size="4">PEAR简介</font></h5>  PEAR是PHP扩展与应用库(the PHP Extension and Application Repository)的缩写。它是一个PHP扩展及应用的一个代码仓库，简单地说，PEAR之于PHP就像是CPAN(Comprehensive Perl Archive Network)之于Perl。  <p> PEAR的基本目标是发展成为PHP扩展和库代码的知识库，而这个项目最有雄心的目标则是试图定义一种标准，这种标准将帮助开发者编写可移植、可重用的代码。</p>  <p><strong><font size="4">在WAMP集成环境中安装PEAR</font></strong></p>  <p><strong>1、首先下载一个</strong><a href="http://pear.php.net/go-pear.phar" target="_blank"><strong>go-pear.phar</strong></a><strong>文件。</strong></p>  <p><a href="http://pear.php.net/go-pear.phar" target="_blank">点击这里</a>下载~</p>  <p><strong>2、进入到php的运行目录安装</strong></p>  <p>我这里使用了一个wamp的集成开发环境，版本是wampserver2.2e-php5.4.3-httpd2.2.22-mysql5.5.24-32b，我本地的安装路径是C:\wamp\bin\php\php5.4.3&gt;</p>  <p>执行如下的命令：</p>  <p>php.exe -d phar.require_hash=0 go-pear.phar</p>  <p><a href="uploads/2012/07/image2.png"><img style="background-image: none; border-bottom: 0px; border-left: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="image" border="0" alt="image" src="uploads/2012/07/image_thumb2.png" width="573" height="483" /></a></p><span id="more"></span><p>到这一步可以修改PEAR安装的$prefix路径，我选择了默认，一路回车进行安装。</p>  <p><strong>3、修改include_path选项</strong></p>  <p>最后PEAR默认扩展包安装后，提示是否需要配置php.ini文件中的include_path选项指向pear的安装目录</p>  <p><a href="uploads/2012/07/image3.png"><img style="background-image: none; border-bottom: 0px; border-left: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="image" border="0" alt="image" src="uploads/2012/07/image_thumb3.png" width="578" height="371" /></a></p>  <p>当然需要配置，否则无法使用，Y并回车，安装包会自动修改include_path选项。提示我们环境变量没有设置，所以下面我们还需要设置一下系统的环境变量。</p>  <p>新建一个环境变量名，如下图</p>  <p><a href="uploads/2012/07/image4.png"><img style="background-image: none; border-bottom: 0px; border-left: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="image" border="0" alt="image" src="uploads/2012/07/image_thumb4.png" width="393" height="276" /></a></p>  <p>然后在PATH变量中加入%php_home%就完成啦~。</p>  <p><strong><font size="4">PEAR常用命令</font></strong></p>  <p>在命令行方式下，运用PEAR的相关命令可以安装自己需要的PEAR安装包。</p>  <p> pear help&#160; 列出pear的所有命令，类似于pear的命令帮助命令。</p>  <p> pear help &lt;command&gt;&#160; 列出某个pear命令的具体信息</p>  <p> pear help shortcuts&#160; 列出所有pear命令的简写</p>
+</content>
+]]></content>
+      <categories>
+        <category>Technical</category>
+      </categories>
+      <tags>
+        <tag>Windows</tag>
+        <tag>PHP</tag>
+        <tag>Apache</tag>
       </tags>
   </entry>
   <entry>
