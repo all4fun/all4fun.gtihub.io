@@ -5359,12 +5359,12 @@ private void button1_Click(object sender, EventArgs e)
 <span id="more"></span>
 
 <p><strong><span style="font-size: medium;">安装</span></strong></p>
-<p>vimwiki的安装可以参考<a href="http://wangheng.org/html/vimwiki_install.html">这里</a>。</p>
+<p>vimwiki的安装可以参考<a href="http://wangheng.org/wiki/vimwiki_install.html">这里</a>。</p>
 <h5><span style="font-size: medium;">开始使用 vimwiki</span></h5>
 使用快捷键 <code>&lt;leader&gt;ww</code> 开始编辑您的第一个 vimwiki 吧！ 首次使用 vimwiki 时， 它默认会在操作系统用户目录（即 <code>~/</code> ）建立一个 vimwiki 文件夹，保存所有你的 wiki 条目。如果你调用 :!Vimwiki2HTML 命令把 wiki 条目转为 html 页面，它会创建一个名为 vimwiki_html 的文件夹保存所有生成的 html 文件。
-<h5><span style="font-size: medium;">进阶技巧</span></h5><a href="http://wangheng.org/html/vim_wiki.html">这里</a>记录了一些vimwiki中用的比较多的命令和小技巧。
+<h5><span style="font-size: medium;">进阶技巧</span></h5><a href="http://wangheng.org/wiki/vim_wiki.html">这里</a>记录了一些vimwiki中用的比较多的命令和小技巧。
 <h5><span style="font-size: medium;">为vimwiki添加语法高亮</span></h5>
-为vimwiki实现语法高亮可以参考<a href="http://wangheng.org/html/wiki_SyntaxHighlighter.html">vimwiki语法高亮</a>。
+为vimwiki实现语法高亮可以参考<a href="http://wangheng.org/wiki/wiki_SyntaxHighlighter.html">vimwiki语法高亮</a>。
 </content>
 ]]></content>
       <categories>
@@ -5388,7 +5388,7 @@ private void button1_Click(object sender, EventArgs e)
 <p><strong>2、安装一些必须的软件包</strong></p>
 <p>如果你确定第一步你已经没有问题了，我们下面要继续安装一些必须的软件包。ssh连接到你的iPhone或者iPad后执行下面的命令：</p>
 <span id="more"></span><pre>sudo -i 
-<p>apt-get install screen</pre><br>然后你的ios设备上面将会安装好screen这个软件包，不知道screen是什么的同学可以参考<a href="http://wangheng.org/html/linux.html#toc_0.1.1" target="_blank">这里</a>。</p>
+<p>apt-get install screen</pre><br>然后你的ios设备上面将会安装好screen这个软件包，不知道screen是什么的同学可以参考<a href="http://wangheng.org/wiki/linux.html#toc_0.1.1" target="_blank">这里</a>。</p>
 <p>执行下面的命令：</p>
 <pre>screen –S autossh 
 ssh -D 1987 [用户名]@[ip地址] 
@@ -5433,7 +5433,7 @@ return “DIRECT”;
     <content><![CDATA[<content>
 <strong>已经改用vim中的vimwiki插件来实现！具体请参考<a title="使用vimwiki组建个人wiki" href="http://wangheng.org/use-vimwiki-set-up-a-personal-wiki.html">使用vimwiki组建个人wiki</a>和<a title="分享个人wiki部署脚本" href="http://wangheng.org/share-personal-wiki-deployment-script.html">分享个人wiki部署脚本</a>！</strong>
 
-<p>ViKi，就是 VIM WiKi 的缩写。WiKi 是一种非常方便快捷地组织信息的方式，而 ViKi也可以作为个人的Wiki管理工具。利用deplate来编译vim中写好的viki文件，可以快速的依据你自己的模板来生成带样式的html文件。<a href="http://wangheng.org/html/test.html" target="_blank">这里</a>是利用viki创建出来的测试html，效果还是很不错的，至少我很喜欢这种简约的风格。另外，我还写了bat脚本来配合自动部署html到web，所以我要得到一个viki页面流程很简单：</p>
+<p>ViKi，就是 VIM WiKi 的缩写。WiKi 是一种非常方便快捷地组织信息的方式，而 ViKi也可以作为个人的Wiki管理工具。利用deplate来编译vim中写好的viki文件，可以快速的依据你自己的模板来生成带样式的html文件。<a href="http://wangheng.org/wiki/test.html" target="_blank">这里</a>是利用viki创建出来的测试html，效果还是很不错的，至少我很喜欢这种简约的风格。另外，我还写了bat脚本来配合自动部署html到web，所以我要得到一个viki页面流程很简单：</p>
 <p>1、gvim mypage.viki</p>
 <p>2、viki.bat mypage.viki</p>
 <p>这样在web就得到了刚刚写好的viki页面，很方便不是。</p>
@@ -5454,7 +5454,7 @@ return “DIRECT”;
 <p>Viki你好！<br>今天是六月九号，用viki写文章真方便！</p>
 <p>使用命令生成html到当前目录的html文件夹：</p>
 <p>deplate test.viki -m utf8 -m code-vim73 -t .\template\bright.html -d html</p>
-<p>现在打开你的test.html，是不是跟<a href="http://wangheng.org/html/test.html" target="_blank">这个</a> 一样呢？</p>
+<p>现在打开你的test.html，是不是跟<a href="http://wangheng.org/wiki/test.html" target="_blank">这个</a> 一样呢？</p>
 <p>当然功能远远不止这些，鉴于我也是刚尝试，并且只是用它来记一些简单的文字，有空会在去慢慢摸索啦~<br></content></p>
 ]]></content>
       <categories>

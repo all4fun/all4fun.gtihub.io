@@ -42,7 +42,7 @@ cat > $sitemap <<EOF
 <body>
 <header id="header">
 	<top_group>
-		<div id="logo" style="font-size: 22pt"><a href="http://wangheng.org/html/">王恒的笔记</a></div>
+		<div id="logo" style="font-size: 22pt"><a href="http://wangheng.org/wiki/">王恒的笔记</a></div>
 	</top_group>
 </header>
 <div id="wrap">
