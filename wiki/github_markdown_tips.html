@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>Github中的Markdown 格式的说明</title>
+	<meta name="description" content="王恒的笔记 -- make progress a little day by day" />
+	<meta name="keywords" content="Linux,Windows,MacOSX,Shell,c++,C#,PHP,Python,Coder,Arduino,Raspberry pi" />
+	<link rel="stylesheet" type="text/css" href="theme/bright/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight_monokai.css" />
+	<script src="js/highlight.pack.js"></script>
+
+</head>
+
+<body>
+<header id="header">
+	<top_group>
+		<div id="logo" style="font-size: 22pt"><a href="http://wangheng.org/html/">笔记</a></div>
+	</top_group>
+</header>
+<div id="wrap">
+	<div id="content">	
+	
+
+<p>
+以前也常常用到github，自己却从来没有好好的研究过他的Markdown格式，今天为了写个README.md 研究了一下发现跟vimwiki 区别还是很大的。
+</p>
+
+<p>
+演示地址如下 <a href="https://github.com/wujiwh/wujiwh.github.com/blob/master/test.md">https://github.com/wujiwh/wujiwh.github.com/blob/master/test.md</a>
+</p>
+
+<pre>
+  大标题
+===================================
+  大标题一般显示工程名,类似html的\&lt;h1\&gt;&lt;br /&gt;
+  你只要在标题下面跟上=====即可
+
+  
+中标题
+-----------------------------------
+  中标题一般显示重点项,类似html的\&lt;h2\&gt;&lt;br /&gt;
+  你只要在标题下面输入------即可
+  
+### 小标题
+  小标题类似html的\&lt;h3\&gt;&lt;br /&gt;
+  小标题的格式如下 ### 小标题&lt;br /&gt;
+  注意#和标题字符中间要有空格
+
+### 注意!!!下面所有语法的提示我都先用小标题提醒了!!! 
+
+### 单行文本框
+    这是一个单行的文本框,只要两个Tab再输入文字即可
+        
+### 多行文本框  
+    这是一个有多行的文本框
+    你可以写入代码等,每行文字只要输入两个Tab再输入文字即可
+    这里你可以输入一段代码
+
+### 比如我们可以在多行文本框里输入一段代码,来一个Java版本的HelloWorld吧
+    public class HelloWorld {
+
+      /**
+      * @param args
+   */
+   public static void main(String[] args) {
+   System.out.println("HelloWorld!");
+
+   }
+
+    }
+### 链接
+1.[点击这里你可以链接到www.baidu.com](http://www.baidu.com)
+
+###只是显示图片
+![github](http://github.com/unicorn.png "github")
+
+###想点击某个图片进入一个网页,比如我想点击github的icorn然后再进入www.github.com
+[![image]](http://www.github.com/)
+[image]: http://github.com/github.png "github"
+
+### 文字被些字符包围
+&gt; 文字被些字符包围
+&gt;
+&gt; 只要再文字前面加上&gt;空格即可
+&gt;
+&gt; 如果你要换行的话,新起一行,输入&gt;空格即可,后面不接文字
+&gt; 但&gt; 只能放在行首才有效
+
+### 文字被些字符包围,多重包围
+&gt; 文字被些字符包围开始
+&gt;
+&gt; &gt; 只要再文字前面加上&gt;空格即可
+&gt;
+&gt;  &gt; &gt; 如果你要换行的话,新起一行,输入&gt;空格即可,后面不接文字
+&gt;
+&gt; &gt; &gt; &gt; 但&gt; 只能放在行首才有效
+
+### 特殊字符处理
+有一些特殊字符如&lt;,#等,只要在特殊字符前面加上转义字符\即可&lt;br /&gt;
+你想换行的话其实可以直接用html标签\&lt;br /\&gt;
+
+</pre>
+
+	</div>
+</div>
+
+<!--this is my footer-->
+<div id="footer">
+	<img alt="知识共享许可协议" height="31" width="80" style="border-width:0" src="img/cc_80x31.png" /> 本作品采用知识共享署名-非商业性使用-禁止演绎 3.0 Unported <a name="license" rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">许可协议</a>进行许可。
+</div>
+
+<!--Baidu Analysis-->
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6bad7b5881000f711c6b1e1e6d286a52' type='text/javascript'%3E%3C/script%3E"));
+
+<!-- Code Highlight -->
+hljs.initHighlightingOnLoad();
+
+</script>
+</body>
+</html>
+

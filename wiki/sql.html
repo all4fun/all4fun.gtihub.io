@@ -1,0 +1,222 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>数据库笔记</title>
+	<meta name="description" content="王恒的笔记 -- make progress a little day by day" />
+	<meta name="keywords" content="Linux,Windows,MacOSX,Shell,c++,C#,PHP,Python,Coder,Arduino,Raspberry pi" />
+	<link rel="stylesheet" type="text/css" href="theme/bright/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight_monokai.css" />
+	<script src="js/highlight.pack.js"></script>
+
+</head>
+
+<body>
+<header id="header">
+	<top_group>
+		<div id="logo" style="font-size: 22pt"><a href="http://wangheng.org/html/">笔记</a></div>
+	</top_group>
+</header>
+<div id="wrap">
+	<div id="content">	
+	
+
+<div id="目录"><h1 id="目录">目录</h1></div>
+<p>
+%toc
+</p>
+
+<div id="MYSQL"><h1 id="MYSQL">MYSQL</h1></div>
+
+<div id="MYSQL-[[mysql_case_when|mysql case when用法]]"><h2 id="[[mysql_case_when|mysql case when用法]]"><a href="mysql_case_when.html">mysql case when用法</a></h2></div>
+
+<div id="MYSQL-[[modify_mysql_password|修改mysql密码]]"><h2 id="[[modify_mysql_password|修改mysql密码]]"><a href="modify_mysql_password.html">修改mysql密码</a></h2></div>
+
+<div id="MYSQL-[[cannot_remote_connect_mysql|无法远程访问Mysql的解决方案]]"><h2 id="[[cannot_remote_connect_mysql|无法远程访问Mysql的解决方案]]"><a href="cannot_remote_connect_mysql.html">无法远程访问Mysql的解决方案</a></h2></div>
+
+<div id="MYSQL-[[mysql_datetime_campare|Mysql时间比较]]"><h2 id="[[mysql_datetime_campare|Mysql时间比较]]"><a href="mysql_datetime_campare.html">Mysql时间比较</a></h2></div>
+
+<div id="MYSQL-[[database_oracle_autobackup|oracle数据库备份脚本]]"><h2 id="[[database_oracle_autobackup|oracle数据库备份脚本]]"><a href="database_oracle_autobackup.html">oracle数据库备份脚本</a></h2></div>
+
+<div id="MYSQL-Mysql处理emoji表情符号问题"><h2 id="Mysql处理emoji表情符号问题">Mysql处理emoji表情符号问题</h2></div>
+
+<p>
+mysql 插入数据报错 <code>Incorrect string value: '\xF0\x9F\x98\x84\xF0\x9F</code>
+</p>
+
+<p>
+找了点资料发现UTF-8编码有可能是两个、三个、四个字节。Emoji表情或者某些特殊字符是4个字节，而Mysql的utf8编码最多3个字节，所以数据插不进去。
+<b>解决方案</b>
+</p>
+
+<pre>
+
+修改服务器mysql配置
+
+1.在mysql的安装目录下找到my.ini,作如下修改：
+[mysqld]
+character-set-server=utf8mb4
+[mysql]
+default-character-set=utf8mb4
+
+重启服务
+/etc/init.d/mysql restart
+  
+  修改表字符集
+ALTER TABLE XXX CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+</pre>
+  
+
+
+<div id="ORACLE"><h1 id="ORACLE">ORACLE</h1></div>
+<div id="ORACLE-ORACLE 常用命令"><h2 id="ORACLE 常用命令">ORACLE 常用命令</h2></div>
+<div id="ORACLE-ORACLE 常用命令-1、查询并删除用户下所有表空间"><h5 id="1、查询并删除用户下所有表空间">1、查询并删除用户下所有表空间</h5></div>
+
+<pre>
+select 'DROP TABLESPACE '||tablespace_name||' INCLUDING CONTENTS AND DATAFILES;' from user_tablespaces;
+</pre>
+
+<div id="ORACLE-ORACLE 常用命令-2、创建用户表空间"><h5 id="2、创建用户表空间">2、创建用户表空间</h5></div>
+<pre>
+CREATE TABLESPACE USER_DI_JPTXT DATAFILE '/oradata/files1/DI_JPTXT/USER_DI_JPTXT_01.DBF' SIZE 50M AUTOEXTEND ON NEXT 500M MAXSIZE unlimited LOGGING ONLINE PERMANENT BLOCKSIZE 32768 EXTENT MANAGEMENT LOCAL AUTOALLOCATE DEFAULT NOCOMPRESS  SEGMENT SPACE MANAGEMENT AUTO;
+</pre>
+
+<div id="ORACLE-ORACLE 常用命令-3、查看并修改用户默认表空间"><h5 id="3、查看并修改用户默认表空间">3、查看并修改用户默认表空间</h5></div>
+<pre>
+select username,default_tablespace from user_users;
+alter user national default tablespace USER_NATIONAL profile default;
+</pre>
+
+<div id="ORACLE-ORACLE 常用命令-4、ipph.dba 经验"><h5 id="4、ipph.dba 经验">4、ipph.dba 经验</h5></div>
+<pre>
+oracle sid 字符不要超过8个  服务名也尽量不要太长
+sid 中不应该配置为带db_domain 的名字
+
+修改默认启动模式为spfile：
+create spfile from pfile;
+shutdown immediate;
+startup;
+</pre>
+
+<div id="ORACLE-ORACLE 常用命令-5、ora 00059 超出db_files 最大值"><h5 id="5、ora 00059 超出db_files 最大值">5、ora 00059 超出db_files 最大值</h5></div>
+<pre>
+oracle db_files 的默认值是200
+
+show parameter db_files;
+alter system set db_files=1024 scope=spfile;
+shutdown immediate;
+startup;
+</pre>
+
+<div id="ORACLE-ORACLE 常用命令-6、ora 29339 创建表空间是出错"><h5 id="6、ora 29339 创建表空间是出错">6、ora 29339 创建表空间是出错</h5></div>
+<pre>
+原因：db_32k_cache_size 初始设置过小导致的。
+show parameter db_32k_cache_size;
+alter system set db_32k_cache_size=8M;
+同理：
+db_4k_cache_size, db_8k_cache_size, db_16k_cache_size 修改方法类似。
+</pre>
+
+<div id="ORACLE-ORACLE 常用命令-7、批量创建表空间语句"><h5 id="7、批量创建表空间语句">7、批量创建表空间语句</h5></div>
+<pre>
+select  'CREATE TABLESPACE AU'||substr(table_name,2,28)||' DATAFILE ''/oradata/files1/DI_AUTXT/AU'||substr(table_name,2,28)||'_01.DBF'' SIZE 50M AUTOEXTEND ON NEXT 500M MAXSIZE unlimited LOGGING ONLINE PERMANENT BLOCKSIZE 32768 EXTENT MANAGEMENT LOCAL AUTOALLOCATE DEFAULT NOCOMPRESS  SEGMENT SPACE MANAGEMENT AUTO;' from user_tables where table_name like 'T_%';
+</pre>
+
+<div id="ORACLE-ORACLE 常用命令-8、批量移动表所在表空间语句"><h5 id="8、批量移动表所在表空间语句">8、批量移动表所在表空间语句</h5></div>
+<pre>
+select  'alter table '||table_name||' move tablespace AU'||substr(table_name,2,28)||';' from user_tables where table_name like 'T_%';
+</pre>
+
+<div id="ORACLE-ORACLE 常用命令-9、sqlplus 执行sql脚本"><h5 id="9、sqlplus 执行sql脚本">9、sqlplus 执行sql脚本</h5></div>
+<pre>
+sqlplus user/password @ server_sid
+sql&gt;@d:\test.sql
+</pre>
+
+<p>
+10、导出表DDL
+</p>
+<pre>
+select dbms_metadata.get_ddl('TABLE', u.table_name) from user_tables u;
+</pre>
+
+<div id="ORACLE-ORACLE 常用命令-11、更好的方式导出表空间"><h5 id="11、更好的方式导出表空间">11、更好的方式导出表空间</h5></div>
+<pre>
+--获得建TABLESPACE的语句
+begin
+  DBMS_METADATA.SET_TRANSFORM_PARAM(DBMS_METADATA.SESSION_TRANSFORM,'SQLTERMINATOR',true);
+  for v_ddl in (SELECT DBMS_METADATA.GET_DDL('TABLESPACE', TS.tablespace_name) as content FROM DBA_TABLESPACES TS)
+  loop
+     DBMS_OUTPUT.PUT_LINE(replace(v_ddl.content,'"',''));
+  end loop;
+  DBMS_METADATA.SET_TRANSFORM_PARAM(DBMS_METADATA.SESSION_TRANSFORM,'DEFAULT');
+end;
+/
+--别漏掉最后的这个斜杠/ 
+</pre>
+<div id="ORACLE-ORACLE 常用命令-12、创建数据库文件夹对象"><h5 id="12、创建数据库文件夹对象">12、创建数据库文件夹对象</h5></div>
+
+<pre>
+create or replace directory dump as 'D:\databack\dump';
+grant read, write on directory dump to spt;
+</pre>
+
+<div id="ORACLE-ORACLE 常用命令-13、expdp，impdp 数据泵导出导入oralce数据迁移"><h5 id="13、expdp，impdp 数据泵导出导入oralce数据迁移">13、expdp，impdp 数据泵导出导入oralce数据迁移</h5></div>
+<pre>
+#其他参数： remap_tablespace=A:B
+
+#导出：
+expdp national/national directory=DMP_DIR filesize=4G dumpfile=national_20131101_%U.dmp
+
+#导入：
+impdp di_docdb/di_docdb directory=DUMP_DIR content=metadata_only dumpfile=di_cntxt_alldb_20140623.dmp remap_schema=di_cntxt:di_docdb
+</pre>
+
+
+<div id="ORACLE-ORACLE 常用命令-14、统计表空间使用情况"><h5 id="14、统计表空间使用情况">14、统计表空间使用情况</h5></div>
+<pre>
+SELECT tablespace_name 表空间,sum (blocks *8/ 1024) 剩余空间M FROM dba_free_space GROUP BY tablespace_name;
+</pre>
+
+<div id="ORACLE-ORACLE 常用命令-15、创建视图统计表空间使用情况"><h5 id="15、创建视图统计表空间使用情况">15、创建视图统计表空间使用情况</h5></div>
+<pre>
+create or replace view   dba_tablespace_free as
+select a.tablespace_name, a.total_space_mb allocated_space_mb,round( b.free_space_mb,2 ) free_space_mb,(a.max_space- a.total_space_mb) free_allocate_mb ,round( a.max_space,2 ) max_space_mb,
+round((a.total_space_mb -b.free_space_mb )/a.total_space_mb *100, 2) pct_usage,round( a.total_space_mb/a.max_space *100, 2) pct_allocated
+from ( select tablespace_name ,sum( bytes)/ 1024/1024 total_space_Mb,decode( sum(maxbytes/1024 /1024), 0,
+sum(bytes)/1024 /1024, sum(case when AUTOEXTENSIBLE='YES' then maxbytes
+                             else bytes end)/1024 /1024) max_space
+ from dba_data_files  group by tablespace_name )a ,(select tablespace_name , sum((bytes)/1024 /1024) free_space_Mb
+ from dba_free_space group by tablespace_name ) b where a.tablespace_name=b.tablespace_name;
+</pre>
+
+<div id="ORACLE-ORACLE 常用命令-16、为表空间添加数据文件"><h5 id="16、为表空间添加数据文件">16、为表空间添加数据文件</h5></div>
+<pre>
+ALTER TABLESPACE NAT_DES_PARAGRAPHS ADD DATAFILE '/oradata/files1/DI_CNTXT/NAT_DES_PARAGRAPHS_03.dbf' SIZE 50 M AUTOEXTEND ON NEXT 500M MAXSIZE unlimited ;
+</pre>
+<div id="ORACLE-ORACLE 常用命令-17、取消oracle 密码过期"><h5 id="17、取消oracle 密码过期">17、取消oracle 密码过期</h5></div>
+<pre>
+ALTER PROFILE DEFAULT LIMIT PASSWORD_LIFE_TIME UNLIMITED;
+</pre>
+
+	</div>
+</div>
+
+<!--this is my footer-->
+<div id="footer">
+	<img alt="知识共享许可协议" height="31" width="80" style="border-width:0" src="img/cc_80x31.png" /> 本作品采用知识共享署名-非商业性使用-禁止演绎 3.0 Unported <a name="license" rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">许可协议</a>进行许可。
+</div>
+
+<!--Baidu Analysis-->
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6bad7b5881000f711c6b1e1e6d286a52' type='text/javascript'%3E%3C/script%3E"));
+
+<!-- Code Highlight -->
+hljs.initHighlightingOnLoad();
+
+</script>
+</body>
+</html>
+

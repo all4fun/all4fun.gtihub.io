@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>C#实现快捷键(系统热键)响应</title>
+	<meta name="description" content="王恒的笔记 -- make progress a little day by day" />
+	<meta name="keywords" content="Linux,Windows,MacOSX,Shell,c++,C#,PHP,Python,Coder,Arduino,Raspberry pi" />
+	<link rel="stylesheet" type="text/css" href="theme/bright/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight_monokai.css" />
+	<script src="js/highlight.pack.js"></script>
+
+</head>
+
+<body>
+<header id="header">
+	<top_group>
+		<div id="logo" style="font-size: 22pt"><a href="http://wangheng.org/html/">笔记</a></div>
+	</top_group>
+</header>
+<div id="wrap">
+	<div id="content">	
+	
+
+<p>
+在应用中，我们可能会需要实现像Ctrl+C复制、Ctrl+V粘贴这样的快捷键，本文简单介绍了它的实现，并给出了一个实现类。
+</p>
+
+<div id="（1）建立一个类文件，命名为HotKey.cs，代码如下："><h4 id="（1）建立一个类文件，命名为HotKey.cs，代码如下：">（1）建立一个类文件，命名为HotKey.cs，代码如下：</h4></div>
+<pre class="brush: csharp">
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
+
+namespace KoalaStudio.BookshopManager
+{
+    class HotKey
+    {
+        //如果函数执行成功，返回值不为0。
+        //如果函数执行失败，返回值为0。要得到扩展错误信息，调用GetLastError。
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool RegisterHotKey(
+            IntPtr hWnd,                //要定义热键的窗口的句柄
+            int id,                     //定义热键ID（不能与其它ID重复）           
+            KeyModifiers fsModifiers,   //标识热键是否在按Alt、Ctrl、Shift、Windows等键时才会生效
+            Keys vk                     //定义热键的内容
+            );
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool UnregisterHotKey(
+            IntPtr hWnd,                //要取消热键的窗口的句柄
+            int id                      //要取消热键的ID
+            );
+
+        //定义了辅助键的名称（将数字转变为字符以便于记忆，也可去除此枚举而直接使用数值）
+        [Flags()]
+        public enum KeyModifiers
+        {
+            None = 0,
+            Alt = 1,
+            Ctrl = 2,
+            Shift = 4,
+            WindowsKey = 8
+        }
+    }
+}
+</pre>
+
+<p>
+简单说明一下：
+“public static extern bool RegisterHotKey()”这个函数用于注册热键。由于这个函数需要引用user32.dll动态链接库后才能使用，并且
+</p>
+
+<p>
+user32.dll是非托管代码，不能用命名空间的方式直接引用，所以需要用“DllImport”进行引入后才能使用。于是在函数前面需要加上
+</p>
+
+<p>
+“[DllImport("user32.dll", SetLastError = true)]”这行语句。
+“public static extern bool UnregisterHotKey()”这个函数用于注销热键，同理也需要用DllImport引用user32.dll后才能使用。
+“public enum KeyModifiers{}”定义了一组枚举，将辅助键的数字代码直接表示为文字，以方便使用。这样在调用时我们不必记住每一个辅
+</p>
+
+<p>
+助键的代码而只需直接选择其名称即可。
+</p>
+
+<div id="（2）以窗体FormA为例，介绍HotKey类的使用"><h4 id="（2）以窗体FormA为例，介绍HotKey类的使用">（2）以窗体FormA为例，介绍HotKey类的使用</h4></div>
+
+<p>
+在FormA的Activate事件中注册热键，本例中注册Shift+S，Ctrl+Z，Alt+D这三个热键。这里的Id号可任意设置，但要保证不被重复。
+</p>
+<pre class="brush: csharp">
+private void Form_Activated(object sender, EventArgs e)
+{
+    //注册热键Shift+S，Id号为100。HotKey.KeyModifiers.Shift也可以直接使用数字4来表示。
+    HotKey.RegisterHotKey(Handle, 100, HotKey.KeyModifiers.Shift, Keys.S); 
+    //注册热键Ctrl+B，Id号为101。HotKey.KeyModifiers.Ctrl也可以直接使用数字2来表示。
+    HotKey.RegisterHotKey(Handle, 101, HotKey.KeyModifiers.Ctrl, Keys.B);
+    //注册热键Alt+D，Id号为102。HotKey.KeyModifiers.Alt也可以直接使用数字1来表示。
+    HotKey.RegisterHotKey(Handle, 102, HotKey.KeyModifiers.Alt, Keys.D);
+}
+
+在FormA的Leave事件中注销热键。
+private void FrmSale_Leave(object sender, EventArgs e)
+{
+    //注销Id号为100的热键设定
+    HotKey.UnregisterHotKey(Handle, 100);
+    //注销Id号为101的热键设定
+    HotKey.UnregisterHotKey(Handle, 101);// http://ike.126.com
+    //注销Id号为102的热键设定
+    HotKey.UnregisterHotKey(Handle, 102);
+}
+
+重载FromA中的WndProc函数
+/// 
+/// 监视Windows消息
+/// 重载WndProc方法，用于实现热键响应
+/// 
+/// 
+protected override void WndProc(ref Message m)
+{
+    const int WM_HOTKEY = 0x0312;
+    //按快捷键 
+    switch (m.Msg)
+    {
+        case WM_HOTKEY:
+            switch (m.WParam.ToInt32())
+            {
+                case 100:    //按下的是Shift+S
+                    //此处填写快捷键响应代码         
+                    break;
+                case 101:    //按下的是Ctrl+B
+                    //此处填写快捷键响应代码
+                    break;
+                case 102:    //按下的是Alt+D
+                    //此处填写快捷键响应代码
+                    break;
+            }
+        break;
+    }
+    base.WndProc(ref m);
+}
+
+</pre>
+<p>
+完成代码后，我们在窗体中按下Shift+S、Ctrl+B、Alt+D这三组快捷键中的任意一组时，程序都会做出响应的反应。
+</p>
+
+	</div>
+</div>
+
+<!--this is my footer-->
+<div id="footer">
+	<img alt="知识共享许可协议" height="31" width="80" style="border-width:0" src="img/cc_80x31.png" /> 本作品采用知识共享署名-非商业性使用-禁止演绎 3.0 Unported <a name="license" rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">许可协议</a>进行许可。
+</div>
+
+<!--Baidu Analysis-->
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6bad7b5881000f711c6b1e1e6d286a52' type='text/javascript'%3E%3C/script%3E"));
+
+<!-- Code Highlight -->
+hljs.initHighlightingOnLoad();
+
+</script>
+</body>
+</html>
+

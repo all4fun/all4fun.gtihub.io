@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>php-cgi占用内存问题解决方法。</title>
+	<meta name="description" content="王恒的笔记 -- make progress a little day by day" />
+	<meta name="keywords" content="Linux,Windows,MacOSX,Shell,c++,C#,PHP,Python,Coder,Arduino,Raspberry pi" />
+	<link rel="stylesheet" type="text/css" href="theme/bright/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight_monokai.css" />
+	<script src="js/highlight.pack.js"></script>
+
+</head>
+
+<body>
+<header id="header">
+	<top_group>
+		<div id="logo" style="font-size: 22pt"><a href="http://wangheng.org/html/">笔记</a></div>
+	</top_group>
+</header>
+<div id="wrap">
+	<div id="content">	
+	
+
+<pre>
+修改php-fpm进程数在/usr/local/php/etc/php-fpm.conf文件中查找max_children
+php-fpm的默认静态处理方式会使得php-cgi的进程长期占用内存而无法释放，这也是导致nginx出错的原因之一、
+因此可以将php-fpm的处理方式改为apache模式。
+request_terminate_timeout指的是fast_cgi的执行脚本时间.它默认为0s.0s的含义是让php-cgi一直执行下去而没限制时间。
+max_children指子进程，设置为1的话可以实际上只有两个进程、因此还有一个主进程。
+</pre>
+
+<div id="PHP访问数据库函数"><h1 id="PHP访问数据库函数">PHP访问数据库函数</h1></div>
+<pre class="brush: sql">
+mysql_affected_rows 取得前一次mysql操作所影的记录行数。
+mysql_change_user 改变活动连接中登入的用户。
+mysql_client_encoding 返回字符集的名称。
+mysql_close 关闭mysql连接
+mysql_connect 打开一个到mysql服务器的连接。
+mysql_create_db 新建一个mysql数据库
+mysql_data_seek 移动内部结果的指针
+mysql_db_name 取得结果数据
+mysql_db_query 发送一条mysql查询
+mysql_drop_db 丢弃一个mysql数据库
+mysql_errno 返回上一个mysql操作中的错误信息的数字编码
+mysql_error 返回上一个mysql操作产生的文本错误信息。
+mysql_escape_string 转义一个字符串，用于mysql_query;
+mysql_fetch_array 从结果集中取得一行作为关联数组/数字数组
+mysql_fetch_assoc 从结果集中取得一行作为关联数组
+mysql_fetch_field 从结果集中取得列信息并作为对象返回
+mysql_fetch_lengths 取得结果集中每个输出的长度
+mysql_fetch_object 从结果集中取得一行作为对象
+mysql_fetch_now 从结果集中取得一行为作枚举数组
+mysql_field_flags 从结果中取得和指定字段关联的标志
+mysql_field_len 返回指定字段的长度
+mysql_field_name 取得结果中指定字段的字段名
+mysql_query 发送一条mysql查询
+mysql_result 取得结果数据
+mysql_select_db 选择mysql数据库
+mysql_stat 取得当前系统状态
+mysql_get_host_info 取得mysql服务器信息
+</pre>
+
+<div id="PHP常用代码大全（新手必备）"><h1 id="PHP常用代码大全（新手必备）">PHP常用代码大全（新手必备）</h1></div>
+<p>
+1、连接数据库代码：
+</p>
+<pre class="brush: sql">
+$connec=mysql_connect("localhost","root","root") or die("不能连接数据库服务器： ".mysql_error());
+mysql_select_db("liuyanben",$connec) or die ("不能选择数据库: ".mysql_error());
+mysql_query("set names 'gbk'");
+?&gt;
+</pre>
+<p>
+2、读取数据库，并实现偱环输出。
+</p>
+<pre class="brush: sql">
+$sql="select * from liuyan order by ly_id desc";
+$conn=mysql_query($sql,$connec);
+while($rs=mysql_fetch_array($conn)){
+?&gt;
+循环的内容………
+}
+?&gt;
+</pre>
+<p>
+3、实现分页，包括两个函数，两个调用
+</p>
+<pre class="brush: sql">
+//分页函数
+function genpage(&amp;$sql,$page_size=2)
+{
+global $prepage,$nextpage,$pages,$sums; //out param
+$page = $_GET["page"];
+$eachpage = $page_size;
+$pagesql = strstr($sql," from ");
+$pagesql = "select count(*) as ids ".$pagesql;
+$conn = mysql_query($pagesql) or die(mysql_error());
+if($rs = mysql_fetch_array($conn)) $sums = $rs[0];
+$pages = ceil(($sums-0.5)/$eachpage)-1;
+$pages = $pages&gt;=0?$pages:0;
+$prepage = ($page&gt;0)?$page-1:0;
+$nextpage = ($page&lt;$pages)?$page+1:$pages;
+$startpos = $page*$eachpage;
+$sql .=" limit $startpos,$eachpage ";
+}
+// 显示分页
+function showpage()
+{
+global $page,$pages,$prepage,$nextpage,$queryString; //param from genpage function
+$shownum =10/2;
+$startpage = ($page&gt;=$shownum)?$page-$shownum:0;
+$endpage = ($page+$shownum&lt;=$pages)?$page+$shownum:$pages;
+
+echo "共".($pages+1)."页: ";
+if($page&gt;0)echo “首页“;
+if($startpage&gt;0)
+echo ” … ?“;
+for($i=$startpage;$i&lt;=$endpage;$i++)
+{
+if($i==$page) echo " [".($i+1)."] “;
+else echo ” “.($i+1).” “;
+}
+if($endpage&lt;$pages)
+echo "? … “;
+if($page&lt;$pages)
+echo "尾页“;
+}
+</pre>
+<p>
+3、cookie认证
+</p>
+<pre>
+session_start();
+$username=$_POST["username"];
+$password=$_POST["password"];
+$sql="select * from admin where username='".$username."' &amp;&amp; password='".$password."'";
+$result=mysql_query($sql,$connec);
+if($row=mysql_fetch_array($result)){
+session_register("admin");
+$admin=$username;
+echo("");}
+else
+{
+</pre>
+
+	</div>
+</div>
+
+<!--this is my footer-->
+<div id="footer">
+	<img alt="知识共享许可协议" height="31" width="80" style="border-width:0" src="img/cc_80x31.png" /> 本作品采用知识共享署名-非商业性使用-禁止演绎 3.0 Unported <a name="license" rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">许可协议</a>进行许可。
+</div>
+
+<!--Baidu Analysis-->
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6bad7b5881000f711c6b1e1e6d286a52' type='text/javascript'%3E%3C/script%3E"));
+
+<!-- Code Highlight -->
+hljs.initHighlightingOnLoad();
+
+</script>
+</body>
+</html>
+

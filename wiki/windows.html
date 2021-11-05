@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>windows tips</title>
+	<meta name="description" content="王恒的笔记 -- make progress a little day by day" />
+	<meta name="keywords" content="Linux,Windows,MacOSX,Shell,c++,C#,PHP,Python,Coder,Arduino,Raspberry pi" />
+	<link rel="stylesheet" type="text/css" href="theme/bright/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight_monokai.css" />
+	<script src="js/highlight.pack.js"></script>
+
+</head>
+
+<body>
+<header id="header">
+	<top_group>
+		<div id="logo" style="font-size: 22pt"><a href="http://wangheng.org/html/">笔记</a></div>
+	</top_group>
+</header>
+<div id="wrap">
+	<div id="content">	
+	
+<div id="目录"><h1 id="目录">目录</h1></div>
+<p>
+%toc
+</p>
+
+
+<div id="FOR的变量参照"><h1 id="FOR的变量参照">FOR的变量参照</h1></div>
+<pre class="brush: bash">
+FOR 变量参照的替换已被增强。您现在可以使用下列选项语法:
+ 
+~I - 删除任何引号(")，扩充 %I 
+%~fI - 将 %I 扩充到一个完全合格的路径名 
+%~dI - 仅将 %I 扩充到一个驱动器号 
+%~pI - 仅将 %I 扩充到一个路径 
+%~nI - 仅将 %I 扩充到一个文件名 
+%~xI - 仅将 %I 扩充到一个文件扩展名 
+%~sI - 扩充的路径只含有短名 
+%~aI - 将 %I 扩充到文件的文件属性 
+%~tI - 将 %I 扩充到文件的日期/时间 
+%~zI - 将 %I 扩充到文件的大小 
+%~$PATH:I - 查找列在路径环境变量的目录，并将 %I 扩充到找到的第一个完全合格的名称。如果环境变量未被定义，或者没有找到文件，此组合键会扩充空字符串
+ 
+可以组合修饰符来得到多重结果:
+ 
+%~dpI - 仅将 %I 扩充到一个驱动器号和路径 
+%~nxI - 仅将 %I 扩充到一个文件名和扩展名 
+%~fsI - 仅将 %I 扩充到一个带有短名的完整路径名 
+%~dp$PATH:i - 查找列在路径环境变量的目录，并将 %I 扩充到找到的第一个驱动器号和路径。 
+%~ftzaI - 将 %I 扩充到类似输出线路的 DIR
+ 
+在以上例子中，%I 和 PATH 可用其他有效数值代替。%~ 语法用一个有效的 FOR 变量名终止。选取类似 %I 的大写变量名比较易读，而且避免与不分大小写的组合键混淆。
+</pre>
+<p>
+  下面是一个例子
+</p>
+<pre class="brush: bash">
+@echo off
+set p=e:\kuaipan\vimwiki\index.wiki
+
+for /f "delims==" %%i in ("%p%") do (
+set filep=%%~dpi
+set filen=%%~nxi
+set file_name=%%~ni
+set file_ext=%%~xi
+)
+
+echo File path: %filep%，file %filen%, file_name is:%file_name%, file_ext=%file_ext%
+
+pause
+</pre>
+  
+<div id="从这里打开命令行"><h1 id="从这里打开命令行">从这里打开命令行</h1></div>
+<p>
+有时候需要在某个路径打开命令行，但是经常是先打开cmd.exe
+然后再切换到工作目录，这浪费了很多不必要的时间。下面我们自己动手修改系统文件夹的右键菜单，添加从这里打开命令行的选项，具体方法记录在<a href="open_command_here.html">这里</a>。
+</p>
+
+<div id="右键菜单添加：使用vim编辑"><h1 id="右键菜单添加：使用vim编辑">右键菜单添加：使用vim编辑</h1></div>
+<p>
+在Windows的右键菜单中添加一个，使用vim编辑的选项，方法记录在<a href="edit_with_vim.html">这里</a> 
+</p>
+
+<div id="批处理命令"><h1 id="批处理命令">批处理命令</h1></div>
+<p>
+今天又学到了一个有用的命令，<code>pushd</code>和<code>popd</code>可以用来将路径压入临时存储栈
+</p>
+
+<div id="解决Windows中gvim删除键(backspace)失效"><h1 id="解决Windows中gvim删除键(backspace)失效">解决Windows中gvim删除键(backspace)失效</h1></div>
+<p>
+vim For Windows经常出现Backspace键只能删除我在没有退出插入模式下输入的字符, 当我退出插入模式后再进插入模式就不能删除我之前编辑的字符了。解决方法如下：
+</p>
+
+<pre class="brush: bash">
+
+set backspace=indent,eol,start  whichwrap+=&lt;,&gt;,[,] 
+</pre>
+
+<div id="解决Windows中gvim删除键(backspace)失效-[[windows_modify_route|windows修改默认路由]]"><h2 id="[[windows_modify_route|windows修改默认路由]]"><a href="windows_modify_route.html">windows修改默认路由</a></h2></div>
+<div id="解决Windows中gvim删除键(backspace)失效-[[windows_del_svn_folder|windows右键清除svn目录]]"><h2 id="[[windows_del_svn_folder|windows右键清除svn目录]]"><a href="windows_del_svn_folder.html">windows右键清除svn目录</a></h2></div>
+<div id="解决Windows中gvim删除键(backspace)失效-[[windows_make_install_vim|window下编译安装vim]]"><h2 id="[[windows_make_install_vim|window下编译安装vim]]"><a href="windows_make_install_vim.html">window下编译安装vim</a></h2></div>
+<div id="解决Windows中gvim删除键(backspace)失效-[[emacs|Emacs笔记]]"><h2 id="[[emacs|Emacs笔记]]"><a href="emacs.html">Emacs笔记</a></h2></div>
+<p>
+Emacs和vim被分别号称编辑器之神和神的编辑器，总之两者都是这个星球上最强大的编辑器。相比vim，可能emacs显得稍微臃肿了一些，我在Windows7中配置满足自己需求的emacs也费了一小把功夫，<a href="emacs.html">完美配置方法</a>具体如下。 
+</p>
+
+	</div>
+</div>
+
+<!--this is my footer-->
+<div id="footer">
+	<img alt="知识共享许可协议" height="31" width="80" style="border-width:0" src="img/cc_80x31.png" /> 本作品采用知识共享署名-非商业性使用-禁止演绎 3.0 Unported <a name="license" rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">许可协议</a>进行许可。
+</div>
+
+<!--Baidu Analysis-->
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6bad7b5881000f711c6b1e1e6d286a52' type='text/javascript'%3E%3C/script%3E"));
+
+<!-- Code Highlight -->
+hljs.initHighlightingOnLoad();
+
+</script>
+</body>
+</html>
+

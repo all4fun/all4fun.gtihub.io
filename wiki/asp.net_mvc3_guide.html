@@ -1,0 +1,386 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>Asp.net mvc3 简单教程</title>
+	<meta name="description" content="王恒的笔记 -- make progress a little day by day" />
+	<meta name="keywords" content="Linux,Windows,MacOSX,Shell,c++,C#,PHP,Python,Coder,Arduino,Raspberry pi" />
+	<link rel="stylesheet" type="text/css" href="theme/bright/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight_monokai.css" />
+	<script src="js/highlight.pack.js"></script>
+
+</head>
+
+<body>
+<header id="header">
+	<top_group>
+		<div id="logo" style="font-size: 22pt"><a href="http://wangheng.org/html/">笔记</a></div>
+	</top_group>
+</header>
+<div id="wrap">
+	<div id="content">	
+	
+
+<p>
+%toc
+</p>
+
+<p>
+ASP MVC3的一些基础知识，记录在<a href="asp_mvc3_basic.html">这里</a>
+</p>
+<div id="第一个Asp.Net MVC3项目"><h3 id="第一个Asp.Net MVC3项目">第一个Asp.Net MVC3项目</h3></div>
+<div id="第一个Asp.Net MVC3项目-1）创建项目："><h5 id="1）创建项目：">1）创建项目：</h5></div>
+<div id="第一个Asp.Net MVC3项目-2）选择项目的默认视图引擎"><h5 id="2）选择项目的默认视图引擎">2）选择项目的默认视图引擎</h5></div>
+<p>
+我们选择一个Empty模板，然后选择Razor视图引擎（Asp.Net MVC3中提供的新的视图引擎）
+</p>
+<div id="第一个Asp.Net MVC3项目-3）创建后的项目："><h5 id="3）创建后的项目：">3）创建后的项目：</h5></div>
+ 
+<p>
+Asp.Net MVC3貌似跟之前的版本创建的项目模板没什么大的不同，文件夹也基本相似。当然我们看到文件夹内的Jquery的包更新到了1.5.1 。后面的文章中会对每个文件夹都做相关的介绍。在此就不多啰嗦了。
+</p>
+<div id="第一个Asp.Net MVC3项目-4）添加代码，跑起来我们的第一个Demo"><h5 id="4）添加代码，跑起来我们的第一个Demo">4）添加代码，跑起来我们的第一个Demo</h5></div>
+<p>
+首先：在Controller文件夹上右击，选择添加菜单，然后选择Controller，
+然后弹出对话框，将Controller命名为HomeController，注意后面的Controller不要去掉，不然它就不会被识别为Controller了，最后点击添加。
+设计器自动为我们生成代码如下：
+</p>
+<pre  class="brush: csharp">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace MvcApplication1.Controllers
+{
+public class HomeController : Controller
+{
+//
+// GET: /Home/
+
+public ActionResult Index()
+{
+return View();
+}
+
+}
+}
+</pre>
+<p>
+下一步我们在Action上添加我们需要的视图，如下所示：
+</p>
+
+<div id="第一个Asp.Net MVC3项目-5）在前台页面添加我们自己的Html标签"><h5 id="5）在前台页面添加我们自己的Html标签">5）在前台页面添加我们自己的Html标签</h5></div>
+<pre class="brush: html">
+@{
+ViewBag.Title = "Index";
+}
+
+&lt;h2&gt;Index&lt;/h2&gt;
+
+&lt;h1&gt;Hello！ It's my first Asp.Net MVC Web！&lt;/h1&gt;
+注意：红色为我们自己添加的部分
+
+</pre>
+
+<div id="第一个Asp.Net MVC3项目-6）最终结果："><h5 id="6）最终结果：">6）最终结果：</h5></div>
+<p>
+Loding...
+</p>
+
+<div id="第一个Asp.Net MVC3项目-Asp.Net MVC3项目介绍"><h5 id="Asp.Net MVC3项目介绍">Asp.Net MVC3项目介绍</h5></div>
+<p>
+MVC3跟WebFrom还是有区别的，如果你已经了解Asp.Net MVC2的话，那就感觉异常熟悉了！但还是有些区别的。不管怎样我们都一一介绍一下。 
+很有意思的事情是即使我们创建一个空的MVC项目，VS也自动帮我们创建以上图所示的目录，这是为何呢？这是由于MVC秉承了“约定大于配置”的思想，我们在使用Asp.Net MVC3开发项目时也要注意，一定要按照它的约定办事，比如：Controller在返回Action后需要一个View进行展示（当然是调用了View（）方法时），这时候Asp.Net MVC回到Views文件夹下找到Controller名字相同的文件夹下面找到具体的页面进行渲染，当然如果找不到会去Shared文件夹下去找。看下表所示的就是Asp.Net MVC3中各个文件夹的作用。 
+</p>
+
+<table>
+<tr>
+<th>
+文件夹
+</th>
+<th>
+用途
+</th>
+</tr>
+<tr>
+<td>
+/Controllers
+</td>
+<td>
+控制器处理来自浏览器的输入，并返回相应页面给用户
+</td>
+</tr>
+<tr>
+<td>
+/Views
+</td>
+<td>
+存放视图模板
+</td>
+</tr>
+<tr>
+<td>
+/Models
+</td>
+<td>
+存放数据模型，用于操控数据。
+</td>
+</tr>
+<tr>
+<td>
+/Content
+</td>
+<td>
+存放图片、CSS及其它静态内容。
+</td>
+</tr>
+<tr>
+<td>
+/Scripts
+</td>
+<td>
+存放JavaScript文件。
+</td>
+</tr>
+</table>
+
+
+<p>
+其他的几个比较有意思的文件：
+一个是Web.Config，另外一个是Global.asax虽然我们大家都非常熟悉，但是跟之前我们WebFrom还是有很多的区别的。WebConfig文件中，配置了启用客户端脚本验证、配置了System.Web.Routing、System.Web.Mvc等组件。而Global.asax则在应用启动的时候注册了全局的Area、全局Filter、路由等。
+</p>
+<div id="第一个Asp.Net MVC3项目-Asp.Net MVC的请求处理模型"><h5 id="Asp.Net MVC的请求处理模型">Asp.Net MVC的请求处理模型</h5></div>
+<p>
+上面我们也简单做了个小例子，直接添加一个Controller，然后在Action上添加一个View，直接运行，然后就在我们面前呈现了一个普通的Html页面。那我们详细解释一下这种开发方式或者说开发模型。在讲解之前我们先认识几个概念：
+Controller：控制器。在Contrller文件夹添加的以Controller结尾的类就是控制器，它的每个方法就是一个Action。它的职责是从Model中获取数据，并将数据交给View，它是个指挥家的角色，它并不控制View的显示逻辑，只是将Model的数据交给View,而具体的怎样展示数据那是View的职责，所以Controller跟View是一个弱耦合的状态，而且Controller可以任意指定具体的View进行渲染。所以达到了UI层的代码和实体良好的分离。
+View：视图.负责数据的展示，当然这个视图代码的编写应该是更接近纯净的Html的，而View层代码的书写又直接跟视图引擎解析的规则有关，所以Razor的语法跟webFrom视图引擎的语法截然不同。而笔者更倾向更喜欢Razor语法的简洁、方便。
+Model：很多人把Model理解成领域模型，而MVC本身是一个表现模式，它是更倾向于UI层的一个框架，所以一般我们指定的Model呢在使用时一般作为ViewModel来用，但是总的MVC的思想呢，Model还是领域相关的东西吧。
+经过MVC3个模块的了解分析，我们大体也知道了Asp.Net MVC的一些基本的概念。接下来我们分析一个完整的Http的处理过程。
+</p>
+
+<p>
+户端发送一个Http请求，首先被我们的IIS捕获到，然后根据Url请求的格式，最终交给我们的Route组件，然后它负责解析出我们的Url具体请求的是哪个Controller下的哪个Action。然后MVC经过处理调用我们的Action执行。在Action中我们一般会从业务的Façade层取出数据，然后将传输层的数据转换成ViewModel再交给View的视图引擎渲染，最终生成Html的字节流写回客户端。
+回到我们第一个项目中的情况是，请求：Http://localhost/Home/Index请求过来，由Route组件解析出Controller是Home，Action是Index，则通过工厂创建一个Controller的实例，然后调用InvokeAction方法，执行Index的方法，最终执行View（）方法返回一个ViewResult实例，再调用自己的ExcuteResult方法，将数据上下文和输出流交给视图引擎，然后最终渲染成Html页面交给客户端，最终就看到了我们的第一个页面。<a href="Http://localhost/Home/Index请求过来，由Route组件解析出Controller是Home，Action是Index，则通过工厂创建一个Controller的实例，然后调用InvokeAction方法，执行Index的方法，最终执行View（）方法返回一个ViewResult实例，再调用自己的ExcuteResult方法，将数据上下文和输出流交给视图引擎，然后最终渲染成Html页面交给客户端，最终就看到了我们的第一个页面。">Http://localhost/Home/Index请求过来，由Route组件解析出Controller是Home，Action是Index，则通过工厂创建一个Controller的实例，然后调用InvokeAction方法，执行Index的方法，最终执行View（）方法返回一个ViewResult实例，再调用自己的ExcuteResult方法，将数据上下文和输出流交给视图引擎，然后最终渲染成Html页面交给客户端，最终就看到了我们的第一个页面。</a>
+总结一下：
+Asp.Net MVC所有的请求都归结到Action上，而且Asp.Net MVC请求--处理--响应的模型非常清晰，而且没有WebFrom那种复杂的生命周期，整个请求处理非常明晰简单，又回归到了最原始的Web开发方式，就是简单的请求处理响应！
+</p>
+
+<p>
+此文我将跟大家介绍一下Asp.Net MVC3 Filter的一些用法。你会了解和学习到全局Fileter，Action Filter等常用用法。
+</p>
+<div id="第一个Asp.Net MVC3项目-第一节：Filter知识储备"><h4 id="第一节：Filter知识储备">第一节：Filter知识储备</h4></div>
+<p>
+项目大一点总会有相关的AOP面向切面的组件，而MVC（特指：Asp.Net MVC，以下皆同）项目中呢Action在执行前或者执行后我们想做一些特殊的操作（比如身份验证，日志，异常，行为截取等），而不想让MVC开发人员去关心和写这部分重复的代码，那我们可以通过AOP截取实现，而在MVC项目中我们就可以直接使用它提供的Filter的特性帮我们解决，不用自己实现复杂的AOP了。
+Asp.Net MVC提供了以下几种默认的Filter：
+<code>Filter Type</code>
+实现接口
+执行时间
+<code>Default Implementation</code>
+<code>Authorization filter</code>
+<code>IAuthorizationFilter</code>
+在所有Filter和Action执行之前执行
+<code>AuthorizeAttribute</code>
+<code>Action filter</code>
+<code>IActionFilter</code>
+分别在Action执行之前和之后执行。
+<code>ActionFilterAttribute</code>
+<code>Result filter</code>
+<code>IResultFilter</code>
+分别在Action Result执行之后和之前
+<code>ResultFilterAttribute</code>
+<code>Exception filter</code>
+<code>IExceptionFilter</code>
+只有在filter,
+或者 action method, 或者 action result 抛出一个异常时候执行
+</p>
+ 
+<p>
+<code>HandleErrorAttribute</code>
+大家注意一点，Asp.Net MVC提供的ActionFilterAttribute默认实现了IActionFilter和IResultFilter。而ActionFilterAttribute是一个Abstract的类型，所以不能直接使用，因为它不能实例化，所以我们想使用它必须继承一下它然后才能使用，下图所示的是ActionFilterAttribute的实现：
+所以我们在实现了ActionFilterAttribute，然后就可以直接重写一下父类的方法如下：
+</p>
+<pre class="brush: csharp">
+public virtual void OnActionExecuted(ActionExecutedContext filterContext);//在Action执行之后执行 
+
+public virtual void OnActionExecuting(ActionExecutingContext filterContext); //在Action执行前执行
+
+public virtual void OnResultExecuted(ResultExecutedContext filterContext);//在Result执行之后 
+
+public virtual void OnResultExecuting(ResultExecutingContext filterContext); //在Result执行之前
+</pre>
+<p>
+然后我们就可以直接在Action、Result执行之前之后分别做一些操作。
+</p>
+<div id="第一个Asp.Net MVC3项目-第二节：Action Filter实战"><h4 id="第二节：Action Filter实战">第二节：Action Filter实战</h4></div>
+<p>
+光说不练假把式，那现在我们就直接做一个例子来实际演示一下。
+首先我们添加一个普通的类，直接上代码吧：
+</p>
+<pre class="brush: csharp">
+public class DemoActionAttributeFilter : ActionFilterAttribute
+{
+public string Message { get; set; }
+
+public override void OnActionExecuted(ActionExecutedContext filterContext)
+{ //在Action执行之后执行 输出到输出流中文字：After Action Excute xxx
+filterContext.HttpContext.Response.Write(@"&lt;br /&gt;After Action Excute" + "\t " + Message);
+base.OnActionExecuted(filterContext);
+}
+
+public override void OnActionExecuting(ActionExecutingContext filterContext)
+{ //在Action执行前执行
+filterContext.HttpContext.Response.Write(@"&lt;br /&gt;Before Action Excute" + "\t " + Message);
+base.OnActionExecuting(filterContext);
+}
+
+public override void OnResultExecuted(ResultExecutedContext filterContext)
+{ //在Result执行之后 
+filterContext.HttpContext.Response.Write(@"&lt;br /&gt;After ViewResult Excute" + "\t " + Message);
+base.OnResultExecuted(filterContext);
+}
+
+public override void OnResultExecuting(ResultExecutingContext filterContext)
+{ //在Result执行之前
+filterContext.HttpContext.Response.Write(@"&lt;br /&gt;Before ViewResult Excute" + "\t " + Message);
+base.OnResultExecuting(filterContext);
+}
+
+}
+写完这个代码后，我们回到Action上，打上上面的标记如下所示：
+ 
+[DemoActionAttributeFilter(Message = "action")]
+public ActionResult Index()
+{ //Action 执行时往输出流写点代码
+this.ControllerContext.HttpContext.Response.Write(@"&lt;br /&gt;Action Excute");
+return Content("Result Excut! ");
+}
+</pre>
+<p>
+然后执行F5，页面上则会显示为：
+最终我们看到了在Action执行之前和之后都执行了我们的重写的DemoActionAttributeFilter方法，Result执行前后也执行了我们的Filter的方法。
+总的执行顺序是：
+Action执行前：OnActionExecuting方法先执行→Action执行→OnActionExecuted方法执行→OnResultExecuting方法执行→返回的ActionRsult中的ExcuteResult方法执行→OnResultExecuted执行。最终显示的效果就是如上图所示。
+感觉很爽吧！呵呵！
+如果我们将此标签打到Controller上的话，DemoActionAttributeFilter将作用到Controller下的所有的Action。例如如下代码所示：
+</p>
+<pre class="brush: csharp">
+[DemoActionAttributeFilter(Message = "controller")]
+public class HomeController : Controller
+{
+[DemoActionAttributeFilter(Message = "action")]
+public ActionResult Index()
+{
+this.ControllerContext.HttpContext.Response.Write(@"&lt;br /&gt;Action Excute");
+return Content("&lt;br/&gt;Result Excut! ");
+}
+}
+</pre>
+<p>
+ 那就有个问题了我们再执行显示的页面会有什么情况呢？Controller上的Filter会执行吗？那标签的作用会执行两次吗？下面是最后的执行结果如下图所示：
+结果说明：默认情况下Action上打了DemoActionAttributeFilter 标签后，虽然在Controller上也打上了此标签，但它只有Action上的标签起作用了。Index 执行时，Filter的方法只执行了一次，而某些情况下我们也想让Controller上的FilterAttribute也执行一次DemoActionAttributeFilter 
+那我们怎么才能让Controller上的[DemoActionAttributeFilter(Message = "controller")]也起作用呢？
+答案是：我们只需在DemoActionAttributeFilter类的定义上打上标记[AttributeUsage(AttributeTargets.All, AllowMultiple = true)]即可【下面类的最上面红色字体部分】，也就是让其成为可以多次执行的Action。代码如下： 
+</p>
+<pre class="brush: csharp">
+[AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
+public class DemoActionAttributeFilter : ActionFilterAttribute
+{
+public string Message { get; set; }
+
+public override void OnActionExecuted(ActionExecutedContext filterContext)
+{
+filterContext.HttpContext.Response.Write(@"&lt;br /&gt;After Action Excute" + "\t " + Message);
+base.OnActionExecuted(filterContext);
+}
+
+public override void OnActionExecuting(ActionExecutingContext filterContext)
+{
+filterContext.HttpContext.Response.Write(@"&lt;br /&gt;Before Action Excute" + "\t " + Message);
+base.OnActionExecuting(filterContext);
+}
+
+public override void OnResultExecuted(ResultExecutedContext filterContext)
+{
+filterContext.HttpContext.Response.Write(@"&lt;br /&gt;After ViewResult Excute" + "\t " + Message);
+base.OnResultExecuted(filterContext);
+}
+
+public override void OnResultExecuting(ResultExecutingContext filterContext)
+{
+filterContext.HttpContext.Response.Write(@"&lt;br /&gt;Before ViewResult Excute" + "\t " + Message);
+base.OnResultExecuting(filterContext);
+}
+
+}
+</pre>
+<p>
+然后我们执行的效果如图所示：
+我们看到的结果是Controller上的ActionFilter先于Action上打的标记执行。同样Result执行ExcuteResult方法之前也是先执行Controller上的Filter标记中的OnResultExcuteing方法。
+最后的执行顺序是：Controller上的OnActionExecuting→Action上的OnActionExecuting→Action执行→Action上的OnActionExecuted→Controller上的OnActionExecuted 
+到此Action就执行完毕了，我们看到是一个入栈出栈的顺序。后面是Action返回ActionResult后执行了ExecuteResult方法，但在执行之前要执行Filter。具体顺序为：
+接上面→Controller的OnResultExecuting方法→Action上的OnResultExecuting→Action返回ActionResult后执行了ExecuteResult方法→Action上的OnResultExecuted执行→Controller上的OnResultExecuted执行→结束
+第三节：Gloable Filter实战
+又接着一个问题也来了，我们想有些公共的方法需要每个Action都执行以下，而在所有的Controller打标记是很痛苦的。幸好Asp。Net MVC3带来了一个美好的东西，全局Filter。而怎么注册全局Filter呢？答案就在Global.asax中。让我们看以下代码，我是如何将上面我们定义的DemoActionAttributeFilter 注册到全局Filter中。上代码： 
+</p>
+<pre class="brush: csharp">
+public class MvcApplication : System.Web.HttpApplication
+{
+public static void RegisterGlobalFilters(GlobalFilterCollection filters)
+{
+filters.Add(new HandleErrorAttribute());
+}
+
+public static void RegisterRoutes(RouteCollection routes)
+{
+routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+routes.MapRoute(
+"Default", // Route name
+"{controller}/{action}/{id}", // URL with parameters
+new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
+);
+
+}
+
+protected void Application_Start()
+{
+AreaRegistration.RegisterAllAreas();
+GlobalFilters.Filters.Add(new DemoActionAttributeFilter() { Message = "Gloable" });
+RegisterGlobalFilters(GlobalFilters.Filters);
+
+RegisterRoutes(RouteTable.Routes);
+}
+}
+</pre>
+<p>
+跟普通的MVC2.0中的Global.asax的区别就是红色部分的代码，我们看到代码中我将自己定义的DemoActionAttributeFilter的实例加入到GlobalFilters.Filters集合中，然后下面一句就是注册全局Filter：RegisterGlobalFilters(GlobalFilters.Filters);
+这样我们所有的Action和Result执行前后都会调用我们的DemoActionAttributeFilter的重写的方法。
+再次运行我们的demo看到的结果是：
+我们看到的结果是全局的Action首先执行，然后才是Controller下的Filter执行，最后才是Action上的标签执行。当然这是在DemoActionAttributeFilter类的定义上打上标记[AttributeUsage(AttributeTargets.All, AllowMultiple = true)]的前提下。不然 如果Action打上了标签跟Controller的相同则它只会执行Action上的Filter。
+总结
+经过这一篇文章的介绍我们大体了解了Filter的使用方法，还了解到全局Filter的用法，尤其是当相同的Filter重复作用到同一个Action上时，如果没有设置可多次执行的标签那只有Action上的Filter执行，而Controller和全局Filter都被屏蔽掉，但是设置可多次执行，那首先执行全局Filter其次是Controller再次之就是Action上的Filter了。
+</p>
+
+	</div>
+</div>
+
+<!--this is my footer-->
+<div id="footer">
+	<img alt="知识共享许可协议" height="31" width="80" style="border-width:0" src="img/cc_80x31.png" /> 本作品采用知识共享署名-非商业性使用-禁止演绎 3.0 Unported <a name="license" rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">许可协议</a>进行许可。
+</div>
+
+<!--Baidu Analysis-->
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6bad7b5881000f711c6b1e1e6d286a52' type='text/javascript'%3E%3C/script%3E"));
+
+<!-- Code Highlight -->
+hljs.initHighlightingOnLoad();
+
+</script>
+</body>
+</html>
+

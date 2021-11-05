@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>windows编译安装gvim</title>
+	<meta name="description" content="王恒的笔记 -- make progress a little day by day" />
+	<meta name="keywords" content="Linux,Windows,MacOSX,Shell,c++,C#,PHP,Python,Coder,Arduino,Raspberry pi" />
+	<link rel="stylesheet" type="text/css" href="theme/bright/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight_monokai.css" />
+	<script src="js/highlight.pack.js"></script>
+
+</head>
+
+<body>
+<header id="header">
+	<top_group>
+		<div id="logo" style="font-size: 22pt"><a href="http://wangheng.org/html/">笔记</a></div>
+	</top_group>
+</header>
+<div id="wrap">
+	<div id="content">	
+	
+<p>
+%toc 
+</p>
+<ul>
+<li>
+下载Python <a href="http://python.org/getit/">http://python.org/getit/</a> 
+
+</ul>
+ 
+<ul>
+<li>
+下载Mercurial  <a href="http://mercurial.selenic.com/downloads/">http://mercurial.selenic.com/downloads/</a> 版本控制软件，用来下载最新VIM源代码
+
+</ul>
+
+<ul>
+<li>
+下载VIM源代码 E:\&gt; hg clone <a href="https://vim.googlecode.com/hg/">https://vim.googlecode.com/hg/</a> vim
+
+</ul>
+
+<p>
+<span id="-编译VIM"></span><strong id="编译VIM">编译VIM</strong>
+</p>
+
+<ul>
+<li>
+<span id="-使用MinGW编译"></span><strong id="使用MinGW编译">使用MinGW编译</strong>
+<pre class="brush: bash">
+D:\vim\src&gt;make.exe -f Make_ming.mak PYTHON=C:\Python27 PYTHON_VER=27 DYNAMIC_PYTHON=yes  DYNAMIC_PYTHON3=yes USERNAME=wangheng USERDOMAIN=wangheng.org GUI=yes IME=yes
+</pre>
+
+</ul>
+
+<ul>
+<li>
+测试VIM的Python支持
+<pre class="brush: python">
+function! s:py_ver()
+python &lt;&lt; EOF
+import sys
+print(sys.version)
+EOF
+endfunction  
+
+command! -nargs=0 -bar PyV call s:py_ver()
+</pre>
+
+</ul>
+<p>
+直接加载 :so %
+然后试试命令 :PyV 和 :Py3V 能不能正确显示Python版本
+这个文件可以直接保存为VIM的插件用，仅仅只是示例如何用Python写VIM插件 :w $VIM\vimfiles\plugin\pyv.vim
+</p>
+
+<p>
+6.打包
+E:\vim\src\&gt; xcopy ..\runtime ..\vim73 /e /q
+E:\vim\src\&gt; xcopy *.exe ..\vim73
+E:\vim\src\&gt; xcopy xxd\xxd.exe ..\vim73
+E:\vim\src\&gt; xcopy GvimExt\gvimext.dll ..\vim73
+E:\vim\src\&gt; cd \
+E:\&gt; 7z a -t7z vim.7z vim\vim73
+E:\&gt; 7z a -ttar vim.tar vim\vim73 -so | 7z a -txz vim.tar.xz -si
+</p>
+
+	</div>
+</div>
+
+<!--this is my footer-->
+<div id="footer">
+	<img alt="知识共享许可协议" height="31" width="80" style="border-width:0" src="img/cc_80x31.png" /> 本作品采用知识共享署名-非商业性使用-禁止演绎 3.0 Unported <a name="license" rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">许可协议</a>进行许可。
+</div>
+
+<!--Baidu Analysis-->
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6bad7b5881000f711c6b1e1e6d286a52' type='text/javascript'%3E%3C/script%3E"));
+
+<!-- Code Highlight -->
+hljs.initHighlightingOnLoad();
+
+</script>
+</body>
+</html>
+

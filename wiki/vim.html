@@ -1,0 +1,210 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>vim小技巧</title>
+	<meta name="description" content="王恒的笔记 -- make progress a little day by day" />
+	<meta name="keywords" content="Linux,Windows,MacOSX,Shell,c++,C#,PHP,Python,Coder,Arduino,Raspberry pi" />
+	<link rel="stylesheet" type="text/css" href="theme/bright/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight_monokai.css" />
+	<script src="js/highlight.pack.js"></script>
+
+</head>
+
+<body>
+<header id="header">
+	<top_group>
+		<div id="logo" style="font-size: 22pt"><a href="http://wangheng.org/html/">笔记</a></div>
+	</top_group>
+</header>
+<div id="wrap">
+	<div id="content">	
+	
+<p>
+%toc
+</p>
+
+
+<div id="使用vim插件"><h1 id="使用vim插件">使用vim插件</h1></div>
+<p>
+vim通过插件不断充实自身，让这款老牌的编辑器经久不衰。使用vim的过程中，插件肯定是必不可少的，<a href="vim_plugin.html">这里</a>记录了我所用的vim插件，以及一些我的vim的配置。
+</p>
+
+<div id="删除vim中的^M字符"><h1 id="删除vim中的^M字符">删除vim中的^M字符</h1></div>
+<p>
+使用替换命令 <code>:%s/^M//g</code>
+</p>
+
+<p>
+注意这个<code>^M</code>是分别按键盘上的<code>ctrl+v</code>和<code>ctrl+m</code>来生成的。
+</p>
+
+<div id="屏幕滚动"><h1 id="屏幕滚动">屏幕滚动</h1></div>
+<ul>
+<li>
+在屏幕中移动光标：
+
+</ul>
+
+<p>
+ vi &amp; vim 命令行模式操作移动光标位置都是指移动到要编辑单词、字母的前面。
+</p>
+     
+<pre>
+按键                                        操作描述
+h                                           光标左移一个字符；
+j                                           光标下移一行；
+k                                           光标上移一行；
+l                                           光标右移一个字符；
+
+数值  +  G                                  光标移至“数值”所指行的行首；
+^H                                          光标移至当前屏幕显示首行的行首；
+^M                                          光标移至当前屏幕显示的中间行的行首；
+^L                                          光标移至当前屏幕显示的最后一行的行首；
+</pre>
+
+<ul>
+<li>
+在文件行内移动光标：
+
+</ul>
+
+<p>
+vi &amp; vim 命令行模式操作光标行内移动，单词间以空格作为分隔字符，标点符号看作一个单词。
+</p>
+<pre>
+按键                                        操作描述
+0    （数字零）                             光标移动到光标所在行的行首；
+$                                           光标移动到光标所在行的行末；
+w                                           光标移动到下一个单词的首字母前；
+b                                           光标移动到上一个单词的首字母前；
+e                                           光标移动到当前光标所在单词的最后字符前；
+</pre>
+
+<ul>
+<li>
+屏幕滚动：
+
+</ul>
+
+<pre>
+按键                                        操作描述
+^F                                          屏幕向下滚动一屏；
+^B                                          屏幕向上滚动一屏；
+^E                                          屏幕向下滚动一行；
+^Y                                          屏幕向上滚动一行；
+^D                                          屏幕向下滚动半屏；
+^U                                          屏幕向上滚动半屏；
+z + Enter                                   滚动屏幕，使当前光标所在行处于屏幕第一行；
+z + .                                       滚动屏幕，使当前光标所在行处于屏幕中间行；
+z + -                                       滚动屏幕，使当前光标所在行处于屏幕最后一行； 
+</pre>
+
+<div id="删除空格或空白行"><h1 id="删除空格或空白行">删除空格或空白行</h1></div>
+
+<p>
+删除空格:
+<code>:% s/ //gi </code>   #正则为一个空格，替换为空，全局匹配。
+</p>
+
+<p>
+删除空行：
+<code>:g /^\n*$/ d </code> #g为global  正则为：行开始+换行...  其中d为命令，表示删除。
+</p>
+
+<div id="vim中设置一个标尺来显示代码对齐"><h1 id="vim中设置一个标尺来显示代码对齐">vim中设置一个标尺来显示代码对齐</h1></div>
+<p>
+<code>:set cuc</code>
+</p>
+
+<div id="行首或行尾插入字符"><h1 id="行首或行尾插入字符">行首或行尾插入字符</h1></div>
+<p>
+行首添加使用 <code>:%s/^/要添加的字符</code>
+</p>
+
+<p>
+行尾添加使用 <code>:%s/$/要添加的字符</code>
+</p>
+
+<p>
+将文件中的第3行到第7行中的“old_string”替换成“new_string” <code>:3,7s/old_string/new_string/</code>
+</p>
+
+<div id="vim使用宏"><h1 id="vim使用宏">vim使用宏</h1></div>
+<p>
+normal模式下按<code>qa</code>就开始宏记录，然后你可以开始操作，比如按<code>J</code>合并，可以了之后按<code>q</code>结束 之后你可移到下一行，开始回放这个宏<code>a</code> 重复N次<code>N@a</code>
+</p>
+
+<div id="打开特殊的命令窗口"><h1 id="打开特殊的命令窗口">打开特殊的命令窗口</h1></div>
+<p>
+使用<code>q:</code>可以打开一个特殊的命令窗口，可以看到最近输入的命令，并且可以使用hjkl来移动光标哦～
+</p>
+
+<div id="vim文件浏览技巧"><h1 id="vim文件浏览技巧">vim文件浏览技巧</h1></div>
+<p>
+<code>:Exp</code>   浏览文件
+</p>
+
+<p>
+<code>:Sex</code>    分割窗口浏览文件
+</p>
+
+<p>
+<code>:ls</code>       显示缓冲区
+</p>
+
+<p>
+<code>:cd ..</code>     设置当前目录位置
+</p>
+
+<p>
+<code>:lcd %:p:h</code>    改变路径到当前编辑文件位置
+</p>
+
+
+<div id="修改win下面的gvim字体"><h1 id="修改win下面的gvim字体">修改win下面的gvim字体</h1></div>
+
+<p>
+为了保持linux，mac，win下面的vim风格一致，我修改了vim的colors配色，使用了molokai.vim 这个配色文件，首先在.vimrc 中配置
+</p>
+
+<pre>
+
+set t_Co=256 "使用256色
+colorscheme molokai "使用molokai主题配色
+
+</pre>
+  
+<p>
+然后会导致在win下面gui中，好多关键字都会变成斜体。非常影响阅读，所以我们还需要修改一下color下面的配色文件。
+</p>
+
+<p>
+打开$VIM\vimfiles\colors\molokai.vim ，找到gui=italic 这些字符串，改成gui=none 就行了。
+</p>
+
+<p>
+现在重新打开一个gvim ，看看是不是阅读起来清晰多了。
+</p>
+
+	</div>
+</div>
+
+<!--this is my footer-->
+<div id="footer">
+	<img alt="知识共享许可协议" height="31" width="80" style="border-width:0" src="img/cc_80x31.png" /> 本作品采用知识共享署名-非商业性使用-禁止演绎 3.0 Unported <a name="license" rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">许可协议</a>进行许可。
+</div>
+
+<!--Baidu Analysis-->
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6bad7b5881000f711c6b1e1e6d286a52' type='text/javascript'%3E%3C/script%3E"));
+
+<!-- Code Highlight -->
+hljs.initHighlightingOnLoad();
+
+</script>
+</body>
+</html>
+

@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>我的emacs</title>
+	<meta name="description" content="王恒的笔记 -- make progress a little day by day" />
+	<meta name="keywords" content="Linux,Windows,MacOSX,Shell,c++,C#,PHP,Python,Coder,Arduino,Raspberry pi" />
+	<link rel="stylesheet" type="text/css" href="theme/bright/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight_monokai.css" />
+	<script src="js/highlight.pack.js"></script>
+
+</head>
+
+<body>
+<header id="header">
+	<top_group>
+		<div id="logo" style="font-size: 22pt"><a href="http://wangheng.org/html/">笔记</a></div>
+	</top_group>
+</header>
+<div id="wrap">
+	<div id="content">	
+	
+<p>
+<h1>目录</h1>
+%toc
+</p>
+
+<div id="Windows7中配置emacs"><h1 id="Windows7中配置emacs">Windows7中配置emacs</h1></div>
+<p>
+Emacs平台很强大，已经不只是一个编辑器这么简单了，它被移植到Windows平台下使得非Unix用户也有幸接触到并使用它。
+</p>
+
+<p>
+按Windows7系统本身的HOME目录配置的话，C:\Users\&lt;username&gt;\AppData\Roaming 这个HOME目录太深了，而且默认状态下AppData目录是隐藏的，最最关键的是：如果系统盘一旦出问题，之前的.emacs配置文件和.el的扩展都得重新配置和下载。
+</p>
+
+<p>
+首先，我们再来看看emacs的简单安装吧，<a href="http://ftp.gnu.org/pub/gnu/emacs/windows/emacs-24.1-bin-i386.zip">http://ftp.gnu.org/pub/gnu/emacs/windows/emacs-24.1-bin-i386.zip</a> 这里下载emacs-24.1最新版，并解压到一个磁盘根目录，我这里放在了d:\下，解压后，得到 d:\emacs-24.1，进入d:\emacs-24.1\bin目录，执行 addpm.exe 在开始菜单中加入 emacs 的启动项。
+</p>
+
+<p>
+启动emacs，在 Option 菜单中随便更改一下设置，如 取消 Case-Insensitive Search，之后，点 Save Options。这一步不是多余的。因为默认情况下emacs不会在一启动的时候就生成 .emacs 配置文件和 .emacs.d目录的。这步生成的 .emacs 目录还是在 C:\Users\&lt;username&gt;\AppData\Roaming 下，因为我们并没有做别的设置移动它。
+</p>
+
+<p>
+下面就进入关键步骤了，打开 C:\Users\&lt;username&gt;\AppData\Roaming\.emacs 配置文件，修改内容为
+(load-file "D:/emacs-24.1/.emacs")
+复制代码
+这个配置意思很明显了，emacs在启动的时候会加载 C:\Users\&lt;username&gt;\AppData\Roaming\.emacs 这个配置文件，而该文件又加载另一个 D:/emacs-24.1/.emacs 配置文件。这样，自然就成功实现了配置的转移喽~好了，从现在起就不用进入 C:\Users\&lt;username&gt;\AppData\Roaming\.emacs 这个冗的路径！
+</p>
+
+<p>
+上一步，我们把emacs的配置文件用 (load-file ...) 配置已经指向到 D:/emacs-24.1/.emacs 了，那两个就拷贝一个 .emacs 文件放到 D:/emacs-24.1/ 里吧（Windows下好像不能建立以 . 开头的文件吧）。然后，打开D:/emacs-24.1/.emacs，在开头添加如下配置：
+</p>
+<pre class="brush: bash">
+(setenv "HOME" "D:/emacs-24.1")
+(setenv "PATH" "D:/emacs-24.1")
+;;set the default file path
+(setq default-directory "~/")
+</pre>
+<p>
+恩，是的，这里重新给 HOME PATH 等定义了新的路径~~~写到这里大家该明白了，就是把配置转移了一下而已。
+</p>
+
+<p>
+好了，现在D:/emacs-24.1 就变成了emacs的HOME了。
+</p>
+
+<div id="基本操作"><h1 id="基本操作">基本操作</h1></div>
+<p>
+Emacs有几种方式可以选择。用方向键当然可以，不过更有效率的方法是保持双手位于
+主键盘区，然后使用 C-p 、 C-b 、 C-f 和 C-n 这四个命令。它们的功能和方
+向键是一样的，如下图所示：
+</p>
+<pre>
+
+                             上一行 C-p
+                                  :
+                                  :
+            向左移 C-b .... 目前光标位置 .... 向右移 C-f
+                                  :
+                                  :
+                             下一行 C-n
+
+</pre>
+<p>
+这里对简单的光标移动命令做一个总结，其中也包括了整词和整句的移动：
+</p>
+<pre>
+        C-f     向右移动一个字符
+        C-b     向左移动一个字符
+
+        M-f     向右移动一个词【对中文是移动到下一个标点符号】
+        M-b     向左移动一个词【对中文是移动到上一个标点符号】
+
+        C-n     移动到下一行
+        C-p     移动到上一行
+
+        C-a     移动到行首
+        C-e     移动到行尾
+
+        M-a     移动到句首
+        M-e     移动到句尾
+</pre>
+<p>
+这里还要介绍两个重要的光标移动命令：M-&lt; （META 小于号）可以将光标移动到所有文字的最开头(相当与vim中的gg)；M-&gt; （META 大于号）可以将光标移动到所有文字的最末尾（相当与vim中的G）
+</p>
+
+	</div>
+</div>
+
+<!--this is my footer-->
+<div id="footer">
+	<img alt="知识共享许可协议" height="31" width="80" style="border-width:0" src="img/cc_80x31.png" /> 本作品采用知识共享署名-非商业性使用-禁止演绎 3.0 Unported <a name="license" rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">许可协议</a>进行许可。
+</div>
+
+<!--Baidu Analysis-->
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6bad7b5881000f711c6b1e1e6d286a52' type='text/javascript'%3E%3C/script%3E"));
+
+<!-- Code Highlight -->
+hljs.initHighlightingOnLoad();
+
+</script>
+</body>
+</html>
+

@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>cygwin documents</title>
+	<meta name="description" content="王恒的笔记 -- make progress a little day by day" />
+	<meta name="keywords" content="Linux,Windows,MacOSX,Shell,c++,C#,PHP,Python,Coder,Arduino,Raspberry pi" />
+	<link rel="stylesheet" type="text/css" href="theme/bright/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight_monokai.css" />
+	<script src="js/highlight.pack.js"></script>
+
+</head>
+
+<body>
+<header id="header">
+	<top_group>
+		<div id="logo" style="font-size: 22pt"><a href="http://wangheng.org/html/">笔记</a></div>
+	</top_group>
+</header>
+<div id="wrap">
+	<div id="content">	
+	
+
+<div id="Install URL:"><h4 id="Install URL:">Install URL:</h4></div>
+<p>
+<a href="https://cygwin.com/setup-x86_64.exe">https://cygwin.com/setup-x86_64.exe</a>
+</p>
+
+<div id="Tools"><h4 id="Tools">Tools</h4></div>
+
+<p>
+install apt-cyg: 
+<a href="https://github.com/transcode-open/apt-cyg">https://github.com/transcode-open/apt-cyg</a>
+</p>
+
+<div id="SSHD Service"><h4 id="SSHD Service">SSHD Service</h4></div>
+<pre>
+
+1、以管理员身份登录
+
+2、给文件授权，以完成sshd 服务的安装
+$ chmod +r /etc/group
+$ chmod +r /etc/passwd
+$ chmod +rwx /var
+
+2、安装 sshd 服务
+$ ssh-host-config 
+
+Query: Should privilege separation be used? (yes/no) yes
+Query: (Say "no" if it is already installed as a service) (yes/no) yes
+Query: Enter the value of CYGWIN for the daemon: [ntsec] ntsec
+Query: Do you want to use a different name? (yes/no) no
+不同版本的sshd问题不一样，假如有其他提问自己看着办
+
+3、使用 windows 用户本地认证，即使用windows 的用户名和密码登录
+$ mkpasswd -l &gt; /etc/passwd 
+$ mkgroup -l &gt; /etc/group    
+
+4、启动
+$ cygrunsrv --start sshd
+停止
+$ cygrunsrv --stop sshd
+
+5、客户端登录(假设服务器地址为192.168.1.100)
+$ ssh administrator@192.168.1.100
+  
+</pre>
+  
+<div id="ZSH"><h4 id="ZSH">ZSH</h4></div>
+
+<ol>
+<li>
+see <a href="https://github.com/robbyrussell/oh-my-zsh">https://github.com/robbyrussell/oh-my-zsh</a>
+
+</ol>
+
+<p>
+ <code>apt-cyg install zsh</code>
+</p>
+ 
+<pre>
+#oh-my-zsh
+ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+ 
+</pre>
+
+<pre>
+# autojump 
+ git clone git://github.com/joelthelion/autojump.git
+ cd autojump
+./install.py or ./uninstall.py
+</pre>
+
+<ol>
+<li>
+.zshrc
+ plugins=(git mvn autojump git-flow-completion)
+
+</ol>
+ 
+<p>
+修改cygwin 默认bash 为zsh
+</p>
+
+<ul>
+<li>
+方法一：mkpasswd -c | sed -e 'sX/bashX/zshX' | tee -a /etc/passwd
+
+<li>
+方法二：mintty.exe -i /Cygwin-Terminal.ico /bin/zsh --login
+
+<li>
+参考：<a href="https://superuser.com/questions/351435/zsh-with-cygwin">https://superuser.com/questions/351435/zsh-with-cygwin</a>
+
+</ul>
+
+	</div>
+</div>
+
+<!--this is my footer-->
+<div id="footer">
+	<img alt="知识共享许可协议" height="31" width="80" style="border-width:0" src="img/cc_80x31.png" /> 本作品采用知识共享署名-非商业性使用-禁止演绎 3.0 Unported <a name="license" rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">许可协议</a>进行许可。
+</div>
+
+<!--Baidu Analysis-->
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6bad7b5881000f711c6b1e1e6d286a52' type='text/javascript'%3E%3C/script%3E"));
+
+<!-- Code Highlight -->
+hljs.initHighlightingOnLoad();
+
+</script>
+</body>
+</html>
+

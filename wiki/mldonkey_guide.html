@@ -1,0 +1,207 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>mldonkey 学习</title>
+	<meta name="description" content="王恒的笔记 -- make progress a little day by day" />
+	<meta name="keywords" content="Linux,Windows,MacOSX,Shell,c++,C#,PHP,Python,Coder,Arduino,Raspberry pi" />
+	<link rel="stylesheet" type="text/css" href="theme/bright/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight_monokai.css" />
+	<script src="js/highlight.pack.js"></script>
+
+</head>
+
+<body>
+<header id="header">
+	<top_group>
+		<div id="logo" style="font-size: 22pt"><a href="http://wangheng.org/html/">笔记</a></div>
+	</top_group>
+</header>
+<div id="wrap">
+	<div id="content">	
+	
+
+<p>
+查看任务界面
+</p>
+
+<ol>
+<li>
+ 在右上角命令输入栏（地址输入栏）
+
+</ol>
+<p>
+“输入下载地址”或“命令”点击“INPUT”执行
+</p>
+
+<ol>
+<li>
+ Down:76.8KB/S:(实时下载速度为76.8KB/S)
+
+</ol>
+<p>
+4.32G:(开机到现在一共下载了4.32G)
+Up:12.1KB/S:(实时上传速度为12.1 KB/S)
+1.36G:(开机到现在一共上传了1.36G)
+DL128KB/S,UL32KB/S:(下载限速为128 KB/S，上传限速为32KB/S)
+</p>
+
+<ol>
+<li>
+ Total(37):(正在执行37项任务)
+
+</ol>
+<p>
+5.35G:(完成5.35G)
+13.44G:(总共13.44G)
+64.9KB/S:(64.9KB/S下载速度)
+</p>
+
+<ol>
+<li>
+ 状态栏
+
+</ol>
+<p>
+P:Paused(暂停)  R:Resume(恢复)  C:Clear(清除)
+</p>
+
+<p>
+5.
+Paused all:(全部暂停) 
+Resume all:(全部恢复) 
+Clear all:(清除所有) 
+Submit changes:(提交) 
+</p>
+
+<ol>
+<li>
+
+
+</ol>
+<p>
+Size:(文件大小)  
+DLed:(下载了多少)  
+%:(完成的百分比)  
+Cm:(文件注释)  
+Srcs:(下载源) 
+A:(有用的下载源)
+Avail:(资源有效率)  
+Age:(已经下载的时间)
+Last:( sort by last seed complete)
+Rate:(单个文件下载速度)
+ETA:(下载剩余时间)
+Priority:(文件优先级设置)  
+</p>
+
+<p>
+7.添加电驴下载任务
+点击DL按钮弹出输入框，在输入框输入电驴的ed2k地址（或在命令输入栏输入），然后按回车或点击INPUT，开始执行下载任务。注一次性输入下载命令不超过5次，可重复输入。
+</p>
+
+<p>
+8.BT下载
+方法一：用网络邻居或者ftp登陆到NAS2600，然后把BT种子文件上传放到.MLDonkey根目录下，再在DL按钮后面的输入框输入命令“startbt 文件名.torrent” 开始执行下载任务；
+方法二：点击DL按钮弹出输入框，在输入框输入BT种子地址（或在命令输入栏输入），然后按回车或点击INPUT，开始执行下载任务。
+</p>
+
+<p>
+9.FTP下载
+点击DL按钮弹出输入框，在FTP地址前加入“http ”例子：http <a href="ftp://debian.inode.at/debian-cd/在输入框输入地址（或在命令输入栏输入），然后按回车或点击INPUT，开始执行下载任务。">ftp://debian.inode.at/debian-cd/在输入框输入地址（或在命令输入栏输入），然后按回车或点击INPUT，开始执行下载任务。</a>
+</p>
+
+<p>
+10.HTTP下载
+点击DL按钮弹出输入框，在输入框输入HTTP地址（或在命令输入栏输入），然后按回车或点击INPUT，开始执行下载任务。
+</p>
+
+<p>
+11.暂停任务
+在状态栏P:Paused(暂停)下打钩再点击Submit changes(提交) 
+</p>
+
+<p>
+12.清除任务
+在状态栏C:Clear(清除)下打钩再点击Submit changes(提交)
+</p>
+
+<p>
+13.恢复任务
+在状态栏R:Resume(恢复)下打钩再点击Submit changes(提交)
+</p>
+
+<p>
+14.下载限速.状态切换
+这里先提到一个MLDonkey非常人性化的一个设计，在MLDonkey里下载的上限速度和上传的上限速度是分忙时和闲时的两种状态，通过主界面的Bandwidth toggle键可以进行状态切换，在状态栏中可以查看现时的限速状态。
+</p>
+
+<p>
+15.状态设置
+点击Options进行选项设置
+</p>
+
+
+<p>
+max_hard_download_rate:(最大下载速度)
+max_hard_dupload_rate:(最大上传速度)
+Max_opened_connections:(最大连接数)
+Max_hard_upload_rate_2:(最大下载速度2)
+max_hard_download_rate_2:(最大上传速度2)
+Max_opened_connections2:(最大连接数2)
+</p>
+
+<p>
+16.默认下载路径
+下载目录文件\nas\directories 
+下载单个文件\nas \files
+</p>
+
+<p>
+17.查看硬盘剩余空间
+点击 “Help+” &gt; “Sysinfo”进入查看页面
+</p>
+ 
+<p>
+used:(已使用空间)
+free:(空闲空间)
+%free:(空闲空间百分率)
+如上图：used:总使用25.81G   free:总空闲123.81G    % free:：空闲空间82%
+</p>
+
+<p>
+18.设置下载优先级
+在Priority:(文件优先级设置)下点击下拉菜单进行下载优先级设置
+</p>
+
+<p>
+19.界面风格设置
+点击“Options”&gt;“style/theme下拉菜单”进行风格设置
+</p>
+
+
+<p>
+20.资源搜索
+点击"Search"按钮进入搜索页面，搜索结果在"Search results"里面。
+</p>
+
+	</div>
+</div>
+
+<!--this is my footer-->
+<div id="footer">
+	<img alt="知识共享许可协议" height="31" width="80" style="border-width:0" src="img/cc_80x31.png" /> 本作品采用知识共享署名-非商业性使用-禁止演绎 3.0 Unported <a name="license" rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">许可协议</a>进行许可。
+</div>
+
+<!--Baidu Analysis-->
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6bad7b5881000f711c6b1e1e6d286a52' type='text/javascript'%3E%3C/script%3E"));
+
+<!-- Code Highlight -->
+hljs.initHighlightingOnLoad();
+
+</script>
+</body>
+</html>
+

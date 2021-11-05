@@ -1,0 +1,217 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>Lynx 简明使用教程</title>
+	<meta name="description" content="王恒的笔记 -- make progress a little day by day" />
+	<meta name="keywords" content="Linux,Windows,MacOSX,Shell,c++,C#,PHP,Python,Coder,Arduino,Raspberry pi" />
+	<link rel="stylesheet" type="text/css" href="theme/bright/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight_monokai.css" />
+	<script src="js/highlight.pack.js"></script>
+
+</head>
+
+<body>
+<header id="header">
+	<top_group>
+		<div id="logo" style="font-size: 22pt"><a href="http://wangheng.org/html/">笔记</a></div>
+	</top_group>
+</header>
+<div id="wrap">
+	<div id="content">	
+	
+
+<div id="(一) Lynx 简介"><h3 id="(一) Lynx 简介">(一) Lynx 简介</h3></div>
+<p>
+　　Lynx 是一个字符界面下的全功能的WWW浏览器。Lynx 可以运行在很多种 操作系统下，如VMS, UNIX, Windows 95, Windows NT等，当然也包括Linux。 由于没有漂亮的图形界面，所以 Lynx 占用资源极少，而且速度很快。另外 Lynx 还是唯一能在字符终端下运行的 WWW 浏览器。 
+</p>
+
+<p>
+　　Lynx 的主页地址是：<a href="http://lynx.browser.org">http://lynx.browser.org</a> ， 另外 <a href="http://www.cc.ukans.edu/lynx_help/Lynx_users_guide.html">http://www.cc.ukans.edu/lynx_help/Lynx_users_guide.html</a> 是 Lynx 的用户指南。 
+</p>
+
+
+<div id="(二) 运行 Lynx"><h3 id="(二) 运行 Lynx">(二) 运行 Lynx</h3></div>
+<p>
+　　可以以 lynx filename 和 lynx PROTOCOL://HOST/PATH/FILENAME 的形式 运行 Lynx ，其中前一种用于浏览本地文件，后一种用于浏览 Internet。 协议(PROTOCOL)，可以是 http, gopher, ftp 和 wais。如： 
+</p>
+
+<p>
+<span id="(二) 运行 Lynx-HTTP (HyperText Transfer Protocol)"></span><strong id="HTTP (HyperText Transfer Protocol)">HTTP (HyperText Transfer Protocol)</strong>
+<a href="http://kuhttp.cc.ukans.edu/lynx_help/lynx_help_main.html">http://kuhttp.cc.ukans.edu/lynx_help/lynx_help_main.html</a> 
+</p>
+
+<p>
+<span id="(二) 运行 Lynx-Gopher"></span><strong id="Gopher">Gopher</strong>
+<a href="gopher://gopher.micro.umn.edu/11/">gopher://gopher.micro.umn.edu/11/</a> 
+</p>
+
+<p>
+<span id="(二) 运行 Lynx-FTP (File Transfer Protocol)"></span><strong id="FTP (File Transfer Protocol)">FTP (File Transfer Protocol)</strong>
+<a href="ftp://ftp2.cc.ukans.edu/pub/lynx/README">ftp://ftp2.cc.ukans.edu/pub/lynx/README</a> 
+</p>
+
+<p>
+<span id="(二) 运行 Lynx-WAIS (Wide Area Information Service protocol)"></span><strong id="WAIS (Wide Area Information Service protocol)">WAIS (Wide Area Information Service protocol)</strong>
+wais://cnidr.org/directory-of-servers 
+</p>
+
+
+<p>
+如果不带任何参数运行 Lynx，则 Lynx 会先寻找一个叫 WWW_HOME 的环境变量，如果找到的话，就会连接 WWW_HOME 指定的 URL。 WWW_HOME 变量的设置方法是，在bsh 和 ksh下： 
+</p>
+
+<p>
+<code>export WWW_HOME=http://www.w3.org/default.html </code>
+</p>
+
+<p>
+csh 下： 
+</p>
+
+<p>
+<code>setenv WWW_HOME http://www.w3.org/default.html </code>
+</p>
+
+<p>
+如果 <code>WWW_HOME</code> 变量未指定的话，Lynx 则连接它的主页：<a href="http://lynx.browser.org/">http://lynx.browser.org/</a> 
+</p>
+
+
+<div id="(三) Lynx 的键盘命令"><h3 id="(三) Lynx 的键盘命令">(三) Lynx 的键盘命令</h3></div>
+
+<p>
+<span id="(三) Lynx 的键盘命令-移动命令："></span><strong id="移动命令：">移动命令：</strong> 
+</p>
+
+<pre>
+下方向键：页面上的下一个链接(用高亮度显示)。 
+上方向键：页面上的前一个链接(用高亮度显示)。 
+回车和右方向键： 
+跳转到链接指向的地址。 
+左方向键：回到上一个页面。 
+</pre>
+
+ 
+<p>
+向下翻页:  
+<code>+,Page-Down,Space,Ctrl+f </code>
+</p>
+
+<p>
+向上翻页:  
+<code>-,Page-Up,b,Ctrl+b </code>
+</p>
+
+<p>
+<code>Ctrl+a</code> 移动到当前页的最前面。 
+</p>
+
+<p>
+<code>Ctrl+e</code> 移动到当前页的最后面。 
+</p>
+
+<p>
+<code>Ctrl+n</code> 向下翻两行。 
+</p>
+
+<p>
+<code>Ctrl+p</code> 往回翻两行。 
+</p>
+
+<p>
+<code>)</code> 向下翻半页。 
+</p>
+
+<p>
+<code>(</code> 往回翻半页。 
+</p>
+
+<p>
+<code>#</code> 回到当前页的 Toolbar 或 Banner。 
+</p>
+
+
+<p>
+<span id="(三) Lynx 的键盘命令-文件操作命令："></span><strong id="文件操作命令：">文件操作命令：</strong> 
+</p>
+
+<pre>
+c： 建立一个新文件。 
+d： 下载选中的文件。 
+E： 编辑选中的文件。 
+f： 为当前文件显示一个选项菜单。 
+m： 修改选中文件的名字或位置。 
+r： 删除选中的文件。 
+t： Tag highlighted file。 
+u： 上载一个文件到当前目录。 
+</pre>
+
+<p>
+<span id="(三) Lynx 的键盘命令-其他命令："></span><strong id="其他命令：">其他命令：</strong> 
+</p>
+
+<pre>
+?,h： 帮助。 
+a： 把当前链接加入到一个书签文件里。 
+c： 向页面的拥有者发送意见或建议。 
+d： 下载当前链接。 
+e： 编辑当前文件。 
+g： 跳转到一个用户指定的URL或文件。 
+G： 编辑当前页的URL，并跳转到这个URL。 
+i： 显示文档索引。 
+j： 执行预先定义的“短”命令。 
+k： 显示键盘命令列表。 
+l： 列出当前页上所有链接的地址。 
+m： 回到首页。 
+o： 设置选项。 
+p： 把当前页输出到文件，e-mail，打印机或其他地方。 
+q： 退出。 
+/： 在当前页内查找字符串。 
+s： 在外部搜索输入的字符串。 
+n： 搜索下一个。 
+v： 查看一个书签文件。 
+V： 跳转到访问过的地址。 
+x： 不使用缓存。 
+z： 停止当前传输。 
+[backspace]： 
+跳转到历史页(同 V 命令)。 
+=： 显示当前页的信息。 
+： 查看当前页的源代码。 
+!： 回到shell提示符下。 
+_： 清除当前任务的所有授权信息。 
+*： 图形链接模式的切换开关。 
+@： 8位传输模式或CJK模式的切换开关。 
+[： pseudo_inlines 模式的切换开关。 
+]： 为当前页或当前链接发送一个“HEAD”请求。 
+Ctrl+r： 重新装如当前页并且刷新屏幕。 
+Ctrl+w： 刷新屏幕。 
+Ctrl+u： 删除输入的行。 
+Ctrl+g： 取消输入或者传送。 
+Ctrl+t： 跟踪模式的切换开关。 
+;： 看 Lynx 对当前任务的跟踪记录。 
+Ctrl+k： 调用 Cookie Jar 页。 
+数字键： 到后面的第 n 个链接。
+</pre>
+
+	</div>
+</div>
+
+<!--this is my footer-->
+<div id="footer">
+	<img alt="知识共享许可协议" height="31" width="80" style="border-width:0" src="img/cc_80x31.png" /> 本作品采用知识共享署名-非商业性使用-禁止演绎 3.0 Unported <a name="license" rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">许可协议</a>进行许可。
+</div>
+
+<!--Baidu Analysis-->
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6bad7b5881000f711c6b1e1e6d286a52' type='text/javascript'%3E%3C/script%3E"));
+
+<!-- Code Highlight -->
+hljs.initHighlightingOnLoad();
+
+</script>
+</body>
+</html>
+

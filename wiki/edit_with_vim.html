@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>右键菜单添加使用vim编辑</title>
+	<meta name="description" content="王恒的笔记 -- make progress a little day by day" />
+	<meta name="keywords" content="Linux,Windows,MacOSX,Shell,c++,C#,PHP,Python,Coder,Arduino,Raspberry pi" />
+	<link rel="stylesheet" type="text/css" href="theme/bright/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight_monokai.css" />
+	<script src="js/highlight.pack.js"></script>
+
+</head>
+
+<body>
+<header id="header">
+	<top_group>
+		<div id="logo" style="font-size: 22pt"><a href="http://wangheng.org/html/">笔记</a></div>
+	</top_group>
+</header>
+<div id="wrap">
+	<div id="content">	
+	
+
+<div id="一、linux系统下"><h1 id="一、linux系统下">一、linux系统下</h1></div>
+<p>
+每次使用vim需要从终端进入相应目录然后打开文件进行编辑，这样总感觉很麻烦，我们可以自己在右键添加一个使用vim编辑的选项，步骤如下：
+</p>
+ 
+<ul>
+<li>
+<span id="一、linux系统下-1、用vim编辑defaults.list,把所有的gedit.desktop用vim.desktop 来替换。命令如下："></span><strong id="1、用vim编辑defaults.list,把所有的gedit.desktop用vim.desktop 来替换。命令如下：">1、用vim编辑defaults.list,把所有的gedit.desktop用vim.desktop 来替换。命令如下：</strong>
+<pre class="brush: bash">
+sudo vim /etc/gnome/defaults.list
+</pre>
+  在vim中输入
+<pre class="brush: python">
+:%s/gedit.desktop/vim.desktop/g
+</pre>
+
+</ul>
+ 
+<ul>
+<li>
+<span id="一、linux系统下-2、在/usr/share/applications下新建一个vim.desktop文件"></span><strong id="2、在/usr/share/applications下新建一个vim.desktop文件">2、在/usr/share/applications下新建一个vim.desktop文件</strong>
+
+</ul>
+ 
+<pre class="brush: bash">
+sudo vim /usr/share/applications/vim.desktop
+</pre>
+ 
+<p>
+里面编辑内容如下：
+</p>
+<pre  class="brush: bash">
+	[Desktop Entry]
+		Encoding=UTF-8
+		Type=Application
+		Exec=vim %f
+		Icon=/usr/share/vim/vim48x48.png
+		Name=Vim
+		Terminal=true
+		NoDisplay=true
+</pre>
+
+<p>
+这样右键菜单中就可以使用vim打开文件了。 
+</p>
+
+<div id="二、windows系统下"><h1 id="二、windows系统下">二、windows系统下</h1></div>
+ 
+<p>
+<span id="二、windows系统下-1.删掉注册表中的HKEY_CLASSES_ROOT/"></span><strong id="1.删掉注册表中的HKEY_CLASSES_ROOT/">1.删掉注册表中的HKEY_CLASSES_ROOT/</strong>/shellex/ContextMenuHandlers/gvim*
+</p>
+ 
+<p>
+<span id="二、windows系统下-2.手工添加鼠标右键菜单："></span><strong id="2.手工添加鼠标右键菜单：">2.手工添加鼠标右键菜单：</strong>
+</p>
+ 
+<ul>
+<li>
+直接进入注册表,在HKEY_CLASSES_ROOT/*/shell下添加项<code>用vim编辑</code>， 再在项<code>用vim编辑</code>下添加子项<code>command</code>，在其右边窗口把其键值设定为"e:\\kuaipan\\vim\\vim73\\gvim.exe" -p --remote-tab-silent "%1" 
+
+</ul>
+									   
+<p>
+或者使用下面的方法：
+</p>
+<ul>
+<li>
+把下面的内容保存为文件 gvim.reg，并双击导入注册表
+<pre  class="brush: bash">
+Windows Registry Editor Version 5.00
+[HKEY_CLASSES_ROOT/*/shell/Edit with &amp;Vim]
+[HKEY_CLASSES_ROOT/*/shell/Edit with &amp;Vim/command]
+@="\"e:\\kuaipan\\Vim\\vim73\\gvim.exe\" -p --remote-tab-silent \"%1\/" "
+</pre>
+
+</ul>
+
+	</div>
+</div>
+
+<!--this is my footer-->
+<div id="footer">
+	<img alt="知识共享许可协议" height="31" width="80" style="border-width:0" src="img/cc_80x31.png" /> 本作品采用知识共享署名-非商业性使用-禁止演绎 3.0 Unported <a name="license" rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">许可协议</a>进行许可。
+</div>
+
+<!--Baidu Analysis-->
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6bad7b5881000f711c6b1e1e6d286a52' type='text/javascript'%3E%3C/script%3E"));
+
+<!-- Code Highlight -->
+hljs.initHighlightingOnLoad();
+
+</script>
+</body>
+</html>
+

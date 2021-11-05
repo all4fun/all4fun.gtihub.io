@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>synology 问题解决</title>
+	<meta name="description" content="王恒的笔记 -- make progress a little day by day" />
+	<meta name="keywords" content="Linux,Windows,MacOSX,Shell,c++,C#,PHP,Python,Coder,Arduino,Raspberry pi" />
+	<link rel="stylesheet" type="text/css" href="theme/bright/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight_monokai.css" />
+	<script src="js/highlight.pack.js"></script>
+
+</head>
+
+<body>
+<header id="header">
+	<top_group>
+		<div id="logo" style="font-size: 22pt"><a href="http://wangheng.org/html/">笔记</a></div>
+	</top_group>
+</header>
+<div id="wrap">
+	<div id="content">	
+	
+
+<ul>
+<li>
+解决DSM5.0 中资源监控一直加载中，点击提示“无法联机，请检查网络连接” 的问题
+
+</ul>
+
+<p>
+遇到这样的问题非常闹心，百度搜到的答案都是系统被黑了一类的。。。还得祭出神器<code>ss</code> 登上万能的谷歌后，分分钟就找到了同样的问题。
+搜到的解决方法是重启监控服务。执行 <code>/usr/syno/etc.defaults/rc.d/S96synosnmpcd.sh restart</code> 但是并不管用:(
+</p>
+
+<p>
+不过这倒是提醒了我，会不会是有什么进程冲突了？
+</p>
+
+<p>
+执行 <code>ps |grep snmp</code> 
+</p>
+
+<p>
+发现了一个进程有问题 <code>/opt/sbin/snmpd</code> 
+</p>
+
+<p>
+/opt 下面的软件是装optware 加进来的，但是我并不记得自己启动过这个进程，那问题清晰了。就是装了optware 之后，系统去加载了optware下面的snmpd 进程导致与synology 自带的进程冲突！
+</p>
+
+<p>
+找到问题，解决就非常简单了 直接 <code>mv /opt/sbin/snmpd /opt/sbin/snmpd.bak</code> 然后在执行 
+</p>
+
+<p>
+<code>/usr/syno/etc.defaults/rc.d/S96synosnmpcd.sh restart</code>
+</p>
+
+<p>
+这次终于正确的启动了syno自己的进程！
+</p>
+
+<pre>
+
+root@DiskStation /var/log# ps |grep snmpd
+ 5998 root      S    grep snmpd
+23363 root      S    /usr/syno/sbin/snmpd -Ln -c /usr/syno/etc/snmpd.conf -p /var/run/snmpd.pid udp:161,udp6:161,tcp:161,tcp6:161
+  
+</pre>
+  
+<p>
+打开网页，资源监控的cpu 和ram 也正常显示了！问题完美解决！
+</p>
+
+	</div>
+</div>
+
+<!--this is my footer-->
+<div id="footer">
+	<img alt="知识共享许可协议" height="31" width="80" style="border-width:0" src="img/cc_80x31.png" /> 本作品采用知识共享署名-非商业性使用-禁止演绎 3.0 Unported <a name="license" rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">许可协议</a>进行许可。
+</div>
+
+<!--Baidu Analysis-->
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6bad7b5881000f711c6b1e1e6d286a52' type='text/javascript'%3E%3C/script%3E"));
+
+<!-- Code Highlight -->
+hljs.initHighlightingOnLoad();
+
+</script>
+</body>
+</html>
+

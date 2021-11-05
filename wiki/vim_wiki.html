@@ -1,0 +1,373 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>vim wiki</title>
+	<meta name="description" content="王恒的笔记 -- make progress a little day by day" />
+	<meta name="keywords" content="Linux,Windows,MacOSX,Shell,c++,C#,PHP,Python,Coder,Arduino,Raspberry pi" />
+	<link rel="stylesheet" type="text/css" href="theme/bright/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight_monokai.css" />
+	<script src="js/highlight.pack.js"></script>
+
+</head>
+
+<body>
+<header id="header">
+	<top_group>
+		<div id="logo" style="font-size: 22pt"><a href="http://wangheng.org/html/">笔记</a></div>
+	</top_group>
+</header>
+<div id="wrap">
+	<div id="content">	
+	
+
+<p>
+收集了一些vimwiki中常用的命令,放在这里
+</p>
+
+<p>
+%toc
+</p>
+
+<div id="基本的 Wiki 语法"><h3 id="基本的 Wiki 语法">基本的 Wiki 语法</h3></div>
+
+<pre>
+= 一级标题 =  
+== 二级标题 ==
+=== 三级标题 ===
+此次类推。
+
+当标题前面有空白时，标题文本居中对齐。
+       = 我是居中的标题 =
+</pre>
+
+<p>
+<span id="基本的 Wiki 语法-<b>粗体</b>"></span><strong id="<b>粗体</b>"><b>粗体</b></strong>  <em><i>斜体</i></em>  <del><del>删除线</del></del>   <code>&lt;code&gt;Some Code 代码&lt;/code&gt;</code> 
+</p>
+
+
+<p>
+<b>注意</b> 这几个针对文本格式的标签，都要求左右留有空白。
+请注意你的代码高亮，一般来说，有了相应的高亮，你用的wiki标签才生效。
+</p>
+
+<p>
+<sup><small><sup>上</sup></small></sup>标  <sub><small><sub>下</sub></small></sub>标
+</p>
+<blockquote>
+四个空格缩进的内容会被转成blockquote
+</blockquote>
+    
+<pre>
+
+{{{ class="brush:php"
+这中间的内容会被放到一个 pre 里，适合贴代码。
+上面的 class 是可选的，一般用来安排代码高亮。
+事实上，这一块代码展示就是放在了一个 pre 里。
+请无视下面一行的反斜杠
+\}}}
+
+* 无序列表 条目一
+* 无序列表 条目二 
+  - 子列表 条目一
+  - 自列表 条目二
+
+# 有序列表 条目一
+# 有序列表 条目二
+
+* 和 - 是等价的，后面必须跟一个空格
+
+</pre>
+
+<p>
+您可以查看<a href="http://wiki.ktmud.com/tips/vim/vimwiki-guide.wiki ">来自丘迟的wiki</a>源文件加深理解。
+</p>
+
+<p>
+<span id="基本的 Wiki 语法-参考"></span><strong id="参考">参考</strong> <code>:h vimwiki-syntax</code> 
+</p>
+
+<div id="特殊占位符"><h3 id="特殊占位符">特殊占位符</h3></div>
+<p>
+在wiki条目中使用以下占位符，能对生成的HTML文件做一些特殊的处理。
+</p>
+
+<ul>
+<li>
+<code>%toc</code> 自动生成的目录
+
+<li>
+<code>%title</code> 指定HTML文档的title，建议放到文档最末尾。如果不指定，title 就是文件名
+
+<li>
+<code>%nohtml</code> 告诉 vimwiki 不为某条目生成HTML文件。即使你在该条目打开时为它单独执行 <code>:Vimwiki2HTML</code> ，也不会生成。
+
+</ul>
+ 
+<div id="生成链接"><h3 id="生成链接">生成链接</h3></div>
+<pre>
+	生成外链的格式如下：
+	[[http://wangheng.org |王恒的博客]]
+	生成内链的格式如下：
+	[[../*html |我的页面]] 
+</pre>
+
+<div id="生成HTML"><h3 id="生成HTML">生成HTML</h3></div>
+<p>
+使用 <code>:Vimwiki2HTML</code> 可以为当前维基条目生成HTML文件，使用 <code>:VimwikiAll2HTML </code> 可以为所有条目生成HTML。您可以为每个维基项目指定 <code>auto_export</code> 选项，这样在wiki文件保存时就会自动生成HTML。个人不建议这样做，因为当条目很大，保存就相当费时。
+</p>
+
+<p>
+定义下面的快捷键映射即可：
+</p>
+<blockquote>
+map &lt;S-F3&gt; :!VimwikiAll2HTML&lt;cr&gt;<br />
+map &lt;F3&gt; :!Vimwiki2HTML&lt;cr&gt;
+</blockquote>
+
+
+<div id="键操作"><h3 id="键操作">键操作</h3></div>
+
+<div id="键操作-快捷键总览"><h4 id="快捷键总览">快捷键总览</h4></div>
+<ol>
+<li>
+<code>&lt;leader&gt;ww</code> 在当前窗口打开维基首页
+
+<li>
+<code>&lt;leader&gt;wt</code> 在新tab打开维基首页
+
+<li>
+<code>&lt;leader&gt;w&lt;leader&gt;w</code> 打开/新建当天日记
+
+<li>
+<code>&lt;leader&gt;w&lt;keader&gt;t</code> 在新tab打开/新建当天日记
+
+<li>
+<code>&lt;leader&gt;ws</code> 选择维基项目（详见下面的“多个维基项目”一节）
+
+</ol>
+
+<div id="键操作-编辑时的按键"><h4 id="编辑时的按键">编辑时的按键</h4></div>
+<ol>
+<li>
+尚未建立的词条会被显示为红色（或其他你的 Vim 语法高亮定义的错误颜色），在词条上敲<kbd>回车</kbd>键，可以编辑这个词条。点击 <kbd>Shift-回车</kbd>，在新的分割窗口编辑该词条。编辑好以后点击退格（<kbd>Backspace</kbd>）键，可以返回链入页
+
+<li>
+使用 <kbd>Tab</kbd> 键，可以跳到下一个维基词条或链接，使用 <kbd>Shift-Tab</kbd> 跳到上一个
+
+<li>
+插入模式下使用Shift-Enter，插入 <code>\&lt;br\&gt;</code> 并换行
+
+</ol>
+
+<p>
+另有条目管理相关的快捷键 <code>&lt;leader&gt;wd</code> 和 <code>&lt;leader&gt;wr</code> ，分表代表删除和重命名当前条目。其中重命名条目很强大，还能更改所有其他条目内引用了该条目的链接。
+重命名之后别忘了重新生成所有条目的HTML。
+</p>
+ 
+<p>
+<hr />
+</p>
+
+<div id="进阶操作"><h3 id="进阶操作">进阶操作</h3></div>
+
+<div id="日记功能"><h3 id="日记功能">日记功能</h3></div>
+<p>
+使用快捷键 <code>&lt;leader&gt;w&lt;leader&gt;w</code> 可以快速编辑当天的日记。还可以配合 <a href="http://www.vim.org/scripts/script.php?script_id=52 ">Calendar 插件</a> 轻松管理你的日记。
+</p>
+
+<p>
+请马上下载并安装 <a href="http://www.vim.org/scripts/download_script.php?src_id=12959 ">calendar.vim</a>。 安装后，定义一下快捷键吧：
+</p>
+<blockquote>
+" calendar<br>
+map &lt;F8&gt; :Calendar&lt;cr&gt;
+</blockquote>
+
+<p>
+按 <code>F8</code> 调出日历窗口，按 <code>q</code> 退出。
+</p>
+
+<p>
+在日期上点回车，就可以编辑当天的日记了！
+</p>
+
+<p>
+<span id="日记功能-PS:"></span><strong id="PS:">PS:</strong> 按左右键在前后一个月里跳转，按上下键在前后一年跳转。按 <code>t</code> 回到当天。当然，Vim 默认的上下左右 <kbd>hjkl</kbd> 也是能用的。
+</p>
+
+<div id="多个维基项目"><h3 id="多个维基项目">多个维基项目</h3></div>
+<p>
+您可以配置 <code>g:vimwiki_list</code>，指定多个维基项目，它们各自拥有单独的文件夹。这就允许你把工作维基和生活的琐事记录完全分开。
+</p>
+
+<p>
+请打开 vimrc ，加入以下内容：
+</p>
+<pre>
+let g:vimwiki_list = [{'path': 'E:/path/to/vimwiki-1/vimwiki/',  
+  \ 'path_html': 'E:/My Dropbox/vimwiki_html/'
+  \ 'html_header': 'E:/My Dropbox/Public/vimwiki_template/header.htm',
+  \ 'html_footer': 'E:/My Dropbox/Public/vimwiki_template/footer.htm',
+  \ 'diary_link_count': 5},
+  \{'path': 'Z:/path/to/vimwiki-2/vimwiki/'}]
+</pre>
+
+<p>
+这里其实定义了两个维基项目。 <code>path</code> 是必须的，说明你想要把 wiki 条目存在哪个目录。其他选项各有默认值。生成的HTML存放在 <code>path_html</code> 下默认是与 <code>path</code> 同目录下的 <code>WIKIFOLDER_html</code> ，其中 <span id="多个维基项目-WIKIFOLER"></span><strong id="WIKIFOLER">WIKIFOLER</strong> 是你存放维基条目的文件夹名。你可以分别为每个 wiki 项目指定 html 头部和尾部模板，建议把模板文件后缀采用 htm ，既和生成的 html 有所区分，又能保证语法高亮和各种 ftplugin 可用。 <code>diary_link_count</code> 是指 diary.wiki 里每行放多少个日志链接。
+</p>
+
+<p>
+定义好之后，你可以使用 <code>&lt;leader&gt;ws</code> 选择当前活动的维基项目。使用 <code>&lt;leader&gt;ws</code> 会弹出一个维基项目的列表，并带有编号，使用这个编号加上“快捷键总览”部分的快捷键，就可以打开相应项目的首页、日记等。如 <code>2&lt;leader&gt;w&lt;leader&gt;w</code> 就是在当前窗口打开列表中第二个项目的日记。
+</p>
+
+<p>
+<span id="多个维基项目-更多选项请参考"></span><strong id="更多选项请参考">更多选项请参考</strong>  <code>:h viwmiki-local-options</code>
+</p>
+
+
+<div id="多个维基项目-任务管理 TODO-list"><h4 id="任务管理 TODO-list">任务管理 <span class="todo">TODO</span>-list</h4></div>
+<p>
+Loading...
+</p>
+
+<div id="多个维基项目-编辑表格"><h4 id="编辑表格">编辑表格</h4></div>
+<p>
+Loading...
+</p>
+
+<p>
+<hr />
+</p>
+
+<div id="调教你的 vimwiki"><h2 id="调教你的 vimwiki">调教你的 vimwiki</h2></div>
+<pre>
+&lt;b&gt;警告!&lt;/b&gt; 以下为高级内容，虽然我手把手在教，但毕竟折腾耗时。
+而且您的操作可能因为 vimwiki 将来的版本升级而失效。
+请评估自己的时间成本！
+</pre>
+
+<div id="调教你的 vimwiki-做一个你自己的模板"><h3 id="做一个你自己的模板">做一个你自己的模板</h3></div>
+<p>
+vimwiki 生成的HTML会都会链接相应vimwiki_html目录下的style.css。如果你不自己指定，它会自动生成一个默认的。CSS禅意花园的境界是什么来着，仅仅修改 style.css 就能拥有风格完全不同的页面。通过简单修改 style.css ，你完全可以创造自己风格的维基站。加上自定义文档头部和尾部的功能，折腾出一个个人网站来绰绰有余。当然，如果你还在想新闻列表，feed订阅什么的，请赶快走开。毕竟， vimwiki 不是 CMS 。
+</p>
+
+<p>
+可惜的是，并不能指定一个 style.css 的模板，如果你还折腾了一些 !JavaScript 增强，就更麻烦了。需要的话请自行把相关文件复制过去吧。当然，你也可以直接把本页面另存为，使用我的模板！具体实现请自己折腾。
+</p>
+
+<div id="调教你的 vimwiki-做一个你自己的模板-在wiki里使用更多的HTML标签"><h4 id="在wiki里使用更多的HTML标签">在wiki里使用更多的HTML标签</h4></div>
+<p>
+vimwiki 有一个 g:vimwiki_valid_html_tags 值，可以指定允许写在 wiki 中的HTML标签。 g:vimwiki_valid_html_tags 的默认值是 <code>'b,i,s,u,sub,sup,kbd,br,hr'</code> ，也就是说，当你在 wiki 中输入：
+</p>
+<blockquote>
+\&lt;b\&gt;Hello\&lt;/b\&gt; &lt;strong&gt;Hello&lt;/stong&gt;
+</blockquote>
+
+<p>
+输出的HTML会显示为：
+</p>
+<blockquote>
+<b>Hello</b> &lt;strong&gt;Hello&lt;/stong&gt;
+</blockquote>
+
+<p>
+标签 <code>b</code> 被当作可用的HTML标签，而 <code>strong</code> 则输出为文本。
+</p>
+
+<p>
+但有时候我们需要建立更强大的维基页面，不只用到这几个标签, 而是有特定 <code>class</code> 和 <code>id</code> 的 <code>div</code>。于是在 vimrc 中定义：
+</p>
+<blockquote>
+let g:vimwiki_valid_html_tags='b,i,s,u,sub,sup,kbd,br,hr,div,del,code'
+</blockquote>
+
+<p>
+在这里我添加了 <code>div</code>, <code>del</code>, <code>code</code> 三个标签。
+</p>
+
+<p>
+<i>参考<a href="http://wiki.ktmud.com/tips/vim/vimwiki-guide.html">http://wiki.ktmud.com/tips/vim/vimwiki-guide.html</a> </i>
+</p>
+
+<div id="调教你的 vimwiki-:VimwikiTable 命令"><h3 id=":VimwikiTable 命令">:VimwikiTable 命令</h3></div>
+<p>
+创建一个表格，后面参数可以跟表格的行列的数目。
+创建出来的表格效果如下：
+</p>
+
+<table>
+<tr>
+<th>
+姓名
+</th>
+<th>
+年龄
+</th>
+<th>
+性别
+</th>
+<th>
+职业
+</th>
+<th>
+简介
+</th>
+</tr>
+<tr>
+<td>
+王恒
+</td>
+<td>
+25
+</td>
+<td>
+男
+</td>
+<td>
+互联网
+</td>
+<td>
+<a href="http://wangheng.org">http://wangheng.org</a>
+</td>
+</tr>
+<tr>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+</table>
+
+	</div>
+</div>
+
+<!--this is my footer-->
+<div id="footer">
+	<img alt="知识共享许可协议" height="31" width="80" style="border-width:0" src="img/cc_80x31.png" /> 本作品采用知识共享署名-非商业性使用-禁止演绎 3.0 Unported <a name="license" rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">许可协议</a>进行许可。
+</div>
+
+<!--Baidu Analysis-->
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6bad7b5881000f711c6b1e1e6d286a52' type='text/javascript'%3E%3C/script%3E"));
+
+<!-- Code Highlight -->
+hljs.initHighlightingOnLoad();
+
+</script>
+</body>
+</html>
+

@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>IE的margin居中问题</title>
+	<meta name="description" content="王恒的笔记 -- make progress a little day by day" />
+	<meta name="keywords" content="Linux,Windows,MacOSX,Shell,c++,C#,PHP,Python,Coder,Arduino,Raspberry pi" />
+	<link rel="stylesheet" type="text/css" href="theme/bright/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight_monokai.css" />
+	<script src="js/highlight.pack.js"></script>
+
+</head>
+
+<body>
+<header id="header">
+	<top_group>
+		<div id="logo" style="font-size: 22pt"><a href="http://wangheng.org/html/">笔记</a></div>
+	</top_group>
+</header>
+<div id="wrap">
+	<div id="content">	
+	
+
+<p>
+	自从开始使用vim写wiki后，又折腾了一个感觉还不错的样式。但是在IE中却出现了样式不兼容的情况：一个自定义的&lt;wrap&gt;标签总是不能居中，而且css样式中写的圆角没效果。因为平时较少使用IE所以一直不在意，没有去改它。今天有空好好搜索了一番，原来这个问题很好解决。
+</p>
+
+<p>
+	解决办法是在 DOCTYPE 中加上 "<a href="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;">http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"</a>
+如下一段简单的代码便可在主流浏览器中居中，包括IE6：
+</p>
+<pre class="brush: html">
+&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html&gt;
+    &lt;head&gt;
+    &lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8"/&gt;
+    &lt;title&gt;margin auto&lt;/title&gt; 
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;wrap style="width:100px;height:100px;margin:30px auto;background:red;"&gt;
+    我的内容
+    &lt;/wrap&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+  
+
+
+<p>
+还有的解决办法就是使用 XHTML 文件头：
+</p>
+
+<pre class="brush: html">
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"&gt;
+&lt;html&gt;
+    &lt;head&gt;
+    &lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8"/&gt;
+    &lt;title&gt;margin auto&lt;/title&gt; 
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;wrap style="width:100px;height:100px;margin:30px auto;background:red;"&gt;
+    我的内容
+    &lt;/wrap&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+	</div>
+</div>
+
+<!--this is my footer-->
+<div id="footer">
+	<img alt="知识共享许可协议" height="31" width="80" style="border-width:0" src="img/cc_80x31.png" /> 本作品采用知识共享署名-非商业性使用-禁止演绎 3.0 Unported <a name="license" rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">许可协议</a>进行许可。
+</div>
+
+<!--Baidu Analysis-->
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6bad7b5881000f711c6b1e1e6d286a52' type='text/javascript'%3E%3C/script%3E"));
+
+<!-- Code Highlight -->
+hljs.initHighlightingOnLoad();
+
+</script>
+</body>
+</html>
+

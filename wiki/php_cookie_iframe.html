@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>cookies 跨域问题</title>
+	<meta name="description" content="王恒的笔记 -- make progress a little day by day" />
+	<meta name="keywords" content="Linux,Windows,MacOSX,Shell,c++,C#,PHP,Python,Coder,Arduino,Raspberry pi" />
+	<link rel="stylesheet" type="text/css" href="theme/bright/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight_monokai.css" />
+	<script src="js/highlight.pack.js"></script>
+
+</head>
+
+<body>
+<header id="header">
+	<top_group>
+		<div id="logo" style="font-size: 22pt"><a href="http://wangheng.org/html/">笔记</a></div>
+	</top_group>
+</header>
+<div id="wrap">
+	<div id="content">	
+	
+
+<div id="cookies 跨域问题"><h1 id="cookies 跨域问题">cookies 跨域问题</h1></div>
+
+<p>
+在整合几个应用时,遇到了iframe无法获取cookie(session)的问题，经过google，终于把这个问题解决了，现在记录一下。
+</p>
+
+<p>
+到整合上线时,发现这个流程走不通，百思不得其解，想了半天也不知道 怎么 回事，google了半天，才发现原来是ie在捣鬼，IE不允许跨域访问cookie(好象firefox没问题，ie自6.0以后改用w3c组织的P3P协议了)，再看看我的应用，在第二步设的cookie，在第三步以后所有Ｂ应用的访问请求，ie都把B应用的cookie blocked掉了（因为用户的访问是从A应用发起，从A应用访问B应用的东东，算跨域访问，IE认为有安全问题）。。。。（IE状态栏有一个红眼睛的button,点开可以看到哪些cookie给blocked掉了）
+</p>
+
+<p>
+知道原因就好办了,再google知道可以用P3P header可以解决问题！ 直接往响应里加一个P3P的<code>header response().addHeader("P3P", "CP=\"IDC DSP COR CURa ADMa OUR IND PHY ONL COM STA\"");</code>
+</p>
+
+
+<p>
+具体请看这里.
+</p>
+
+<p>
+下面是摘抄的一段Compact Policies的具体取值范围和设值含义。
+<code>Compact policies are essentially summaries of P3P policies. They can be used by user agents to quickly get approximate information about P3P policies, therefore improving performance.</code>
+</p>
+
+<p>
+A网站提供一个页面供其它网站进行Iframe调用,该页面使用了SESSION，并进行了SESSION判断。
+</p>
+
+<p>
+现象：
+</p>
+
+<p>
+B网站IFRAME了A网站的页面,总显示SESSION过期，但直接在浏览器中打开该页面却又是正常的。
+</p>
+
+<p>
+这是由于浏览器的安全性所致,SESSION依赖于COOKIE，A与B是二个完全不同的域，A网站没法去读取B网站下的COOKIE，所以 SESSION也就失效了。
+</p>
+
+<p>
+解决办法：
+</p>
+
+<p>
+A网站的页面在输出头上附加一个P3P属性,值为CP=CAO PSA OUR即可。
+如：
+</p>
+
+<pre class="brush: html">
+Response.AddHeader("P3P", "CP=CAO PSA OUR");  
+
+if (Session[SESSIONKEY] == null)  
+
+{  
+   //TODO:其它操作  
+}
+</pre>
+
+<p>
+在IE中,页面通过FRAME，JS，IMG等引用其他域名页面的时候，P3P协议会阻止引用也的cookie。
+</p>
+
+<p>
+举例说明：
+在 B.COM中,
+</p>
+
+<pre class="brush: html">
+&lt;iframe   width = 300   height = 300   src = ""http://www.a.com/test.php""   mce_src = ""http://www.a.com/test.php""   &gt;    view plaincopy to clipboardprint?
+&lt;iframe width=300 height=300  
+src=""http://www.a.com/test.php"" mce_src=""http://www.a.com/test.php""  
+&gt;
+&lt;iframe width=300 height=300
+src=""http://www.a.com/test.php"" mce_src=""http://www.a.com/test.php""
+&gt;
+</pre>
+<p>
+此时,test.php中产生的cookie将会被阻止，而不会记录下来
+</p>
+
+<p>
+这种情况下,我们引入P3P header ，情况就改变喽~
+</p>
+
+<p>
+P3P header允许跨域访问隐私数据,从而可以跨域set-cookie成功
+</p>
+
+<p>
+在 www.a.com/test.php中这样写：
+</p>
+
+<p>
+<code>header('P3P: CP="CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR"');  </code>
+</p>
+
+<p>
+cookie就可以跨域了~
+</p>
+
+	</div>
+</div>
+
+<!--this is my footer-->
+<div id="footer">
+	<img alt="知识共享许可协议" height="31" width="80" style="border-width:0" src="img/cc_80x31.png" /> 本作品采用知识共享署名-非商业性使用-禁止演绎 3.0 Unported <a name="license" rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">许可协议</a>进行许可。
+</div>
+
+<!--Baidu Analysis-->
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6bad7b5881000f711c6b1e1e6d286a52' type='text/javascript'%3E%3C/script%3E"));
+
+<!-- Code Highlight -->
+hljs.initHighlightingOnLoad();
+
+</script>
+</body>
+</html>
+

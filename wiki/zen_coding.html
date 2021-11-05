@@ -1,0 +1,237 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>VIM ZEN-CODING 插件</title>
+	<meta name="description" content="王恒的笔记 -- make progress a little day by day" />
+	<meta name="keywords" content="Linux,Windows,MacOSX,Shell,c++,C#,PHP,Python,Coder,Arduino,Raspberry pi" />
+	<link rel="stylesheet" type="text/css" href="theme/bright/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight_monokai.css" />
+	<script src="js/highlight.pack.js"></script>
+
+</head>
+
+<body>
+<header id="header">
+	<top_group>
+		<div id="logo" style="font-size: 22pt"><a href="http://wangheng.org/html/">笔记</a></div>
+	</top_group>
+</header>
+<div id="wrap">
+	<div id="content">	
+	
+
+<p>
+%toc
+</p>
+
+<p>
+zen-coding 官方网页下载最新版本的 zencoding.vim。安装方法有两种
+</p>
+
+<p>
+把 zencoding.vim 复制到 <code>$HOME/.vim/plugin/ </code>目录下面，这种安装方法装完后，所有语言都能使用 zen-coding 这个插件。
+方法二是 复制 zencoding.vim 到 $HOME/.vim/ftplugin/html 这里的 html 就是指 html这种类型的文件的时候，启用 zen-coding 插件。
+VIM ZEN-CODING 插件使用方法
+</p>
+<div id="一，在编辑模式下输入"><h1 id="一，在编辑模式下输入">一，在编辑模式下输入</h1></div>
+
+<p>
+   <code>html:xxs&gt;div#header+div#container&gt;ul&gt;li.class_\(#id_\)*2</code>
+</p>
+
+<p>
+		 按下 <code>&lt;ctrl+y&gt;</code> 然后 点 , 逗号。就自动展开为下面的代码。
+</p>
+<pre class="brush:html">
+		 &lt;title&gt;&lt;/title&gt;
+		 &lt;meta http-equiv="Content-Type" content="text/html;charset=UTF-8"&gt;
+		 &lt;div id="header"&gt;&lt;/div&gt;
+		 &lt;div id="container"&gt;
+		 &lt;ul&gt;
+		 &lt;li id="id_11"&gt;
+		 &lt;/li&gt;
+		 &lt;li id="id_22"&gt;
+		 &lt;/li&gt;
+		 &lt;/ul&gt;&lt;/div&gt;
+</pre>
+  
+<div id="二，字符包裹"><h1 id="二，字符包裹">二，字符包裹</h1></div>
+
+<p>
+	输入如下符
+		---------------------
+		test1
+		test2
+		test3
+		---------------------
+		在可视模式下选择这三行，shift+v 然后 shift+g 选中这三行。然后 <code>&lt;ctrl+y&gt;,</code> 。在命令栏输入 <code>ul&gt;li*</code>
+</p>
+
+<pre class="brush:html">
+		---------------------
+		&lt;ul&gt;
+		&lt;li&gt;test1&lt;/li&gt;
+		&lt;li&gt;test2&lt;/li&gt;
+		&lt;li&gt;test3&lt;/li&gt;
+		&lt;/ul&gt;
+
+		---------------------
+</pre>
+
+<p>
+		如果你输入的是 blockquote，那么可以得到如下的结果
+</p>
+
+<p>
+		---------------------
+		&lt;blockquote&gt;
+</p>
+
+<p>
+		test1
+		test2
+		test3
+		&lt;/blockquote&gt;
+</p>
+
+<p>
+		---------------------
+</p>
+		
+<div id="三，标签内联选择"><h1 id="三，标签内联选择">三，标签内联选择</h1></div>
+<p>
+在插入模式下输入 <code>&lt;c-y&gt;d</code>
+</p>
+
+<div id="四，标签外联选择"><h1 id="四，标签外联选择">四，标签外联选择</h1></div>
+<p>
+在插入模式下输入 <code>&lt;c-y&gt;D</code>
+</p>
+
+<div id="五，转到下一个编辑点"><h1 id="五，转到下一个编辑点">五，转到下一个编辑点</h1></div>
+<p>
+<code>&lt;c-y&gt;n</code>
+</p>
+
+<div id="六，转到上一个编辑点"><h1 id="六，转到上一个编辑点">六，转到上一个编辑点</h1></div>
+<p>
+<code>&lt;c-y&gt;N</code>
+</p>
+
+<div id="七，更新 img 标签里面的图片大小（图片必须在本地 vim 能读到的地方）"><h1 id="七，更新 img 标签里面的图片大小（图片必须在本地 vim 能读到的地方）">七，更新 img 标签里面的图片大小（图片必须在本地 vim 能读到的地方）</h1></div>
+<p>
+原代码如下
+</p>
+<pre class="brush:html">
+		&lt;img src="foo.png"&gt;
+		光标移动到 img 标签，然后按 &lt;c-y&gt;i
+		代码自动转换成
+		&lt;img src="foo.png" width="32" height="48"&gt;
+</pre>
+  
+<div id="八，合并行"><h1 id="八，合并行">八，合并行</h1></div>
+<pre class="brush: html">
+	在如下代码中
+		&lt;ul&gt;
+		&lt;li class="list1"&gt;&lt;/li&gt;
+		&lt;li class="list2"&gt;&lt;/li&gt;
+		&lt;li class="list3"&gt;&lt;/li&gt;
+		&lt;/ul&gt;
+
+		选择所有 li 标签，然后 输入 大 ‘J’。
+		代码就变成如下
+		&lt;ul&gt;
+		&lt;li class="list1"&gt;&lt;/li&gt;
+		&lt;li class="list2"&gt;&lt;/li&gt;
+		&lt;li class="list3"&gt;&lt;/li&gt;
+		&lt;/ul&gt; class="brush:"
+</pre>
+  
+<div id="九，删除标签"><h1 id="九，删除标签">九，删除标签</h1></div>
+<pre class="brush: html">
+	&lt;div class="foo"&gt;
+		&lt;a&gt;光标在这&lt;/a&gt;
+		&lt;/div&gt;
+
+		按下 &lt;c-y&gt;k 就变成 
+		&lt;div class="foo"&gt;&lt;/div&gt;
+		&lt;/c-y&gt;
+</pre>
+  
+<div id="十，分割组合标签"><h1 id="十，分割组合标签">十，分割组合标签</h1></div>
+<pre class="brush: html">
+	&lt;div class="foo"&gt;
+		标签在这里
+		&lt;/div&gt;
+
+		按下 &lt;c-y&gt;j 后代码变成
+		&lt;div class="foo"&gt;
+		再次按下 &lt;c-y&gt;j 代码就返回原来的样子。
+		&lt;div class="foo"&gt;
+		&lt;/div&gt;
+		&lt;/c-y&gt;&lt;/div&gt;&lt;/c-y&gt;
+</pre>
+  
+<div id="十一，注释"><h1 id="十一，注释">十一，注释</h1></div>
+<pre class="brush: html">
+	代码如下
+	&lt;div&gt;
+		hello world
+		&lt;/div&gt;
+
+		光标移动到此块代码，按下 &lt;c-y&gt;/ 变成如下
+		&lt;!--
+		&lt;div&gt;
+		hello world
+		&lt;/div&gt;
+
+		--&gt;
+
+		再按一次就变回来的样子。
+		&lt;/c-y&gt;
+</pre>
+  
+<div id="十二，自动给网址添加 标签"><h1 id="十二，自动给网址添加 标签">十二，自动给网址添加 标签</h1></div>
+<pre class="brush: html">
+	光标移动到网址上 http://kejibo.com
+
+	按下 &lt;c-y&gt;a 变成 如下
+		&lt;a href="http://kejibo.com/"&gt;&lt;/a&gt;
+		&lt;/c-y&gt;
+</pre>
+  
+<div id="十三，给网址添加注释文本"><h1 id="十三，给网址添加注释文本">十三，给网址添加注释文本</h1></div>
+<pre class="brush: html">
+	&lt;c-y&gt;A 按下后，网址变成
+		&lt;blockquote class="quote"&gt;
+
+		&lt;a href="http://github.com/"&gt;Secure source code hosting and collaborative development - GitHub&lt;/a&gt;
+
+		How does it work? Get up and running in seconds by forking a project, pushing an existing repository...
+
+		&lt;cite&gt;http://github.com/&lt;/cite&gt;
+		&lt;/blockquote&gt;
+</pre>
+
+	</div>
+</div>
+
+<!--this is my footer-->
+<div id="footer">
+	<img alt="知识共享许可协议" height="31" width="80" style="border-width:0" src="img/cc_80x31.png" /> 本作品采用知识共享署名-非商业性使用-禁止演绎 3.0 Unported <a name="license" rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">许可协议</a>进行许可。
+</div>
+
+<!--Baidu Analysis-->
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6bad7b5881000f711c6b1e1e6d286a52' type='text/javascript'%3E%3C/script%3E"));
+
+<!-- Code Highlight -->
+hljs.initHighlightingOnLoad();
+
+</script>
+</body>
+</html>
+

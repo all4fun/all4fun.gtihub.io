@@ -1,0 +1,176 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>oracle数据库备份脚本</title>
+	<meta name="description" content="王恒的笔记 -- make progress a little day by day" />
+	<meta name="keywords" content="Linux,Windows,MacOSX,Shell,c++,C#,PHP,Python,Coder,Arduino,Raspberry pi" />
+	<link rel="stylesheet" type="text/css" href="theme/bright/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight_monokai.css" />
+	<script src="js/highlight.pack.js"></script>
+
+</head>
+
+<body>
+<header id="header">
+	<top_group>
+		<div id="logo" style="font-size: 22pt"><a href="http://wangheng.org/html/">笔记</a></div>
+	</top_group>
+</header>
+<div id="wrap">
+	<div id="content">	
+	
+
+<p>
+因平时经常有需要备份数据库的需求，因此动手自己写了一个备份数据库的脚本。有需要的可以参考，如下：
+</p>
+
+<pre>
+#!/bin/bash
+#=========================================================
+#     FileName: oracle_backup.sh
+#         Desc: 备份oracle数据库脚本
+#				参数：1、数据库用户名 2、密码 3、备份文件的路径
+#       Author: wangheng
+#        Email: wujiwh@gmail.com
+#     HomePage: http://wangheng.org
+#      Version: 1.0.1
+#   LastChange: 2013-12-16 19:15:35
+#      History: 2013-12-16 Create oracle database backup script.
+#				2013-12-17 1. Add Function auto create oracle directory.
+#						   2. tar dmp files.
+#=========================================================
+
+
+DB_Name=`hostname -s`
+DB_User=$1
+DB_PWD=$2
+Backup_Dir=$3
+
+DMP_Files=$DB_Name'_'$DB_User'_'`date +%Y%m%d`'_%U.dmp'
+Log_File=$DB_Name'_'$DB_User'_'`date +%Y%m%d`'.log'
+BakFile=$DB_Name'_'$DB_User'_'`date +%Y%m%d`'.tar.gz'
+#Old_File=$DB_Name'_'$DB_User'_'`date -d "-30day" +%Y%m%d`'.tar.gz'
+Old_File=$DB_Name'_'$DB_User'_'`date -d "last month" +%Y%m01`'.tar.gz'
+
+function StartBackup()
+{
+	cd $Backup_Dir
+	expdp $DB_User/$DB_PWD directory=DMP_Backup_DIR filesize=4G dumpfile=$DMP_Files logfile=$Log_File
+
+	tar zcvf $BakFile *.dmp
+}
+
+function Clean()
+{
+	rm -f *.dmp
+	if [ -e $Old_File ];then
+		rm -f $Old_File
+		echo "Old backup file $Old_File removed."
+	fi
+}
+
+function InitDB()
+{
+	sql="create or replace directory DMP_Backup_DIR as '$Backup_Dir'"
+	error_code=`
+sqlplus -S -L /nolog &lt;&lt;EOF
+connect $DB_User/$DB_PWD
+set termout off;
+set echo off;
+set feedback off;
+set heading off;
+set pagesize 0;
+$sql;
+commit;
+quit
+EOF`
+	echo "$error_code"
+	if [ -z "$error_code" ];then
+		return 0;
+	else
+		return 1;
+	fi
+}
+
+function CheckDir()
+{
+	if [ ! -d $Backup_Dir ];then 
+		/bin/mkdir -p $Backup_Dir &amp;&amp; return 0 || return 1
+	else
+		return 0
+	fi
+}
+
+
+function usage()
+{
+	echo -e "oracle backup v1.0.1"
+	echo -e "Usage: $0 [DB_User] [DB_PWD] [Local Path]"
+
+	echo -e "\n Parameters:"
+	echo -e "\t DB_User: Oracle Database UserName"
+	echo -e "\t DB_PWD: Oracle Database User Password"
+	echo -e "\t Local Path: Path for backup database dmp files"
+	echo -e "\n Any question please contact to :\n\t wangheng@IPPH Tel:8220 \n"
+	exit 1
+}
+
+
+if [ ! $#==3 ];then 
+	usage
+	exit 1
+fi
+
+echo "============================================="
+echo "Backup $DB_Name($DB_User) start at `date '+%F %H:%M:%S'`" &gt;lastbackup.log
+echo "============================================="
+echo 
+
+CheckDir
+if [ ! $? == 0 ]; then
+	echo "Error: Faild to access $Backup_Dir directory."
+	exit 1
+fi
+
+cd $Backup_Dir
+
+InitDB
+if [ $? == 0 ]; then 
+	StartBackup
+	Clean
+else
+	echo "backup failed!"
+fi
+
+echo 
+echo "============================================"
+echo "Backup $DB_Name($DB_User) finished at `date '+%F %H:%M:%S'`"
+echo "============================================"
+
+exit 0
+  
+  
+</pre>
+
+	</div>
+</div>
+
+<!--this is my footer-->
+<div id="footer">
+	<img alt="知识共享许可协议" height="31" width="80" style="border-width:0" src="img/cc_80x31.png" /> 本作品采用知识共享署名-非商业性使用-禁止演绎 3.0 Unported <a name="license" rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">许可协议</a>进行许可。
+</div>
+
+<!--Baidu Analysis-->
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6bad7b5881000f711c6b1e1e6d286a52' type='text/javascript'%3E%3C/script%3E"));
+
+<!-- Code Highlight -->
+hljs.initHighlightingOnLoad();
+
+</script>
+</body>
+</html>
+

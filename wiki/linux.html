@@ -1,0 +1,376 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>Linux笔记</title>
+	<meta name="description" content="王恒的笔记 -- make progress a little day by day" />
+	<meta name="keywords" content="Linux,Windows,MacOSX,Shell,c++,C#,PHP,Python,Coder,Arduino,Raspberry pi" />
+	<link rel="stylesheet" type="text/css" href="theme/bright/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight_monokai.css" />
+	<script src="js/highlight.pack.js"></script>
+
+</head>
+
+<body>
+<header id="header">
+	<top_group>
+		<div id="logo" style="font-size: 22pt"><a href="http://wangheng.org/html/">笔记</a></div>
+	</top_group>
+</header>
+<div id="wrap">
+	<div id="content">	
+	
+
+<p>
+<h1> 目录 </h1>
+%auto_toc
+</p>
+
+<div id="用cpufreq给CPU临时调整主频"><h2 id="用cpufreq给CPU临时调整主频">用cpufreq给CPU临时调整主频</h2></div>
+<pre>
+
+#32位系统
+yum install -y cpufreq-utils.i386 
+#64位系统
+yum install -y cpufreq-utils.x86_64
+
+#查看当前CPU工作频率和状态
+cpufreq-info
+
+a) 查看cpu类型、当前频率、支持频率、运行模式等
+cpufreq-info, cpufreq-selector, cpufreq-set。
+
+[root@apiof.com ~]# cpufreq-info
+cpufrequtils 007: cpufreq-info (C) Dominik Brodowski 2004-2009
+Report errors and bugs to cpufreq@vger.kernel.org, please.
+analyzing CPU 0:
+  driver: powernow-k8
+  CPUs which run at the same hardware frequency: 0
+  CPUs which need to have their frequency coordinated by software: 0
+  maximum transition latency: 1000 ns.
+  hardware limits: 800 MHz - 1.60 GHz
+  available frequency steps: 1.60 GHz, 1.28 GHz, 800 MHz
+  available cpufreq governors: ondemand, userspace, performance
+  current policy: frequency should be within 800 MHz and 1.60 GHz.
+                  The governor "ondemand" may decide which speed to use
+                  within this range.
+  current CPU frequency is 800 MHz (asserted by call to hardware).
+analyzing CPU 1:
+  driver: powernow-k8
+  CPUs which run at the same hardware frequency: 1
+  CPUs which need to have their frequency coordinated by software: 1
+  maximum transition latency: 1000 ns.
+  hardware limits: 800 MHz - 1.60 GHz
+  available frequency steps: 1.60 GHz, 1.28 GHz, 800 MHz
+  available cpufreq governors: ondemand, userspace, performance
+  current policy: frequency should be within 800 MHz and 1.60 GHz.
+                  The governor "ondemand" may decide which speed to use
+                  within this range.
+  current CPU frequency is 800 MHz (asserted by call to hardware).
+
+b)选择需要调整的cpu   
+   sudo cpufreq-selector -c cpu号
+    或者
+   sudo cpufreq-set -c cpu号
+
+    可能对双核或多核cpu进行选择。我的不是双核，没法实验，还请有duo core的朋友实验一下并跟帖汇报情况。
+
+c)调整cpu频率
+     sudo cpufreq-selector -f 你所需要的频率
+    或者
+sudo cpufreq-set -f 你所需要的频率
+
+    注意，此处的频率必须是以KHz为单位，并且是可以达到的频率（也就是用cpufreq-info查看到的各个频率），cpu频率＝倍频x外频。以下凡是涉及频率的一律如此。
+
+d)调整cpu频率上下限
+   sudo cpufreq-set -d 频率下限
+     sudo cpufreq-set -u 频率上限
+
+   因此，可能可以对cpu进行降频或者超频。有些人肯定会跃跃欲试的，嘿嘿。
+
+e)调整cpu运行模式
+sudo cpufreq-selecotr -g 模式
+    或者
+   suod cpufreq-set -g 模式
+    这里，模式就是执行cpufreq-info后看到的所支持的模式。比如我的支持以下几种：powersave, userspace, ondemand, conservative, performance。
+
+    powersave， 是无论如何都只会保持最低频率的所谓“省电”模式；
+    userspace，   是自定义频率时的模式，这个是当你设定特定频率时自动转变的；
+    ondemand， 默认模式。一有cpu计算量的任务，就会立即达到最大频率运行，等执行完毕就立即回到最低频率；
+    conservative，翻译成保守（中庸）模式，会自动在频率上下限调整，和ondemand的区别在于它会按需分配频率，而不是一味追求最高频率；
+    performance，顾名思义只注重效率，无论如何一直保持以最大频率运行。
+
+</pre>
+  
+<div id="CentOS取消开机图片"><h2 id="CentOS取消开机图片">CentOS取消开机图片</h2></div>
+
+<pre>
+
+vim /boot/grub/grub.conf
+#删除“rhgb quiet” ，重启的话就看到想要的效果了。
+
+#rhgb：用图片来代替启动过程中的文本信息，这些文本信息在启动完成后可以用dmesg查看。
+# rhgb = redhat graphical boot - This is a GUI mode booting screen with
+# 　　　 most of the information hidden while the user sees a rotating activity
+# 　　   icon spining and brief information as to what the computer is doing.
+#
+# quite：在启动过程中只显示重要信息，类似硬件自检的消息不回显。
+# quiet = hides the majority of boot messages before rhgb starts. These
+#　　  　are supposed to make the common user more comfortable. They get alarmed
+#　　　  about seeing the kernel and initializing messages, so they hide them for
+#　　　  their comfort.
+
+</pre>
+  
+
+<div id="Linux 统计空文件夹个数"><h2 id="Linux 统计空文件夹个数">Linux 统计空文件夹个数</h2></div>
+<p>
+使用find 命令：
+ find . -type d -empty
+ 可以查出当前目录以及子目录下面的空文件夹。
+ 如果想统计数量可以
+  find . -type d -empty | wc -l
+</p>
+
+
+<div id="Linux 下设置bash为vi工作模式"><h2 id="Linux 下设置bash为vi工作模式">Linux 下设置bash为vi工作模式</h2></div>
+<p>
+Bash默认模式是交互式emacs模式。
+</p>
+
+<p>
+set -o emacs #设置emacs模式
+set -o vi #设置vi模式
+bash -noediting #关闭命令行编辑
+</p>
+
+<div id="linux 修改用户组"><h2 id="linux 修改用户组">linux 修改用户组</h2></div>
+
+<p>
+<code>usermod -g group loginname </code>
+强行设置某个用户所在组
+</p>
+
+<p>
+<code>usermod -G groups loginname</code>
+把某个用户改为 group(s)
+</p>
+
+<p>
+<code>usermod -a -G groups loginname</code>
+把用户添加进入某个组(s）
+</p>
+
+<div id="screen命令"><h2 id="screen命令">screen命令</h2></div>
+
+<p>
+总是很容易忘记一些需要的命令，所以暂时把它们贴在这里。
+</p>
+
+<p>
+screen为多重视窗管理程序。此处所谓的视窗，是指一个全屏幕的文字模式画面。通常只有在使用telnet登入主机或是使用老式的终端机时，才有可能用到screen程序。screen能在一个终端程序执行多个任务，离线执行任务等。
+</p>
+
+<ul>
+<li>
+创建会话
+
+</ul>
+<p>
+执行：screen -S wangheng 创建screen会话。
+</p>
+
+<ul>
+<li>
+离开screen
+
+</ul>
+<p>
+完成终止一个会话可以使用<code>Ctrl-A</code> <code>Ctrl-K</code> 或<code>exit</code>命令结束。
+保留会话但关闭窗口可以使用<code>Ctrl-A</code> <code>Ctrl-d</code>命令，这样下次你可以连接此会话。
+</p>
+
+<p>
+连接screen
+我们可以执行以下命令来查看会话列表。
+</p>
+
+<p>
+screen -ls
+</p>
+
+
+<p>
+如果执行命令的过程中掉线，可以重新连接，执行 screen -r wangheng
+</p>
+
+<p>
+用来记录备份MySQL数据库的命令
+</p>
+
+<div id="Linux scp命令"><h2 id="Linux scp命令">Linux scp命令</h2></div>
+<ul>
+<li>
+什么是scp
+
+</ul>
+<p>
+　scp就是secure copy，是用来进行远程文件拷贝的。数据传输使用 ssh，并且和ssh 使用相同的认证方式，提供相同的安全保证 。 与rcp 不同的是，scp 在需要进行验证时会要求你输入密码或口令。
+</p>
+
+<ul>
+<li>
+scp的用法
+
+</ul>
+ 
+<pre>
+
+从 本地 复制到 远程
+命令基本格式：
+scp [可选参数] 本地文件名 远程用户名@远程地址:远程文件或目录
+复制文件例子：
+
+scp /home/backup.zip root@www.example.com:/home/others/backup
+scp /home/backup.zip root@www.example.com:/home/others/otherbackup.zip
+第一个是本地文件backup.zip发送到远程backup目录下。
+第二个是本地文件backup.zip发送到远程otherbackup.zip文件。
+复制目录例子：
+
+scp -r /home/backup root@www.example.com:/home/others/
+复制本地目录backup到远程目录others
+从 远程 复制到 本地
+命令基本格式：
+scp [可选参数] 远程用户名@远程地址:远程文件或目录 本地文件名
+例子：
+
+scp root@www.example.com:/home/others/bakcup.zip /home/newbackup.zip
+scp -r root@www.example.com:/home/backup /home/other/
+第一个是下载远程文件backup.zip到本地文件newbackup.zip。
+第二个是下载远程目录bakcup到本地目录other。
+scp可选参数：
+
+参数	解释
+-v	 和大多数 linux 命令中的 -v 意思一样 , 用来显示进度 . 可以用来查看连接 , 认证 , 或是配置错误 .
+-C	使能压缩选项
+-P	选择端口 . 注意 -p 已经被 rcp 使用 .
+-4	 强行使用 IPV4 地址 .
+-6	强行使用 IPV6 地址 .
+
+</pre>
+   
+<div id="Linux 中查看网络流量工具"><h2 id="Linux 中查看网络流量工具">Linux 中查看网络流量工具</h2></div>
+<p>
+一：iptraf
+</p>
+    
+<p>
+   可以按照用户的需要，按照不同的协议统计，也可以按照不同的端口统计，还可以按照不同的网卡统计，总之，是一个很强大的工具。 在命令行直接输入：iptraf，进入一个文本图形界面。
+</p>
+    
+
+<p>
+二：nload
+</p>
+<blockquote>
+在命令行直接输入命令，很直观。
+</blockquote>
+    
+    
+<p>
+三：ifstat
+</p>
+<blockquote>
+如果有多网卡，就会有多列。很不错吧。
+</blockquote>
+    
+<p>
+四：sar
+</p>
+<blockquote>
+这个工具RHEL5自带有，默认也安装。
+一个强大的工具（好像这些工具都蛮强的），参数很多，有时间man一下。
+</blockquote>
+    
+    
+<div id="Linux 设置系统时间"><h2 id="Linux 设置系统时间">Linux 设置系统时间</h2></div>
+ 
+<p>
+1、 首先需要切换到root操作用户模式 
+</p>
+ 
+<p>
+先设置日期 <code>date -s 20140303 </code>
+</p>
+
+<p>
+设置时间 <code>date -s 16:16 </code>
+</p>
+
+<p>
+2、如果要同时更改BIOS时间 
+</p>
+
+<p>
+再执行 <code>clock -w</code> 写入到硬件
+</p>
+
+<div id="使用tmux分屏"><h2 id="使用tmux分屏">使用tmux分屏</h2></div>
+
+<p>
+（1）安装工具
+</p>
+
+<p>
+在ubuntu系统中使用sudo apt-get install tmux安装tmux工具
+</p>
+
+<p>
+（2）使用工具
+</p>
+
+<p>
+1，输入命令tmux使用工具
+</p>
+
+<p>
+2，上下分屏：ctrl + b  再按 "
+</p>
+
+<p>
+3，左右分屏：ctrl + b  再按 %
+</p>
+
+<p>
+4，切换屏幕：ctrl + b  再按o
+</p>
+
+<p>
+5，关闭一个终端：ctrl + b  再按x
+</p>
+
+<p>
+6，上下分屏与左右分屏切换： ctrl + b  再按空格键
+</p>
+
+	</div>
+</div>
+
+<!--this is my footer-->
+<div id="footer">
+	<img alt="知识共享许可协议" height="31" width="80" style="border-width:0" src="img/cc_80x31.png" /> 本作品采用知识共享署名-非商业性使用-禁止演绎 3.0 Unported <a name="license" rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">许可协议</a>进行许可。
+</div>
+
+<!--Baidu Analysis-->
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6bad7b5881000f711c6b1e1e6d286a52' type='text/javascript'%3E%3C/script%3E"));
+
+<!-- Code Highlight -->
+hljs.initHighlightingOnLoad();
+
+</script>
+</body>
+</html>
+

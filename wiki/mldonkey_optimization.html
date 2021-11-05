@@ -1,0 +1,209 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>mldonkey配置优化</title>
+	<meta name="description" content="王恒的笔记 -- make progress a little day by day" />
+	<meta name="keywords" content="Linux,Windows,MacOSX,Shell,c++,C#,PHP,Python,Coder,Arduino,Raspberry pi" />
+	<link rel="stylesheet" type="text/css" href="theme/bright/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight_monokai.css" />
+	<script src="js/highlight.pack.js"></script>
+
+</head>
+
+<body>
+<header id="header">
+	<top_group>
+		<div id="logo" style="font-size: 22pt"><a href="http://wangheng.org/html/">笔记</a></div>
+	</top_group>
+</header>
+<div id="wrap">
+	<div id="content">	
+	
+<p>
+%toc
+</p>
+
+<p>
+主要的选项设置
+MLDonkey的选项简直多如牛毛，这里就挑部分比较主要的简单讲一下。有一点必须先说明一下，除了下拉选项外，其他的选项设置被修改后都不会自动保存，必须在修改选项后按一下回车才会保存。如果要修改了100个选项，同样地就要按100次回车了，这样确实很繁琐。
+</p>
+
+<ul>
+<li>
+Options - Settings - Client 
+
+</ul>
+
+<pre class="brush: python">
+client_name：用户名，像这样[CHN]Mldonkey
+max_upload_slots：上传槽数量，最大可以同时上传给多少人
+max_hard_upload_rate：最大上传速度，必须大于10，否则下载速度将会被限制在一个很低的值
+max_hard_download_rate：最大下载速度，0表示不限速
+max_opened_connections：最大连接数，最大可以设置为924
+max_hard_upload_rate_2：第二个最大上传速度
+max_hard_download_rate_2：第二个最大下载速度
+max_indirect_connections：非直接连接为最大打开连接的百分比
+max_concurrent_downloads：最大同时下载任务数
+</pre>
+
+<ul>
+<li>
+缓存设置 Options - Settings - Delays
+
+</ul>
+ 
+<pre class="brush: python">
+buffer_writes：是否打开缓存写入，建议打开
+buffer_writes_delay：写入缓存时的延迟时间，单位为秒，建议30.或者更高
+buffer_writes_threshold：缓存到了指定值时强制写入，单位为KB，默认1024KB
+</pre>
+
+<ul>
+<li>
+协议设置 Options - Settings - Net
+
+</ul>
+
+<pre class="brush: python">
+enable_overnet：Overnet网络，建议打开
+enable_kademlia：KAD网络，必须打开
+enable_donkey：eDonkey网络，必须打开
+enable_bittorrent：BT，建议打开，不用的也可以不开
+enable_fasttrack：FastTrack网络，好像已经停用了
+enable_directconnect：DirectConnect网络，不常用，可以可关闭
+enable_fileTP：FTP和HTTP，打开吧
+</pre>
+
+<ul>
+<li>
+Donkey设置 Options - Settings - Plugins -Donkey
+
+</ul>
+
+<pre class="brush: python">
+ED2K-max_connected_servers：最大连接的服务器数量，太大也没用，一般稳定后就5个
+ED2K-force_client_high_id：打开，强制客户端为HighID
+ED2K-force_high_id：打开，强制自己为highID
+ED2K-keep_best_server：保持使用最好的服务器
+ED2K-good_client_rank：它表示需要维持连接的客户端长度，默认500，第500以外的客户端将断开，等待下一次访问
+ED2K-connect_only_preferred_server: 只连接优先选定的服务器，这样就避免了连接资源量小和无用的服务器，前提是你必须设置了优先服务器
+ED2K-update_server_list_server：从连接的服务器里更新服务器列表，建议关闭，否则会出现一些垃圾服务器
+ED2K-update_server_list_server_met：从服务器列表文件更新服务器，必须打开
+ED2K-update_server_list_client ：从连接到的客户端里更新服务器列表，建议关闭，否则会出现一些垃圾服务器
+</pre>
+
+<ul>
+<li>
+其他 Options - Settings - All
+
+</ul>
+
+<pre class="brush: python">
+hdd_temp_minfree：临时目录最小可用空间，默认大小设置为50M
+hdd_temp_stop_core：如果临时目录的可用空间少于上面设置的指定值，程序就会自动停止
+client_buffer_size：表示缓存的总大小，单位字节，默认值是500000，即50MB，内存是不很吃紧的建议设大点
+share_scan_interval：共享目录的检查时间，单位分钟，默认是120分钟，0是不检查共享目录
+</pre>
+
+
+<ul>
+<li>
+一些重要的配置文件
+
+</ul>
+
+<pre class="brush: python">
+MLDonkey的设置主要保存在目录下的一系列ini文件里面，这些ini文件都有各自的作用：
+downloads.ini：存储了MLDonkey全局性的设置，这个配置文件十分重要。
+searches.ini：存储自定义的搜索问题。
+servers.ini：存储你能连接的服务器列表。
+friends.ini：存储你好友的名字和对应的IP。
+stats.ini：存储上传下载的统计信息。
+file_sources.ini：存储能连接到的源.
+files.ini：当前下载的文件列表及其md4-hash。
+shared_files_new.ini：存储共享的文件列表及其md4-hash。
+</pre>
+
+<ul>
+<li>
+每一种P2P协议都有各自配置文件：
+
+</ul>
+
+<pre class="brush: python">
+donkey.ini：储存eDonkey、Overnet的网络设置
+bittorrent.ini：储存BT网络的设置
+directconnect.ini：储存DirectConnect的网络设置
+fasttrack.ini：储存Fasttrack的网络设置
+fileTP.ini：储存FTP/HTTP的网络设置
+</pre>
+
+<p>
+如果软件要升级或迁移，建议备份downloads.ini、file_sources.ini、files.ini、shared_files_new.ini、donkey.ini、stats.ini和nodes.dat（储存了KAD的节点文件），当然，你也可以根据自己需要决定备份哪些文件。
+</p>
+
+
+<p>
+澄清大家对MLDonkey所支持IP过滤文件格式的误解
+MLDonkey自带的IPblocking会误杀国内很多正规的IP和ed2k服务器确实没错，但是不知道从哪里来的流言说MLDonkey不支持电骡格式的IPfilter过滤文件，还在很多地方扯出有关解决方法的讨论。在官方Wiki的guarding列表里本来就写着建议使用电骡的IPfilter；在WebUI的Web infos里也有说明：“guarding.p2p IP blocking lists (ipfilter and guardian v2 formats)”，何来不支持之说呢。所以说默认提供的WebUI是个好东西，不要老是用那些第三方的图形前端；有什么不明白的也要多去官方Wiki找找看。
+</p>
+
+
+
+<p>
+MLDonkey的过滤设置可以分为网络过滤名单和本地过滤名单，设置网络过滤名单就会自动从设置的地址下载过滤文件，并且会按设定的更新时间自动更新；本地过滤名单的就是设置你自己下载的过滤文件，当然这个是需要自己手动更新；网络或本地其实都一样，只要设置其中一个就可以了。
+</p>
+
+
+<p>
+自带的IPblocking误杀那么严重当然要改掉。首先要从网络过滤名单中删掉原来的过滤文件地址。进入Options - Settings - web infos(页面在底下)，找到下面这一行：“guarding.p2p 96 <a href="http://www.bluetack.co.uk/config/level1.gz">http://www.bluetack.co.uk/config/level1.gz</a> ”，点击左面的“Remove”按键将它删除掉。顺带说一下，这一行里的数字“96”就是更新时间间隔，单位为小时，即每96小时更新一次文件。
+</p>
+
+<p>
+添加网络过滤名单，还是刚才的web infos页面，点击列表右上角的“Add URL”按键，在弹出框里输入：
+guarding.p2p 过滤文件地址 96
+例如：
+guarding.p2p <a href="http://upd.emule-security.net/ipfilter.zip">http://upd.emule-security.net/ipfilter.zip</a> 96
+</p>
+
+<p>
+设置本地过滤名单，进入Options - Settings - Net，在“ip_blocking“选项里填上自己下载的过滤文件的磁盘地址，记得按回车设置保存设置。在Winddows下设置文件地址时有些特别，要用Linux的写法，就是要把反斜杠写成斜杠，例如 f:/Mldonkey/temp/ipfilter.zip。使用本地过滤名单有一点需要注意的是，部分IP过滤文件头部是有注释的，但是MLDonkey不能识别这些注释，这样很容易令到程序在载入过滤文件时发生错误，所以对于下载的过滤文件最好先把注释删除掉。方法很简单，解压缩过滤文件，用文本编辑器打开过滤文件，删除头部的注释部分保存，然后再打包成zip、gz或者bz2格式就OK啦。
+</p>
+
+<p>
+还有一点，官方推荐的过滤文件都是没有分级的，我也没在软件里看到有过滤级别的设置，所以大家最好还是选择那些没分级的过滤文件。
+</p>
+	
+<p>
+另外建议/tmp/mnt/sda1/opt/share/mldonkey/.mldonkey/download.ini 里面这段修改成红色这里，优先连接国内服务器
+</p>
+<pre>
+web_infos = [
+("server.met", 0, "http://ocbmaurice.dyndns.org/pl/slist.pl/server.met?download/server-best.met");
+("contact.dat", 168, "http://download.overnet.org/contact.dat");
+("geoip.dat", 0, "http://www.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz");
+("server.met", 0, "http://www.emule.org.cn/server.met");
+</pre>
+
+	</div>
+</div>
+
+<!--this is my footer-->
+<div id="footer">
+	<img alt="知识共享许可协议" height="31" width="80" style="border-width:0" src="img/cc_80x31.png" /> 本作品采用知识共享署名-非商业性使用-禁止演绎 3.0 Unported <a name="license" rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">许可协议</a>进行许可。
+</div>
+
+<!--Baidu Analysis-->
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6bad7b5881000f711c6b1e1e6d286a52' type='text/javascript'%3E%3C/script%3E"));
+
+<!-- Code Highlight -->
+hljs.initHighlightingOnLoad();
+
+</script>
+</body>
+</html>
+

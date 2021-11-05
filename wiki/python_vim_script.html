@@ -1,0 +1,229 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>使用python写vim脚本</title>
+	<meta name="description" content="王恒的笔记 -- make progress a little day by day" />
+	<meta name="keywords" content="Linux,Windows,MacOSX,Shell,c++,C#,PHP,Python,Coder,Arduino,Raspberry pi" />
+	<link rel="stylesheet" type="text/css" href="theme/bright/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight_monokai.css" />
+	<script src="js/highlight.pack.js"></script>
+
+</head>
+
+<body>
+<header id="header">
+	<top_group>
+		<div id="logo" style="font-size: 22pt"><a href="http://wangheng.org/html/">笔记</a></div>
+	</top_group>
+</header>
+<div id="wrap">
+	<div id="content">	
+	
+
+<div id="使用python写vim脚本"><h1 id="使用python写vim脚本">使用python写vim脚本</h1></div>
+<p>
+Vim 插件是一个 .vim 的脚本文件，定义了函数、映射、语法规则和命令，可用于操作窗口、缓冲以及行。一般一个插件包含了命令定义和事件钩子。当使用 Python 编写 vim 插件时，函数外面是使用 VimL 编写，尽管 VimL 学起来很快，但 Python 更加灵活，例如可以用 urllib/httplib/simplejson 来访问某些 Web 服务，这也是为什么很多需要访问 Web 服务的插件都是使用 VimL + Python 编写的原因。
+</p>
+
+<p>
+在开始编写插件之前，你需要确认 Vim 支持 Python，通过以下命令来判别：
+</p>
+<pre class="brush: bash">
+  vim --version | grep +python
+</pre>
+<p>
+接下来我们通过一个简单的例子来学习用 Python 编写 Vim 插件，该插件用来获取 Reddit 首页信息并显示在当前缓冲区上。
+</p>
+
+<p>
+首先在 Vim 新建 vimmit.vim 文件，我们首先需要判断是否支持 Python，如果不支持给出提示信息：
+</p>
+<pre class="brush: python">
+if !has('python')
+    echo "Error: Required vim compiled with +python"
+    finish
+endif
+</pre>
+<p>
+上面这段代码就是用 VimL 编写的，它将检查 Vim 是否支持 Python。
+</p>
+
+<p>
+下面是用 Python 编写的 Reddit() 主函数：
+</p>
+<pre class="brush: python">
+" Vim comments start with a double quote.
+" Function definition is VimL. We can mix VimL and Python in
+" function definition.
+function! Reddit()
+
+" We start the python code like the next line.
+
+python &lt;&lt; EOF
+# the vim module contains everything we need to interface with vim from
+# python. We need urllib2 for the web service consumer.
+import vim, urllib2
+# we need json for parsing the response
+import json
+
+# we define a timeout that we'll use in the API call. We don't want
+# users to wait much.
+TIMEOUT = 20
+URL = "http://reddit.com/.json"
+
+try:
+    # Get the posts and parse the json response
+    response = urllib2.urlopen(URL, None, TIMEOUT).read()
+    json_response = json.loads(response)
+
+    posts = json_response.get("data", "").get("children", "")
+
+    # vim.current.buffer is the current buffer. It's list-like object.
+    # each line is an item in the list. We can loop through them delete
+    # them, alter them etc.
+    # Here we delete all lines in the current buffer
+    del vim.current.buffer[:]
+
+    # Here we append some lines above. Aesthetics.
+    vim.current.buffer[0] = 80*"-"
+
+    for post in posts:
+        # In the next few lines, we get the post details
+        post_data = post.get("data", {})
+        up = post_data.get("ups", 0)
+        down = post_data.get("downs", 0)
+        title = post_data.get("title", "NO TITLE").encode("utf-8")
+        score = post_data.get("score", 0)
+        permalink = post_data.get("permalink").encode("utf-8")
+        url = post_data.get("url").encode("utf-8")
+        comments = post_data.get("num_comments")
+
+        # And here we append line by line to the buffer.
+        # First the upvotes
+        vim.current.buffer.append("↑ %s"%up)
+        # Then the title and the url
+        vim.current.buffer.append("    %s [%s]"%(title, url,))
+        # Then the downvotes and number of comments
+        vim.current.buffer.append("↓ %s    | comments: %s [%s]"%(down, comments, permalink,))
+        # And last we append some "-" for visual appeal.
+        vim.current.buffer.append(80*"-")
+
+except Exception, e:
+    print e
+
+EOF
+
+" Here the python code is closed. We can continue writing VimL or python again.
+endfunction
+</pre>
+
+<p>
+使用如下命令保存文件
+</p>
+
+<p>
+<code>:source vimmit.vim</code>
+</p>
+
+<p>
+然后调用该插件：
+</p>
+
+<p>
+<code>:call Reddit()</code>
+</p>
+
+<p>
+这个命令用起来不那么方便，因此我们再定义一个命令：
+</p>
+
+<p>
+<code>command! -nargs=0 Reddit call Reddit()</code>
+</p>
+
+<p>
+我们定义了命令 :Reddit 来调用这个函数。-nargs 参数声明命令行中有多少个参数。
+</p>
+
+<p>
+关于函数参数的问题：
+</p>
+
+<p>
+问：如何访问函数中的参数？
+</p>
+<pre class="brush: bash">
+function! SomeName(arg1, arg2, arg3)
+    " Get the first argument by name in VimL
+    let firstarg=a:arg1
+
+    " Get the second argument by position in Viml
+    let secondarg=a:1
+
+    " Get the arguments in python
+
+    python &lt;&lt; EOF
+    import vim
+
+    first_argument = vim.eval("a:arg1") #or vim.eval("a:0")
+    second_argument = vim.eval("a:arg2") #or vim.eval("a:1")
+</pre>
+<p>
+你可以使用 ... 来处理可变个数参数来替换特定的参数名，可通过位置或者命名参数来访问，如：(arg1, arg2, ...)
+</p>
+
+<p>
+问：如何在 Python 中调用 Vim 命令？
+<code>vim.command("[vim-command-here]")</code>
+</p>
+
+<p>
+问：如何定义全局变量，并在 VimL 和 Python 中访问？
+</p>
+
+<p>
+全局变量使用形如 g:. 的前缀，定义全局变量前应该检查该变量是否已定义：
+</p>
+
+<pre class="brush: bash">
+if !exists("g:reddit_apicall_timeout")
+    let g:reddit_apicall_timeout=40
+endif
+</pre>
+  
+<p>
+然后你通过下面代码在 Python 中访问这个变量：
+</p>
+
+<pre class="brush: bash">
+TIMEOUT = vim.eval("g:reddit_apicall_timeout")
+可通过下面的方法来对全局变量进行重新赋值：
+
+let g:reddit_apicall_timeout=60
+</pre>
+<p>
+更多关于使用 Python 编写 Vim 插件的说明请看官方文档。
+</p>
+
+	</div>
+</div>
+
+<!--this is my footer-->
+<div id="footer">
+	<img alt="知识共享许可协议" height="31" width="80" style="border-width:0" src="img/cc_80x31.png" /> 本作品采用知识共享署名-非商业性使用-禁止演绎 3.0 Unported <a name="license" rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">许可协议</a>进行许可。
+</div>
+
+<!--Baidu Analysis-->
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6bad7b5881000f711c6b1e1e6d286a52' type='text/javascript'%3E%3C/script%3E"));
+
+<!-- Code Highlight -->
+hljs.initHighlightingOnLoad();
+
+</script>
+</body>
+</html>
+

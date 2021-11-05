@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>安装vimwiki</title>
+	<meta name="description" content="王恒的笔记 -- make progress a little day by day" />
+	<meta name="keywords" content="Linux,Windows,MacOSX,Shell,c++,C#,PHP,Python,Coder,Arduino,Raspberry pi" />
+	<link rel="stylesheet" type="text/css" href="theme/bright/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight_monokai.css" />
+	<script src="js/highlight.pack.js"></script>
+
+</head>
+
+<body>
+<header id="header">
+	<top_group>
+		<div id="logo" style="font-size: 22pt"><a href="http://wangheng.org/html/">笔记</a></div>
+	</top_group>
+</header>
+<div id="wrap">
+	<div id="content">	
+	
+
+<div id="安装 vimwiki"><h1 id="安装 vimwiki">安装 vimwiki</h1></div>
+<div id="安装 vimwiki-安装条件"><h2 id="安装条件">安装条件</h2></div>
+
+<p>
+确保你的 vimrc 文件中有如下的设置： &gt;
+</p>
+<pre class="brush: bash">
+    set nocompatible
+    filetype plugin on
+    syntax on
+</pre>
+
+<p>
+离开这些设置 Vimwiki 将不能正常工作。
+</p>
+
+
+<div id="安装 vimwiki-安装"><h2 id="安装">安装</h2></div>
+<p>
+vimwiki 的安装同其他vim插件一样，把<a href="http://code.google.com/p/vimwiki/downloads/list">下载回来的东西</a>解压到 vimfiles 里就好了。有 zip 包和 vba 包两种格式。其中 vba 是 Vim 独有的插件安装包。推荐使用 vba 安装，因为它能保存你的安装信息，不高兴了还可以卸载（详细说明请<code>:h vba</code>）。要使用这种安装方式，需要有 <span id="安装 vimwiki-安装-vimball"></span><strong id="vimball">vimball</strong> 插件。Windows 下的 gvim 已经自带。如果你还没有这东西，可以先到 <a href="http://www.vim.org">vim.org</a> <a href="http://www.vim.org/scripts/script.php?script_id=1502">自行下载</a>。
+</p>
+
+<p>
+使用 Vim 打开 <span id="安装 vimwiki-安装-vimwiki.vba"></span><strong id="vimwiki.vba">vimwiki.vba</strong> ，然后执行 <code>:so %</code> ，就这么简单。
+</p>
+
+<p>
+如果你选择了 zip 包，解压完成后你可能还需要重建帮助文件索引。请执行 <code>:helptags $VIMFILES/doc</code> 。其中
+\(VIMFILES 就是您的 vimfiles 目录。这是需要在 vimrc 中定义的系统变量， Windows 下应该是 <code>\)VIM/vimfiles</code> ， Linux 下是 <code>~/.vim/</code> 。请检查您的 vimrc 里是否有这样的代码：
+</p>
+<pre class="brush: html">
+if has("win32")
+  let $VIMFILES = $VIM/vimfiles
+else
+  let $VIMFILES = $HOME/.vim
+endif
+</pre>
+
+<p>
+如果还没有，就赶快加上吧。
+</p>
+
+
+<p>
+装好之后，您可以马上使用 <code>:h vimwiki</code> 查看帮助。相信我，查看帮助文档绝对是最管用的学习方式（虽然耗时更久，但学得更全面，省去许多将来求助搜索引擎的时间）。
+</p>
+
+	</div>
+</div>
+
+<!--this is my footer-->
+<div id="footer">
+	<img alt="知识共享许可协议" height="31" width="80" style="border-width:0" src="img/cc_80x31.png" /> 本作品采用知识共享署名-非商业性使用-禁止演绎 3.0 Unported <a name="license" rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">许可协议</a>进行许可。
+</div>
+
+<!--Baidu Analysis-->
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6bad7b5881000f711c6b1e1e6d286a52' type='text/javascript'%3E%3C/script%3E"));
+
+<!-- Code Highlight -->
+hljs.initHighlightingOnLoad();
+
+</script>
+</body>
+</html>
+

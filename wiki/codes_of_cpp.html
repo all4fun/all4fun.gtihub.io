@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>C++ 学习笔记</title>
+	<meta name="description" content="王恒的笔记 -- make progress a little day by day" />
+	<meta name="keywords" content="Linux,Windows,MacOSX,Shell,c++,C#,PHP,Python,Coder,Arduino,Raspberry pi" />
+	<link rel="stylesheet" type="text/css" href="theme/bright/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight_monokai.css" />
+	<script src="js/highlight.pack.js"></script>
+
+</head>
+
+<body>
+<header id="header">
+	<top_group>
+		<div id="logo" style="font-size: 22pt"><a href="http://wangheng.org/html/">笔记</a></div>
+	</top_group>
+</header>
+<div id="wrap">
+	<div id="content">	
+	
+
+<div id="1、迭代器"><h1 id="1、迭代器">1、迭代器</h1></div>
+
+<p>
+现代的C++程序应尽量使用vector以及迭代器类型，避免使用低级的数组和指针
+</p>
+
+<p>
+ 迭代器应用示例:
+</p>
+<ul>
+<li>
+普通写法：
+
+</ul>
+ 
+<pre>
+//reset all elements in ivec to 0
+for (vecotr&lt;int&gt;::size_type ix=0; ix!=ivec.size(); ++ix)
+	ivec[ix]=0;
+</pre>
+
+<ul>
+<li>
+使用迭代器：
+
+</ul>
+
+<pre>
+for(vector&lt;int&gt;::iterator iter=ivec.begin(); iter!=ivec.end(); ++iter)
+	*iter=0;//set element to which iter refers to 0
+
+</pre>
+<p>
+for循环首先定义了iter，并i将它初始化为指向ivec的第一个元素。for循环的条件测试iter是否与end操作返回的迭代器不等。每次迭代iter都自增1，这个for循环的效果是从ivec第一个元素开始，顺序处理vector中的每一个元素。
+</p>
+
+	</div>
+</div>
+
+<!--this is my footer-->
+<div id="footer">
+	<img alt="知识共享许可协议" height="31" width="80" style="border-width:0" src="img/cc_80x31.png" /> 本作品采用知识共享署名-非商业性使用-禁止演绎 3.0 Unported <a name="license" rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">许可协议</a>进行许可。
+</div>
+
+<!--Baidu Analysis-->
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6bad7b5881000f711c6b1e1e6d286a52' type='text/javascript'%3E%3C/script%3E"));
+
+<!-- Code Highlight -->
+hljs.initHighlightingOnLoad();
+
+</script>
+</body>
+</html>
+

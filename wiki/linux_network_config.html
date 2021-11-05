@@ -1,0 +1,237 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>ubuntu系统网络的相关命令。</title>
+	<meta name="description" content="王恒的笔记 -- make progress a little day by day" />
+	<meta name="keywords" content="Linux,Windows,MacOSX,Shell,c++,C#,PHP,Python,Coder,Arduino,Raspberry pi" />
+	<link rel="stylesheet" type="text/css" href="theme/bright/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight.css" />
+	<link rel="stylesheet" type="text/css" href="css/highlight_monokai.css" />
+	<script src="js/highlight.pack.js"></script>
+
+</head>
+
+<body>
+<header id="header">
+	<top_group>
+		<div id="logo" style="font-size: 22pt"><a href="http://wangheng.org/html/">笔记</a></div>
+	</top_group>
+</header>
+<div id="wrap">
+	<div id="content">	
+	
+
+<div id="1.ifconfig用于查看和更改网络接口的地址和参数"><h2 id="1.ifconfig用于查看和更改网络接口的地址和参数">1.ifconfig用于查看和更改网络接口的地址和参数</h2></div>
+
+<p>
+<code>ifconfig -interface [options] address</code>
+</p>
+
+<p>
+ifconfig是用来设置和配置网卡的命令行工具。为了手工配置网络，这是一个必须掌握的命令。使用该命令的好处是无须重新启动机器。要赋给eth0接口IP地址207.164.186.2，并且马上激活它，使用下面命令：
+</p>
+
+<pre class="brush: bash">
+fconfig eth0 210.34.6.89 netmask 255.255.255.128 broadcast 210.34.6.127
+
+ifconfig eth0 down
+
+ifconfig eth0 up
+</pre>
+
+<p>
+修改网卡MAC地址
+首先必须关闭网卡设备，命令如下：
+</p>
+
+<pre class="brush: bash">
+/sbin/ifconfig eth0 down
+</pre>
+
+<p>
+修改MAC地址，命令如下：
+</p>
+
+<pre class="brush: bash">
+/sbin/ifconfig eth0 hw ether 00:AA:BB:CC:DD:EE
+</pre>
+
+<p>
+重新启用网卡：
+</p>
+
+<pre class="brush: bash">
+/sbin/ifconfig eht0 upv
+</pre>
+
+
+<div id="2.ping检测主机网络接口状态，使用权限是所有用户。"><h2 id="2.ping检测主机网络接口状态，使用权限是所有用户。">2.ping检测主机网络接口状态，使用权限是所有用户。</h2></div>
+
+<p>
+<code>ping [-dfnqrRv][-c][-i][-I][-l][-p][-s][-t] IP地址</code>
+</p>
+
+<pre>
+-d：使用Socket的SO_DEBUG功能。
+-c：设置完成要求回应的次数。
+-f：极限检测。
+-i：指定收发信息的间隔秒数。
+-I：网络界面使用指定的网络界面送出数据包。
+-l：前置载入，设置在送出要求信息之前，先行发出的数据包。
+-n：只输出数值。
+-p：设置填满数据包的范本样式。
+-q：不显示指令执行过程，开头和结尾的相关信息除外。
+-r：忽略普通的Routing Table，直接将数据包送到远端主机上。
+-R：记录路由过程。
+-s：设置数据包的大小。
+-t：设置存活数值TTL的大小。
+-v：详细显示指令的执行过程。
+</pre>
+<p>
+说明：
+ping 命令是使用最多的网络指令，通常我们使用它检测网络是否连通，它使用ICMP协议。但是有时会有这样的情况，我们可以浏览器查看一个网页，但是却无法 ping通，这是因为一些网站处于安全考虑安装了防火墙。另外，也可以在自己计算机上试一试，通过下面的方法使系统对ping没有反应：
+探测对方对方计算机名，所在的组、域及当前用户名 （追捕的工作原理）
+</p>
+<pre class="brush: bash">
+# echo 1 &gt; /proc/sys/net/ipv4/icmp_echo_ignore_all
+</pre>
+
+
+<div id="3.netstat 检查整个Linux网络状态。"><h2 id="3.netstat 检查整个Linux网络状态。">3.netstat 检查整个Linux网络状态。</h2></div>
+
+<p>
+<code>netstat [-acCeFghilMnNoprstuvVwx][-A][--ip]</code>
+</p>
+
+<pre>
+主要参数
+-a--all：显示所有连线中的Socket。
+-A：列出该网络类型连线中的IP相关地址和网络类型。
+-c--continuous：持续列出网络状态。
+-C--cache：显示路由器配置的快取信息。
+-e--extend：显示网络其它相关信息。
+-F--fib：显示FIB。
+-g--groups：显示多重广播功能群组组员名单。
+-h--help：在线帮助。
+-i--interfaces：显示网络界面信息表单。
+-l--listening：显示监控中的服务器的Socket。
+-M--masquerade：显示伪装的网络连线。
+-n--numeric：直接使用IP地址，而不通过域名服务器。
+-N--netlink--symbolic：显示网络硬件外围设备的符号连接名称。
+-o--timers：显示计时器。
+-p--programs：显示正在使用Socket的程序识别码和程序名称。
+-r--route：显示Routing Table。
+-s--statistice：显示网络工作信息统计表。
+-t--tcp：显示TCP传输协议的连线状况。
+-u--udp：显示UDP传输协议的连线状况。
+-v--verbose：显示指令执行过程。
+-V--version：显示版本信息。
+-w--raw：显示RAW传输协议的连线状况。
+-x--unix：和指定“-A unix”参数相同。
+--ip--inet：和指定“-A inet”参数相同。
+</pre>
+
+<p>
+应用实例
+</p>
+
+<p>
+netstat 主要用于Linux察看自身的网络状况，如开启的端口、在为哪些用户服务，以及服务的状态等。此外，它还显示系统路由表、网络接口状态等。可以说，它是一个综合性的网络状态的察看工具。
+netstat只显示已建立连接的端口
+如果要显示处于监听状态的所有端口，使用-a参数即可
+</p>
+
+<p>
+<code>netstat -nr --显示路由表</code>
+</p>
+
+
+<div id="4.Tracert"><h2 id="4.Tracert">4.Tracert</h2></div>
+<p>
+跟踪路由信息，使用此命令可以查出数据从本地机器传输到目标主机所经过的所有途径，这对我们了解网络布局和结构很有帮助。 　　
+</p>
+
+<p>
+这里说明数据从本地机器传输到192.168.0.1的机器上，中间没有经过任何中转，说明这两台机器是在同一段局域网内。
+用法：<code>tracert IPaddress</code>
+</p>
+
+
+<div id="5.nslookup"><h2 id="5.nslookup">5.nslookup</h2></div>
+<p>
+查询域名和IP地址的对应
+</p>
+
+<p>
+如<code>nslookup www.baidu.com</code>
+这个命令有时候可以代替ping来查看网络连通性，因为ping用的是有时候会被禁止。
+</p>
+
+
+<div id="6.route"><h2 id="6.route">6.route</h2></div>
+<p>
+查看路由信息
+</p>
+
+<p>
+<code>route -n</code>--显示本机路由表，一般计算机路由表就两三条，去掉环回路由，只剩默认路由，一般下一条为网关。
+</p>
+
+<p>
+手工增加/删除一条路由
+</p>
+
+<pre class="brush: bash">
+sudo route add -net 192.168.0.0 netmask 255.255.255.0 gw 172.16.0.1
+</pre>
+
+<div id="7.探测arp绑定（动态和静态）列表，显示所有连接了我的计算机，显示对方IP和MAC地址"><h2 id="7.探测arp绑定（动态和静态）列表，显示所有连接了我的计算机，显示对方IP和MAC地址">7.探测arp绑定（动态和静态）列表，显示所有连接了我的计算机，显示对方IP和MAC地址</h2></div>
+
+<p>
+<code>arp -a</code>
+</p>
+
+<div id="8.探测对方对方计算机名，所在的组、域及当前用户名 （追捕的工作原理）"><h2 id="8.探测对方对方计算机名，所在的组、域及当前用户名 （追捕的工作原理）">8.探测对方对方计算机名，所在的组、域及当前用户名 （追捕的工作原理）</h2></div>
+
+<p>
+<code>ping -a IP -t ，只显示NetBios名</code>
+</p>
+
+<div id="9.在网络邻居上隐藏你的计算机 （让人家看不见你！）"><h2 id="9.在网络邻居上隐藏你的计算机 （让人家看不见你！）">9.在网络邻居上隐藏你的计算机 （让人家看不见你！）</h2></div>
+
+<pre class="brush: bash">
+net config server /hidden:yes
+net config server /hidden:no 则为开启1.ifconfig用于查看和更改网络接口的地址和参数
+</pre>
+
+<div id="10 sudo ifconfig wlan0 up  /打开无线网卡"><h2 id="10 sudo ifconfig wlan0 up  /打开无线网卡">10 sudo ifconfig wlan0 up  /打开无线网卡</h2></div>
+<pre class="brush: bash">
+    sudo iwconfig wlan0 Essid "your ssid Name" keys:password   /要连接的无线网的名称和密码
+    sudo dhclient wlan0  /hclient命令。
+</pre>
+
+<p>
+最后，推荐一下wicd network manager 是个好东西。只要sudo apt-get install wicd 就可以了。
+</p>
+
+	</div>
+</div>
+
+<!--this is my footer-->
+<div id="footer">
+	<img alt="知识共享许可协议" height="31" width="80" style="border-width:0" src="img/cc_80x31.png" /> 本作品采用知识共享署名-非商业性使用-禁止演绎 3.0 Unported <a name="license" rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">许可协议</a>进行许可。
+</div>
+
+<!--Baidu Analysis-->
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6bad7b5881000f711c6b1e1e6d286a52' type='text/javascript'%3E%3C/script%3E"));
+
+<!-- Code Highlight -->
+hljs.initHighlightingOnLoad();
+
+</script>
+</body>
+</html>
+
